@@ -1,0 +1,7 @@
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\bin\x64\Debug\CShelics.dll
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\bin\x64\Debug\helicsSharedLib.dll
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\bin\x64\Debug\libzmq-v142-mt-4_3_3.dll
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\bin\x64\Debug\HelicsDotNetAPI.dll
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\bin\x64\Debug\HelicsDotNetAPI.pdb
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\obj\x64\Debug\HelicsDotNetAPI.dll
+C:\Users\KP\Source\Workspaces\SAInt Software\SAInt-Master\Helics\HelicsDotNet\HelicsDotNetAPI\obj\x64\Debug\HelicsDotNetAPI.pdb
