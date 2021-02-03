@@ -1,0 +1,747 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+SAInt-API
+</name>
+</assembly>
+<members>
+<member name="T:SAInt_API.My.Resources.ResourceNetwork">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.ResourceNetwork.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.ResourceNetwork.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:SAInt_API.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.CannotDeleteOpenedScenario">
+<summary>
+  Looks up a localized string similar to Scenario {0} cannot be deleted since it is opened. Please close the Scenario before deleting it!.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.DeleteScenariosQuestion">
+<summary>
+  Looks up a localized string similar to Do you want to delete the selected Scenario(s)?.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.DeleteScenariosQuestionTitle">
+<summary>
+  Looks up a localized string similar to Delete Scenario?.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.MessageBoxDefaultTitle">
+<summary>
+  Looks up a localized string similar to Information.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.MessageBoxScenarioTitle">
+<summary>
+  Looks up a localized string similar to Scenario Info.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.NetworkOrScenarioNotLoaded">
+<summary>
+  Looks up a localized string similar to Please, load a {0} network model and scenario to run {0} simulation!.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.PyBool">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.PyFloat">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.PyFunction">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.pyfunctions">
+<summary>
+  Looks up a localized string similar to import math
+
+from math import *
+
+gtime= 0.0
+gdt=0.25
+gtmax=1.0
+gtimes=[0.0,1.0]
+
+etime=0.0
+edt=0.25
+etmax=1.0
+etimes=[0.0,1.1]
+
+def ifcnd(condition, truevalue, falsevalue):
+    &quot;&quot;&quot;ifcnd(&lt;condition&gt;, &lt;truevalue&gt;, &lt;falsevalue&gt;) -&gt; 
+    tests the logical expression and &lt;condition&gt; and
+    returns &lt;truevalue&gt; if expression is true and &lt;falsevalue&gt; 
+    if false&quot;&quot;&quot;
+    if condition:
+        return truevalue
+    else:
+        return falsevalue
+
+def intx(y, t, t0, tn):
+    &quot;&quot;&quot;intx(y, t, t0 [rest of string was truncated]&quot;;.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.PyInt">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.PyList">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.PyString">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.SAInt">
+<summary>
+  Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.SaveNetBeforeClosing">
+<summary>
+  Looks up a localized string similar to Would you like to save the opened {0} network model?.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.SaveNetBeforeClosingTitle">
+<summary>
+  Looks up a localized string similar to Save opened network before closing?.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.SaveSceBeforeClosing">
+<summary>
+  Looks up a localized string similar to Would you like to save the opened {0} scenario?.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.SaveSceBeforeClosingTitle">
+<summary>
+  Looks up a localized string similar to Save opened scenario before closing?.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.ScenarioCreatedSuccess">
+<summary>
+  Looks up a localized string similar to Scenario {0} created successfully! Loading scenario events into table!.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.ScenarioDeletedSuccess">
+<summary>
+  Looks up a localized string similar to Scenario(s) {0} deleted successfully!.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.ScenarioNameError">
+<summary>
+  Looks up a localized string similar to Please choose a different scenario name! Error Message: {0}.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.ScenarioNameErrorTitle">
+<summary>
+  Looks up a localized string similar to Scenario name conflict.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.ScenarioTimeWindowError">
+<summary>
+  Looks up a localized string similar to Start time is later than/equal end time. Please choose an end time later than start time.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.StateFileLoadError">
+<summary>
+  Looks up a localized string similar to Loading of {0} state file failed with error: {1}. Please, make sure {0} state file exist to proceed with computation!.
+</summary>
+</member>
+<member name="P:SAInt_API.My.Resources.Resources.StateFileNotAvailable">
+<summary>
+  Looks up a localized string similar to Initial {0} state for dynamic simulation not available!  Please, make sure {0} state file exist to proceed with computation!.
+</summary>
+</member>
+<member name="P:SAInt_API.SAInt.GNET">
+ <summary>
+ Reference to gas network model
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.SAInt.ENET">
+ <summary>
+ Reference to electric network model
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:SAInt_API.Network.NetElement">
+ <summary>
+ Base Class for all Network Elements with Inlet and Outlet
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.NetElement.Move(System.Single,System.Single,System.Collections.Generic.HashSet{SAInt_API.Network.NetNode}@)">
+ <summary>
+ This sub routine moves only the internal points of an element and adds the fromNode and to nodeNode object to a sorted set
+ The displacement of the from and tonode points are done in a separate for loop to avoid a multiple displacement
+ </summary>
+ <param name="dX">X-displacement in world coordinate</param>
+ <param name="dY">Y-displacement in world coordinate</param>
+ <param name="AddNodes">HashSet containing a collection of nodes that will be displaced</param>
+ 
+</member>
+<member name="F:SAInt_API.Network.NetList`1.filterPropertyNameValue">
+ <summary>
+ Should be in the format columnName =’desiredValue’
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.NetNode.GetNxtNode``1">
+ <summary>
+ This method can be used to find nodes of different type that are incident to a central node
+ </summary>
+ <typeparam name="T">class specification that inherits from NetNode</typeparam>
+ <returns>An iterable list of specified type T</returns>
+</member>
+<member name="P:SAInt_API.Network.NetObject.kveq">
+ <summary>
+ Assigned variable and equation index for object 
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SAInt_API.Network.NetObject.setkveq(System.Int32)">
+ <summary>
+  Assigns current global variable and equation index for object and increases global equation index by one increment for next assignment
+ </summary>
+ <param name="k">next variable and equation index to be assigned</param>
+ <returns>global equation index</returns>
+</member>
+<member name="M:SAInt_API.Network.NetSystem.fillresult(System.Object)">
+ <summary>
+ Fill result matrix using *now parameters
+ </summary>
+ <param name="kstep">time step</param>
+</member>
+<member name="T:SAInt_API.Network.Gas.GasCompressor">
+ <summary>
+ scenarios are POSET, PISET, PDSET, PRSET, 
+                 QSET, QVOLSET, 
+                 POWDSET, POWSSET, POWMAX, FUELSET, 
+                 RE, OFF, BP
+ constraints are POMAX, PIMIN, PRMAX,
+                 VMAX, QVOLMAX
+                 POWMAX
+                 PO>PI,  Q>0
+ Dependent on the scenario a compressor can act as
+ - a bidirectonal valve (OFF or BP)
+ - a bidirectonal resistance (RE)
+ - a onedirectonal real compressor (else)
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasCompressor.testviol">
+ <summary>
+ This method checks for constraint violations. It should be invoked after a time step
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.LAMFACTOR(System.Double,System.Double,System.Double,System.Double@,System.Double@)">
+ <summary>
+ Compute friction factor and derivative for newton iteration
+ </summary>
+ <param name="Re">Reynolds number</param>
+ <param name="D">Pipe Diameter</param>
+ <param name="k">roughness</param>
+ <param name="Lam">Friction factor</param>
+ <param name="dera">Analytical derivative</param>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.COLEBROOK(System.Double,System.Double,System.Double,System.Double)">
+ <summary>
+ This function is taken from Didier Clamond 
+ 1/ sqrt(F) = -2 * 10log [ K/3.7 + 2.51 /(R * sqrt(F) ] 
+ F = COLEBROOK(R,K) computes the Darcy−Weisbach  friction
+ factor according to the Colebrook−White formula. F : Friction factor
+ </summary>
+ <param name="R">Reynold’s number ( should be >2300 ).</param>
+ <param name="K">Roughness height divided by the hydraulic diameter.</param>
+ <param name="f1"></param>
+ <param name="f2"></param>
+ <returns></returns>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.printnodelem">
+ <summary>
+ print element properties and connection info to detailed log
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.Gasindices(System.Int32)">
+ <summary>
+ 'set indices for solution variables and return running index to know total number of variables assigned
+ </summary>
+ <param name="Nbase">running index indicating number of variables assigned</param>
+ <returns></returns>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.testviol">
+ <summary>
+ Check for constraint violations in non pipe objects
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.Gasupdate">
+ <summary>
+ Update *now parameters for next newton iteration using values from result vector Xvec
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasNet.GasInitSim(SAInt_API.Library.Solver)">
+ <summary>
+ initialize simulation with default values precribed settings and assign solver object to gas objects 
+ </summary>
+ <param name="solvopar">instance of solver class</param>
+</member>
+<member name="P:SAInt_API.Network.Gas.GasNode.NQ(System.Int32)">
+ <summary>
+ Calculated Gas Quality at node Result
+ </summary>
+ <param name="n"></param>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.Network.Gas.GasNode.SQ(System.Int32)">
+ <summary>
+ Results for supply quality, which may differ from SQSET in a dynamic simulation if qualities change in time
+ </summary>
+ <param name="n">time step</param>
+ <returns>Gas quality object</returns>
+</member>
+<member name="P:SAInt_API.Network.Gas.GasNode.SQSET">
+ <summary>
+ Qualities defined for supply nodes. If nothing is defined the default quality of the corresponding network is used.
+ </summary>
+ <returns>Quality Object</returns>
+</member>
+<member name="P:SAInt_API.Network.Gas.GasPipe.TG(System.Int32,System.Int32)">
+ <summary>
+ internal node temperature
+ </summary>
+ <param name="j">internal node index</param>
+ <param name="n">time index</param>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.Network.Gas.GasPipe.PQual(System.Int32,System.Int32)">
+ <summary>
+ internal node quality
+ </summary>
+ <param name="j">internal node index</param>
+ <param name="n">time index</param>
+ <returns></returns>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasPipe.Rwcalc">
+ <summary>
+ Calculate Heat Resistance Between Pipe and Surroundings
+ approx 0.075 / sqrt(D)
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasPipe.doetemp(SAInt_API.Network.Gas.GasNode)">
+ <summary>
+ Caculate average gas temperature in pipe (avtemp) and 
+ temperature at the outlet of the pipe (endtemp). 
+ avtemp is needed for pipe resistance computation, endtemp is need for temperature mixing at node 
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasPipe.QualPush">
+ <summary>
+ There is a time line given at the inlet node now make a timeline at the outlet node
+ </summary>
+</member>
+<member name="T:SAInt_API.Network.Gas.GasQuality">
+ <summary>
+ There are references to quality object
+    extqual : all supply nodes and supplying storages (externals)
+    pqual   : all nodes
+ New qual objects are made only at
+    external : supplying externals with different quality
+    node     : (star) node where gas with different qualities come together
+ All other nodes refer to an existing quality object.
+ A Gaselement has the quality from the qualnode
+ qualnode which is fromnode or tonode depending on flow direction 
+ </summary>
+</member>
+<member name="T:SAInt_API.Network.Gas.GasComponent">
+ <summary>
+Each gas component has an associated number which is equal to the position in the enumeration. 
+The position should not be changed since it also correspond to the array indices used for the AGA8DC92 and GERG2008 Thermodynamic properties
+ 
+    1 - Methane
+    2 - Nitrogen
+    3 - Carbon dioxide
+    4 - Ethane
+    5 - Propane
+    6 - Isobutane
+    7 - n-Butane
+    8 - Isopentane
+    9 - n-Pentane
+   10 - n-Hexane
+   11 - n-Heptane
+   12 - n-Octane
+   13 - n-Nonane
+   14 - n-Decane
+   15 - Hydrogen
+   16 - Oxygen
+   17 - Carbon monoxide
+   18 - Water
+   19 - Hydrogen sulfide
+   20 - Helium
+   21 - Argon
+ </summary>
+</member>
+<member name="T:SAInt_API.Network.Gas.AGA8DC92">
+ <summary>
+Version 2.0 of routines for the calculation of thermodynamic
+ properties from the AGA 8 Part 1 DETAIL equation of state.
+ April, 2017
+
+Written by Eric W. Lemmon
+Applied Chemicals and Materials Division
+National Institute of Standards and Technology (NIST)
+Boulder, Colorado, USA
+Eric.Lemmon@nist.gov
+303-497-7939
+
+Other contributors:
+Volker Heinemann, RMG Messtechnik GmbH
+Jason Lu, Thermo Fisher Scientific
+Ian Bell, NIST
+
+The publication for the AGA 8 equation of state is available from AGA
+  and the Transmission Measurement Committee.
+
+Subroutines contained here for property calculations:
+***** Subroutine SetupDetail must be called once before calling other routines. ******
+Sub MolarMassDetail(x, Mm)
+Sub PressureDetail(T, D, x, P, Z)
+Sub DensityDetail(T, P, x, D, ierr, herr)
+Sub PropertiesDetail(T, D, x, P, Z, dPdD, d2PdD2, d2PdTD, dPdT, U, H, S, Cv, Cp, W, G, JT, Kappa)
+Sub SetupDetail()
+
+The compositions in the x() array use the following order and must be sent as mole fractions:
+    1 - Methane
+    2 - Nitrogen
+    3 - Carbon dioxide
+    4 - Ethane
+    5 - Propane
+    6 - Isobutane
+    7 - n-Butane
+    8 - Isopentane
+    9 - n-Pentane
+   10 - n-Hexane
+   11 - n-Heptane
+   12 - n-Octane
+   13 - n-Nonane
+   14 - n-Decane
+   15 - Hydrogen
+   16 - Oxygen
+   17 - Carbon monoxide
+   18 - Water
+   19 - Hydrogen sulfide
+   20 - Helium
+   21 - Argon
+For example, a mixture of 94% methane, 5% CO2, and 1% helium would be (in mole fractions):
+x(1)=0.94, x(3)=0.05, x(20)=0.01
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.AGA8DC92.ZFactor(System.Double,System.Double,System.Double[])">
+ <summary>
+ Calculate compressibility factor from pressure and temperature
+ </summary>
+ <param name="P">Pressure in [kPa]</param>
+ <param name="T">Temperature in [K]</param>
+ <param name="x">Gas compositions (mole fraction)</param>
+ <returns>Z compressibility factor</returns>
+</member>
+<member name="M:SAInt_API.Network.Gas.AGA8DC92.PropertiesDetail(System.Double,System.Double,System.Double[],System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+ <summary>
+Calculate thermodynamic properties as a function of temperature and Pressure.  Calls are made to the subroutines
+Molarmass, Alpha0Detail, and AlpharDetail.  
+
+Inputs:
+     T - Temperature (K)
+     P - Pressure (kPa)
+   x() - Composition (mole fraction)
+
+Outputs:
+     D - Density (mol/l)
+     Z - Compressibility factor
+  dPdD - First derivative of pressure with respect to density at constant temperature [kPa/(mol/l)]
+d2PdD2 - Second derivative of pressure with respect to density at constant temperature [kPa/(mol/l)^2]
+d2PdTD - Second derivative of pressure with respect to temperature and density [kPa/(mol/l)/K] (currently not calculated)
+  dPdT - First derivative of pressure with respect to temperature at constant density (kPa/K)
+     U - Internal energy (J/mol)
+     H - Enthalpy (J/mol)
+     S - Entropy [J/(mol-K)]
+    Cv - Isochoric heat capacity [J/(mol-K)]
+    Cp - Isobaric heat capacity [J/(mol-K)]
+     W - Speed of sound (m/s)
+     G - Gibbs energy (J/mol)
+    JT - Joule-Thomson coefficient (K/kPa)
+ Kappa - Isentropic Exponent
+     A - Helmholtz energy (J/mol)
+ </summary>
+ <param name="T">Temperature (K)</param>
+ <param name="P">Pressure (kPa)</param>
+ <param name="x">Composition (mole fraction)</param>
+ <param name="D">Density (mol/l)</param>
+ <param name="Z">Z - Compressibility factor</param>
+ <param name="dPdD">First derivative of pressure with respect to density at constant temperature [kPa/(mol/l)]</param>
+ <param name="d2PdD2">Second derivative of pressure with respect to density at constant temperature [kPa/(mol/l)^2]</param>
+ <param name="d2PdTD">Second derivative of pressure with respect to temperature and density [kPa/(mol/l)/K] (currently not calculated)</param>
+ <param name="dPdT">First derivative of pressure with respect to temperature at constant density (kPa/K)</param>
+ <param name="U">Internal energy (J/mol)</param>
+ <param name="H">Enthalpy (J/mol)</param>
+ <param name="S">Entropy [J/(mol-K)]</param>
+ <param name="Cv">Isochoric heat capacity [J/(mol-K)]</param>
+ <param name="Cp">Isobaric heat capacity [J/(mol-K)]</param>
+ <param name="W">Speed of sound (m/s)</param>
+ <param name="G">Gibbs energy (J/mol)</param>
+ <param name="JT">Joule-Thomson coefficient (K/kPa)</param>
+ <param name="Kappa">Isentropic Exponent</param>
+ <param name="A">Helmholtz energy (J/mol)</param>
+</member>
+<member name="T:SAInt_API.Network.Gas.GERG2008">
+ <summary>
+Version 2.0 of routines for the calculation of thermodynamic
+ properties from the AGA 8 Part 2 GERG-2008 equation of state.
+ April, 2017
+
+Written by Eric W. Lemmon
+Applied Chemicals and Materials Division
+National Institute of Standards and Technology (NIST)
+Boulder, Colorado, USA
+Eric.Lemmon@nist.gov
+303-497-7939
+
+Other contributors:
+Volker Heinemann, RMG Messtechnik GmbH
+Jason Lu, Thermo Fisher Scientific
+Ian Bell, NIST
+
+The publication for the AGA 8 equation of state is available from AGA
+  and the Transmission Measurement Committee.
+
+The GERG-2008 equation of state was developed by Oliver Kunz and Wolfgang Wagner:
+
+Kunz, O. and Wagner, W.
+The GERG-2008 Wide-Range Equation of State for Natural Gases and Other Mixtures:
+An Expansion of GERG-2004
+J. Chem. Eng. Data, 57(11):3032-3091, 2012.
+
+Kunz, O., Klimeck, R., Wagner, W., and Jaeschke, M.
+The GERG-2004 Wide-Range Equation of State for Natural Gases and Other Mixtures
+GERG Technical Monograph 15
+Fortschr.-Ber. VDI, Reihe 6, Nr. 557, VDI Verlag, Düsseldorf, 2007.
+http://www.gerg.eu/public/uploads/files/publications/technical_monographs/tm15_04.pdf
+
+Subroutines contained here for property calculations:
+***** Subroutine SetupGERG must be called once before calling other routines. ******
+Sub MolarMassGERG(x, Mm)
+Sub PressureGERG(T, D, x, P, Z)
+Sub DensityGERG(iFlag, T, P, x, D, ierr, herr)
+Sub PropertiesGERG(T, D, x, P, Z, dPdD, d2PdD2, d2PdTD, dPdT, U, H, S, Cv, Cp, W, G, JT, Kappa)
+Sub SetupGERG()
+
+The compositions in the x() array use the following order and must be sent as mole fractions:
+    1 - Methane
+    2 - Nitrogen
+    3 - Carbon dioxide
+    4 - Ethane
+    5 - Propane
+    6 - Isobutane
+    7 - n-Butane
+    8 - Isopentane
+    9 - n-Pentane
+   10 - n-Hexane
+   11 - n-Heptane
+   12 - n-Octane
+   13 - n-Nonane
+   14 - n-Decane
+   15 - Hydrogen
+   16 - Oxygen
+   17 - Carbon monoxide
+   18 - Water
+   19 - Hydrogen sulfide
+   20 - Helium
+   21 - Argon
+
+For example, a mixture of 94% methane, 5% CO2, and 1% helium would be (in mole fractions):
+x(1)=0.94, x(3)=0.05, x(20)=0.01
+ </summary>
+</member>
+<member name="M:SAInt_API.Network.Gas.GERG2008.ZFactor(System.Double,System.Double,System.Double[])">
+ <summary>
+ </summary>
+ <param name="P">Pressure in [kPa]</param>
+ <param name="T">Temperature in [K]</param>
+ <param name="x">Gas compositions (mole fraction)</param>
+ <returns>Z compressibility factor</returns>
+</member>
+<member name="M:SAInt_API.Network.Gas.GERG2008.PropertiesGERG(System.Double,System.Double,System.Double[],System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@,System.Double@)">
+ <summary>
+Sub PropertiesGERG(T, P, x, D, Z, dPdD, d2PdD2, d2PdTD, dPdT, U, H, S, Cv, Cp, W, G, JT, Kappa, Optional A)
+
+Calculate thermodynamic properties as a function of temperature and pressure.
+Many of the formulas below do not appear in Part 2 of AGA 8, but rather in Part 1, 
+which uses a dimensional Helmholtz equation with more direct formulas for quick calculation.
+
+Inputs:
+     T - Temperature (K)
+     P - Pressure (kPa)
+   x() - Composition (mole fraction)
+
+Outputs:
+     D - Density (mol/l)
+     Z - Compressibility factor
+  dPdD - First derivative of pressure with respect to density at constant temperature [kPa/(mol/l)]
+d2PdD2 - Second derivative of pressure with respect to density at constant temperature [kPa/(mol/l)^2]
+d2PdTD - Second derivative of pressure with respect to temperature and density [kPa/(mol/l)/K] (currently not calculated)
+  dPdT - First derivative of pressure with respect to temperature at constant density (kPa/K)
+     U - Internal energy (J/mol)
+     H - Enthalpy (J/mol)
+     S - Entropy [J/(mol-K)]
+    Cv - Isochoric heat capacity [J/(mol-K)]
+    Cp - Isobaric heat capacity [J/(mol-K)]
+     W - Speed of sound (m/s)
+     G - Gibbs energy (J/mol)
+    JT - Joule-Thomson coefficient (K/kPa)
+ Kappa - Isentropic Exponent
+     A - Helmholtz energy (J/mol)
+ </summary>
+ <param name="T">Temperature (K)</param>
+ <param name="P">Pressure (kPa)</param>
+ <param name="x">Composition (mole fraction)</param>
+ <param name="D">Density (mol/l)</param>
+ <param name="Z">Z - Compressibility factor</param>
+ <param name="dPdD">First derivative of pressure with respect to density at constant temperature [kPa/(mol/l)]</param>
+ <param name="d2PdD2">Second derivative of pressure with respect to density at constant temperature [kPa/(mol/l)^2]</param>
+ <param name="d2PdTD">Second derivative of pressure with respect to temperature and density [kPa/(mol/l)/K] (currently not calculated)</param>
+ <param name="dPdT">First derivative of pressure with respect to temperature at constant density (kPa/K)</param>
+ <param name="U">Internal energy (J/mol)</param>
+ <param name="H">Enthalpy (J/mol)</param>
+ <param name="S">Entropy [J/(mol-K)]</param>
+ <param name="Cv">Isochoric heat capacity [J/(mol-K)]</param>
+ <param name="Cp">Isobaric heat capacity [J/(mol-K)]</param>
+ <param name="W">Speed of sound (m/s)</param>
+ <param name="G">Gibbs energy (J/mol)</param>
+ <param name="JT">Joule-Thomson coefficient (K/kPa)</param>
+ <param name="Kappa">Isentropic Exponent</param>
+ <param name="A">Helmholtz energy (J/mol)</param>
+</member>
+<member name="M:SAInt_API.Network.Gas.GasRegulator.testviol">
+ <summary>
+ This method checks for constraint violations. It should be invoked after a time step
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:SAInt_API.Library.Solver.matdims(System.Int32)">
+ <summary>
+ 'set dimension of LHS, RHS solution vectors Xvec DXvec and DOF and DAF
+ </summary>
+ <param name="Nvar">Number of solution variables</param>
+</member>
+<member name="M:SAInt_API.Library.Solver.linsolve">
+ <summary>
+ Solve linear equation system
+ </summary>
+</member>
+<member name="M:SAInt_API.Library.Solver.GASDOF">
+ <summary>
+ sets DOF and DAF array to know which object belongs to which solution 
+ variable (DOF) and the solution variable type (DAF). 
+ This is mainly needed for outputting residuals in the detailed log
+ DAF(varnr) holds a string extention for type of variable
+ usefull for residues and print matrix
+ </summary>
+</member>
+<member name="M:SAInt_API.Intellisense.populateListBox(System.Windows.Forms.TextBox)">
+ <summary>
+ Called when a "." is pressed - the previous word is found,
+ and if matched in the treeview, the members listbox is
+ populated with items from the tree, which are first sorted.
+ </summary>
+</member>
+<member name="M:SAInt_API.Intellisense.findNode(System.String,Telerik.WinControls.UI.RadTreeNodeCollection)">
+ <summary>
+ Searches the tree until the given path is found, storing
+ the found node in a member var.
+ </summary>
+ <param name="path"></param>
+ <param name="treeNodes"></param>
+</member>
+<member name="M:SAInt_API.Intellisense.selectItem(System.Windows.Forms.TextBox)">
+ <summary>
+ Autofills the selected item in the member listbox, by
+ taking everything before and after the "." in the richtextbox,
+ and appending the word in the middle.
+ </summary>
+</member>
+<member name="M:SAInt_API.Intellisense.getLastWord(System.Windows.Forms.TextBox)">
+ <summary>
+ Searches backwards from the current caret position, until
+ a space or newline is found.
+ </summary>
+ <returns>The previous word from the carret position</returns>
+</member>
+<member name="P:SAInt_API.Scenarios.Scenario.NDT">
+ <summary>
+ Returns index of result Array for current display time
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.Scenarios.Scenario.NN">
+ <summary>
+ Returns the current size of result arrays and if necessary 
+ synchronizes the simulation time points with the result 
+ arrays of the registered networks
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.Scenarios.Scenario.TMAX">
+ <summary>
+ Returns the total scenario time window in seconds
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.Scenarios.Scenario.dTime">
+ <summary>
+ Returns a sorted (ascending) set  of dates corresponding to the 
+ current date stamps for each index in the result arrays
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:SAInt_API.Scenarios.Scenario.nTime">
+ <summary>
+ Returns a sorted (ascending) set  of integers corresponding to the current 
+ elapsed time (time-StartTime) in seconds for each index in the result arrays
+ </summary>
+ <returns></returns>
+</member>
+</members>
+</doc>

@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.28307.1259
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelicsDotNetAPI", "HelicsDotNetAPI\HelicsDotNetAPI.csproj", "{0828AF05-B251-4063-AE2B-319B634D15AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelicsDotNetConsole", "HelicsDotNetConsole\HelicsDotNetConsole.csproj", "{8CA3AA0B-8917-4871-AEF0-39E20DDD7DC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasFederate", "GasFederate\GasFederate.csproj", "{8CA3AA0B-8917-4871-AEF0-39E20DDD7DC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricFederate", "ElectricFederate\ElectricFederate.csproj", "{A2F7F641-0DFD-4543-A23A-F93710F25CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasElectricBroker", "GasElectricBroker\GasElectricBroker.csproj", "{B12BE590-49E1-446F-A0AC-02BFE2936637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,11 +35,45 @@ Global
 		{8CA3AA0B-8917-4871-AEF0-39E20DDD7DC4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8CA3AA0B-8917-4871-AEF0-39E20DDD7DC4}.Release|x64.ActiveCfg = Release|x64
 		{8CA3AA0B-8917-4871-AEF0-39E20DDD7DC4}.Release|x64.Build.0 = Release|x64
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Debug|x64.ActiveCfg = Debug|x64
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Debug|x64.Build.0 = Debug|x64
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Release|x64.ActiveCfg = Release|Any CPU
+		{A2F7F641-0DFD-4543-A23A-F93710F25CFF}.Release|x64.Build.0 = Release|Any CPU
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Debug|x64.ActiveCfg = Debug|x64
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Debug|x64.Build.0 = Debug|x64
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Release|x64.ActiveCfg = Release|Any CPU
+		{B12BE590-49E1-446F-A0AC-02BFE2936637}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8DB0B6F-9DB2-4DC3-A00F-80D43524598E}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/encoord
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ElectricFederate\\ElectricFederate.csproj
+		SccProjectName1 = ElectricFederate
+		SccLocalPath1 = ElectricFederate
+		SccProjectUniqueName2 = GasElectricBroker\\GasElectricBroker.csproj
+		SccProjectName2 = GasElectricBroker
+		SccLocalPath2 = GasElectricBroker
+		SccProjectUniqueName3 = GasFederate\\GasFederate.csproj
+		SccProjectName3 = GasFederate
+		SccLocalPath3 = GasFederate
+		SccProjectUniqueName4 = HelicsDotNetAPI\\HelicsDotNetAPI.csproj
+		SccProjectName4 = HelicsDotNetAPI
+		SccLocalPath4 = HelicsDotNetAPI
 	EndGlobalSection
 EndGlobal
