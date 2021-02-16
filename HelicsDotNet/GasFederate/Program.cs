@@ -2,6 +2,7 @@
 using gmlc;
 using h = gmlc.helics;
 using SAInt_API;
+using System.Threading;
 
 namespace HelicsDotNetReceiver
 {
@@ -18,8 +19,6 @@ namespace HelicsDotNetReceiver
             string CoupledGasNode = "N15";
             string CoupledElectricNode = "BUS001";
 
-            string fedinitstring = "--federates=1";
-            double deltat = 0.01;
 
             Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
 
@@ -36,16 +35,9 @@ namespace HelicsDotNetReceiver
 
             //Federate init string
             Console.WriteLine("Gas: Setting Federate Info Init String");
+            string fedinitstring = "--federates=1";
+
             h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring);
-
-            /* Set the message interval (timedelta) for federate. Note that
-             HELICS minimum message time interval is 1 ns and by default
-             it uses a time delta of 1 second. What is provided to the
-             setTimedelta routine is a multiplier for the default timedelta.*/
-
-            //Set one second message interval
-            Console.WriteLine("Gas: Setting Federate Info Time Delta");
-            h.helicsFederateInfoSetTimeProperty(fedinfo, (int)helics_properties.helics_property_time_delta, deltat);
 
             //Create value federate
             Console.WriteLine("Gas: Creating Value Federate");
@@ -60,25 +52,65 @@ namespace HelicsDotNetReceiver
             var sub = h.helicsFederateRegisterSubscription(vfed, "ElectricOutPut", "");
             Console.WriteLine("Gas: Subscription registered");
 
+            //Set one second message interval
+            double period = 0.5;
+            Console.WriteLine("Gas: Setting Federate Timing");
+            h.helicsFederateSetTimeProperty(vfed, (int)helics_properties.helics_property_time_period, period);
+
+            // check to make sure setting the time property worked
+            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)helics_properties.helics_property_time_period);
+            Console.WriteLine($"Time period: {period_set}");
+
+            // has gas simulation on 0.5 s delay relative to power (t = 1.5, 2.5, etc. )
+            double total_time = 5;
+            double offset = 0.5;
+            double granted_time = 0;
+            double requested_time;
+
+            // enter execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Gas: Entering execution mode");
 
-            double value = 0.0;
-            double currenttime = -1;
+            // run initial gas model at t=0, publish starting value
+            APIExport.runGSIM();
+            string StrNoLP = String.Format("NO.{0}.P.[bar-g]", CoupledGasNode);
+            double p = APIExport.evalFloat(StrNoLP);
+            h.helicsPublicationPublishDouble(pubGasOutPut, p);
 
-            while (currenttime <= 100)
+  
+            // iterate over intervals
+            for (int n = 1; n <= total_time; n++)
             {
-                currenttime = h.helicsFederateRequestTime(vfed, 100);
-                value = h.helicsInputGetDouble(sub);
+                requested_time = n + offset;
+
+                // keep requesting time until you reach the next relevant point to simulate
+                while (granted_time < requested_time)
+                {
+                    Console.WriteLine($"Requested time: {requested_time}");
+                    granted_time = h.helicsFederateRequestTime(vfed, requested_time);
+                    Console.WriteLine($"Granted time: {granted_time}");
+                }
+
+                // get value from previous electric simulation
+                double value = h.helicsInputGetDouble(sub);
                 APIExport.eval(string.Format("GSYS.SCE.SceList[6].ShowVal='{0}'", value / 20));
+                Console.WriteLine("Gas: Received value = {0} at time {1} from Electric federate for active power in [MW]", value, granted_time);
+
+                // run the gas simulation for the current granted time
                 APIExport.runGSIM();
-                Console.WriteLine("Gas: Received value = {0} at time {1} from Electric federate for active power in [MW]", value, currenttime);
-                string StrNoLP = String.Format("NO.{0}.P.[bar-g]", CoupledGasNode);
-                double p = APIExport.evalFloat(StrNoLP);
+                StrNoLP = String.Format("NO.{0}.P.[bar-g]", CoupledGasNode);
+                p = APIExport.evalFloat(StrNoLP);
                 h.helicsPublicationPublishDouble(pubGasOutPut, p);
-                Console.WriteLine(String.Format("Gas: Sending value for pressure in [bar-g] = {0} at time {1} to Electric federate", p, currenttime));
+                Console.WriteLine(String.Format("Gas: Sending value for pressure in [bar-g] = {0} at time {1} to Electric federate", p, granted_time));
+                Thread.Sleep(3);
             }
 
+            // request time for end of time + 1: serves as a blocking call until all federates are complete
+            requested_time = total_time + 1;
+            Console.WriteLine($"Requested time: {requested_time}");
+            h.helicsFederateRequestTime(vfed, requested_time);
+
+            // finalize gas federate
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Gas: Federate finalized");
             h.helicsFederateFree(vfed);

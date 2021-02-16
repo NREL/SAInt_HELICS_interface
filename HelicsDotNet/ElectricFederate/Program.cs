@@ -19,9 +19,7 @@ namespace HelicsDotNetSender
 
             string CoupledGasNode = "N15";
             string CoupledElectricNode = "BUS001";
-        
-            string fedinitstring = "--broker=mainbroker --federates=1";
-            double deltat = 0.01;
+
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
 
             //Create broker #
@@ -40,10 +38,6 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Creating Federate Info");
             var fedinfo = helics.helicsCreateFederateInfo();
 
-            // Create Federate Info object that describes the federate properties
-            Console.WriteLine("Electric: Setting Federate Info Name");
-            h.helicsFederateInfoSetCoreName(fedinfo, "Gas Federate Core");
-
             // Set core type from string
             Console.WriteLine("Electric: Setting Federate Info Core Type");
             h.helicsFederateInfoSetCoreName(fedinfo, "Electric Federate Core");
@@ -53,50 +47,83 @@ namespace HelicsDotNetSender
 
             //Federate init string
             Console.WriteLine("Electric: Setting Federate Info Init String");
+            string fedinitstring = "--broker=mainbroker --federates=1";
             h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring);
-
-            /* Set the message interval (timedelta) for federate. Note that
-             HELICS minimum message time interval is 1 ns and by default
-             it uses a time delta of 1 second. What is provided to the
-             setTimedelta routine is a multiplier for the default timedelta.*/
-
-            //Set one second message interval
-            Console.WriteLine("Electric: Setting Federate Info Time Delta");
-            h.helicsFederateInfoSetTimeProperty(fedinfo, (int)helics_properties.helics_property_time_delta, deltat);
 
             //Create value federate
             Console.WriteLine("Electric: Creating Value Federate");
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
 
-            //Register the publication #
+            //Register the publication 
             var pubElectricOutPut = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElectricOutPut", "double", "");
             Console.WriteLine("Electric: Publication registered");
 
-            //Subscribe to Electric publication
+            //Subscribe to Gas Federate publication
             var sub = h.helicsFederateRegisterSubscription(vfed, "GasOutPut", "");
             Console.WriteLine("Electric: Subscription registered");
 
+            //Set one second message interval
+            double period = 0.5;
+            Console.WriteLine("Electric: Setting Federate Timing");
+            h.helicsFederateSetTimeProperty(vfed, (int)helics_properties.helics_property_time_period, period);
+
+            // check to make sure setting the time property worked
+            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)helics_properties.helics_property_time_period);
+            Console.WriteLine($"Time period: {period_set}");
+   
+            // start simulation at t = 1 s, run to t = 5 s
+            double total_time = 5 ; 
+            double granted_time = 0 ;
+            double requested_time; 
+
+            // start execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Electric: Entering execution mode");
 
-            for ( int c = 5; c <= 50; c++)
+            // run initial power model at t=0, publish starting value
+            APIExport.runESIM();
+            string StrNoLP = $"BUS.{CoupledElectricNode}.PG.[MW]";
+            float p = APIExport.evalFloat(StrNoLP);
+            h.helicsPublicationPublishDouble(pubElectricOutPut, p);
+
+            // iterate over intervals
+            for (int n = 1; n <= total_time; n++)
             {
-                double currenttime = h.helicsFederateRequestTime(vfed, c);
+                requested_time = n;
+
+                // keep requesting time until you reach the next relevant point to simulate
+                while (granted_time < requested_time)
+                {
+                    Console.WriteLine($"Requested time: {requested_time}");
+                    granted_time = h.helicsFederateRequestTime(vfed, requested_time);
+                    Console.WriteLine($"Granted time: {granted_time}");
+                }
+
+                // run the electric simulation for the current granted time
                 APIExport.runESIM();
-                string StrNoLP = $"BUS.{CoupledElectricNode}.PG.[MW]";
-                float p = APIExport.evalFloat(StrNoLP);
+                StrNoLP = $"BUS.{CoupledElectricNode}.PG.[MW]";
+                p = APIExport.evalFloat(StrNoLP);
                 h.helicsPublicationPublishDouble(pubElectricOutPut, p);
-                Console.WriteLine($"Electric: Sending value for active power in [MW] = {p} at time {currenttime} to Gas federate");
+                Console.WriteLine($"Electric: Sending value for active power in [MW] = {p} at time {granted_time} to Gas federate");
                 double value = h.helicsInputGetDouble(sub);
-                Console.WriteLine($"Electric: Received value = {value} at time {currenttime} from Gas federate for pressue in [bar-g]");
-                Thread.Sleep(1);
+                Console.WriteLine($"Electric: Received value = {value} at time {granted_time} from Gas federate for pressue in [bar-g]");
+                Thread.Sleep(3);
             }
+
+            // request time for end of time + 1: serves as a blocking call until all federates are complete
+            requested_time = total_time + 1;
+            Console.WriteLine($"Requested time: {requested_time}");
+            h.helicsFederateRequestTime(vfed, requested_time);
+
+            // finalize federate
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
-            h.helicsCloseLibrary();
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
+
+            // disconnect broker
+            h.helicsCloseLibrary();
             Console.WriteLine("GasElectric: Broker disconnected");
             var k = Console.ReadKey();
         }
