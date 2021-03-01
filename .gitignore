@@ -2,16 +2,16 @@
 *.log
 
 # bin folders
-HelicsDotNet/ElectricFederate/bin/**
-HelicsDotNet/GasFederate/bin/**
-HelicsDotNet/HelicsDotNetAPI/bin/**
-HelicsDotNet/GasElectricBroker/bin/**
+HelicsDotNet/ElectricFederate/bin/*
+HelicsDotNet/GasFederate/bin/*
+HelicsDotNet/HelicsDotNetAPI/bin/*
+HelicsDotNet/GasElectricBroker/bin/*
 
 # obj folders
-HelicsDotNet/ElectricFederate/obj/**
-HelicsDotNet/GasFederate/obj/**
-HelicsDotNet/HelicsDotNetAPI/obj/**
-HelicsDotNet/GasElectricBroker/obj/**
+HelicsDotNet/ElectricFederate/obj/*
+HelicsDotNet/GasFederate/obj/*
+HelicsDotNet/HelicsDotNetAPI/obj/*
+HelicsDotNet/GasElectricBroker/obj/*
 
 # vs files
 .vs
