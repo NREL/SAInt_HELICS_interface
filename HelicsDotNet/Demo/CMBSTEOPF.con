@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-01T06:00:00" SceName="CMBSTEOPF" ScenarioType="SteadyGas" SolverStatus="Solved" FilePath="C:\Users\KP\Source\Workspaces\SAInt Software\HelicsDotNet\Demo\CMBSTEOPF.con" Version="2.0.25.0" TimeCreated="2021-02-03T15:23:47.9868937+01:00" TimeModified="2021-02-03T15:23:47.9868937+01:00">
+<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-01T06:00:00" SceName="CMBSTEOPF" ScenarioType="SteadyGas" SolverStatus="Solved" FilePath="F:\Users\bsergi\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.con" Version="2.0.21.0" TimeCreated="2021-03-01T09:27:01.8377691-07:00" TimeModified="2021-03-01T09:27:01.8387702-07:00">
   <Nodes>
-    <Node Name="N00" Q="-139.40929284749635" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
+    <Node Name="N00" Q="-139.40929284749632" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
     <Node Name="N01" Q="0" P="4719810.0807477916" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
     <Node Name="N02" Q="0" P="6101324.9999999991" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
     <Node Name="N03" Q="0" P="4678284.7686414439" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -28,12 +28,12 @@
     <Node Name="N24" Q="41.666666666666664" P="4880087.0299036251" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="41.666666666666664" CtrlSet="QSET" CtrlSetVal="41.666666666666664" TSET="288.15" />
   </Nodes>
   <Pipes>
-    <Pipe Name="Pi00" Q="139.40929284749635" T="288.15">
+    <Pipe Name="Pi00" Q="139.40929284749632" T="288.15">
       <QG>
-        <double>139.40929284749635</double>
-        <double>139.40929284749635</double>
-        <double>139.40929284749635</double>
-        <double>139.40929284749635</double>
+        <double>139.40929284749632</double>
+        <double>139.40929284749632</double>
+        <double>139.40929284749632</double>
+        <double>139.40929284749632</double>
       </QG>
       <PG>
         <double>5008671.4172823187</double>
