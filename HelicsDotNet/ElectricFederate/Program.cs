@@ -1,6 +1,7 @@
 ﻿using System;
 using gmlc;
 using h = gmlc.helics;
+using s = SAInt_API.SAInt;
 using SAInt_API;
 using System.Threading;
 
@@ -105,9 +106,33 @@ namespace HelicsDotNetSender
                 StrNoLP = $"BUS.{CoupledElectricNode}.PG.[MW]";
                 p = APIExport.evalFloat(StrNoLP);
                 h.helicsPublicationPublishDouble(pubElectricOutPut, p);
+
                 Console.WriteLine($"Electric: Sending value for active power in [MW] = {p} at time {granted_time} to Gas federate");
                 double value = h.helicsInputGetDouble(sub);
+
                 Console.WriteLine($"Electric: Received value = {value} at time {granted_time} from Gas federate for pressue in [bar-g]");
+
+                // curtail gas generator dispatch if pressure is below delivery pressure
+                if (value<= 30.0)
+                {
+                    foreach (var gen in s.ENET.Gen)
+                    {
+                        if (gen.Name.ToUpper() == CoupledElectricNode.ToUpper())
+                        {
+                            gen.PGMAX *= .95; 
+                        }
+                    }
+
+                    //foreach (var evt in s.ENET.SCE.SceList)
+                    //{
+                    //    if (evt.ObjName.ToUpper() == CoupledElectricNode.ToUpper() && evt.ObjPar == SAInt_API.Network.CtrlType.PGSET)
+                    //    {
+                    //        evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                    //        evt.ShowVal = string.Format("{0}", p * 0.95);
+                    //    }
+                    //}
+                }
+
                 Thread.Sleep(3);
             }
 

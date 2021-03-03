@@ -1,6 +1,7 @@
 ﻿using System;
 using gmlc;
 using h = gmlc.helics;
+using s = SAInt_API.SAInt;
 using SAInt_API;
 using System.Threading;
 
@@ -76,8 +77,7 @@ namespace HelicsDotNetReceiver
             string StrNoLP = String.Format("NO.{0}.P.[bar-g]", CoupledGasNode);
             double p = APIExport.evalFloat(StrNoLP);
             h.helicsPublicationPublishDouble(pubGasOutPut, p);
-
-  
+ 
             // iterate over intervals
             for (int n = 1; n <= total_time; n++)
             {
@@ -93,8 +93,20 @@ namespace HelicsDotNetReceiver
 
                 // get value from previous electric simulation
                 double value = h.helicsInputGetDouble(sub);
-                APIExport.eval(string.Format("GSYS.SCE.SceList[6].ShowVal='{0}'", value / 20));
+
+                //APIExport.eval(string.Format("GSYS.SCE.SceList[6].ShowVal='{0}'", value / 20));
                 Console.WriteLine("Gas: Received value = {0} at time {1} from Electric federate for active power in [MW]", value, granted_time);
+
+                // apply offtake from gas generators on gas event
+                foreach (var evt in s.GNET.SCE.SceList)
+                {                    
+                    if (evt.ObjName.ToUpper() == CoupledGasNode.ToUpper() && evt.ObjPar==SAInt_API.Network.CtrlType.QSET)
+                    {
+                        evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.ksm3_h);
+                        evt.ShowVal = string.Format("{0}",value); // here we could enter the conversion from electric power to gas offtake using heatrate and calrofic value
+                    }
+                }
+
 
                 // run the gas simulation for the current granted time
                 APIExport.runGSIM();

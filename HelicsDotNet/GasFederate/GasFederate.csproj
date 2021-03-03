@@ -60,9 +60,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SAInt-API, Version=2.1.63.0, Culture=neutral, PublicKeyToken=2f0816c0606388a4, processorArchitecture=AMD64">
+    <Reference Include="SAInt-API, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2f0816c0606388a4, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SAInt-Master\SAInt-GUI\bin\x64\Release\SAInt-API.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\encoord\SAInt Software 2.0\SAInt-API.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

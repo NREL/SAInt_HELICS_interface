@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<eNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="141e5308cf5947cfb3833a369d32f88a" ModelOrigin="Unknown" ModelName="ENET30" TimeCreated="2016-06-01T13:29:00.5301633+02:00" TimeModified="2020-11-30T08:50:39.8591734+01:00" Version="2.0.20.0" Comment="" NodeSize="1.1" LineSize="2" Arrowsize="1" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8355712" BaseMVA="100">
+<eNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="141e5308cf5947cfb3833a369d32f88a" ModelOrigin="Unknown" ModelName="ENET30" TimeCreated="2016-06-01T13:29:00.5301633+02:00" TimeModified="2021-03-03T17:01:42.4269442+01:00" Version="2.0.25.0" Comment="" NodeSize="1.1" LineSize="2" Arrowsize="1" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8355712" BaseMVA="100">
   <Subs>
     <Sub xsi:type="ElectricSub" UID="0656f4d457b84b33b7eff311a8208f51" Name="SUB1" Info="-" />
   </Subs>
