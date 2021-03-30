@@ -1,0 +1,4 @@
+%Electric Generator Node	Gas Demand Node	Pressure Limit [bar-g]
+GEN.BUS001	NO.N15	30
+GEN.BUS022	NO.N20	50
+GEN.BUS026	NO.N21	50

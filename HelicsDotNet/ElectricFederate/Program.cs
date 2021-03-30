@@ -3,7 +3,11 @@ using gmlc;
 using h = gmlc.helics;
 using s = SAInt_API.SAInt;
 using SAInt_API;
+using SAInt_API.Network.Electric;
+using SAInt_API.Network.Gas;
 using System.Threading;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HelicsDotNetSender
 {
@@ -18,8 +22,7 @@ namespace HelicsDotNetSender
             APIExport.openESCE(netfolder + "CMBSTEOPF.esce");
             APIExport.showSIMLOG(false);
 
-            string CoupledGasNode = "N15";
-            string CoupledElectricNode = "BUS001";
+            SetMappingFile(netfolder + "Mapping.txt");
 
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
 
@@ -56,13 +59,12 @@ namespace HelicsDotNetSender
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
 
-            //Register the publication 
-            var pubElectricOutPut = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElectricOutPut", "double", "");
-            Console.WriteLine("Electric: Publication registered");
-
-            //Subscribe to Gas Federate publication
-            var sub = h.helicsFederateRegisterSubscription(vfed, "GasOutPut", "");
-            Console.WriteLine("Electric: Subscription registered");
+            // Register Publication and Subscription for coupling points
+            foreach (Mapping m in MappingList)
+            {
+                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
+                m.GasSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GasNodeID, "");
+            }
 
             //Set one second message interval
             double period = 0.5;
@@ -84,15 +86,23 @@ namespace HelicsDotNetSender
 
             // run initial power model at t=0, publish starting value
             APIExport.runESIM();
-            string StrNoLP = $"BUS.{CoupledElectricNode}.PG.[MW]";
-            float p = APIExport.evalFloat(StrNoLP);
-            h.helicsPublicationPublishDouble(pubElectricOutPut, p);
+
+            Action<double> publish = (double gtime) =>
+            {
+                foreach (Mapping m in MappingList)
+                {
+                    double pval = APIExport.evalFloat(String.Format("{0}.PG.[MW]", m.ElectricGenID));
+                    h.helicsPublicationPublishDouble(m.ElectricPub, pval);
+                    Console.WriteLine(String.Format("Electric: Sending value for active power at Generator {2} in [MW] = {0} at time {1} to Gas federate", pval, gtime, m.ElectricGen));
+                }
+            };
+
+            publish.Invoke(granted_time);
 
             // iterate over intervals
             for (int n = 1; n <= total_time; n++)
             {
                 requested_time = n;
-
                 // keep requesting time until you reach the next relevant point to simulate
                 while (granted_time < requested_time)
                 {
@@ -103,36 +113,20 @@ namespace HelicsDotNetSender
 
                 // run the electric simulation for the current granted time
                 APIExport.runESIM();
-                StrNoLP = $"BUS.{CoupledElectricNode}.PG.[MW]";
-                p = APIExport.evalFloat(StrNoLP);
-                h.helicsPublicationPublishDouble(pubElectricOutPut, p);
 
-                Console.WriteLine($"Electric: Sending value for active power in [MW] = {p} at time {granted_time} to Gas federate");
-                double value = h.helicsInputGetDouble(sub);
+                publish.Invoke(granted_time);
 
-                Console.WriteLine($"Electric: Received value = {value} at time {granted_time} from Gas federate for pressue in [bar-g]");
-
-                // curtail gas generator dispatch if pressure is below delivery pressure
-                if (value<= 30.0)
+                foreach (Mapping m in MappingList)
                 {
-                    foreach (var gen in s.ENET.Gen)
+                    double val = h.helicsInputGetDouble(m.GasSub);
+                    Console.WriteLine($"Electric: Received value = {val} at time {granted_time} from node {m.GasNodeID} Gas federate for pressue in [bar-g]");
+                    // curtail gas generator dispatch if pressure is below delivery pressure
+                    if (val <= m.PMIN)
                     {
-                        if (gen.Name.ToUpper() == CoupledElectricNode.ToUpper())
-                        {
-                            gen.PGMAX *= .95; 
-                        }
+                        m.ElectricGen.PGMAX *= .95;
+                        Console.WriteLine($"Electric: Pressure at node {m.GasNodeID} = {val} [bar-g] is below minimum delivery pressure {m.PMIN} [bar-g], therefore, reducing max active power generation for Generator {m.ElectricGen} to {m.ElectricGen.PGMAX} [MW] at time {granted_time}");
                     }
-
-                    //foreach (var evt in s.ENET.SCE.SceList)
-                    //{
-                    //    if (evt.ObjName.ToUpper() == CoupledElectricNode.ToUpper() && evt.ObjPar == SAInt_API.Network.CtrlType.PGSET)
-                    //    {
-                    //        evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                    //        evt.ShowVal = string.Format("{0}", p * 0.95);
-                    //    }
-                    //}
                 }
-
                 Thread.Sleep(3);
             }
 
@@ -151,6 +145,54 @@ namespace HelicsDotNetSender
             h.helicsCloseLibrary();
             Console.WriteLine("GasElectric: Broker disconnected");
             var k = Console.ReadKey();
+        }
+
+        public static List<Mapping> MappingList = new List<Mapping>();
+
+        public partial class Mapping
+        {
+            public string ElectricGenID;
+            public string GasNodeID;
+            public eGen ElectricGen;
+            public SWIGTYPE_p_void ElectricPub;
+            public SWIGTYPE_p_void GasSub;
+            public double PMIN;
+        }
+
+        static void SetMappingFile(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                MappingList.Clear();
+                using (var fs = new FileStream(filename, FileMode.Open))
+                {
+                    using (var sr = new StreamReader(fs))
+                    {
+                        var zeile = new string[0];
+                        while (sr.Peek() != -1)
+                        {
+                            zeile = sr.ReadLine().Split(new[] { (char)9 }, StringSplitOptions.RemoveEmptyEntries);
+
+                            if (zeile.Length > 1)
+                            {
+                                if (!zeile[0].Contains("%"))
+                                {
+                                    var mapitem = new Mapping();
+                                    mapitem.ElectricGenID = zeile[0];
+                                    mapitem.GasNodeID = zeile[1];
+                                    mapitem.PMIN= Convert.ToDouble(zeile[2]);
+                                    mapitem.ElectricGen = SAInt.ENET[mapitem.ElectricGenID] as eGen;
+                                    MappingList.Add(mapitem);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception(string.Format("File {0} does not exist!", filename));
+            }
         }
     }
 }
