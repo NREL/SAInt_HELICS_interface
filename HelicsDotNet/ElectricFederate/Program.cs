@@ -67,7 +67,7 @@ namespace HelicsDotNetSender
             }
 
             //Set one second message interval
-            double period = 0.5;
+            double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
             h.helicsFederateSetTimeProperty(vfed, (int)helics_properties.helics_property_time_period, period);
 
@@ -75,10 +75,15 @@ namespace HelicsDotNetSender
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)helics_properties.helics_property_time_period);
             Console.WriteLine($"Time period: {period_set}");
    
-            // start simulation at t = 1 s, run to t = 5 s
-            double total_time = 5 ; 
+            // start simulation at t = 1 s, run to t = 2 s
+            double total_time = 3 ; 
             double granted_time = 0 ;
-            double requested_time; 
+            double requested_time;
+
+            // set max iteration
+            h.helicsFederateSetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations, 4);
+            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations);
+            Console.WriteLine($"Max iterations: {iter_max}");
 
             // start execution mode
             h.helicsFederateEnterExecutingMode(vfed);
@@ -103,31 +108,62 @@ namespace HelicsDotNetSender
             for (int n = 1; n <= total_time; n++)
             {
                 requested_time = n;
-                // keep requesting time until you reach the next relevant point to simulate
-                while (granted_time < requested_time)
+
+                // non-iterative time request here to block until both federates are done iterating
+                Console.WriteLine($"Requested time {requested_time}");
+                h.helicsFederateRequestTime(vfed, requested_time);
+
+                // iteration setttings
+                int current_iter = 0;
+                int helics_iter_status;
+                bool iter_state = true;
+
+                // keep requesting time while iterating
+                while (iter_state)
                 {
-                    Console.WriteLine($"Requested time: {requested_time}");
-                    granted_time = h.helicsFederateRequestTime(vfed, requested_time);
-                    Console.WriteLine($"Granted time: {granted_time}");
-                }
+                    Console.WriteLine($"Requested time: {requested_time}, iteration: {current_iter}");
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, requested_time, helics_iteration_request.helics_iteration_request_force_iteration, out helics_iter_status);
+                    Console.WriteLine($"Granted time: {granted_time},  Iteration status: {helics_iter_status}");
 
-                // run the electric simulation for the current granted time
-                APIExport.runESIM();
-
-                publish.Invoke(granted_time);
-
-                foreach (Mapping m in MappingList)
-                {
-                    double val = h.helicsInputGetDouble(m.GasSub);
-                    Console.WriteLine($"Electric: Received value = {val} at time {granted_time} from node {m.GasNodeID} Gas federate for pressue in [bar-g]");
-                    // curtail gas generator dispatch if pressure is below delivery pressure
-                    if (val <= m.PMIN)
+                    // Get offtake limits from gas federate if past iteration zero
+                    if (current_iter > 0)
                     {
-                        m.ElectricGen.PGMAX *= .95;
-                        Console.WriteLine($"Electric: Pressure at node {m.GasNodeID} = {val} [bar-g] is below minimum delivery pressure {m.PMIN} [bar-g], therefore, reducing max active power generation for Generator {m.ElectricGen} to {m.ElectricGen.PGMAX} [MW] at time {granted_time}");
+                        foreach (Mapping m in MappingList)
+                        {
+                            double val = h.helicsInputGetDouble(m.GasSub);
+                            Console.WriteLine($"Electric: Received value = {val} at time {granted_time} from node {m.GasNodeID} Gas federate for pressue in [bar-g]");
+                            // curtail gas generator dispatch if pressure is below delivery pressure
+                            if (val <= m.PMIN)
+                            {
+                                m.ElectricGen.PGMAX *= .95;
+                                Console.WriteLine($"Electric: Pressure at node {m.GasNodeID} = {val} [bar-g] is below minimum delivery pressure {m.PMIN} [bar-g], therefore, reducing max active power generation for Generator {m.ElectricGen} to {m.ElectricGen.PGMAX} [MW] at time {granted_time}");
+                            }
+                        }
                     }
+                    // run the electric simulation for the current granted tim
+                    APIExport.runESIM();
+                    // publish new values
+                    publish.Invoke(granted_time);
+
+                    // check convergence criteria (to add function here)
+                    bool converged = false;
+
+                    // determine if iteration should stop
+                    if (current_iter > iter_max ^ converged)
+                    {
+                        Console.WriteLine("Finished iterating");
+                        iter_state = false;
+                        // one last call to HELICS to end iteration at this time step
+                        h.helicsFederateRequestTimeIterative(vfed, requested_time, helics_iteration_request.helics_iteration_request_no_iteration, out helics_iter_status);
+                    }
+                    else
+                    {
+                        // otherwise advance to next iteration
+                        current_iter++;
+                    }
+
+                    Thread.Sleep(3);
                 }
-                Thread.Sleep(3);
             }
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
