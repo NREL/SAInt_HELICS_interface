@@ -22,7 +22,7 @@ namespace HelicsDotNetSender
             APIExport.openESCE(netfolder + "CMBSTEOPF.esce");
             APIExport.showSIMLOG(false);
 
-            SetMappingFile(netfolder + "Mapping.txt");
+            ReadMappingFile(netfolder + "Mapping.txt");
 
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
 
@@ -195,7 +195,7 @@ namespace HelicsDotNetSender
             public double PMIN;
         }
 
-        static void SetMappingFile(string filename)
+        static void ReadMappingFile(string filename)
         {
             if (File.Exists(filename))
             {
@@ -204,19 +204,19 @@ namespace HelicsDotNetSender
                 {
                     using (var sr = new StreamReader(fs))
                     {
-                        var zeile = new string[0];
+                        var line = new string[0];
                         while (sr.Peek() != -1)
                         {
-                            zeile = sr.ReadLine().Split(new[] { (char)9 }, StringSplitOptions.RemoveEmptyEntries);
+                            line = sr.ReadLine().Split(new[] { (char)9 }, StringSplitOptions.RemoveEmptyEntries);
 
-                            if (zeile.Length > 1)
+                            if (line.Length > 1)
                             {
-                                if (!zeile[0].Contains("%"))
+                                if (!line[0].Contains("%"))
                                 {
                                     var mapitem = new Mapping();
-                                    mapitem.ElectricGenID = zeile[0];
-                                    mapitem.GasNodeID = zeile[1];
-                                    mapitem.PMIN= Convert.ToDouble(zeile[2]);
+                                    mapitem.ElectricGenID = line[0];
+                                    mapitem.GasNodeID = line[1];
+                                    mapitem.PMIN= Convert.ToDouble(line[2]);
                                     mapitem.ElectricGen = SAInt.ENET[mapitem.ElectricGenID] as eGen;
                                     MappingList.Add(mapitem);
                                 }
