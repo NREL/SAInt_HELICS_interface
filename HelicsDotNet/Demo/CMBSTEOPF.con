@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-01T06:00:00" SceName="CMBSTEOPF" ScenarioType="SteadyGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.con" Version="2.0.25.0" TimeCreated="2021-03-30T20:36:01.9300502+02:00" TimeModified="2021-03-30T20:36:01.9300502+02:00">
+<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-01T06:00:00" SceName="CMBSTEOPF" ScenarioType="SteadyGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.con" Version="2.0.25.0" TimeCreated="2021-03-31T16:42:40.6169766+02:00" TimeModified="2021-03-31T16:42:40.6169766+02:00">
   <Nodes>
     <Node Name="N00" Q="-157.99056304779066" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
     <Node Name="N01" Q="0" P="4614556.9999236269" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />

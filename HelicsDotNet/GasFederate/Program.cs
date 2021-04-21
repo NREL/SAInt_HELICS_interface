@@ -3,6 +3,8 @@ using gmlc;
 using h = gmlc.helics;
 using s = SAInt_API.SAInt;
 using SAInt_API;
+using SAInt_API.Library.Units;
+using SAInt_API.Network;
 using SAInt_API.Network.Electric;
 using SAInt_API.Network.Gas;
 using System.Threading;
@@ -21,10 +23,7 @@ namespace HelicsDotNetReceiver
             APIExport.openGSCE(netfolder + "CMBSTEOPF.sce");
             APIExport.showSIMLOG(false);
 
-            //string CoupledGasNode = "N15";
-            //string CoupledElectricNode = "BUS001";
-
-            SetMappingFile(netfolder + "Mapping.txt");
+            ReadMappingFile(netfolder + "Mapping.txt");
 
 
             Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
@@ -111,9 +110,9 @@ namespace HelicsDotNetReceiver
 
                     foreach (var s in m.GasNode.EventList)
                     {
-                        if (s.ObjPar == SAInt_API.Network.CtrlType.QSET)
+                        if (s.ObjPar == CtrlType.QSET)
                         {
-                            s.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.ksm3_h);
+                            s.Unit = new Units(UnitTypeList.Q, UnitList.ksm3_h);
                             s.ShowVal = string.Format("{0}", val); // here we could enter the conversion from electric power to gas offtake using heatrate and calrofic value
                         }
                     }
@@ -152,7 +151,7 @@ namespace HelicsDotNetReceiver
             public SWIGTYPE_p_void ElectricSub;
         }
 
-        static void SetMappingFile(string filename)
+        static void ReadMappingFile(string filename)
         {
             if (File.Exists(filename) )
             {
@@ -161,19 +160,18 @@ namespace HelicsDotNetReceiver
                 {
                     using (var sr = new StreamReader(fs))
                     {
-                        var zeile = new string[0];
+                        var line = new string[0];
                         while (sr.Peek() != -1)
                         {
-                            zeile = sr.ReadLine().Split(new[] {(char) 9}, StringSplitOptions.RemoveEmptyEntries);
+                            line = sr.ReadLine().Split(new[] {(char) 9}, StringSplitOptions.RemoveEmptyEntries);
                             
-                            if (zeile.Length > 1)
+                            if (line.Length > 1)
                             {
-                                if (!zeile[0].Contains("%"))
+                                if (!line[0].Contains("%"))
                                 {
                                     var mapitem = new Mapping();
-                                    mapitem.ElectricGenID = zeile[0];
-                                    mapitem.GasNodeID = zeile[1];
-                                    //mapitem.ElectricGen = SAInt.ENET[mapitem.ElectricGenID] as eGen;
+                                    mapitem.ElectricGenID = line[0];
+                                    mapitem.GasNodeID = line[1];
                                     mapitem.GasNode = SAInt.GNET[mapitem.GasNodeID] as GasNode;
                                     MappingList.Add(mapitem);
                                 }
