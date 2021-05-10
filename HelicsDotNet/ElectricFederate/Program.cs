@@ -3,11 +3,10 @@ using gmlc;
 using h = gmlc.helics;
 using s = SAInt_API.SAInt;
 using SAInt_API;
-using SAInt_API.Network.Electric;
-using SAInt_API.Network.Gas;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO;
+using SAIntHelicsLib;
 
 namespace HelicsDotNetSender
 {
@@ -15,15 +14,14 @@ namespace HelicsDotNetSender
     {
         static void Main(string[] args)
         {
-
             string netfolder = @"..\..\..\..\Demo\";
             //Load Electric Model
             APIExport.openENET(netfolder + "ENET30.enet");
             APIExport.openESCE(netfolder + "CMBSTEOPF.esce");
             APIExport.showSIMLOG(false);
 
-            SetMappingFile(netfolder + "Mapping.txt");
-
+            List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
+     
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
 
             //Create broker #
@@ -64,6 +62,8 @@ namespace HelicsDotNetSender
             {
                 m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
                 m.GasSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GasNodeID, "");
+                //Streamwriter for writing iteration results into file
+                m.sw = new StreamWriter(new FileStream(netfolder + m.ElectricGen.Name+".txt", FileMode.Create));               
             }
 
             //Set one second message interval
@@ -76,12 +76,12 @@ namespace HelicsDotNetSender
             Console.WriteLine($"Time period: {period_set}");
    
             // start simulation at t = 1 s, run to t = 2 s
-            double total_time = 3 ; 
+            double total_time = 1 ; 
             double granted_time = 0 ;
             double requested_time;
 
             // set max iteration
-            h.helicsFederateSetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations, 4);
+            h.helicsFederateSetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations);
             Console.WriteLine($"Max iterations: {iter_max}");
 
@@ -92,17 +92,7 @@ namespace HelicsDotNetSender
             // run initial power model at t=0, publish starting value
             APIExport.runESIM();
 
-            Action<double> publish = (double gtime) =>
-            {
-                foreach (Mapping m in MappingList)
-                {
-                    double pval = APIExport.evalFloat(String.Format("{0}.PG.[MW]", m.ElectricGenID));
-                    h.helicsPublicationPublishDouble(m.ElectricPub, pval);
-                    Console.WriteLine(String.Format("Electric: Sending value for active power at Generator {2} in [MW] = {0} at time {1} to Gas federate", pval, gtime, m.ElectricGen));
-                }
-            };
-
-            publish.Invoke(granted_time);
+            //MappingFactory.PublishRequiredThermalPower(granted_time, MappingList);
 
             // iterate over intervals
             for (int n = 1; n <= total_time; n++)
@@ -131,19 +121,25 @@ namespace HelicsDotNetSender
                         foreach (Mapping m in MappingList)
                         {
                             double val = h.helicsInputGetDouble(m.GasSub);
-                            Console.WriteLine($"Electric: Received value = {val} at time {granted_time} from node {m.GasNodeID} Gas federate for pressue in [bar-g]");
-                            // curtail gas generator dispatch if pressure is below delivery pressure
-                            if (val <= m.PMIN)
+                            Console.WriteLine($"Electric: Received value = {val} at time {granted_time} from node {m.GasNodeID} Gas federate for available thermal power in [MW]");
+
+                            //get currently required thermal power 
+                            double pval = APIExport.evalFloat(String.Format("{0}.PG.[MW]", m.ElectricGenID));
+                            double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * pval + m.ElectricGen.K_2 * pval * pval;
+                            double ThermalPower = HR / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
+
+                            if ( ThermalPower>val)
                             {
-                                m.ElectricGen.PGMAX *= .95;
-                                Console.WriteLine($"Electric: Pressure at node {m.GasNodeID} = {val} [bar-g] is below minimum delivery pressure {m.PMIN} [bar-g], therefore, reducing max active power generation for Generator {m.ElectricGen} to {m.ElectricGen.PGMAX} [MW] at time {granted_time}");
+                                m.ElectricGen.PGMAX *= .8;
                             }
                         }
                     }
+
                     // run the electric simulation for the current granted tim
                     APIExport.runESIM();
+
                     // publish new values
-                    publish.Invoke(granted_time);
+                    MappingFactory.PublishRequiredThermalPower(current_iter, MappingList);
 
                     // check convergence criteria (to add function here)
                     bool converged = false;
@@ -175,60 +171,23 @@ namespace HelicsDotNetSender
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
+            
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
+
+            foreach (Mapping m in MappingList)
+            {
+                if (m.sw != null)
+                {
+                    m.sw.Flush();
+                    m.sw.Close();
+                }
+            }
+
 
             // disconnect broker
             h.helicsCloseLibrary();
             Console.WriteLine("GasElectric: Broker disconnected");
             var k = Console.ReadKey();
-        }
-
-        public static List<Mapping> MappingList = new List<Mapping>();
-
-        public partial class Mapping
-        {
-            public string ElectricGenID;
-            public string GasNodeID;
-            public eGen ElectricGen;
-            public SWIGTYPE_p_void ElectricPub;
-            public SWIGTYPE_p_void GasSub;
-            public double PMIN;
-        }
-
-        static void SetMappingFile(string filename)
-        {
-            if (File.Exists(filename))
-            {
-                MappingList.Clear();
-                using (var fs = new FileStream(filename, FileMode.Open))
-                {
-                    using (var sr = new StreamReader(fs))
-                    {
-                        var zeile = new string[0];
-                        while (sr.Peek() != -1)
-                        {
-                            zeile = sr.ReadLine().Split(new[] { (char)9 }, StringSplitOptions.RemoveEmptyEntries);
-
-                            if (zeile.Length > 1)
-                            {
-                                if (!zeile[0].Contains("%"))
-                                {
-                                    var mapitem = new Mapping();
-                                    mapitem.ElectricGenID = zeile[0];
-                                    mapitem.GasNodeID = zeile[1];
-                                    mapitem.PMIN= Convert.ToDouble(zeile[2]);
-                                    mapitem.ElectricGen = SAInt.ENET[mapitem.ElectricGenID] as eGen;
-                                    MappingList.Add(mapitem);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                throw new Exception(string.Format("File {0} does not exist!", filename));
-            }
         }
     }
 }
