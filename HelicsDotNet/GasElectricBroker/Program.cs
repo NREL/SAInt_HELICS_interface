@@ -2,6 +2,7 @@
 using gmlc;
 using h = gmlc.helics;
 using System.Threading;
+using System.Diagnostics;
 
 namespace GasElectricBroker
 {
@@ -22,6 +23,10 @@ namespace GasElectricBroker
             Console.WriteLine("Checked if Broker is connected");
 
             if (isconnected == 1) Console.WriteLine("Broker created and connected");
+
+            // Call Federates in separate processes
+            Process.Start(@"C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\ElectricFederate\bin\x64\Debug\ElectricFederate.exe");
+            Process.Start(@"C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\GasFederate\bin\x64\Debug\GasFederate.exe");
 
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
             h.helicsCloseLibrary();

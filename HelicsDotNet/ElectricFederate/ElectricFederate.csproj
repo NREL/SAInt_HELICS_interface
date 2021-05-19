@@ -97,6 +97,10 @@
       <Project>{0828af05-b251-4063-ae2b-319b634d15ab}</Project>
       <Name>HelicsDotNetAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SAIntHelicsAPI\SAIntHelicsLib.csproj">
+      <Project>{2e6947e8-3f38-4263-9a7d-22cab425c4d9}</Project>
+      <Name>SAIntHelicsLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">

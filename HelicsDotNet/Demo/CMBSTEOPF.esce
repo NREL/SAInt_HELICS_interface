@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="9706ce60e0774cb5b1f972e0e5696549" SceName="CMBSTEOPF" SceType="SteadyACOPF" SolverStatus="Solved" IniState="QZERO" StartTime="2016-12-01T06:00:00" EndTime="2016-12-01T07:00:00" dT="3600" Comment="" NetType="ELECTRIC" NetName="ENET30" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\ENET30.enet" Version="2.0.25.0" TimeCreated="2016-12-01T22:34:40.3629154+01:00" TimeModified="2021-03-30T20:26:02.7412227+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.esce" TR="180" SingleCnstrHandling="false">
+<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="9706ce60e0774cb5b1f972e0e5696549" SceName="CMBSTEOPF" SceType="SteadyACOPF" SolverStatus="Solved" IniState="QZERO" StartTime="2016-12-01T06:00:00" EndTime="2016-12-01T07:00:00" dT="3600" Comment="" NetType="ELECTRIC" NetName="ENET30" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\ENET30.enet" Version="2.0.25.0" TimeCreated="2016-12-01T22:34:40.3629154+01:00" TimeModified="2021-05-10T19:34:21.9981849+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.esce" TR="180" SingleCnstrHandling="false">
   <SceEvents>
     <SceEvent Active="true" Info="-" UID="cde78507922f4ddea009aa63a53daf6c" EvtTime="2016-12-01T06:00:00" Parameter="PDSET" Value="5" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -17,7 +17,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -28,7 +28,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -39,7 +39,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -50,7 +50,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -61,7 +61,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -72,7 +72,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -83,7 +83,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -94,7 +94,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -105,7 +105,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -116,7 +116,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -127,7 +127,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -138,7 +138,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -149,7 +149,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -160,7 +160,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -171,7 +171,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -182,7 +182,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -193,7 +193,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -204,7 +204,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -215,7 +215,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -226,7 +226,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -237,7 +237,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -248,7 +248,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -259,7 +259,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -270,7 +270,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -281,7 +281,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -292,7 +292,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -303,7 +303,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -314,7 +314,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -325,7 +325,7 @@
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
+      <Unit UnitName="MVAr" UnitType="QPOW" />
       <Condition>
         <Expression />
         <ExprValues />

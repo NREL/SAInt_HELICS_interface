@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="0608b15773704e1ab61e7096ff8538fd" SceName="CMBSTEOPF" SceType="SteadyGas" SolverStatus="ConstraintViolation" IniState="NONE" StartTime="2016-12-01T06:00:00" EndTime="2016-12-01T07:00:00" dT="3600" Comment="" NetType="GAS" NetName="GNET25" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\GNET25.net" Version="2.0.25.0" TimeCreated="2016-12-02T20:54:44.1696135+01:00" TimeModified="2021-03-30T20:26:02.7110278+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.sce" TR="180" SingleCnstrHandling="false">
+<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="0608b15773704e1ab61e7096ff8538fd" SceName="CMBSTEOPF" SceType="SteadyGas" SolverStatus="ConstraintViolation" IniState="NONE" StartTime="2016-12-01T06:00:00" EndTime="2016-12-01T07:00:00" dT="3600" Comment="" NetType="GAS" NetName="GNET25" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\GNET25.net" Version="2.0.25.0" TimeCreated="2016-12-02T20:54:44.1696135+01:00" TimeModified="2021-05-10T19:34:21.9917018+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.sce" TR="180" SingleCnstrHandling="false">
   <SceEvents>
     <SceEvent Active="true" Info="-" UID="ccd6aacfde8a4d4e8a9b4bdb4cabe8af" EvtTime="2016-12-01T06:00:00" Parameter="PSET" Value="5101325" EvalType="NONE" ProfileName="">
       <ValueExpression>
@@ -67,12 +67,12 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="2c1d8a79a4f9485793a76ae57b505359" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="8.3333333333333339" EvalType="NONE" ProfileName="">
+    <SceEvent Active="true" Info="-" UID="2c1d8a79a4f9485793a76ae57b505359" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="5.4" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
       </ValueExpression>
-      <Unit UnitName="ksm3_h" UnitType="Q" />
+      <Unit UnitName="sm3_s" UnitType="Q" />
       <Condition>
         <Expression />
         <ExprValues />
@@ -111,7 +111,7 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="9501f5a1cb554c2f96a023f9ac7ce8eb" EvtTime="2016-12-01T06:00:00" Parameter="PSET" Value="5601325" EvalType="NONE" ProfileName="">
+    <SceEvent Active="false" Info="-" UID="9501f5a1cb554c2f96a023f9ac7ce8eb" EvtTime="2016-12-01T06:00:00" Parameter="PSET" Value="5601325" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
@@ -133,7 +133,29 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="1888cea475f44eee81fa990f309a28ef" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="27.777777777777779" EvalType="NONE" ProfileName="">
+    <SceEvent Active="true" Info="-" UID="1888cea475f44eee81fa990f309a28ef" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="7.5" EvalType="NONE" ProfileName="">
+      <ValueExpression>
+        <Expression />
+        <ExprValues />
+      </ValueExpression>
+      <Unit UnitName="sm3_s" UnitType="Q" />
+      <Condition>
+        <Expression />
+        <ExprValues />
+      </Condition>
+    </SceEvent>
+    <SceEvent Active="true" Info="-" UID="73a4204379c04321b13093ff83df2352" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="2.5" EvalType="NONE" ProfileName="">
+      <ValueExpression>
+        <Expression />
+        <ExprValues />
+      </ValueExpression>
+      <Unit UnitName="sm3_s" UnitType="Q" />
+      <Condition>
+        <Expression />
+        <ExprValues />
+      </Condition>
+    </SceEvent>
+    <SceEvent Active="true" Info="-" UID="a39725033b5243fdbebc5a09cecf8fb0" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="27.777777777777779" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
@@ -144,7 +166,7 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="73a4204379c04321b13093ff83df2352" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="16.666666666666668" EvalType="NONE" ProfileName="">
+    <SceEvent Active="true" Info="-" UID="f86b999d1dd1479096cfefc11a9c1d72" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="27.777777777777779" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
@@ -155,29 +177,7 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="a39725033b5243fdbebc5a09cecf8fb0" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="0" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="ksm3_h" UnitType="Q" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="f86b999d1dd1479096cfefc11a9c1d72" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="0" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="ksm3_h" UnitType="Q" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="6595bf3496754807947af77e194e857b" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="0" EvalType="NONE" ProfileName="">
+    <SceEvent Active="true" Info="-" UID="6595bf3496754807947af77e194e857b" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="27.777777777777779" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
@@ -194,6 +194,28 @@
         <ExprValues />
       </ValueExpression>
       <Unit UnitName="NO" UnitType="NO" />
+      <Condition>
+        <Expression />
+        <ExprValues />
+      </Condition>
+    </SceEvent>
+    <SceEvent Active="true" Info="-" UID="ede0bc866d0946abb81adae96dc6c2bb" EvtTime="2016-12-01T06:00:00" Parameter="BP" Value="NaN" EvalType="NONE" ProfileName="">
+      <ValueExpression>
+        <Expression />
+        <ExprValues />
+      </ValueExpression>
+      <Unit UnitName="ND" UnitType="ND" />
+      <Condition>
+        <Expression />
+        <ExprValues />
+      </Condition>
+    </SceEvent>
+    <SceEvent Active="true" Info="-" UID="9501f5a1cb554c2f96a023f9ac7ce8eb" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="19.444444444444443" EvalType="NONE" ProfileName="">
+      <ValueExpression>
+        <Expression />
+        <ExprValues />
+      </ValueExpression>
+      <Unit UnitName="ksm3_h" UnitType="Q" />
       <Condition>
         <Expression />
         <ExprValues />
