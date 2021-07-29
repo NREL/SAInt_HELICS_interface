@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="9706ce60e0774cb5b1f972e0e5696549" SceName="CMBSTEOPF" SceType="SteadyACOPF" SolverStatus="Solved" IniState="QZERO" StartTime="2016-12-01T06:00:00" EndTime="2016-12-01T07:00:00" dT="3600" Comment="" NetType="ELECTRIC" NetName="ENET30" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\ENET30.enet" Version="2.0.25.0" TimeCreated="2016-12-01T22:34:40.3629154+01:00" TimeModified="2021-07-07T12:12:24.159335+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.esce" TR="180" SingleCnstrHandling="false">
+<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="9706ce60e0774cb5b1f972e0e5696549" SceName="CMBSTEOPF" SceType="SteadyACOPF" SolverStatus="none" IniState="NONE" StartTime="2016-12-01T06:00:00" EndTime="2016-12-01T07:00:00" dT="3600" Comment="" NetType="ELECTRIC" NetName="ENET30" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\ENET30.enet" Version="2.0.28.0" TimeCreated="2016-12-01T22:34:40.3629154+01:00" TimeModified="2021-07-29T13:08:05.8540185+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.esce" TR="180" SingleCnstrHandling="false">
   <SceEvents>
     <SceEvent Active="true" Info="-" UID="cde78507922f4ddea009aa63a53daf6c" EvtTime="2016-12-01T06:00:00" Parameter="PDSET" Value="5" EvalType="NONE" ProfileName="">
       <ValueExpression>
@@ -221,17 +221,6 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="3877468a069949da918744541e5a6f73" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="5.8" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
     <SceEvent Active="true" Info="-" UID="04a8a20d6e2746e9860c7d26c3cfcf2c" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="0.9" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
@@ -243,73 +232,7 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="true" Info="-" UID="391addd5061d45fc9b630f8abc3d8e0c" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="3.4" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
     <SceEvent Active="true" Info="-" UID="33465ebd22084912ab96030c5b758315" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="0.7" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="0c49405666cf4a1ea7f3da6cab48024c" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="11.2" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="3be77ea8d89e4009b8292ada7f53855e" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="2.3" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="a298c21f1cec429caa2ac9b6212921df" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="0.9" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="b27c24ab49f5418b8f39e2aa6fe897ca" EvtTime="2016-12-01T06:00:00" Parameter="QDSET" Value="1.9" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MVAr" UnitType="QPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="true" Info="-" UID="6fb198a5f3a64256bb9be5f38732dd51" EvtTime="2016-12-01T06:00:00" Parameter="PDSET" Value="24" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
@@ -337,6 +260,17 @@
         <ExprValues />
       </ValueExpression>
       <Unit UnitName="NO" UnitType="NO" />
+      <Condition>
+        <Expression />
+        <ExprValues />
+      </Condition>
+    </SceEvent>
+    <SceEvent Active="true" Info="-" UID="6fb198a5f3a64256bb9be5f38732dd51" EvtTime="2016-12-01T06:00:00" Parameter="PDSET" Value="24" EvalType="NONE" ProfileName="">
+      <ValueExpression>
+        <Expression />
+        <ExprValues />
+      </ValueExpression>
+      <Unit UnitName="MW" UnitType="PPOW" />
       <Condition>
         <Expression />
         <ExprValues />

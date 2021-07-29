@@ -37,6 +37,7 @@ namespace SAIntHelicsLib
             {
                 double pval = APIExport.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dT / 3600));
                 double qval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dT / 3600));
+
                 double ThermalPower  = qval * s.GNET.CV / 1E6; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.GasPub, ThermalPower);
                 Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", gtime, step, m.GasNode, ThermalPower, pval, qval));
@@ -63,13 +64,18 @@ namespace SAIntHelicsLib
                 {
                     double PG = GetActivePowerFromAvailableThermalPower(m, val, pval);
                     m.ElectricGen.PGMAX = PG;
+                    m.ElectricGen.PGMIN = PG;
                     HasViolations = true;
                     Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, PG));
                 }
-                //else if (Math.Abs(ThermalPower - val) > eps)
-                //{
-                //    HasViolations = true;
-                //}
+                else if ((val-ThermalPower)  > eps)
+                {
+                    double PG = GetActivePowerFromAvailableThermalPower(m, val, pval);
+                    m.ElectricGen.PGMAX = Math.Min(PG, m.NCAP);
+                    m.ElectricGen.PGMIN = Math.Min(PG, m.NCAP); 
+                    HasViolations = true;
+                    Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, PG));
+                }
             }
 
             return HasViolations;
@@ -185,6 +191,8 @@ namespace SAIntHelicsLib
         public eGen ElectricGen;
 
         public double NCAP;
+
+        public double PreVal;
 
         public SWIGTYPE_p_void GasPub;
         public SWIGTYPE_p_void GasSub;

@@ -84,10 +84,9 @@ namespace HelicsDotNetReceiver
 
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
-                if (e.TimeStep > 0)
+                if (e.TimeStep >= 0)
                 {
-                    if (e.SolverState == SolverState.AfterTimeStep && !IsRepeating)
-                    {
+                    if (e.SolverState == SolverState.BeforeTimeStep) {
                         // non-iterative time request here to block until both federates are done iterating
                         Console.WriteLine($"Requested time {e.TimeStep}");
                         h.helicsFederateRequestTime(vfed, e.TimeStep);
@@ -110,22 +109,17 @@ namespace HelicsDotNetReceiver
                             granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, helics_iteration_request.helics_iteration_request_force_iteration, out helics_iter_status);
 
                             Console.WriteLine($"Granted time: {granted_time},  Iteration status: {helics_iter_status}");
-                            MappingFactory.PublishAvailableThermalPower(granted_time, step, MappingList);
+                            MappingFactory.PublishAvailableThermalPower(granted_time-1, step, MappingList);
 
-                            if (!(e.TimeStep == 1 && step == 1))
+                            if (!(e.TimeStep == 0 && step == 1))
                             {
-                                HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time,step, MappingList);
+                                HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time-1,step, MappingList);
                             }
 
                             if (step > 1)
                             {
                                 e.RepeatTimeIntegration = HasViolations;
                                 IsRepeating = HasViolations;
-
-                                //if (!IsRepeating)
-                                //{
-                                //    h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, helics_iteration_request.helics_iteration_request_no_iteration, out helics_iter_status);
-                                //}
                             }
                             else
                             {

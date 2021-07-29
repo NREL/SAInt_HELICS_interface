@@ -1,17 +1,6 @@
 <?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="de56077a061049c582c6155d5062b18f" SceName="CASE1" SceType="QuasiDynamicACOPF" SolverStatus="Solved" IniState="CMBSTEOPF" StartTime="2016-12-01T06:00:00" EndTime="2016-12-02T06:00:00" dT="900" Comment="" NetType="ELECTRIC" NetName="ENET30" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\ENET30.enet" Version="2.0.25.0" TimeCreated="2016-12-02T02:12:39.122037+01:00" TimeModified="2021-07-14T14:22:23.2777707+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CASE1.esce" TR="180" SingleCnstrHandling="false">
+<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="de56077a061049c582c6155d5062b18f" SceName="CASE1" SceType="QuasiDynamicACOPF" SolverStatus="none" IniState="CMBSTEOPF" StartTime="2016-12-01T06:00:00" EndTime="2016-12-02T06:00:00" dT="900" Comment="" NetType="ELECTRIC" NetName="ENET30" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\ENET30.enet" Version="2.0.28.0" TimeCreated="2016-12-02T02:12:39.122037+01:00" TimeModified="2021-07-29T21:35:27.9550243+02:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CASE1.esce" TR="180" SingleCnstrHandling="false">
   <SceEvents>
-    <SceEvent Active="false" Info="-" UID="de48b9f0710c41728d7e8ce037c9d964" EvtTime="2016-12-01T06:00:00" Parameter="PGSET" Value="59.9999999879174" EvalType="NONE" ProfileName="WINDPRF">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="MW" UnitType="PPOW" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
     <SceEvent Active="true" Info="-" UID="463da9738b224c7bafe1195c6f6ad445" EvtTime="2016-12-01T06:00:00" Parameter="PDSET" Value="23.999999998924736" EvalType="NONE" ProfileName="DEMANDPRF">
       <ValueExpression>
         <Expression />
@@ -277,17 +266,6 @@
       </Condition>
     </SceEvent>
     <SceEvent Active="true" Info="-" UID="7b9218334a4b4ceb985b4d4d03747185" EvtTime="2016-12-01T06:00:00" Parameter="OFF" Value="NaN" EvalType="NONE" ProfileName="">
-      <ValueExpression>
-        <Expression />
-        <ExprValues />
-      </ValueExpression>
-      <Unit UnitName="NO" UnitType="NO" />
-      <Condition>
-        <Expression />
-        <ExprValues />
-      </Condition>
-    </SceEvent>
-    <SceEvent Active="false" Info="-" UID="de48b9f0710c41728d7e8ce037c9d964" EvtTime="2016-12-01T10:30:00" Parameter="OFF" Value="NaN" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
