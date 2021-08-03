@@ -115,12 +115,13 @@ namespace HelicsDotNetSender
                         {
                             m.ElectricGen.PGMAX = m.NCAP;
                             m.ElectricGen.PGMIN = 0;
+                            m.lastVal.Clear();
                         }
                     }
 
                     if ( e.SolverState == SolverState.AfterTimeStep && IsRepeating)
                     {
-                        IsRepeating =  (step < iter_max); //step==0 || !MappingFactory.StepSolved(.0001,e.TimeStep,MappingList) ||
+                        IsRepeating =  (step < iter_max); 
 
                         if (IsRepeating)
                         {
@@ -137,18 +138,8 @@ namespace HelicsDotNetSender
                             {
                                 HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
                             }
-
-                            if (step > 1)
-                            {
-                                e.RepeatTimeIntegration = HasViolations;
-                                IsRepeating = HasViolations;
-                            }
-                            else
-                            {
-                                e.RepeatTimeIntegration = true;
-                                IsRepeating = true;
-                            }
-                           
+                            e.RepeatTimeIntegration = HasViolations;
+                            IsRepeating = HasViolations;                          
                         }
                     }
                 }

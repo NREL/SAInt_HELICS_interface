@@ -25,9 +25,11 @@ namespace SAIntHelicsLib
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
                 double ThermalPower = HR/3.6 * pval; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
-                Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]", gtime,step, m.ElectricGen, ThermalPower,pval,m.ElectricGen.PGMAX));
 
-                m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", gtime,step, pval, ThermalPower , m.ElectricGen.PGMAX));
+                Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]", 
+                    gtime,step, m.ElectricGen, ThermalPower,pval,m.ElectricGen.PGMAX));
+                m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
+                    gtime,step, pval, ThermalPower , m.ElectricGen.PGMAX));
             }
         }
 
@@ -40,9 +42,11 @@ namespace SAIntHelicsLib
 
                 double ThermalPower  = qval * s.GNET.CV / 1E6; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.GasPub, ThermalPower);
-                Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", gtime, step, m.GasNode, ThermalPower, pval, qval));
-
-                m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", gtime, step, pval, qval, ThermalPower));
+                
+                Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", 
+                    gtime, step, m.GasNode, ThermalPower, pval, qval));
+                m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
+                    gtime, step, pval, qval, ThermalPower));
             }
         }
 
@@ -59,25 +63,32 @@ namespace SAIntHelicsLib
                 double pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID,gtime*m.ElectricGen.Net.SCE.dT/3600));
                 double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * pval + m.ElectricGen.K_2 * pval * pval;
                 double ThermalPower = HR / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
-                
-                if ((  ThermalPower-val) > eps)
+
+                m.lastVal.Add(val);
+
+                if (Math.Abs(ThermalPower-val) > eps)
                 {
                     double PG = GetActivePowerFromAvailableThermalPower(m, val, pval);
-                    m.ElectricGen.PGMAX = PG;
-                    m.ElectricGen.PGMIN = PG;
+                    m.ElectricGen.PGMAX = Math.Max(0, Math.Min(PG, m.NCAP));
+                    m.ElectricGen.PGMIN = Math.Max(0, Math.Min(PG, m.NCAP));
                     HasViolations = true;
-                    Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, PG));
+                    Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, m.ElectricGen.PGMAX));
                 }
-                else if ((val-ThermalPower)  > eps)
+                else
                 {
-                    double PG = GetActivePowerFromAvailableThermalPower(m, val, pval);
-                    m.ElectricGen.PGMAX = Math.Min(PG, m.NCAP);
-                    m.ElectricGen.PGMIN = Math.Min(PG, m.NCAP); 
-                    HasViolations = true;
-                    Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, PG));
+                    if (m.lastVal.Count > 2)
+                    {
+                        if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
+                        {
+                            HasViolations = true;
+                        }
+                    }
+                    else
+                    {
+                        HasViolations = true;
+                    }
                 }
             }
-
             return HasViolations;
         }
 
@@ -89,7 +100,9 @@ namespace SAIntHelicsLib
                 // get publication from electric federate
                 double val = h.helicsInputGetDouble(m.ElectricSub);
                 Console.WriteLine(String.Format("Gas-R: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW]", gtime, step, m.GasNode, val));
-                
+
+                m.lastVal.Add(val);
+
                 //get currently available thermal power 
                 double pval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s] * {0}.CV.({1}).[MJ/sm3]", m.GasNodeID, gtime * m.GasNode.Net.SCE.dT / 3600));
 
@@ -105,11 +118,25 @@ namespace SAIntHelicsLib
                             evt.ShowVal = string.Format("{0}", 1E6 * val /s.GNET.CV); // converting thermal power to flow rate using calorific value
                             evt.Processed = false;
 
-                            Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSETn = {3:0.0000} [sm3/s] \t QSETn-1 = {4:0.0000} [sm3/s]", gtime, step, m.GasNode, evt.ObjVal,EvtVal));
-                            //if (!HasViolations) HasViolations = Math.Abs(EvtVal - evt.ObjVal) > eps;
+                            Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSETn = {3:0.0000} [sm3/s] \t QSETn-1 = {4:0.0000} [sm3/s]", 
+                                gtime, step, m.GasNode, evt.ObjVal,EvtVal));
                         }
                     }
                     HasViolations = true;
+                }
+                else
+                {
+                    if (m.lastVal.Count > 1)
+                    {
+                        if (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 1]) > eps)
+                        {
+                            HasViolations = true;
+                        }
+                    }
+                    else
+                    {
+                        HasViolations = true;
+                    }
                 }
             }
             return HasViolations;
@@ -166,6 +193,7 @@ namespace SAIntHelicsLib
                                     mapitem.GasNodeID = zeile[1];
                                     mapitem.ElectricGen = s.ENET[mapitem.ElectricGenID] as eGen;
                                     mapitem.GasNode = s.GNET[mapitem.GasNodeID] as GasNode;
+                                    mapitem.lastVal = new List<double>();
                                     if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.PGMAX;
                                     MappingList.Add(mapitem);
                                 }
@@ -193,6 +221,8 @@ namespace SAIntHelicsLib
         public double NCAP;
 
         public double PreVal;
+
+        public List<double> lastVal;
 
         public SWIGTYPE_p_void GasPub;
         public SWIGTYPE_p_void GasSub;

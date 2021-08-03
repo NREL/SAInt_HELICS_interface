@@ -91,9 +91,13 @@ namespace HelicsDotNetReceiver
                         Console.WriteLine($"Requested time {e.TimeStep}");
                         h.helicsFederateRequestTime(vfed, e.TimeStep);
                         step = 0;
-                        Console.WriteLine($"TimeStep: {e.TimeStep} SolverState: {e.SolverState}");
+                        Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
                         IsRepeating = !IsRepeating;
                         HasViolations = true;
+                        foreach (Mapping m in MappingList)
+                        {
+                            m.lastVal.Clear();
+                        }
                     }
 
                     if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
@@ -115,17 +119,8 @@ namespace HelicsDotNetReceiver
                             {
                                 HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time-1,step, MappingList);
                             }
-
-                            if (step > 1)
-                            {
-                                e.RepeatTimeIntegration = HasViolations;
-                                IsRepeating = HasViolations;
-                            }
-                            else
-                            {
-                                e.RepeatTimeIntegration = true;
-                                IsRepeating = true;
-                            }
+                            e.RepeatTimeIntegration = HasViolations;
+                            IsRepeating = HasViolations;                                                         
                         }
                     }
                 }
