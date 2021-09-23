@@ -5,8 +5,7 @@ using s = SAInt_API.SAInt;
 using SAInt_API;
 using SAInt_API.Network.Electric;
 using SAInt_API.Network.Gas;
-using gmlc;
-using h = gmlc.helics;
+using h = helics;
 
 namespace SAIntHelicsLib
 {

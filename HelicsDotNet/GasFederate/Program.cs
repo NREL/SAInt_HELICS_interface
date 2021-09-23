@@ -1,6 +1,5 @@
 using System;
-using gmlc;
-using h = gmlc.helics;
+using h = helics;
 using SAInt_API;
 using System.IO;
 using System.Collections.Generic;
@@ -57,11 +56,11 @@ namespace HelicsDotNetReceiver
 
             //Set one second message interval
             double period = 1;
-            Console.WriteLine("Gas: Setting Federate Timing");
-            h.helicsFederateSetTimeProperty(vfed, (int)helics_properties.helics_property_time_period, period);
+            Console.WriteLine("Electric: Setting Federate Timing");
+            h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
 
             // check to make sure setting the time property worked
-            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)helics_properties.helics_property_time_period);
+            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
             Console.WriteLine($"Time period: {period_set}");
 
             // start simulation at t = 1 s, run to t = 2 s
@@ -70,8 +69,8 @@ namespace HelicsDotNetReceiver
             double requested_time;
 
             // set max iteration
-            h.helicsFederateSetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations, 20);
-            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)helics_properties.helics_property_int_max_iterations);
+            h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
+            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
             Console.WriteLine($"Max iterations: {iter_max}");
 
             // enter execution mode
@@ -110,7 +109,7 @@ namespace HelicsDotNetReceiver
                             int helics_iter_status;
 
                             Console.WriteLine($"Requested time: {e.TimeStep}, iteration: {step}");
-                            granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, helics_iteration_request.helics_iteration_request_force_iteration, out helics_iter_status);
+                            granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
 
                             Console.WriteLine($"Granted time: {granted_time},  Iteration status: {helics_iter_status}");
                             MappingFactory.PublishAvailableThermalPower(granted_time-1, step, MappingList);
