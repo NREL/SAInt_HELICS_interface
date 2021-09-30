@@ -152,6 +152,9 @@ namespace HelicsDotNetReceiver
             writer.Close();
             ostrm.Close();
 
+            // save SAInt output
+            APIExport.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
+
             // finalize federate
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Gas: Federate finalized");

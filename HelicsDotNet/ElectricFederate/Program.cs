@@ -174,6 +174,9 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
 
+            // save SAInt output
+            APIExport.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
+
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
 
             foreach (Mapping m in MappingList)
