@@ -14,17 +14,21 @@ namespace HelicsDotNetSender
         static void Main(string[] args)
         {
             string netfolder = @"..\..\..\..\Demo\";
-            //Load Electric Model
+            string outputfolder = @"..\..\..\..\..\outputs\";
+
+            // Load Electric Model
             APIExport.openENET(netfolder + "ENET30.enet");
             APIExport.openESCE(netfolder + "CASE1.esce");
             APIExport.openECON(netfolder + "CMBSTEOPF.econ");
             APIExport.showSIMLOG(true);
 
+            // Load mapping between gas nodes and power plants 
             List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
-     
+
+            // Get HELICS version
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
 
-            //Create broker #
+            // Create broker 
             string initBrokerString = "-f 2 --name=mainbroker";
             Console.WriteLine("Creating Broker");
             var broker = h.helicsCreateBroker("tcp", "", initBrokerString);
@@ -33,7 +37,6 @@ namespace HelicsDotNetSender
             Console.WriteLine("Checking if Broker is connected");
             int isconnected = h.helicsBrokerIsConnected(broker);
             Console.WriteLine("Checked if Broker is connected");
-
             if (isconnected == 1) Console.WriteLine("Broker created and connected");
 
             // Create Federate Info object that describes the federate properties
@@ -41,18 +44,16 @@ namespace HelicsDotNetSender
             var fedinfo = helics.helicsCreateFederateInfo();
 
             // Set core type from string
-            Console.WriteLine("Electric: Setting Federate Info Core Type");
+            Console.WriteLine("Electric: Setting Federate Core Type");
             h.helicsFederateInfoSetCoreName(fedinfo, "Electric Federate Core");
-
-            //Set core type from string #
             h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "tcp");
 
-            //Federate init string
+            // Federate init string
             Console.WriteLine("Electric: Setting Federate Info Init String");
             string fedinitstring = "--broker=mainbroker --federates=1";
             h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring);
 
-            //Create value federate
+            // Create value federate
             Console.WriteLine("Electric: Creating Value Federate");
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
@@ -63,11 +64,11 @@ namespace HelicsDotNetSender
                 m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
                 m.GasSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GasNodeID, "");
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(netfolder + m.ElectricGen.Name+".txt", FileMode.Create));
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name+".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
 
-            //Set one second message interval
+            // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
             h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
@@ -76,13 +77,13 @@ namespace HelicsDotNetSender
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
             Console.WriteLine($"Time period: {period_set}");
 
-
-            // start simulation at t = 1 s, run to t = 2 s
+            // start simulation at t = 0 s, run to t = 96 s
+            // TO DO: can we have this set from the scenario time window?
             double total_time = 96;
             double granted_time = 0;
             double requested_time;
 
-            // set max iteration
+            // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
             Console.WriteLine($"Max iterations: {iter_max}");
@@ -91,57 +92,68 @@ namespace HelicsDotNetSender
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Electric: Entering execution mode");
 
+            // variables to control iterations
             Int16 step=0 ;
             bool IsRepeating = false;
             bool HasViolations = false;
 
+            // redirect console output to log file
+            FileStream ostrm;
+            StreamWriter writer;
+            TextWriter oldOut = Console.Out;
+            ostrm = new FileStream(outputfolder + "Log_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write);
+            writer = new StreamWriter(ostrm);
+            Console.SetOut(writer);
+
+            // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
-                if (e.TimeStep >= 0)
+                if (e.SolverState == SolverState.BeforeTimeStep)
                 {
-
-                    if (e.SolverState == SolverState.BeforeTimeStep)
+                    // non-iterative time request here to block until both federates are done iterating the last time step
+                    Console.WriteLine($"Requested time {e.TimeStep}");
+                    granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
+                    step = 0;
+                    Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
+                    IsRepeating = !IsRepeating;
+                    HasViolations = true;
+                    // Reset nameplate capacity
+                    foreach (Mapping m in MappingList)
                     {
-                        // non-iterative time request here to block until both federates are done iterating
-                        Console.WriteLine($"Requested time {e.TimeStep}");
-                        granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
-                        step = 0;
-                        Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
-                        IsRepeating = !IsRepeating;
-                        HasViolations = true;
-                        // Reset Name plate capacity
-                        foreach (Mapping m in MappingList)
-                        {
-                            m.ElectricGen.PGMAX = m.NCAP;
-                            m.ElectricGen.PGMIN = 0;
-                            m.lastVal.Clear();
-                        }
-                    }
-
-                    if ( e.SolverState == SolverState.AfterTimeStep && IsRepeating)
-                    {
-                        IsRepeating =  (step < iter_max); 
-
-                        if (IsRepeating)
-                        {
-                            step += 1;
-                            int helics_iter_status;
-
-                            Console.WriteLine($"Requested time: {e.TimeStep}, iteration: {step}");
-                            granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
-
-                            Console.WriteLine($"Granted time: {granted_time},  Iteration status: {helics_iter_status}");
-                            MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
-
-                            if (!(e.TimeStep == 0 && step == 1))
-                            {
-                                HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
-                            }
-                            e.RepeatTimeIntegration = HasViolations;
-                            IsRepeating = HasViolations;                          
-                        }
+                        m.ElectricGen.PGMAX = m.NCAP;
+                        m.ElectricGen.PGMIN = 0;
+                        m.lastVal.Clear();
                     }
                 }
+
+                if ( e.SolverState == SolverState.AfterTimeStep && IsRepeating)
+                {
+                    // stop iterating if max iterations have been reached
+                    IsRepeating =  (step < iter_max); 
+
+                    if (IsRepeating)
+                    {
+                        step += 1;
+                        int helics_iter_status;
+
+                        // iterative HELICS time request
+                        Console.WriteLine($"Requested time: {e.TimeStep}, iteration: {step}");
+                        granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
+
+                        // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
+                        Console.WriteLine($"Granted time: {granted_time},  Iteration status: {helics_iter_status}");
+                        MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
+
+                        // get available thermal power at nodes, determine if there are violations
+                        if (!(e.TimeStep == 0 && step == 1))
+                        {
+                            HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
+                        }
+                        e.RepeatTimeIntegration = HasViolations;
+                        IsRepeating = HasViolations;                          
+                    }
+                }
+                
             };
 
             // run power model
@@ -152,11 +164,16 @@ namespace HelicsDotNetSender
             Console.WriteLine($"Requested time: {requested_time}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
+            // close out log file
+            Console.SetOut(oldOut);
+            writer.Close();
+            ostrm.Close();
+
             // finalize federate
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
-            
+
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
 
             foreach (Mapping m in MappingList)
