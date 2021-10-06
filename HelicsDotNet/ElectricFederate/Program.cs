@@ -77,9 +77,10 @@ namespace HelicsDotNetSender
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
             Console.WriteLine($"Time period: {period_set}");
 
-            // start simulation at t = 0 s, run to t = 96 s
-            // TO DO: can we have this set from the scenario time window?
-            double total_time = 96;
+            // set number of HELICS timesteps based on scenario
+            double total_time = SAInt.ENET.SCE.NN;
+            Console.WriteLine($"Number of timesteps in scenario: {total_time}");
+
             double granted_time = 0;
             double requested_time;
 
