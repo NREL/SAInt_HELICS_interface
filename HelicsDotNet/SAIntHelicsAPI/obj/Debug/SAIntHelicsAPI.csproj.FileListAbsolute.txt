@@ -1,6 +1,0 @@
-C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\SAIntHelicsAPI\bin\Debug\SAIntHelicsAPI.dll
-C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\SAIntHelicsAPI\bin\Debug\SAIntHelicsAPI.pdb
-C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\SAIntHelicsAPI\obj\Debug\SAIntHelicsAPI.csprojAssemblyReference.cache
-C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\SAIntHelicsAPI\obj\Debug\SAIntHelicsAPI.csproj.CoreCompileInputs.cache
-C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\SAIntHelicsAPI\obj\Debug\SAIntHelicsAPI.dll
-C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\SAIntHelicsAPI\obj\Debug\SAIntHelicsAPI.pdb

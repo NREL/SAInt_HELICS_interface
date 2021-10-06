@@ -1,20 +1,12 @@
 # SAInt log files
 *.log
 
-# bin folders
-HelicsDotNet/ElectricFederate/bin/*
-HelicsDotNet/GasFederate/bin/*
-HelicsDotNet/HelicsDotNetAPI/bin/*
-HelicsDotNet/GasElectricBroker/bin/*
-
-# obj folders
-HelicsDotNet/ElectricFederate/obj/*
-HelicsDotNet/GasFederate/obj/*
-HelicsDotNet/HelicsDotNetAPI/obj/*
-HelicsDotNet/GasElectricBroker/obj/*
+# bin/obj folders
+bin/
+obj/
 
 # vs files
 .vs
 
 # outputs
-outputs/*
+outputs/
