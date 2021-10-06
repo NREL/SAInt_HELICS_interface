@@ -14,6 +14,7 @@ namespace HelicsDotNetReceiver
         {
             string netfolder = @"..\..\..\..\Demo\";
             string outputfolder = @"..\..\..\..\..\outputs\";
+            Directory.CreateDirectory(outputfolder);
 
             // Load Gas Model
             APIExport.openGNET(netfolder + "GNET25.net");

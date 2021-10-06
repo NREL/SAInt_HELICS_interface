@@ -15,6 +15,7 @@ namespace HelicsDotNetSender
         {
             string netfolder = @"..\..\..\..\Demo\";
             string outputfolder = @"..\..\..\..\..\outputs\";
+            Directory.CreateDirectory(outputfolder);
 
             // Load Electric Model
             APIExport.openENET(netfolder + "ENET30.enet");
