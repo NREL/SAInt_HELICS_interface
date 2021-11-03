@@ -1,44 +1,44 @@
 <?xml version="1.0"?>
-<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-01T06:00:00" SceName="CMBSTEOPF" ScenarioType="SteadyGas" SolverStatus="Solved" FilePath="F:\Users\bsergi\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.con" Version="2.0.21.0" TimeCreated="2021-05-19T09:25:09.7831249-06:00" TimeModified="2021-05-19T09:25:09.785127-06:00">
+<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-01T06:00:00" SceName="CMBSTEOPF" ScenarioType="SteadyGas" SolverStatus="ConstraintViolation" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Demo\CMBSTEOPF.con" Version="2.0.28.0" TimeCreated="2021-07-29T13:08:09.3854611+02:00" TimeModified="2021-07-29T13:08:09.3874579+02:00">
   <Nodes>
-    <Node Name="N00" Q="-192.26567436775366" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
-    <Node Name="N01" Q="0" P="4377550.6491459655" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N00" Q="-192.68682637944821" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
+    <Node Name="N01" Q="0" P="4374262.2325756792" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
     <Node Name="N02" Q="0" P="6101324.9999999991" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N03" Q="0" P="4265753.4853413682" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N04" Q="27.777777777777779" P="5192375.0644455943" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="27.777777777777779" CtrlSet="QSET" CtrlSetVal="27.777777777777779" TSET="288.15" />
+    <Node Name="N03" Q="0" P="4262233.5141592342" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N04" Q="27.777777777777779" P="5186610.7565670079" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="27.777777777777779" CtrlSet="QSET" CtrlSetVal="27.777777777777779" TSET="288.15" />
     <Node Name="N05" Q="0" P="6101324.9999999991" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N06" Q="0" P="5622208.8165723262" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N07" Q="0" P="4007422.0763436286" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N08" Q="69.444444444444443" P="3305195.1279171193" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="69.444444444444443" CtrlSet="QSET" CtrlSetVal="69.444444444444443" TSET="288.15" />
-    <Node Name="N09" Q="0" P="5966178.70315251" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node xsi:type="GasLNGState" Name="N10" Q="-26.506627184206529" P="6101324.9999999991" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="6101324.9999999991" CtrlSet="PSET" CtrlSetVal="6101324.9999999991" TSET="288.15" INV="300000000" INVVES="0" VOLVES="0" />
-    <Node Name="N11" Q="5.5555555555555554" P="5520575.6516478108" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="5.5555555555555554" CtrlSet="QSET" CtrlSetVal="5.5555555555555554" TSET="288.15" />
-    <Node Name="N12" Q="0" P="4007422.0763436286" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N13" Q="0" P="3322417.2510006297" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N14" Q="11.111111111111111" P="3123000.6708485736" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="11.111111111111111" CtrlSet="QSET" CtrlSetVal="11.111111111111111" TSET="288.15" />
-    <Node Name="N15" Q="4.99261616744603" P="3284486.354062919" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="4.99261616744603" CtrlSet="QSET" CtrlSetVal="4.99261616744603" TSET="288.15" />
-    <Node Name="N16" Q="13.888888888888889" P="5699523.2598175388" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="13.888888888888889" CtrlSet="QSET" CtrlSetVal="13.888888888888889" TSET="288.15" />
-    <Node Name="N17" Q="0" P="3777912.9446164821" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N18" Q="27.777777777777779" P="3631310.4195547481" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="27.777777777777779" CtrlSet="QSET" CtrlSetVal="27.777777777777779" TSET="288.15" />
-    <Node Name="N19" Q="0" P="3158570.6977354717" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
-    <Node Name="N20" Q="1.16613506697196" P="3144022.8888145047" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="1.16613506697196" CtrlSet="QSET" CtrlSetVal="1.16613506697196" TSET="288.15" />
-    <Node Name="N21" Q="7.05799476198626" P="3157437.1626234432" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="7.05799476198626" CtrlSet="QSET" CtrlSetVal="7.05799476198626" TSET="288.15" />
-    <Node xsi:type="GasUGSState" Name="N22" Q="-19.444444444444443" P="3295519.0365421204" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="19.444444444444443" CtrlSet="QSET" CtrlSetVal="19.444444444444443" TSET="288.15" UGSState="WDR" INV="250000000" />
-    <Node Name="N23" Q="27.777777777777779" P="5803545.3410359276" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="27.777777777777779" CtrlSet="QSET" CtrlSetVal="27.777777777777779" TSET="288.15" />
-    <Node Name="N24" Q="41.666666666666664" P="2901169.3096878291" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="41.666666666666664" CtrlSet="QSET" CtrlSetVal="41.666666666666664" TSET="288.15" />
+    <Node Name="N06" Q="0" P="5619648.9574479433" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N07" Q="0" P="3989142.82690701" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N08" Q="69.444444444444443" P="3282658.6453128555" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="69.444444444444443" CtrlSet="QSET" CtrlSetVal="69.444444444444443" TSET="288.15" />
+    <Node Name="N09" Q="0" P="5965837.5448215911" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node xsi:type="GasLNGState" Name="N10" Q="-26.5785293587997" P="6101324.9999999991" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="6101324.9999999991" CtrlSet="PSET" CtrlSetVal="6101324.9999999991" TSET="288.15" INV="300000000" INVVES="0" VOLVES="0" />
+    <Node Name="N11" Q="5.5555555555555554" P="5518051.4115110366" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="5.5555555555555554" CtrlSet="QSET" CtrlSetVal="5.5555555555555554" TSET="288.15" />
+    <Node Name="N12" Q="0" P="3989142.82690701" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N13" Q="0" P="3275200.5771537023" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N14" Q="11.111111111111111" P="3078434.4937623586" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="11.111111111111111" CtrlSet="QSET" CtrlSetVal="11.111111111111111" TSET="288.15" />
+    <Node Name="N15" Q="5.39177864922563" P="3226812.1430892227" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="5.3917786492608046" CtrlSet="QSET" CtrlSetVal="5.3917786492608046" TSET="288.15" />
+    <Node Name="N16" Q="13.888888888888889" P="5699164.8767761961" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="13.888888888888889" CtrlSet="QSET" CtrlSetVal="13.888888888888889" TSET="288.15" />
+    <Node Name="N17" Q="0" P="3757522.553831521" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N18" Q="27.777777777777779" P="3608134.4353333376" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="27.777777777777779" CtrlSet="QSET" CtrlSetVal="27.777777777777779" TSET="288.15" />
+    <Node Name="N19" Q="0" P="3108038.8054567068" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
+    <Node Name="N20" Q="0.34588925124941922" P="3101324.9999999995" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PMIN" CtrlVal="3101324.9999999995" CtrlSet="QSET" CtrlSetVal="0.34588926033185841" TSET="288.15" />
+    <Node Name="N21" Q="7.9721322822171938" P="3105159.0854836013" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="7.9721322822641723" CtrlSet="QSET" CtrlSetVal="7.9721322822641723" TSET="288.15" />
+    <Node xsi:type="GasUGSState" Name="N22" Q="-19.444444444444443" P="3273430.9316857825" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="19.444444444444443" CtrlSet="QSET" CtrlSetVal="19.444444444444443" TSET="288.15" UGSState="WDR" INV="250000000" />
+    <Node Name="N23" Q="27.777777777777779" P="5802915.7866046848" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="27.777777777777779" CtrlSet="QSET" CtrlSetVal="27.777777777777779" TSET="288.15" />
+    <Node Name="N24" Q="41.666666666666664" P="2880891.8498698594" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="QSET" CtrlVal="41.666666666666664" CtrlSet="QSET" CtrlSetVal="41.666666666666664" TSET="288.15" />
   </Nodes>
   <Pipes>
-    <Pipe Name="Pi00" Q="192.26567436775366" T="288.15">
+    <Pipe Name="Pi00" Q="192.68682637944821" T="288.15">
       <QG>
-        <double>192.26567436775366</double>
-        <double>192.26567436775366</double>
-        <double>192.26567436775366</double>
-        <double>192.26567436775366</double>
+        <double>192.68682637944821</double>
+        <double>192.68682637944821</double>
+        <double>192.68682637944821</double>
+        <double>192.68682637944821</double>
       </QG>
       <PG>
-        <double>4930352.4202817706</double>
-        <double>4753233.9749618508</double>
-        <double>4569255.0216949964</double>
+        <double>4929622.71239425</double>
+        <double>4751720.048306874</double>
+        <double>4566892.4607888153</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -51,15 +51,15 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi01" Q="72.799435084604525" T="288.15">
+    <Pipe Name="Pi01" Q="72.8650391576547" T="288.15">
       <QG>
-        <double>72.799435084604525</double>
-        <double>72.799435084604525</double>
-        <double>72.799435084604525</double>
+        <double>72.8650391576547</double>
+        <double>72.8650391576547</double>
+        <double>72.8650391576547</double>
       </QG>
       <PG>
-        <double>4340604.8798671113</double>
-        <double>4303341.9292933382</double>
+        <double>4337240.8544256985</double>
+        <double>4299900.7406288777</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -70,15 +70,15 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi02" Q="119.46623928314887" T="288.15">
+    <Pipe Name="Pi02" Q="119.82178722179322" T="288.15">
       <QG>
-        <double>119.46623928314887</double>
-        <double>119.46623928314887</double>
-        <double>119.46623928314887</double>
+        <double>119.82178722179322</double>
+        <double>119.82178722179322</double>
+        <double>119.82178722179322</double>
       </QG>
       <PG>
-        <double>5814152.0540008349</double>
-        <double>5512037.8680175319</double>
+        <double>5812436.7996961642</double>
+        <double>5508418.6791945463</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -89,15 +89,15 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi03" Q="-20.951071628650972" T="288.15">
+    <Pipe Name="Pi03" Q="-21.022973803244156" T="288.15">
       <QG>
-        <double>-20.951071628650972</double>
-        <double>-20.951071628650972</double>
-        <double>-20.951071628650972</double>
+        <double>-21.022973803244156</double>
+        <double>-21.022973803244156</double>
+        <double>-21.022973803244156</double>
       </QG>
       <PG>
-        <double>5339499.0275897728</double>
-        <double>5482676.4377799882</double>
+        <double>5334863.8434740128</double>
+        <double>5479106.9816783126</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -114,7 +114,7 @@
         <double>5.5555555555555554</double>
       </QG>
       <PG>
-        <double>5571623.9779219776</double>
+        <double>5569081.871593589</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -123,13 +123,13 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi05" Q="-26.506627184206529" T="288.15">
+    <Pipe Name="Pi05" Q="-26.5785293587997" T="288.15">
       <QG>
-        <double>-26.506627184206529</double>
-        <double>-26.506627184206529</double>
+        <double>-26.5785293587997</double>
+        <double>-26.5785293587997</double>
       </QG>
       <PG>
-        <double>5866659.983873643</double>
+        <double>5865433.537283103</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -138,128 +138,17 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi06" Q="112.63953313402195" T="288.15">
+    <Pipe Name="Pi06" Q="113.06698324725977" T="288.15">
       <QG>
-        <double>112.63953313402195</double>
-        <double>112.63953313402195</double>
-        <double>112.63953313402195</double>
-        <double>112.63953313402195</double>
+        <double>113.06698324725977</double>
+        <double>113.06698324725977</double>
+        <double>113.06698324725977</double>
+        <double>113.06698324725977</double>
       </QG>
       <PG>
-        <double>4922949.0178041514</double>
-        <double>4637897.719217333</double>
-        <double>4334139.3004775243</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi07" Q="72.799435084604568" T="288.15">
-      <QG>
-        <double>72.799435084604568</double>
-        <double>72.799435084604568</double>
-      </QG>
-      <PG>
-        <double>6034130.222060822</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi08" Q="58.910546195715654" T="288.15">
-      <QG>
-        <double>58.910546195715654</double>
-        <double>58.910546195715654</double>
-      </QG>
-      <PG>
-        <double>5885423.8098632451</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi09" Q="31.132768417937925" T="288.15">
-      <QG>
-        <double>31.132768417937925</double>
-        <double>31.132768417937925</double>
-        <double>31.132768417937925</double>
-        <double>31.132768417937925</double>
-        <double>31.132768417937925</double>
-        <double>31.132768417937925</double>
-      </QG>
-      <PG>
-        <double>5428665.827358407</double>
-        <double>5025901.5912369462</double>
-        <double>4587914.6618553391</double>
-        <double>4103441.8582619531</double>
-        <double>3553520.6800869238</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi10" Q="-10.533898248728711" T="288.15">
-      <QG>
-        <double>-10.533898248728711</double>
-        <double>-10.533898248728711</double>
-        <double>-10.533898248728711</double>
-        <double>-10.533898248728711</double>
-        <double>-10.533898248728711</double>
-      </QG>
-      <PG>
-        <double>2984211.0908616944</double>
-        <double>3065003.8019828517</double>
-        <double>3143720.8491716827</double>
-        <double>3220514.4385430282</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi11" Q="8.9105461957157353" T="288.15">
-      <QG>
-        <double>8.9105461957157353</double>
-        <double>8.9105461957157353</double>
-        <double>8.9105461957157353</double>
-        <double>8.9105461957157353</double>
-      </QG>
-      <PG>
-        <double>3297940.7208984811</double>
-        <double>3300360.6283115917</double>
-        <double>3302778.7626872882</double>
+        <double>4914673.2829831485</double>
+        <double>4626780.2862033686</double>
+        <double>4319742.834374737</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -272,109 +161,51 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi12" Q="-60.533898248728711" T="288.15">
+    <Pipe Name="Pi07" Q="72.865039157654664" T="288.15">
       <QG>
-        <double>-60.533898248728711</double>
-        <double>-60.533898248728711</double>
-        <double>-60.533898248728711</double>
-        <double>-60.533898248728711</double>
+        <double>72.865039157654664</double>
+        <double>72.865039157654664</double>
       </QG>
       <PG>
-        <double>3429488.6906768614</double>
-        <double>3549432.42298736</double>
-        <double>3665453.3650324005</double>
+        <double>6033961.5662857806</double>
       </PG>
       <TG>
-        <double>288.15</double>
-        <double>288.15</double>
         <double>288.15</double>
       </TG>
       <PQual>
         <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi13" Q="14.952625385771267" T="288.15">
+    <Pipe Name="Pi08" Q="58.97615026876575" T="288.15">
       <QG>
-        <double>14.952625385771267</double>
-        <double>14.952625385771267</double>
-        <double>14.952625385771267</double>
-        <double>14.952625385771267</double>
-        <double>14.952625385771267</double>
+        <double>58.97615026876575</double>
+        <double>58.97615026876575</double>
       </QG>
       <PG>
-        <double>3880107.8124611871</double>
-        <double>3748471.8986112727</double>
-        <double>3612041.875869445</double>
-        <double>3470252.3613406736</double>
+        <double>5884940.4940759083</double>
       </PG>
       <TG>
-        <double>288.15</double>
-        <double>288.15</double>
-        <double>288.15</double>
         <double>288.15</double>
       </TG>
       <PQual>
         <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi14" Q="4.99261616744603" T="288.15">
+    <Pipe Name="Pi09" Q="31.198372490987936" T="288.15">
       <QG>
-        <double>4.99261616744603</double>
-        <double>4.99261616744603</double>
-        <double>4.99261616744603</double>
+        <double>31.198372490987936</double>
+        <double>31.198372490987936</double>
+        <double>31.198372490987936</double>
+        <double>31.198372490987936</double>
+        <double>31.198372490987936</double>
+        <double>31.198372490987936</double>
       </QG>
       <PG>
-        <double>3309821.9181459844</double>
-        <double>3297178.4710465013</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi15" Q="9.9600092183252116" T="288.15">
-      <QG>
-        <double>9.9600092183252116</double>
-        <double>9.9600092183252116</double>
-        <double>9.9600092183252116</double>
-      </QG>
-      <PG>
-        <double>3257301.8471128219</double>
-        <double>3190857.9185953457</double>
-      </PG>
-      <TG>
-        <double>288.15</double>
-        <double>288.15</double>
-      </TG>
-      <PQual>
-        <string>DEFAULT</string>
-        <string>DEFAULT</string>
-      </PQual>
-    </Pipe>
-    <Pipe Name="Pi16" Q="-1.15110189278588" T="288.15">
-      <QG>
-        <double>-1.15110189278588</double>
-        <double>-1.15110189278588</double>
-        <double>-1.15110189278588</double>
-        <double>-1.15110189278588</double>
-        <double>-1.15110189278588</double>
-        <double>-1.15110189278588</double>
-      </QG>
-      <PG>
-        <double>3126514.1898497944</double>
-        <double>3130023.7648528479</double>
-        <double>3133529.40910965</double>
-        <double>3137031.1357980734</double>
-        <double>3140528.9580225218</double>
+        <double>5426304.69691815</double>
+        <double>5021527.0288196309</double>
+        <double>4581122.6504576607</double>
+        <double>4093609.1381452554</double>
+        <double>3539574.3830687413</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -391,23 +222,192 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi17" Q="9.3752317217441075" T="288.15">
+    <Pipe Name="Pi10" Q="-10.468294175678727" T="288.15">
       <QG>
-        <double>9.3752317217441075</double>
-        <double>9.3752317217441075</double>
-        <double>9.3752317217441075</double>
-        <double>9.3752317217441075</double>
-        <double>9.3752317217441075</double>
-        <double>9.3752317217441075</double>
-        <double>9.3752317217441075</double>
+        <double>-10.468294175678727</double>
+        <double>-10.468294175678727</double>
+        <double>-10.468294175678727</double>
+        <double>-10.468294175678727</double>
+        <double>-10.468294175678727</double>
       </QG>
       <PG>
-        <double>3567613.4686448793</double>
-        <double>3502758.3930590777</double>
-        <double>3436679.6269997703</double>
-        <double>3369305.1742347036</double>
-        <double>3300555.6889127339</double>
-        <double>3230343.380215744</double>
+        <double>2963562.0954217771</double>
+        <double>3043987.9658426456</double>
+        <double>3122342.899005326</double>
+        <double>3198779.0829851185</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi11" Q="8.9761502687657142" T="288.15">
+      <QG>
+        <double>8.9761502687657142</double>
+        <double>8.9761502687657142</double>
+        <double>8.9761502687657142</double>
+        <double>8.9761502687657142</double>
+      </QG>
+      <PG>
+        <double>3275740.2970625963</double>
+        <double>3278048.035505618</double>
+        <double>3280354.1504485053</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi12" Q="-60.468294175678757" T="288.15">
+      <QG>
+        <double>-60.468294175678757</double>
+        <double>-60.468294175678757</double>
+        <double>-60.468294175678757</double>
+        <double>-60.468294175678757</double>
+      </QG>
+      <PG>
+        <double>3407584.1547749871</double>
+        <double>3528088.9674298032</double>
+        <double>3644611.605140694</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi13" Q="15.205497630076398" T="288.15">
+      <QG>
+        <double>15.205497630076398</double>
+        <double>15.205497630076398</double>
+        <double>15.205497630076398</double>
+        <double>15.205497630076398</double>
+        <double>15.205497630076398</double>
+      </QG>
+      <PG>
+        <double>3856941.2957534771</double>
+        <double>3720044.5997747621</double>
+        <double>3577913.8460474741</double>
+        <double>3429898.4176157587</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi14" Q="5.39177864922563" T="288.15">
+      <QG>
+        <double>5.39177864922563</double>
+        <double>5.39177864922563</double>
+        <double>5.39177864922563</double>
+      </QG>
+      <PG>
+        <double>3259150.9246000433</double>
+        <double>3243021.8435981418</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi15" Q="9.8137189808507514" T="288.15">
+      <QG>
+        <double>9.8137189808507514</double>
+        <double>9.8137189808507514</double>
+        <double>9.8137189808507514</double>
+      </QG>
+      <PG>
+        <double>3210951.9135588538</double>
+        <double>3145391.1619680291</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi16" Q="-1.2973921302603573" T="288.15">
+      <QG>
+        <double>-1.2973921302603573</double>
+        <double>-1.2973921302603573</double>
+        <double>-1.2973921302603573</double>
+        <double>-1.2973921302603573</double>
+        <double>-1.2973921302603573</double>
+        <double>-1.2973921302603573</double>
+      </QG>
+      <PG>
+        <double>3082261.3835070981</double>
+        <double>3086083.5277309446</double>
+        <double>3089900.9440442347</double>
+        <double>3093713.6499486561</double>
+        <double>3097521.6628381819</double>
+      </PG>
+      <TG>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+        <double>288.15</double>
+      </TG>
+      <PQual>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+        <string>DEFAULT</string>
+      </PQual>
+    </Pipe>
+    <Pipe Name="Pi17" Q="9.6154136637268959" T="288.15">
+      <QG>
+        <double>9.6154136637268959</double>
+        <double>9.6154136637268959</double>
+        <double>9.6154136637268959</double>
+        <double>9.6154136637268959</double>
+        <double>9.6154136637268959</double>
+        <double>9.6154136637268959</double>
+        <double>9.6154136637268959</double>
+      </QG>
+      <PG>
+        <double>3541019.0187259875</double>
+        <double>3472606.6979316976</double>
+        <double>3402819.25262877</double>
+        <double>3331570.2684472906</double>
+        <double>3258763.8823859096</double>
+        <double>3184293.2698926805</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -426,17 +426,17 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi18" Q="2.31723695975784" T="288.15">
+    <Pipe Name="Pi18" Q="1.6432813815097411" T="288.15">
       <QG>
-        <double>2.31723695975784</double>
-        <double>2.31723695975784</double>
-        <double>2.31723695975784</double>
-        <double>2.31723695975784</double>
+        <double>1.6432813815097411</double>
+        <double>1.6432813815097411</double>
+        <double>1.6432813815097411</double>
+        <double>1.6432813815097411</double>
       </QG>
       <PG>
-        <double>3154940.0344209769</double>
-        <double>3151305.1881706608</double>
-        <double>3147666.1444934746</double>
+        <double>3106361.7144619222</double>
+        <double>3104683.7175346664</double>
+        <double>3103004.8132052482</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -449,15 +449,15 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi19" Q="7.05799476198626" T="288.15">
+    <Pipe Name="Pi19" Q="7.9721322822171938" T="288.15">
       <QG>
-        <double>7.05799476198626</double>
-        <double>7.05799476198626</double>
-        <double>7.05799476198626</double>
+        <double>7.9721322822171938</double>
+        <double>7.9721322822171938</double>
+        <double>7.9721322822171938</double>
       </QG>
       <PG>
-        <double>3158192.8979033707</double>
-        <double>3157815.0528714368</double>
+        <double>3107079.1953543155</double>
+        <double>3106119.2887882604</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -476,9 +476,9 @@
         <double>13.888888888888889</double>
       </QG>
       <PG>
-        <double>5900644.6754370164</double>
-        <double>5834374.5897547463</double>
-        <double>5767343.0729746344</double>
+        <double>5900299.4230438881</double>
+        <double>5834025.1072429549</double>
+        <double>5766989.2164204977</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -491,17 +491,17 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi21" Q="97.6869077482506" T="288.15">
+    <Pipe Name="Pi21" Q="97.861485617183035" T="288.15">
       <QG>
-        <double>97.6869077482506</double>
-        <double>97.6869077482506</double>
-        <double>97.6869077482506</double>
-        <double>97.6869077482506</double>
+        <double>97.861485617183035</double>
+        <double>97.861485617183035</double>
+        <double>97.861485617183035</double>
+        <double>97.861485617183035</double>
       </QG>
       <PG>
-        <double>3951294.765991257</double>
-        <double>3894358.6066942434</double>
-        <double>3836577.5878140605</double>
+        <double>3932516.9174125465</double>
+        <double>3875063.6276076939</double>
+        <double>3816745.5941260126</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -514,15 +514,15 @@
         <string>DEFAULT</string>
       </PQual>
     </Pipe>
-    <Pipe Name="Pi22" Q="37.153009499521886" T="288.15">
+    <Pipe Name="Pi22" Q="37.393191441504655" T="288.15">
       <QG>
-        <double>37.153009499521886</double>
-        <double>37.153009499521886</double>
-        <double>37.153009499521886</double>
+        <double>37.393191441504655</double>
+        <double>37.393191441504655</double>
+        <double>37.393191441504655</double>
       </QG>
       <PG>
-        <double>3729685.7685944731</double>
-        <double>3680826.7614506818</double>
+        <double>3708395.2319272971</double>
+        <double>3658608.2941208212</double>
       </PG>
       <TG>
         <double>288.15</double>
@@ -535,9 +535,9 @@
     </Pipe>
   </Pipes>
   <Compressors>
-    <Compressor Name="CS0" Q="119.46623928314887" Ctrl="POSET" CtrlVal="6101324.9999999991" CtrlSet="POSET" CtrlSetVal="6101324.9999999991" RevFlowState="OFF" />
-    <Compressor Name="CS1" Q="72.799435084604568" Ctrl="POSET" CtrlVal="6101324.9999999991" CtrlSet="POSET" CtrlSetVal="6101324.9999999991" RevFlowState="OFF" />
-    <Compressor Name="CS2" Q="112.63953313402199" Ctrl="BP" CtrlVal="0" CtrlSet="BP" CtrlSetVal="NaN" RevFlowState="OFF" />
+    <Compressor Name="CS0" Q="119.82178722179322" Ctrl="POSET" CtrlVal="6101324.9999999991" CtrlSet="POSET" CtrlSetVal="6101324.9999999991" RevFlowState="OFF" />
+    <Compressor Name="CS1" Q="72.865039157654664" Ctrl="POSET" CtrlVal="6101324.9999999991" CtrlSet="POSET" CtrlSetVal="6101324.9999999991" RevFlowState="OFF" />
+    <Compressor Name="CS2" Q="113.0669832472598" Ctrl="BP" CtrlVal="0" CtrlSet="BP" CtrlSetVal="NaN" RevFlowState="OFF" />
   </Compressors>
   <Regulators />
   <Valves />

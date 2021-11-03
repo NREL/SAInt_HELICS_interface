@@ -8,237 +8,211 @@
 // the SWIG interface file instead.
 //------------------------------------------------------------------------------
 
-namespace gmlc {
 
-public enum helics_core_type {
-  helics_core_type_default = 0,
-  helics_core_type_zmq = 1,
-  helics_core_type_mpi = 2,
-  helics_core_type_test = 3,
-  helics_core_type_interprocess = 4,
-  helics_core_type_ipc = 5,
-  helics_core_type_tcp = 6,
-  helics_core_type_udp = 7,
-  helics_core_type_zmq_test = 10,
-  helics_core_type_nng = 9,
-  helics_core_type_tcp_ss = 11,
-  helics_core_type_http = 12,
-  helics_core_type_websocket = 14,
-  helics_core_type_inproc = 18,
-  helics_core_type_null = 66
+public enum HelicsCoreTypes {
+  HELICS_CORE_TYPE_DEFAULT = 0,
+  HELICS_CORE_TYPE_ZMQ = 1,
+  HELICS_CORE_TYPE_MPI = 2,
+  HELICS_CORE_TYPE_TEST = 3,
+  HELICS_CORE_TYPE_INTERPROCESS = 4,
+  HELICS_CORE_TYPE_IPC = 5,
+  HELICS_CORE_TYPE_TCP = 6,
+  HELICS_CORE_TYPE_UDP = 7,
+  HELICS_CORE_TYPE_ZMQ_SS = 10,
+  HELICS_CORE_TYPE_NNG = 9,
+  HELICS_CORE_TYPE_TCP_SS = 11,
+  HELICS_CORE_TYPE_HTTP = 12,
+  HELICS_CORE_TYPE_WEBSOCKET = 14,
+  HELICS_CORE_TYPE_INPROC = 18,
+  HELICS_CORE_TYPE_NULL = 66
 }
 
-}
-namespace gmlc {
-
-public enum helics_data_type {
-  helics_data_type_string = 0,
-  helics_data_type_double = 1,
-  helics_data_type_int = 2,
-  helics_data_type_complex = 3,
-  helics_data_type_vector = 4,
-  helics_data_type_complex_vector = 5,
-  helics_data_type_named_point = 6,
-  helics_data_type_boolean = 7,
-  helics_data_type_time = 8,
-  helics_data_type_raw = 25,
-  helics_data_type_multi = 33,
-  helics_data_type_any = 25262
+public enum HelicsDataTypes {
+  HELICS_DATA_TYPE_STRING = 0,
+  HELICS_DATA_TYPE_DOUBLE = 1,
+  HELICS_DATA_TYPE_INT = 2,
+  HELICS_DATA_TYPE_COMPLEX = 3,
+  HELICS_DATA_TYPE_VECTOR = 4,
+  HELICS_DATA_TYPE_COMPLEX_VECTOR = 5,
+  HELICS_DATA_TYPE_NAMED_POINT = 6,
+  HELICS_DATA_TYPE_BOOLEAN = 7,
+  HELICS_DATA_TYPE_TIME = 8,
+  HELICS_DATA_TYPE_RAW = 25,
+  HELICS_DATA_TYPE_JSON = 30,
+  HELICS_DATA_TYPE_MULTI = 33,
+  HELICS_DATA_TYPE_ANY = 25262
 }
 
-}
-namespace gmlc {
-
-public enum helics_federate_flags {
-  helics_flag_observer = 0,
-  helics_flag_uninterruptible = 1,
-  helics_flag_interruptible = 2,
-  helics_flag_source_only = 4,
-  helics_flag_only_transmit_on_change = 6,
-  helics_flag_only_update_on_change = 8,
-  helics_flag_wait_for_current_time_update = 10,
-  helics_flag_restrictive_time_policy = 11,
-  helics_flag_rollback = 12,
-  helics_flag_forward_compute = 14,
-  helics_flag_realtime = 16,
-  helics_flag_single_thread_federate = 27,
-  helics_flag_ignore_time_mismatch_warnings = 67,
-  helics_flag_strict_config_checking = 75
-}
-
-}
-namespace gmlc {
-
-public enum helics_core_flags {
-  helics_flag_delay_init_entry = 45,
-  helics_flag_enable_init_entry = 47
+public enum HelicsFederateFlags {
+  HELICS_FLAG_OBSERVER = 0,
+  HELICS_FLAG_UNINTERRUPTIBLE = 1,
+  HELICS_FLAG_INTERRUPTIBLE = 2,
+  HELICS_FLAG_SOURCE_ONLY = 4,
+  HELICS_FLAG_ONLY_TRANSMIT_ON_CHANGE = 6,
+  HELICS_FLAG_ONLY_UPDATE_ON_CHANGE = 8,
+  HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE = 10,
+  HELICS_FLAG_RESTRICTIVE_TIME_POLICY = 11,
+  HELICS_FLAG_ROLLBACK = 12,
+  HELICS_FLAG_FORWARD_COMPUTE = 14,
+  HELICS_FLAG_REALTIME = 16,
+  HELICS_FLAG_SINGLE_THREAD_FEDERATE = 27,
+  HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS = 67,
+  HELICS_FLAG_STRICT_CONFIG_CHECKING = 75,
+  HELICS_FLAG_USE_JSON_SERIALIZATION = 79,
+  HELICS_FLAG_EVENT_TRIGGERED = 81,
+  HELICS_FLAG_LOCAL_PROFILING_CAPTURE = 96
 }
 
-}
-namespace gmlc {
-
-public enum helics_flags {
-  helics_flag_slow_responding = 29,
-  helics_flag_debugging = 31,
-  helics_flag_terminate_on_error = 72,
-  helics_flag_force_logging_flush = 88,
-  helics_flag_dumplog = 89
+public enum HelicsCoreFlags {
+  HELICS_FLAG_DELAY_INIT_ENTRY = 45,
+  HELICS_FLAG_ENABLE_INIT_ENTRY = 47,
+  HELICS_FLAG_IGNORE = 999
 }
 
-}
-namespace gmlc {
-
-public enum helics_log_levels {
-  helics_log_level_no_print = -1,
-  helics_log_level_error = 0,
-  helics_log_level_warning = 1,
-  helics_log_level_summary = 2,
-  helics_log_level_connections = 3,
-  helics_log_level_interfaces = 4,
-  helics_log_level_timing = 5,
-  helics_log_level_data = 6,
-  helics_log_level_trace = 7
+public enum HelicsFlags {
+  HELICS_FLAG_SLOW_RESPONDING = 29,
+  HELICS_FLAG_DEBUGGING = 31,
+  HELICS_FLAG_TERMINATE_ON_ERROR = 72,
+  HELICS_FLAG_FORCE_LOGGING_FLUSH = 88,
+  HELICS_FLAG_DUMPLOG = 89,
+  HELICS_FLAG_PROFILING = 93,
+  HELICS_FLAG_PROFILING_MARKER = 95
 }
 
-}
-namespace gmlc {
-
-public enum helics_error_types {
-  helics_error_fatal = -404,
-  helics_error_external_type = -203,
-  helics_error_other = -101,
-  helics_error_insufficient_space = -18,
-  helics_error_execution_failure = -14,
-  helics_error_invalid_function_call = -10,
-  helics_error_invalid_state_transition = -9,
-  helics_warning = -8,
-  helics_error_system_failure = -6,
-  helics_error_discard = -5,
-  helics_error_invalid_argument = -4,
-  helics_error_invalid_object = -3,
-  helics_error_connection_failure = -2,
-  helics_error_registration_failure = -1,
-  helics_ok = 0
+public enum HelicsLogLevels {
+  HELICS_LOG_LEVEL_NO_PRINT = -4,
+  HELICS_LOG_LEVEL_ERROR = 0,
+  HELICS_LOG_LEVEL_PROFILING = 2,
+  HELICS_LOG_LEVEL_WARNING = 3,
+  HELICS_LOG_LEVEL_SUMMARY = 6,
+  HELICS_LOG_LEVEL_CONNECTIONS = 9,
+  HELICS_LOG_LEVEL_INTERFACES = 12,
+  HELICS_LOG_LEVEL_TIMING = 15,
+  HELICS_LOG_LEVEL_DATA = 18,
+  HELICS_LOG_LEVEL_DEBUG = 21,
+  HELICS_LOG_LEVEL_TRACE = 24
 }
 
-}
-namespace gmlc {
-
-public enum helics_properties {
-  helics_property_time_delta = 137,
-  helics_property_time_period = 140,
-  helics_property_time_offset = 141,
-  helics_property_time_rt_lag = 143,
-  helics_property_time_rt_lead = 144,
-  helics_property_time_rt_tolerance = 145,
-  helics_property_time_input_delay = 148,
-  helics_property_time_output_delay = 150,
-  helics_property_int_max_iterations = 259,
-  helics_property_int_log_level = 271,
-  helics_property_int_file_log_level = 272,
-  helics_property_int_console_log_level = 274
-}
-
-}
-namespace gmlc {
-
-public enum helics_multi_input_mode {
-  helics_multi_input_no_op = 0,
-  helics_multi_input_vectorize_operation = 1,
-  helics_multi_input_and_operation = 2,
-  helics_multi_input_or_operation = 3,
-  helics_multi_input_sum_operation = 4,
-  helics_multi_input_diff_operation = 5,
-  helics_multi_input_max_operation = 6,
-  helics_multi_input_min_operation = 7,
-  helics_multi_input_average_operation = 8
+public enum HelicsErrorTypes {
+  HELICS_ERROR_FATAL = -404,
+  HELICS_ERROR_EXTERNAL_TYPE = -203,
+  HELICS_ERROR_OTHER = -101,
+  HELICS_ERROR_USER_ABORT = -27,
+  HELICS_ERROR_INSUFFICIENT_SPACE = -18,
+  HELICS_ERROR_EXECUTION_FAILURE = -14,
+  HELICS_ERROR_INVALID_FUNCTION_CALL = -10,
+  HELICS_ERROR_INVALID_STATE_TRANSITION = -9,
+  HELICS_WARNING = -8,
+  HELICS_ERROR_SYSTEM_FAILURE = -6,
+  HELICS_ERROR_DISCARD = -5,
+  HELICS_ERROR_INVALID_ARGUMENT = -4,
+  HELICS_ERROR_INVALID_OBJECT = -3,
+  HELICS_ERROR_CONNECTION_FAILURE = -2,
+  HELICS_ERROR_REGISTRATION_FAILURE = -1,
+  HELICS_OK = 0
 }
 
-}
-namespace gmlc {
-
-public enum helics_handle_options {
-  helics_handle_option_connection_required = 397,
-  helics_handle_option_connection_optional = 402,
-  helics_handle_option_single_connection_only = 407,
-  helics_handle_option_multiple_connections_allowed = 409,
-  helics_handle_option_buffer_data = 411,
-  helics_handle_option_strict_type_checking = 414,
-  helics_handle_option_ignore_unit_mismatch = 447,
-  helics_handle_option_only_transmit_on_change = 452,
-  helics_handle_option_only_update_on_change = 454,
-  helics_handle_option_ignore_interrupts = 475,
-  helics_handle_option_multi_input_handling_method = 507,
-  helics_handle_option_input_priority_location = 510,
-  helics_handle_option_clear_priority_list = 512,
-  helics_handle_option_connections = 522
+public enum HelicsProperties {
+  HELICS_PROPERTY_TIME_DELTA = 137,
+  HELICS_PROPERTY_TIME_PERIOD = 140,
+  HELICS_PROPERTY_TIME_OFFSET = 141,
+  HELICS_PROPERTY_TIME_RT_LAG = 143,
+  HELICS_PROPERTY_TIME_RT_LEAD = 144,
+  HELICS_PROPERTY_TIME_RT_TOLERANCE = 145,
+  HELICS_PROPERTY_TIME_INPUT_DELAY = 148,
+  HELICS_PROPERTY_TIME_OUTPUT_DELAY = 150,
+  HELICS_PROPERTY_INT_MAX_ITERATIONS = 259,
+  HELICS_PROPERTY_INT_LOG_LEVEL = 271,
+  HELICS_PROPERTY_INT_FILE_LOG_LEVEL = 272,
+  HELICS_PROPERTY_INT_CONSOLE_LOG_LEVEL = 274
 }
 
-}
-namespace gmlc {
-
-public enum helics_filter_type {
-  helics_filter_type_custom = 0,
-  helics_filter_type_delay = 1,
-  helics_filter_type_random_delay = 2,
-  helics_filter_type_random_drop = 3,
-  helics_filter_type_reroute = 4,
-  helics_filter_type_clone = 5,
-  helics_filter_type_firewall = 6
-}
-
-}
-namespace gmlc {
-
-public enum helics_iteration_request {
-  helics_iteration_request_no_iteration,
-  helics_iteration_request_force_iteration,
-  helics_iteration_request_iterate_if_needed
+public enum HelicsMultiInputModes {
+  HELICS_MULTI_INPUT_NO_OP = 0,
+  HELICS_MULTI_INPUT_VECTORIZE_OPERATION = 1,
+  HELICS_MULTI_INPUT_AND_OPERATION = 2,
+  HELICS_MULTI_INPUT_OR_OPERATION = 3,
+  HELICS_MULTI_INPUT_SUM_OPERATION = 4,
+  HELICS_MULTI_INPUT_DIFF_OPERATION = 5,
+  HELICS_MULTI_INPUT_MAX_OPERATION = 6,
+  HELICS_MULTI_INPUT_MIN_OPERATION = 7,
+  HELICS_MULTI_INPUT_AVERAGE_OPERATION = 8
 }
 
-}
-namespace gmlc {
-
-public enum helics_iteration_result {
-  helics_iteration_result_next_step,
-  helics_iteration_result_error,
-  helics_iteration_result_halted,
-  helics_iteration_result_iterating
-}
-
-}
-namespace gmlc {
-
-public enum helics_federate_state {
-  helics_state_startup = 0,
-  helics_state_initialization,
-  helics_state_execution,
-  helics_state_finalize,
-  helics_state_error,
-  helics_state_pending_init,
-  helics_state_pending_exec,
-  helics_state_pending_time,
-  helics_state_pending_iterative_time,
-  helics_state_pending_finalize
+public enum HelicsHandleOptions {
+  HELICS_HANDLE_OPTION_CONNECTION_REQUIRED = 397,
+  HELICS_HANDLE_OPTION_CONNECTION_OPTIONAL = 402,
+  HELICS_HANDLE_OPTION_SINGLE_CONNECTION_ONLY = 407,
+  HELICS_HANDLE_OPTION_MULTIPLE_CONNECTIONS_ALLOWED = 409,
+  HELICS_HANDLE_OPTION_BUFFER_DATA = 411,
+  HELICS_HANDLE_OPTION_STRICT_TYPE_CHECKING = 414,
+  HELICS_HANDLE_OPTION_IGNORE_UNIT_MISMATCH = 447,
+  HELICS_HANDLE_OPTION_ONLY_TRANSMIT_ON_CHANGE = 452,
+  HELICS_HANDLE_OPTION_ONLY_UPDATE_ON_CHANGE = 454,
+  HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS = 475,
+  HELICS_HANDLE_OPTION_MULTI_INPUT_HANDLING_METHOD = 507,
+  HELICS_HANDLE_OPTION_INPUT_PRIORITY_LOCATION = 510,
+  HELICS_HANDLE_OPTION_CLEAR_PRIORITY_LIST = 512,
+  HELICS_HANDLE_OPTION_CONNECTIONS = 522
 }
 
+public enum HelicsFilterTypes {
+  HELICS_FILTER_TYPE_CUSTOM = 0,
+  HELICS_FILTER_TYPE_DELAY = 1,
+  HELICS_FILTER_TYPE_RANDOM_DELAY = 2,
+  HELICS_FILTER_TYPE_RANDOM_DROP = 3,
+  HELICS_FILTER_TYPE_REROUTE = 4,
+  HELICS_FILTER_TYPE_CLONE = 5,
+  HELICS_FILTER_TYPE_FIREWALL = 6
 }
-namespace gmlc {
 
-public class helics_complex : global::System.IDisposable {
+public enum HelicsSequencingModes {
+  HELICS_SEQUENCING_MODE_FAST = 0,
+  HELICS_SEQUENCING_MODE_ORDERED = 1,
+  HELICS_SEQUENCING_MODE_DEFAULT = 2
+}
+
+public enum HelicsIterationRequest {
+  HELICS_ITERATION_REQUEST_NO_ITERATION = 0,
+  HELICS_ITERATION_REQUEST_FORCE_ITERATION = 1,
+  HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED = 2
+}
+
+public enum HelicsIterationResult {
+  HELICS_ITERATION_RESULT_NEXT_STEP = 0,
+  HELICS_ITERATION_RESULT_ERROR = 1,
+  HELICS_ITERATION_RESULT_HALTED = 2,
+  HELICS_ITERATION_RESULT_ITERATING = 3
+}
+
+public enum HelicsFederateState {
+  HELICS_STATE_STARTUP = 0,
+  HELICS_STATE_INITIALIZATION = 1,
+  HELICS_STATE_EXECUTION = 2,
+  HELICS_STATE_FINALIZE = 3,
+  HELICS_STATE_ERROR = 4,
+  HELICS_STATE_PENDING_INIT = 5,
+  HELICS_STATE_PENDING_EXEC = 6,
+  HELICS_STATE_PENDING_TIME = 7,
+  HELICS_STATE_PENDING_ITERATIVE_TIME = 8,
+  HELICS_STATE_PENDING_FINALIZE = 9,
+  HELICS_STATE_FINISHED = 10
+}
+
+public class HelicsComplex : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal helics_complex(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal HelicsComplex(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(helics_complex obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(HelicsComplex obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~helics_complex() {
+  ~HelicsComplex() {
     Dispose(false);
   }
 
@@ -252,7 +226,7 @@ public class helics_complex : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          helicsPINVOKE.delete_helics_complex(swigCPtr);
+          helicsPINVOKE.delete_HelicsComplex(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
@@ -261,167 +235,28 @@ public class helics_complex : global::System.IDisposable {
 
   public double real {
     set {
-      helicsPINVOKE.helics_complex_real_set(swigCPtr, value);
+      helicsPINVOKE.HelicsComplex_real_set(swigCPtr, value);
     } 
     get {
-      double ret = helicsPINVOKE.helics_complex_real_get(swigCPtr);
+      double ret = helicsPINVOKE.HelicsComplex_real_get(swigCPtr);
       return ret;
     } 
   }
 
   public double imag {
     set {
-      helicsPINVOKE.helics_complex_imag_set(swigCPtr, value);
+      helicsPINVOKE.HelicsComplex_imag_set(swigCPtr, value);
     } 
     get {
-      double ret = helicsPINVOKE.helics_complex_imag_get(swigCPtr);
+      double ret = helicsPINVOKE.HelicsComplex_imag_get(swigCPtr);
       return ret;
     } 
   }
 
-  public helics_complex() : this(helicsPINVOKE.new_helics_complex(), true) {
+  public HelicsComplex() : this(helicsPINVOKE.new_HelicsComplex(), true) {
   }
 
 }
-
-}
-namespace gmlc {
-
-public class helics_message : global::System.IDisposable {
-  private global::System.Runtime.InteropServices.HandleRef swigCPtr;
-  protected bool swigCMemOwn;
-
-  internal helics_message(global::System.IntPtr cPtr, bool cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
-  }
-
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(helics_message obj) {
-    return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
-  }
-
-  ~helics_message() {
-    Dispose(false);
-  }
-
-  public void Dispose() {
-    Dispose(true);
-    global::System.GC.SuppressFinalize(this);
-  }
-
-  protected virtual void Dispose(bool disposing) {
-    lock(this) {
-      if (swigCPtr.Handle != global::System.IntPtr.Zero) {
-        if (swigCMemOwn) {
-          swigCMemOwn = false;
-          helicsPINVOKE.delete_helics_message(swigCPtr);
-        }
-        swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
-      }
-    }
-  }
-
-  public double time {
-    set {
-      helicsPINVOKE.helics_message_time_set(swigCPtr, value);
-    } 
-    get {
-      double ret = helicsPINVOKE.helics_message_time_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public string data {
-    set {
-      helicsPINVOKE.helics_message_data_set(swigCPtr, value);
-    } 
-    get {
-      string ret = helicsPINVOKE.helics_message_data_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public long length {
-    set {
-      helicsPINVOKE.helics_message_length_set(swigCPtr, value);
-    } 
-    get {
-      long ret = helicsPINVOKE.helics_message_length_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public SWIGTYPE_p_int32_t messageID {
-    set {
-      helicsPINVOKE.helics_message_messageID_set(swigCPtr, SWIGTYPE_p_int32_t.getCPtr(value));
-      if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helics_message_messageID_get(swigCPtr), true);
-      if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
-  public SWIGTYPE_p_int16_t flags {
-    set {
-      helicsPINVOKE.helics_message_flags_set(swigCPtr, SWIGTYPE_p_int16_t.getCPtr(value));
-      if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
-    } 
-    get {
-      SWIGTYPE_p_int16_t ret = new SWIGTYPE_p_int16_t(helicsPINVOKE.helics_message_flags_get(swigCPtr), true);
-      if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
-      return ret;
-    } 
-  }
-
-  public string original_source {
-    set {
-      helicsPINVOKE.helics_message_original_source_set(swigCPtr, value);
-    } 
-    get {
-      string ret = helicsPINVOKE.helics_message_original_source_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public string source {
-    set {
-      helicsPINVOKE.helics_message_source_set(swigCPtr, value);
-    } 
-    get {
-      string ret = helicsPINVOKE.helics_message_source_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public string dest {
-    set {
-      helicsPINVOKE.helics_message_dest_set(swigCPtr, value);
-    } 
-    get {
-      string ret = helicsPINVOKE.helics_message_dest_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public string original_dest {
-    set {
-      helicsPINVOKE.helics_message_original_dest_set(swigCPtr, value);
-    } 
-    get {
-      string ret = helicsPINVOKE.helics_message_original_dest_get(swigCPtr);
-      return ret;
-    } 
-  }
-
-  public helics_message() : this(helicsPINVOKE.new_helics_message(), true) {
-  }
-
-}
-
-}
-namespace gmlc {
 
 class helicsPINVOKE {
 
@@ -606,1015 +441,1065 @@ class helicsPINVOKE {
   }
 
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_time_zero_get")]
-  public static extern double helics_time_zero_get();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_INVALID_OPTION_INDEX_get")]
+  public static extern int HELICS_INVALID_OPTION_INDEX_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_time_epsilon_get")]
-  public static extern double helics_time_epsilon_get();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_INVALID_PROPERTY_VALUE_get")]
+  public static extern int HELICS_INVALID_PROPERTY_VALUE_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_time_invalid_get")]
-  public static extern double helics_time_invalid_get();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_TIME_ZERO_get")]
+  public static extern double HELICS_TIME_ZERO_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_time_maxtime_get")]
-  public static extern double helics_time_maxtime_get();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_TIME_EPSILON_get")]
+  public static extern double HELICS_TIME_EPSILON_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_true_get")]
-  public static extern int helics_true_get();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_TIME_INVALID_get")]
+  public static extern double HELICS_TIME_INVALID_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_false_get")]
-  public static extern int helics_false_get();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_TIME_MAXTIME_get")]
+  public static extern double HELICS_TIME_MAXTIME_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_complex_real_set")]
-  public static extern void helics_complex_real_set(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_TRUE_get")]
+  public static extern int HELICS_TRUE_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_complex_real_get")]
-  public static extern double helics_complex_real_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HELICS_FALSE_get")]
+  public static extern int HELICS_FALSE_get();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_complex_imag_set")]
-  public static extern void helics_complex_imag_set(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HelicsComplex_real_set")]
+  public static extern void HelicsComplex_real_set(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_complex_imag_get")]
-  public static extern double helics_complex_imag_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HelicsComplex_real_get")]
+  public static extern double HelicsComplex_real_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_new_helics_complex")]
-  public static extern global::System.IntPtr new_helics_complex();
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HelicsComplex_imag_set")]
+  public static extern void HelicsComplex_imag_set(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_delete_helics_complex")]
-  public static extern void delete_helics_complex(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_HelicsComplex_imag_get")]
+  public static extern double HelicsComplex_imag_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_time_set")]
-  public static extern void helics_message_time_set(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_new_HelicsComplex")]
+  public static extern global::System.IntPtr new_HelicsComplex();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_time_get")]
-  public static extern double helics_message_time_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_delete_HelicsComplex")]
+  public static extern void delete_HelicsComplex(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_data_set")]
-  public static extern void helics_message_data_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_data_get")]
-  public static extern string helics_message_data_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_length_set")]
-  public static extern void helics_message_length_set(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_length_get")]
-  public static extern long helics_message_length_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_messageID_set")]
-  public static extern void helics_message_messageID_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_messageID_get")]
-  public static extern global::System.IntPtr helics_message_messageID_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_flags_set")]
-  public static extern void helics_message_flags_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_flags_get")]
-  public static extern global::System.IntPtr helics_message_flags_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_original_source_set")]
-  public static extern void helics_message_original_source_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_original_source_get")]
-  public static extern string helics_message_original_source_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_source_set")]
-  public static extern void helics_message_source_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_source_get")]
-  public static extern string helics_message_source_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_dest_set")]
-  public static extern void helics_message_dest_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_dest_get")]
-  public static extern string helics_message_dest_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_original_dest_set")]
-  public static extern void helics_message_original_dest_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helics_message_original_dest_get")]
-  public static extern string helics_message_original_dest_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_new_helics_message")]
-  public static extern global::System.IntPtr new_helics_message();
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_delete_helics_message")]
-  public static extern void delete_helics_message(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetVersion")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetVersion")]
   public static extern string helicsGetVersion();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetBuildFlags")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetBuildFlags")]
   public static extern string helicsGetBuildFlags();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetCompilerVersion")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetCompilerVersion")]
   public static extern string helicsGetCompilerVersion();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsIsCoreTypeAvailable")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsLoadSignalHandler")]
+  public static extern void helicsLoadSignalHandler();
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsClearSignalHandler")]
+  public static extern void helicsClearSignalHandler();
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsAbort")]
+  public static extern void helicsAbort(int jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsIsCoreTypeAvailable")]
   public static extern int helicsIsCoreTypeAvailable(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateCore")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateCore")]
   public static extern global::System.IntPtr helicsCreateCore(string jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateCoreFromArgs")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateCoreFromArgs")]
   public static extern global::System.IntPtr helicsCreateCoreFromArgs(string jarg1, string jarg2, int jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreClone")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreClone")]
   public static extern global::System.IntPtr helicsCoreClone(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreIsValid")]
   public static extern int helicsCoreIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateBroker")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateBroker")]
   public static extern global::System.IntPtr helicsCreateBroker(string jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateBrokerFromArgs")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateBrokerFromArgs")]
   public static extern global::System.IntPtr helicsCreateBrokerFromArgs(string jarg1, string jarg2, int jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerClone")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerClone")]
   public static extern global::System.IntPtr helicsBrokerClone(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerIsValid")]
   public static extern int helicsBrokerIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerIsConnected")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerIsConnected")]
   public static extern int helicsBrokerIsConnected(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerDataLink")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerDataLink")]
   public static extern void helicsBrokerDataLink(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerAddSourceFilterToEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerAddSourceFilterToEndpoint")]
   public static extern void helicsBrokerAddSourceFilterToEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerAddDestinationFilterToEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerAddDestinationFilterToEndpoint")]
   public static extern void helicsBrokerAddDestinationFilterToEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerMakeConnections")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerMakeConnections")]
   public static extern void helicsBrokerMakeConnections(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreWaitForDisconnect")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreWaitForDisconnect")]
   public static extern int helicsCoreWaitForDisconnect(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerWaitForDisconnect")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerWaitForDisconnect")]
   public static extern int helicsBrokerWaitForDisconnect(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreIsConnected")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreIsConnected")]
   public static extern int helicsCoreIsConnected(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreDataLink")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreDataLink")]
   public static extern void helicsCoreDataLink(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreAddSourceFilterToEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreAddSourceFilterToEndpoint")]
   public static extern void helicsCoreAddSourceFilterToEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreAddDestinationFilterToEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreAddDestinationFilterToEndpoint")]
   public static extern void helicsCoreAddDestinationFilterToEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreMakeConnections")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreMakeConnections")]
   public static extern void helicsCoreMakeConnections(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerGetIdentifier")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerGetIdentifier")]
   public static extern string helicsBrokerGetIdentifier(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreGetIdentifier")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreGetIdentifier")]
   public static extern string helicsCoreGetIdentifier(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerGetAddress")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerGetAddress")]
   public static extern string helicsBrokerGetAddress(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreGetAddress")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreGetAddress")]
   public static extern string helicsCoreGetAddress(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreSetReadyToInit")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreSetReadyToInit")]
   public static extern void helicsCoreSetReadyToInit(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreConnect")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreConnect")]
   public static extern int helicsCoreConnect(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreDisconnect")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreDisconnect")]
   public static extern void helicsCoreDisconnect(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetFederateByName")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetFederateByName")]
   public static extern global::System.IntPtr helicsGetFederateByName(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerDisconnect")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerDisconnect")]
   public static extern void helicsBrokerDisconnect(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateDestroy")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateDestroy")]
   public static extern void helicsFederateDestroy(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerDestroy")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerDestroy")]
   public static extern void helicsBrokerDestroy(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreDestroy")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreDestroy")]
   public static extern void helicsCoreDestroy(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreFree")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreFree")]
   public static extern void helicsCoreFree(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerFree")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerFree")]
   public static extern void helicsBrokerFree(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateValueFederate")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateValueFederate")]
   public static extern global::System.IntPtr helicsCreateValueFederate(string jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateValueFederateFromConfig")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateValueFederateFromConfig")]
   public static extern global::System.IntPtr helicsCreateValueFederateFromConfig(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateMessageFederate")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateMessageFederate")]
   public static extern global::System.IntPtr helicsCreateMessageFederate(string jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateMessageFederateFromConfig")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateMessageFederateFromConfig")]
   public static extern global::System.IntPtr helicsCreateMessageFederateFromConfig(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateCombinationFederate")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateCombinationFederate")]
   public static extern global::System.IntPtr helicsCreateCombinationFederate(string jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateCombinationFederateFromConfig")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateCombinationFederateFromConfig")]
   public static extern global::System.IntPtr helicsCreateCombinationFederateFromConfig(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateClone")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateClone")]
   public static extern global::System.IntPtr helicsFederateClone(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateFederateInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateFederateInfo")]
   public static extern global::System.IntPtr helicsCreateFederateInfo();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoClone")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoClone")]
   public static extern global::System.IntPtr helicsFederateInfoClone(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoLoadFromArgs")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoLoadFromArgs")]
   public static extern void helicsFederateInfoLoadFromArgs(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoFree")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoFree")]
   public static extern void helicsFederateInfoFree(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateIsValid")]
   public static extern int helicsFederateIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetCoreName")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetCoreName")]
   public static extern void helicsFederateInfoSetCoreName(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetCoreInitString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetCoreInitString")]
   public static extern void helicsFederateInfoSetCoreInitString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetBrokerInitString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetBrokerInitString")]
   public static extern void helicsFederateInfoSetBrokerInitString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetCoreType")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetCoreType")]
   public static extern void helicsFederateInfoSetCoreType(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetCoreTypeFromString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetCoreTypeFromString")]
   public static extern void helicsFederateInfoSetCoreTypeFromString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetBroker")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetBroker")]
   public static extern void helicsFederateInfoSetBroker(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetBrokerKey")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetBrokerKey")]
   public static extern void helicsFederateInfoSetBrokerKey(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetBrokerPort")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetBrokerPort")]
   public static extern void helicsFederateInfoSetBrokerPort(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetLocalPort")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetLocalPort")]
   public static extern void helicsFederateInfoSetLocalPort(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetPropertyIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetPropertyIndex")]
   public static extern int helicsGetPropertyIndex(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetFlagIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetFlagIndex")]
   public static extern int helicsGetFlagIndex(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetOptionIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetOptionIndex")]
   public static extern int helicsGetOptionIndex(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsGetOptionValue")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetOptionValue")]
   public static extern int helicsGetOptionValue(string jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetFlagOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetFlagOption")]
   public static extern void helicsFederateInfoSetFlagOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetSeparator")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetSeparator")]
   public static extern void helicsFederateInfoSetSeparator(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetTimeProperty")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetTimeProperty")]
   public static extern void helicsFederateInfoSetTimeProperty(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateInfoSetIntegerProperty")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateInfoSetIntegerProperty")]
   public static extern void helicsFederateInfoSetIntegerProperty(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterInterfaces")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterInterfaces")]
   public static extern void helicsFederateRegisterInterfaces(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGlobalError")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGlobalError")]
   public static extern void helicsFederateGlobalError(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateLocalError")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateLocalError")]
   public static extern void helicsFederateLocalError(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateFinalize")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateFinalize")]
   public static extern void helicsFederateFinalize(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateFinalizeAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateFinalizeAsync")]
   public static extern void helicsFederateFinalizeAsync(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateFinalizeComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateFinalizeComplete")]
   public static extern void helicsFederateFinalizeComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateFree")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateDisconnect")]
+  public static extern void helicsFederateDisconnect(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateDisconnectAsync")]
+  public static extern void helicsFederateDisconnectAsync(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateDisconnectComplete")]
+  public static extern void helicsFederateDisconnectComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateFree")]
   public static extern void helicsFederateFree(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCloseLibrary")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCloseLibrary")]
   public static extern void helicsCloseLibrary();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterInitializingMode")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterInitializingMode")]
   public static extern void helicsFederateEnterInitializingMode(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterInitializingModeAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterInitializingModeAsync")]
   public static extern void helicsFederateEnterInitializingModeAsync(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateIsAsyncOperationCompleted")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateIsAsyncOperationCompleted")]
   public static extern int helicsFederateIsAsyncOperationCompleted(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterInitializingModeComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterInitializingModeComplete")]
   public static extern void helicsFederateEnterInitializingModeComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterExecutingMode")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterExecutingMode")]
   public static extern void helicsFederateEnterExecutingMode(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterExecutingModeAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterExecutingModeAsync")]
   public static extern void helicsFederateEnterExecutingModeAsync(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterExecutingModeComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterExecutingModeComplete")]
   public static extern void helicsFederateEnterExecutingModeComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterExecutingModeIterative")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterExecutingModeIterative")]
   public static extern int helicsFederateEnterExecutingModeIterative(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterExecutingModeIterativeAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterExecutingModeIterativeAsync")]
   public static extern void helicsFederateEnterExecutingModeIterativeAsync(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateEnterExecutingModeIterativeComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateEnterExecutingModeIterativeComplete")]
   public static extern int helicsFederateEnterExecutingModeIterativeComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetState")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetState")]
   public static extern int helicsFederateGetState(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetCoreObject")]
-  public static extern global::System.IntPtr helicsFederateGetCoreObject(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetCore")]
+  public static extern global::System.IntPtr helicsFederateGetCore(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTime")]
   public static extern double helicsFederateRequestTime(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTimeAdvance")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTimeAdvance")]
   public static extern double helicsFederateRequestTimeAdvance(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestNextStep")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestNextStep")]
   public static extern double helicsFederateRequestNextStep(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTimeIterative")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTimeIterative")]
   public static extern double helicsFederateRequestTimeIterative(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2, int jarg3, out int jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTimeAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTimeAsync")]
   public static extern void helicsFederateRequestTimeAsync(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTimeComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTimeComplete")]
   public static extern double helicsFederateRequestTimeComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTimeIterativeAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTimeIterativeAsync")]
   public static extern void helicsFederateRequestTimeIterativeAsync(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRequestTimeIterativeComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRequestTimeIterativeComplete")]
   public static extern double helicsFederateRequestTimeIterativeComplete(global::System.Runtime.InteropServices.HandleRef jarg1, out int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetName")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetName")]
   public static extern string helicsFederateGetName(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateSetTimeProperty")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetTimeProperty")]
   public static extern void helicsFederateSetTimeProperty(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateSetFlagOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetFlagOption")]
   public static extern void helicsFederateSetFlagOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateSetSeparator")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetSeparator")]
   public static extern void helicsFederateSetSeparator(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateSetIntegerProperty")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetIntegerProperty")]
   public static extern void helicsFederateSetIntegerProperty(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetTimeProperty")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetTimeProperty")]
   public static extern double helicsFederateGetTimeProperty(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetFlagOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetFlagOption")]
   public static extern int helicsFederateGetFlagOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetIntegerProperty")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetIntegerProperty")]
   public static extern int helicsFederateGetIntegerProperty(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetCurrentTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetCurrentTime")]
   public static extern double helicsFederateGetCurrentTime(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateSetGlobal")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetGlobal")]
   public static extern void helicsFederateSetGlobal(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateAddDependency")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetTag")]
+  public static extern void helicsFederateSetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetTag")]
+  public static extern string helicsFederateGetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateAddDependency")]
   public static extern void helicsFederateAddDependency(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateSetLogFile")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetLogFile")]
   public static extern void helicsFederateSetLogFile(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateLogErrorMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateLogErrorMessage")]
   public static extern void helicsFederateLogErrorMessage(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateLogWarningMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateLogWarningMessage")]
   public static extern void helicsFederateLogWarningMessage(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateLogInfoMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateLogInfoMessage")]
   public static extern void helicsFederateLogInfoMessage(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateLogDebugMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateLogDebugMessage")]
   public static extern void helicsFederateLogDebugMessage(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateLogLevelMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateLogLevelMessage")]
   public static extern void helicsFederateLogLevelMessage(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreSetGlobal")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSendCommand")]
+  public static extern void helicsFederateSendCommand(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetCommand")]
+  public static extern string helicsFederateGetCommand(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetCommandSource")]
+  public static extern string helicsFederateGetCommandSource(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateWaitCommand")]
+  public static extern string helicsFederateWaitCommand(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreSetGlobal")]
   public static extern void helicsCoreSetGlobal(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerSetGlobal")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerSetGlobal")]
   public static extern void helicsBrokerSetGlobal(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreSetLogFile")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreSendCommand")]
+  public static extern void helicsCoreSendCommand(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerSendCommand")]
+  public static extern void helicsBrokerSendCommand(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreSetLogFile")]
   public static extern void helicsCoreSetLogFile(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerSetLogFile")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerSetLogFile")]
   public static extern void helicsBrokerSetLogFile(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerSetTimeBarrier")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerSetTimeBarrier")]
   public static extern void helicsBrokerSetTimeBarrier(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsBrokerClearTimeBarrier")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerClearTimeBarrier")]
   public static extern void helicsBrokerClearTimeBarrier(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCreateQuery")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBrokerGlobalError")]
+  public static extern void helicsBrokerGlobalError(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreGlobalError")]
+  public static extern void helicsCoreGlobalError(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateQuery")]
   public static extern global::System.IntPtr helicsCreateQuery(string jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryExecute")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryExecute")]
   public static extern string helicsQueryExecute(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryCoreExecute")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryCoreExecute")]
   public static extern string helicsQueryCoreExecute(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryBrokerExecute")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryBrokerExecute")]
   public static extern string helicsQueryBrokerExecute(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryExecuteAsync")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryExecuteAsync")]
   public static extern void helicsQueryExecuteAsync(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryExecuteComplete")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryExecuteComplete")]
   public static extern string helicsQueryExecuteComplete(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryIsCompleted")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryIsCompleted")]
   public static extern int helicsQueryIsCompleted(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQuerySetTarget")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQuerySetTarget")]
   public static extern void helicsQuerySetTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQuerySetQueryString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQuerySetQueryString")]
   public static extern void helicsQuerySetQueryString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsQueryFree")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQuerySetOrdering")]
+  public static extern void helicsQuerySetOrdering(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsQueryFree")]
   public static extern void helicsQueryFree(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCleanupLibrary")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCleanupLibrary")]
   public static extern void helicsCleanupLibrary();
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterSubscription")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterSubscription")]
   public static extern global::System.IntPtr helicsFederateRegisterSubscription(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterPublication")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterPublication")]
   public static extern global::System.IntPtr helicsFederateRegisterPublication(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterTypePublication")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterTypePublication")]
   public static extern global::System.IntPtr helicsFederateRegisterTypePublication(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalPublication")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalPublication")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalPublication(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalTypePublication")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalTypePublication")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalTypePublication(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterInput")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterInput")]
   public static extern global::System.IntPtr helicsFederateRegisterInput(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterTypeInput")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterTypeInput")]
   public static extern global::System.IntPtr helicsFederateRegisterTypeInput(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalInput")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalInput")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalInput(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalTypeInput")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalTypeInput")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalTypeInput(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetPublication")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetPublication")]
   public static extern global::System.IntPtr helicsFederateGetPublication(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetPublicationByIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetPublicationByIndex")]
   public static extern global::System.IntPtr helicsFederateGetPublicationByIndex(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetInput")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetInput")]
   public static extern global::System.IntPtr helicsFederateGetInput(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetInputByIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetInputByIndex")]
   public static extern global::System.IntPtr helicsFederateGetInputByIndex(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetSubscription")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetSubscription")]
   public static extern global::System.IntPtr helicsFederateGetSubscription(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateClearUpdates")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateClearUpdates")]
   public static extern void helicsFederateClearUpdates(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterFromPublicationJSON")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterFromPublicationJSON")]
   public static extern void helicsFederateRegisterFromPublicationJSON(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederatePublishJSON")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederatePublishJSON")]
   public static extern void helicsFederatePublishJSON(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationIsValid")]
   public static extern int helicsPublicationIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishRaw")]
-  public static extern void helicsPublicationPublishRaw(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishBytes")]
+  public static extern void helicsPublicationPublishBytes(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishString")]
   public static extern void helicsPublicationPublishString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishInteger")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishInteger")]
   public static extern void helicsPublicationPublishInteger(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishBoolean")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishBoolean")]
   public static extern void helicsPublicationPublishBoolean(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishDouble")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishDouble")]
   public static extern void helicsPublicationPublishDouble(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishTime")]
   public static extern void helicsPublicationPublishTime(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishChar")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishChar")]
   public static extern void helicsPublicationPublishChar(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishComplex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishComplex")]
   public static extern void helicsPublicationPublishComplex(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishVector")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishVector")]
   public static extern void helicsPublicationPublishVector(global::System.Runtime.InteropServices.HandleRef jarg1, out double jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationPublishNamedPoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationPublishNamedPoint")]
   public static extern void helicsPublicationPublishNamedPoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationAddTarget")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationAddTarget")]
   public static extern void helicsPublicationAddTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputIsValid")]
   public static extern int helicsInputIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputAddTarget")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputAddTarget")]
   public static extern void helicsInputAddTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetRawValueSize")]
-  public static extern int helicsInputGetRawValueSize(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetByteCount")]
+  public static extern int helicsInputGetByteCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetRawValue")]
-  public static extern void helicsInputGetRawValue(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, out int jarg4);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetBytes")]
+  public static extern void helicsInputGetBytes(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, out int jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetStringSize")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetStringSize")]
   public static extern int helicsInputGetStringSize(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetString")]
   public static extern void helicsInputGetString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3, out int jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetInteger")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetInteger")]
   public static extern long helicsInputGetInteger(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetBoolean")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetBoolean")]
   public static extern int helicsInputGetBoolean(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetDouble")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetDouble")]
   public static extern double helicsInputGetDouble(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetTime")]
   public static extern double helicsInputGetTime(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetChar")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetChar")]
   public static extern char helicsInputGetChar(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetComplexObject")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetComplexObject")]
   public static extern global::System.IntPtr helicsInputGetComplexObject(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetComplex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetComplex")]
   public static extern void helicsInputGetComplex(global::System.Runtime.InteropServices.HandleRef jarg1, out double jarg2, out double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetVectorSize")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetVectorSize")]
   public static extern int helicsInputGetVectorSize(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetVector")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetVector")]
   public static extern void helicsInputGetVector(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, out int jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetNamedPoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetNamedPoint")]
   public static extern void helicsInputGetNamedPoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3, out int jarg4, out double jarg5);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultRaw")]
-  public static extern void helicsInputSetDefaultRaw(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultBytes")]
+  public static extern void helicsInputSetDefaultBytes(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultString")]
   public static extern void helicsInputSetDefaultString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultInteger")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultInteger")]
   public static extern void helicsInputSetDefaultInteger(global::System.Runtime.InteropServices.HandleRef jarg1, long jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultBoolean")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultBoolean")]
   public static extern void helicsInputSetDefaultBoolean(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultTime")]
   public static extern void helicsInputSetDefaultTime(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultChar")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultChar")]
   public static extern void helicsInputSetDefaultChar(global::System.Runtime.InteropServices.HandleRef jarg1, char jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultDouble")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultDouble")]
   public static extern void helicsInputSetDefaultDouble(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultComplex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultComplex")]
   public static extern void helicsInputSetDefaultComplex(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultVector")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultVector")]
   public static extern void helicsInputSetDefaultVector(global::System.Runtime.InteropServices.HandleRef jarg1, out double jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetDefaultNamedPoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetDefaultNamedPoint")]
   public static extern void helicsInputSetDefaultNamedPoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetType")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetType")]
   public static extern string helicsInputGetType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetPublicationType")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetPublicationType")]
   public static extern string helicsInputGetPublicationType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationGetType")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationGetType")]
   public static extern string helicsPublicationGetType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetKey")]
-  public static extern string helicsInputGetKey(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetName")]
+  public static extern string helicsInputGetName(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsSubscriptionGetKey")]
-  public static extern string helicsSubscriptionGetKey(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsSubscriptionGetTarget")]
+  public static extern string helicsSubscriptionGetTarget(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationGetKey")]
-  public static extern string helicsPublicationGetKey(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationGetName")]
+  public static extern string helicsPublicationGetName(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetUnits")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetUnits")]
   public static extern string helicsInputGetUnits(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetInjectionUnits")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetInjectionUnits")]
   public static extern string helicsInputGetInjectionUnits(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetExtractionUnits")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetExtractionUnits")]
   public static extern string helicsInputGetExtractionUnits(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationGetUnits")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationGetUnits")]
   public static extern string helicsPublicationGetUnits(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetInfo")]
   public static extern string helicsInputGetInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetInfo")]
   public static extern void helicsInputSetInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationGetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetTag")]
+  public static extern string helicsInputGetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetTag")]
+  public static extern void helicsInputSetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationGetInfo")]
   public static extern string helicsPublicationGetInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationSetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationSetInfo")]
   public static extern void helicsPublicationSetInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputGetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationGetTag")]
+  public static extern string helicsPublicationGetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationSetTag")]
+  public static extern void helicsPublicationSetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputGetOption")]
   public static extern int helicsInputGetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetOption")]
   public static extern void helicsInputSetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationGetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationGetOption")]
   public static extern int helicsPublicationGetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationSetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationSetOption")]
   public static extern void helicsPublicationSetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsPublicationSetMinimumChange")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsPublicationSetMinimumChange")]
   public static extern void helicsPublicationSetMinimumChange(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputSetMinimumChange")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputSetMinimumChange")]
   public static extern void helicsInputSetMinimumChange(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputIsUpdated")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputIsUpdated")]
   public static extern int helicsInputIsUpdated(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputLastUpdateTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputLastUpdateTime")]
   public static extern double helicsInputLastUpdateTime(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsInputClearUpdate")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsInputClearUpdate")]
   public static extern void helicsInputClearUpdate(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetPublicationCount")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetPublicationCount")]
   public static extern int helicsFederateGetPublicationCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetInputCount")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetInputCount")]
   public static extern int helicsFederateGetInputCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterEndpoint")]
   public static extern global::System.IntPtr helicsFederateRegisterEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalEndpoint")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterTargetedEndpoint")]
+  public static extern global::System.IntPtr helicsFederateRegisterTargetedEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalTargetedEndpoint")]
+  public static extern global::System.IntPtr helicsFederateRegisterGlobalTargetedEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetEndpoint")]
   public static extern global::System.IntPtr helicsFederateGetEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetEndpointByIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetEndpointByIndex")]
   public static extern global::System.IntPtr helicsFederateGetEndpointByIndex(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointIsValid")]
   public static extern int helicsEndpointIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSetDefaultDestination")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSetDefaultDestination")]
   public static extern void helicsEndpointSetDefaultDestination(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetDefaultDestination")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetDefaultDestination")]
   public static extern string helicsEndpointGetDefaultDestination(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSendMessageRaw")]
-  public static extern void helicsEndpointSendMessageRaw(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, int jarg4);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSendBytes")]
+  public static extern void helicsEndpointSendBytes(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSendEventRaw")]
-  public static extern void helicsEndpointSendEventRaw(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, int jarg4, double jarg5);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSendBytesTo")]
+  public static extern void helicsEndpointSendBytesTo(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, string jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSendMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSendBytesToAt")]
+  public static extern void helicsEndpointSendBytesToAt(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, string jarg4, double jarg5);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSendBytesAt")]
+  public static extern void helicsEndpointSendBytesAt(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, double jarg4);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSendMessage")]
   public static extern void helicsEndpointSendMessage(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSendMessageObject")]
-  public static extern void helicsEndpointSendMessageObject(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSendMessageZeroCopy")]
+  public static extern void helicsEndpointSendMessageZeroCopy(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSendMessageObjectZeroCopy")]
-  public static extern void helicsEndpointSendMessageObjectZeroCopy(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSubscribe")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSubscribe")]
   public static extern void helicsEndpointSubscribe(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateHasMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateHasMessage")]
   public static extern int helicsFederateHasMessage(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointHasMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointHasMessage")]
   public static extern int helicsEndpointHasMessage(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederatePendingMessages")]
-  public static extern int helicsFederatePendingMessages(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederatePendingMessageCount")]
+  public static extern int helicsFederatePendingMessageCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointPendingMessages")]
-  public static extern int helicsEndpointPendingMessages(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointPendingMessageCount")]
+  public static extern int helicsEndpointPendingMessageCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetMessage")]
   public static extern global::System.IntPtr helicsEndpointGetMessage(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetMessageObject")]
-  public static extern global::System.IntPtr helicsEndpointGetMessageObject(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointCreateMessage")]
+  public static extern global::System.IntPtr helicsEndpointCreateMessage(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointCreateMessageObject")]
-  public static extern global::System.IntPtr helicsEndpointCreateMessageObject(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetMessage")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetMessage")]
   public static extern global::System.IntPtr helicsFederateGetMessage(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetMessageObject")]
-  public static extern global::System.IntPtr helicsFederateGetMessageObject(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateCreateMessage")]
+  public static extern global::System.IntPtr helicsFederateCreateMessage(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateCreateMessageObject")]
-  public static extern global::System.IntPtr helicsFederateCreateMessageObject(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateClearMessages")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateClearMessages")]
   public static extern void helicsFederateClearMessages(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointClearMessages")]
-  public static extern void helicsEndpointClearMessages(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetType")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetType")]
   public static extern string helicsEndpointGetType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetName")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetName")]
   public static extern string helicsEndpointGetName(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetEndpointCount")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetEndpointCount")]
   public static extern int helicsFederateGetEndpointCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetInfo")]
   public static extern string helicsEndpointGetInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSetInfo")]
   public static extern void helicsEndpointSetInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointSetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetTag")]
+  public static extern string helicsEndpointGetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSetTag")]
+  public static extern void helicsEndpointSetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointSetOption")]
   public static extern void helicsEndpointSetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsEndpointGetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointGetOption")]
   public static extern int helicsEndpointGetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetSource")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointAddSourceTarget")]
+  public static extern void helicsEndpointAddSourceTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointAddDestinationTarget")]
+  public static extern void helicsEndpointAddDestinationTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointRemoveTarget")]
+  public static extern void helicsEndpointRemoveTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointAddSourceFilter")]
+  public static extern void helicsEndpointAddSourceFilter(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsEndpointAddDestinationFilter")]
+  public static extern void helicsEndpointAddDestinationFilter(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetSource")]
   public static extern string helicsMessageGetSource(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetDestination")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetDestination")]
   public static extern string helicsMessageGetDestination(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetOriginalSource")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetOriginalSource")]
   public static extern string helicsMessageGetOriginalSource(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetOriginalDestination")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetOriginalDestination")]
   public static extern string helicsMessageGetOriginalDestination(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetTime")]
   public static extern double helicsMessageGetTime(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetString")]
   public static extern string helicsMessageGetString(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetMessageID")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetMessageID")]
   public static extern int helicsMessageGetMessageID(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageCheckFlag")]
-  public static extern int helicsMessageCheckFlag(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetFlagOption")]
+  public static extern int helicsMessageGetFlagOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetRawDataSize")]
-  public static extern int helicsMessageGetRawDataSize(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetByteCount")]
+  public static extern int helicsMessageGetByteCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageGetRawData")]
-  public static extern void helicsMessageGetRawData(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, out int jarg4);
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetBytes")]
+  public static extern void helicsMessageGetBytes(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3, out int jarg4);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageGetBytesPointer")]
+  public static extern global::System.IntPtr helicsMessageGetBytesPointer(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageIsValid")]
   public static extern int helicsMessageIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetSource")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetSource")]
   public static extern void helicsMessageSetSource(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetDestination")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetDestination")]
   public static extern void helicsMessageSetDestination(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetOriginalSource")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetOriginalSource")]
   public static extern void helicsMessageSetOriginalSource(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetOriginalDestination")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetOriginalDestination")]
   public static extern void helicsMessageSetOriginalDestination(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetTime")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetTime")]
   public static extern void helicsMessageSetTime(global::System.Runtime.InteropServices.HandleRef jarg1, double jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageReserve")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageReserve")]
   public static extern void helicsMessageReserve(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetMessageID")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetMessageID")]
   public static extern void helicsMessageSetMessageID(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageClearFlags")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageClearFlags")]
   public static extern void helicsMessageClearFlags(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetFlagOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetFlagOption")]
   public static extern void helicsMessageSetFlagOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetString")]
   public static extern void helicsMessageSetString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageSetData")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageSetData")]
   public static extern void helicsMessageSetData(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageAppendData")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageAppendData")]
   public static extern void helicsMessageAppendData(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageCopy")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageCopy")]
   public static extern void helicsMessageCopy(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageClone")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageClone")]
   public static extern global::System.IntPtr helicsMessageClone(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageFree")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageFree")]
   public static extern void helicsMessageFree(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsMessageClear")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsMessageClear")]
   public static extern void helicsMessageClear(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterFilter")]
   public static extern global::System.IntPtr helicsFederateRegisterFilter(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalFilter")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalFilter(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterCloningFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterCloningFilter")]
   public static extern global::System.IntPtr helicsFederateRegisterCloningFilter(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateRegisterGlobalCloningFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalCloningFilter")]
   public static extern global::System.IntPtr helicsFederateRegisterGlobalCloningFilter(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreRegisterFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreRegisterFilter")]
   public static extern global::System.IntPtr helicsCoreRegisterFilter(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsCoreRegisterCloningFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreRegisterCloningFilter")]
   public static extern global::System.IntPtr helicsCoreRegisterCloningFilter(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetFilterCount")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetFilterCount")]
   public static extern int helicsFederateGetFilterCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetFilter")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetFilter")]
   public static extern global::System.IntPtr helicsFederateGetFilter(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFederateGetFilterByIndex")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetFilterByIndex")]
   public static extern global::System.IntPtr helicsFederateGetFilterByIndex(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterIsValid")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterIsValid")]
   public static extern int helicsFilterIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterGetName")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterGetName")]
   public static extern string helicsFilterGetName(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterSet")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterSet")]
   public static extern void helicsFilterSet(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, double jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterSetString")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterSetString")]
   public static extern void helicsFilterSetString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterAddDestinationTarget")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterAddDestinationTarget")]
   public static extern void helicsFilterAddDestinationTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterAddSourceTarget")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterAddSourceTarget")]
   public static extern void helicsFilterAddSourceTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterAddDeliveryEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterAddDeliveryEndpoint")]
   public static extern void helicsFilterAddDeliveryEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterRemoveTarget")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterRemoveTarget")]
   public static extern void helicsFilterRemoveTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterRemoveDeliveryEndpoint")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterRemoveDeliveryEndpoint")]
   public static extern void helicsFilterRemoveDeliveryEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterGetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterGetInfo")]
   public static extern string helicsFilterGetInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterSetInfo")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterSetInfo")]
   public static extern void helicsFilterSetInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterSetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterGetTag")]
+  public static extern string helicsFilterGetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterSetTag")]
+  public static extern void helicsFilterSetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterSetOption")]
   public static extern void helicsFilterSetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
 
-  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_gmlc_helicsFilterGetOption")]
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterGetOption")]
   public static extern int helicsFilterGetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 }
 
-}
-namespace gmlc {
-
 public class helics {
-  public static double helics_time_zero {
+  public static int HELICS_INVALID_OPTION_INDEX {
     get {
-      double ret = helicsPINVOKE.helics_time_zero_get();
+      int ret = helicsPINVOKE.HELICS_INVALID_OPTION_INDEX_get();
       return ret;
     } 
   }
 
-  public static double helics_time_epsilon {
+  public static int HELICS_INVALID_PROPERTY_VALUE {
     get {
-      double ret = helicsPINVOKE.helics_time_epsilon_get();
+      int ret = helicsPINVOKE.HELICS_INVALID_PROPERTY_VALUE_get();
       return ret;
     } 
   }
 
-  public static double helics_time_invalid {
+  public static double HELICS_TIME_ZERO {
     get {
-      double ret = helicsPINVOKE.helics_time_invalid_get();
+      double ret = helicsPINVOKE.HELICS_TIME_ZERO_get();
       return ret;
     } 
   }
 
-  public static double helics_time_maxtime {
+  public static double HELICS_TIME_EPSILON {
     get {
-      double ret = helicsPINVOKE.helics_time_maxtime_get();
+      double ret = helicsPINVOKE.HELICS_TIME_EPSILON_get();
       return ret;
     } 
   }
 
-  public static int helics_true {
+  public static double HELICS_TIME_INVALID {
     get {
-      int ret = helicsPINVOKE.helics_true_get();
+      double ret = helicsPINVOKE.HELICS_TIME_INVALID_get();
       return ret;
     } 
   }
 
-  public static int helics_false {
+  public static double HELICS_TIME_MAXTIME {
     get {
-      int ret = helicsPINVOKE.helics_false_get();
+      double ret = helicsPINVOKE.HELICS_TIME_MAXTIME_get();
+      return ret;
+    } 
+  }
+
+  public static int HELICS_TRUE {
+    get {
+      int ret = helicsPINVOKE.HELICS_TRUE_get();
+      return ret;
+    } 
+  }
+
+  public static int HELICS_FALSE {
+    get {
+      int ret = helicsPINVOKE.HELICS_FALSE_get();
       return ret;
     } 
   }
@@ -1632,6 +1517,18 @@ public class helics {
   public static string helicsGetCompilerVersion() {
     string ret = helicsPINVOKE.helicsGetCompilerVersion();
     return ret;
+  }
+
+  public static void helicsLoadSignalHandler() {
+    helicsPINVOKE.helicsLoadSignalHandler();
+  }
+
+  public static void helicsClearSignalHandler() {
+    helicsPINVOKE.helicsClearSignalHandler();
+  }
+
+  public static void helicsAbort(int errorCode, string errorString) {
+    helicsPINVOKE.helicsAbort(errorCode, errorString);
   }
 
   public static int helicsIsCoreTypeAvailable(string type) {
@@ -1987,12 +1884,14 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsFederateGlobalError(SWIGTYPE_p_void fed, int error_code, string error_string) {
-    helicsPINVOKE.helicsFederateGlobalError(SWIGTYPE_p_void.getCPtr(fed), error_code, error_string);
+  public static void helicsFederateGlobalError(SWIGTYPE_p_void fed, int errorCode, string errorString) {
+    helicsPINVOKE.helicsFederateGlobalError(SWIGTYPE_p_void.getCPtr(fed), errorCode, errorString);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsFederateLocalError(SWIGTYPE_p_void fed, int error_code, string error_string) {
-    helicsPINVOKE.helicsFederateLocalError(SWIGTYPE_p_void.getCPtr(fed), error_code, error_string);
+  public static void helicsFederateLocalError(SWIGTYPE_p_void fed, int errorCode, string errorString) {
+    helicsPINVOKE.helicsFederateLocalError(SWIGTYPE_p_void.getCPtr(fed), errorCode, errorString);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static void helicsFederateFinalize(SWIGTYPE_p_void fed) {
@@ -2007,6 +1906,21 @@ public class helics {
 
   public static void helicsFederateFinalizeComplete(SWIGTYPE_p_void fed) {
     helicsPINVOKE.helicsFederateFinalizeComplete(SWIGTYPE_p_void.getCPtr(fed));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsFederateDisconnect(SWIGTYPE_p_void fed) {
+    helicsPINVOKE.helicsFederateDisconnect(SWIGTYPE_p_void.getCPtr(fed));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsFederateDisconnectAsync(SWIGTYPE_p_void fed) {
+    helicsPINVOKE.helicsFederateDisconnectAsync(SWIGTYPE_p_void.getCPtr(fed));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsFederateDisconnectComplete(SWIGTYPE_p_void fed) {
+    helicsPINVOKE.helicsFederateDisconnectComplete(SWIGTYPE_p_void.getCPtr(fed));
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2054,31 +1968,31 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static helics_iteration_result helicsFederateEnterExecutingModeIterative(SWIGTYPE_p_void fed, helics_iteration_request iterate) {
-    helics_iteration_result ret = (helics_iteration_result)helicsPINVOKE.helicsFederateEnterExecutingModeIterative(SWIGTYPE_p_void.getCPtr(fed), (int)iterate);
+  public static HelicsIterationResult helicsFederateEnterExecutingModeIterative(SWIGTYPE_p_void fed, HelicsIterationRequest iterate) {
+    HelicsIterationResult ret = (HelicsIterationResult)helicsPINVOKE.helicsFederateEnterExecutingModeIterative(SWIGTYPE_p_void.getCPtr(fed), (int)iterate);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static void helicsFederateEnterExecutingModeIterativeAsync(SWIGTYPE_p_void fed, helics_iteration_request iterate) {
+  public static void helicsFederateEnterExecutingModeIterativeAsync(SWIGTYPE_p_void fed, HelicsIterationRequest iterate) {
     helicsPINVOKE.helicsFederateEnterExecutingModeIterativeAsync(SWIGTYPE_p_void.getCPtr(fed), (int)iterate);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static helics_iteration_result helicsFederateEnterExecutingModeIterativeComplete(SWIGTYPE_p_void fed) {
-    helics_iteration_result ret = (helics_iteration_result)helicsPINVOKE.helicsFederateEnterExecutingModeIterativeComplete(SWIGTYPE_p_void.getCPtr(fed));
+  public static HelicsIterationResult helicsFederateEnterExecutingModeIterativeComplete(SWIGTYPE_p_void fed) {
+    HelicsIterationResult ret = (HelicsIterationResult)helicsPINVOKE.helicsFederateEnterExecutingModeIterativeComplete(SWIGTYPE_p_void.getCPtr(fed));
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static helics_federate_state helicsFederateGetState(SWIGTYPE_p_void fed) {
-    helics_federate_state ret = (helics_federate_state)helicsPINVOKE.helicsFederateGetState(SWIGTYPE_p_void.getCPtr(fed));
+  public static HelicsFederateState helicsFederateGetState(SWIGTYPE_p_void fed) {
+    HelicsFederateState ret = (HelicsFederateState)helicsPINVOKE.helicsFederateGetState(SWIGTYPE_p_void.getCPtr(fed));
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateGetCoreObject(SWIGTYPE_p_void fed) {
-    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetCoreObject(SWIGTYPE_p_void.getCPtr(fed));
+  public static SWIGTYPE_p_void helicsFederateGetCore(SWIGTYPE_p_void fed) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetCore(SWIGTYPE_p_void.getCPtr(fed));
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
@@ -2102,7 +2016,7 @@ public class helics {
     return ret;
   }
 
-  public static double helicsFederateRequestTimeIterative(SWIGTYPE_p_void fed, double requestTime, helics_iteration_request iterate, out int outIteration) {
+  public static double helicsFederateRequestTimeIterative(SWIGTYPE_p_void fed, double requestTime, HelicsIterationRequest iterate, out int outIteration) {
     double ret = helicsPINVOKE.helicsFederateRequestTimeIterative(SWIGTYPE_p_void.getCPtr(fed), requestTime, (int)iterate, out outIteration);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
@@ -2119,7 +2033,7 @@ public class helics {
     return ret;
   }
 
-  public static void helicsFederateRequestTimeIterativeAsync(SWIGTYPE_p_void fed, double requestTime, helics_iteration_request iterate) {
+  public static void helicsFederateRequestTimeIterativeAsync(SWIGTYPE_p_void fed, double requestTime, HelicsIterationRequest iterate) {
     helicsPINVOKE.helicsFederateRequestTimeIterativeAsync(SWIGTYPE_p_void.getCPtr(fed), requestTime, (int)iterate);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
@@ -2184,6 +2098,17 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static void helicsFederateSetTag(SWIGTYPE_p_void fed, string tagName, string value) {
+    helicsPINVOKE.helicsFederateSetTag(SWIGTYPE_p_void.getCPtr(fed), tagName, value);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static string helicsFederateGetTag(SWIGTYPE_p_void fed, string tagName) {
+    string ret = helicsPINVOKE.helicsFederateGetTag(SWIGTYPE_p_void.getCPtr(fed), tagName);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public static void helicsFederateAddDependency(SWIGTYPE_p_void fed, string fedName) {
     helicsPINVOKE.helicsFederateAddDependency(SWIGTYPE_p_void.getCPtr(fed), fedName);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2219,6 +2144,29 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static void helicsFederateSendCommand(SWIGTYPE_p_void fed, string target, string command) {
+    helicsPINVOKE.helicsFederateSendCommand(SWIGTYPE_p_void.getCPtr(fed), target, command);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static string helicsFederateGetCommand(SWIGTYPE_p_void fed) {
+    string ret = helicsPINVOKE.helicsFederateGetCommand(SWIGTYPE_p_void.getCPtr(fed));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static string helicsFederateGetCommandSource(SWIGTYPE_p_void fed) {
+    string ret = helicsPINVOKE.helicsFederateGetCommandSource(SWIGTYPE_p_void.getCPtr(fed));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static string helicsFederateWaitCommand(SWIGTYPE_p_void fed) {
+    string ret = helicsPINVOKE.helicsFederateWaitCommand(SWIGTYPE_p_void.getCPtr(fed));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public static void helicsCoreSetGlobal(SWIGTYPE_p_void core, string valueName, string value) {
     helicsPINVOKE.helicsCoreSetGlobal(SWIGTYPE_p_void.getCPtr(core), valueName, value);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2226,6 +2174,16 @@ public class helics {
 
   public static void helicsBrokerSetGlobal(SWIGTYPE_p_void broker, string valueName, string value) {
     helicsPINVOKE.helicsBrokerSetGlobal(SWIGTYPE_p_void.getCPtr(broker), valueName, value);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsCoreSendCommand(SWIGTYPE_p_void core, string target, string command) {
+    helicsPINVOKE.helicsCoreSendCommand(SWIGTYPE_p_void.getCPtr(core), target, command);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsBrokerSendCommand(SWIGTYPE_p_void broker, string target, string command) {
+    helicsPINVOKE.helicsBrokerSendCommand(SWIGTYPE_p_void.getCPtr(broker), target, command);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2246,6 +2204,16 @@ public class helics {
 
   public static void helicsBrokerClearTimeBarrier(SWIGTYPE_p_void broker) {
     helicsPINVOKE.helicsBrokerClearTimeBarrier(SWIGTYPE_p_void.getCPtr(broker));
+  }
+
+  public static void helicsBrokerGlobalError(SWIGTYPE_p_void broker, int errorCode, string errorString) {
+    helicsPINVOKE.helicsBrokerGlobalError(SWIGTYPE_p_void.getCPtr(broker), errorCode, errorString);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsCoreGlobalError(SWIGTYPE_p_void core, int errorCode, string errorString) {
+    helicsPINVOKE.helicsCoreGlobalError(SWIGTYPE_p_void.getCPtr(core), errorCode, errorString);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static SWIGTYPE_p_void helicsCreateQuery(string target, string query) {
@@ -2298,6 +2266,11 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static void helicsQuerySetOrdering(SWIGTYPE_p_void query, SWIGTYPE_p_int32_t mode) {
+    helicsPINVOKE.helicsQuerySetOrdering(SWIGTYPE_p_void.getCPtr(query), SWIGTYPE_p_int32_t.getCPtr(mode));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public static void helicsQueryFree(SWIGTYPE_p_void query) {
     helicsPINVOKE.helicsQueryFree(SWIGTYPE_p_void.getCPtr(query));
   }
@@ -2313,7 +2286,7 @@ public class helics {
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateRegisterPublication(SWIGTYPE_p_void fed, string key, helics_data_type type, string units) {
+  public static SWIGTYPE_p_void helicsFederateRegisterPublication(SWIGTYPE_p_void fed, string key, HelicsDataTypes type, string units) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterPublication(SWIGTYPE_p_void.getCPtr(fed), key, (int)type, units);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2327,7 +2300,7 @@ public class helics {
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateRegisterGlobalPublication(SWIGTYPE_p_void fed, string key, helics_data_type type, string units) {
+  public static SWIGTYPE_p_void helicsFederateRegisterGlobalPublication(SWIGTYPE_p_void fed, string key, HelicsDataTypes type, string units) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterGlobalPublication(SWIGTYPE_p_void.getCPtr(fed), key, (int)type, units);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2341,7 +2314,7 @@ public class helics {
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateRegisterInput(SWIGTYPE_p_void fed, string key, helics_data_type type, string units) {
+  public static SWIGTYPE_p_void helicsFederateRegisterInput(SWIGTYPE_p_void fed, string key, HelicsDataTypes type, string units) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterInput(SWIGTYPE_p_void.getCPtr(fed), key, (int)type, units);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2355,7 +2328,7 @@ public class helics {
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateRegisterGlobalInput(SWIGTYPE_p_void fed, string key, helics_data_type type, string units) {
+  public static SWIGTYPE_p_void helicsFederateRegisterGlobalInput(SWIGTYPE_p_void fed, string key, HelicsDataTypes type, string units) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterGlobalInput(SWIGTYPE_p_void.getCPtr(fed), key, (int)type, units);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2423,8 +2396,8 @@ public class helics {
     return ret;
   }
 
-  public static void helicsPublicationPublishRaw(SWIGTYPE_p_void pub, SWIGTYPE_p_void data, int inputDataLength) {
-    helicsPINVOKE.helicsPublicationPublishRaw(SWIGTYPE_p_void.getCPtr(pub), SWIGTYPE_p_void.getCPtr(data), inputDataLength);
+  public static void helicsPublicationPublishBytes(SWIGTYPE_p_void pub, SWIGTYPE_p_void data, int inputDataLength) {
+    helicsPINVOKE.helicsPublicationPublishBytes(SWIGTYPE_p_void.getCPtr(pub), SWIGTYPE_p_void.getCPtr(data), inputDataLength);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2488,13 +2461,13 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static int helicsInputGetRawValueSize(SWIGTYPE_p_void ipt) {
-    int ret = helicsPINVOKE.helicsInputGetRawValueSize(SWIGTYPE_p_void.getCPtr(ipt));
+  public static int helicsInputGetByteCount(SWIGTYPE_p_void ipt) {
+    int ret = helicsPINVOKE.helicsInputGetByteCount(SWIGTYPE_p_void.getCPtr(ipt));
     return ret;
   }
 
-  public static void helicsInputGetRawValue(SWIGTYPE_p_void ipt, SWIGTYPE_p_void data, int maxDataLength, out int actualSize) {
-    helicsPINVOKE.helicsInputGetRawValue(SWIGTYPE_p_void.getCPtr(ipt), SWIGTYPE_p_void.getCPtr(data), maxDataLength, out actualSize);
+  public static void helicsInputGetBytes(SWIGTYPE_p_void ipt, SWIGTYPE_p_void data, int maxDataLength, out int actualSize) {
+    helicsPINVOKE.helicsInputGetBytes(SWIGTYPE_p_void.getCPtr(ipt), SWIGTYPE_p_void.getCPtr(data), maxDataLength, out actualSize);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2538,8 +2511,8 @@ public class helics {
     return ret;
   }
 
-  public static helics_complex helicsInputGetComplexObject(SWIGTYPE_p_void ipt) {
-    helics_complex ret = new helics_complex(helicsPINVOKE.helicsInputGetComplexObject(SWIGTYPE_p_void.getCPtr(ipt)), true);
+  public static HelicsComplex helicsInputGetComplexObject(SWIGTYPE_p_void ipt) {
+    HelicsComplex ret = new HelicsComplex(helicsPINVOKE.helicsInputGetComplexObject(SWIGTYPE_p_void.getCPtr(ipt)), true);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
@@ -2564,8 +2537,8 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsInputSetDefaultRaw(SWIGTYPE_p_void ipt, SWIGTYPE_p_void data, int inputDataLength) {
-    helicsPINVOKE.helicsInputSetDefaultRaw(SWIGTYPE_p_void.getCPtr(ipt), SWIGTYPE_p_void.getCPtr(data), inputDataLength);
+  public static void helicsInputSetDefaultBytes(SWIGTYPE_p_void ipt, SWIGTYPE_p_void data, int inputDataLength) {
+    helicsPINVOKE.helicsInputSetDefaultBytes(SWIGTYPE_p_void.getCPtr(ipt), SWIGTYPE_p_void.getCPtr(data), inputDataLength);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2629,18 +2602,18 @@ public class helics {
     return ret;
   }
 
-  public static string helicsInputGetKey(SWIGTYPE_p_void ipt) {
-    string ret = helicsPINVOKE.helicsInputGetKey(SWIGTYPE_p_void.getCPtr(ipt));
+  public static string helicsInputGetName(SWIGTYPE_p_void ipt) {
+    string ret = helicsPINVOKE.helicsInputGetName(SWIGTYPE_p_void.getCPtr(ipt));
     return ret;
   }
 
-  public static string helicsSubscriptionGetKey(SWIGTYPE_p_void ipt) {
-    string ret = helicsPINVOKE.helicsSubscriptionGetKey(SWIGTYPE_p_void.getCPtr(ipt));
+  public static string helicsSubscriptionGetTarget(SWIGTYPE_p_void ipt) {
+    string ret = helicsPINVOKE.helicsSubscriptionGetTarget(SWIGTYPE_p_void.getCPtr(ipt));
     return ret;
   }
 
-  public static string helicsPublicationGetKey(SWIGTYPE_p_void pub) {
-    string ret = helicsPINVOKE.helicsPublicationGetKey(SWIGTYPE_p_void.getCPtr(pub));
+  public static string helicsPublicationGetName(SWIGTYPE_p_void pub) {
+    string ret = helicsPINVOKE.helicsPublicationGetName(SWIGTYPE_p_void.getCPtr(pub));
     return ret;
   }
 
@@ -2674,6 +2647,16 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static string helicsInputGetTag(SWIGTYPE_p_void inp, string tagname) {
+    string ret = helicsPINVOKE.helicsInputGetTag(SWIGTYPE_p_void.getCPtr(inp), tagname);
+    return ret;
+  }
+
+  public static void helicsInputSetTag(SWIGTYPE_p_void inp, string tagname, string tagvalue) {
+    helicsPINVOKE.helicsInputSetTag(SWIGTYPE_p_void.getCPtr(inp), tagname, tagvalue);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public static string helicsPublicationGetInfo(SWIGTYPE_p_void pub) {
     string ret = helicsPINVOKE.helicsPublicationGetInfo(SWIGTYPE_p_void.getCPtr(pub));
     return ret;
@@ -2681,6 +2664,16 @@ public class helics {
 
   public static void helicsPublicationSetInfo(SWIGTYPE_p_void pub, string info) {
     helicsPINVOKE.helicsPublicationSetInfo(SWIGTYPE_p_void.getCPtr(pub), info);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static string helicsPublicationGetTag(SWIGTYPE_p_void pub, string tagname) {
+    string ret = helicsPINVOKE.helicsPublicationGetTag(SWIGTYPE_p_void.getCPtr(pub), tagname);
+    return ret;
+  }
+
+  public static void helicsPublicationSetTag(SWIGTYPE_p_void pub, string tagname, string tagvalue) {
+    helicsPINVOKE.helicsPublicationSetTag(SWIGTYPE_p_void.getCPtr(pub), tagname, tagvalue);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2752,6 +2745,20 @@ public class helics {
     return ret;
   }
 
+  public static SWIGTYPE_p_void helicsFederateRegisterTargetedEndpoint(SWIGTYPE_p_void fed, string name, string type) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterTargetedEndpoint(SWIGTYPE_p_void.getCPtr(fed), name, type);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsFederateRegisterGlobalTargetedEndpoint(SWIGTYPE_p_void fed, string name, string type) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterGlobalTargetedEndpoint(SWIGTYPE_p_void.getCPtr(fed), name, type);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public static SWIGTYPE_p_void helicsFederateGetEndpoint(SWIGTYPE_p_void fed, string name) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetEndpoint(SWIGTYPE_p_void.getCPtr(fed), name);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
@@ -2781,28 +2788,33 @@ public class helics {
     return ret;
   }
 
-  public static void helicsEndpointSendMessageRaw(SWIGTYPE_p_void endpoint, string dst, SWIGTYPE_p_void data, int inputDataLength) {
-    helicsPINVOKE.helicsEndpointSendMessageRaw(SWIGTYPE_p_void.getCPtr(endpoint), dst, SWIGTYPE_p_void.getCPtr(data), inputDataLength);
+  public static void helicsEndpointSendBytes(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void data, int inputDataLength) {
+    helicsPINVOKE.helicsEndpointSendBytes(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(data), inputDataLength);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsEndpointSendEventRaw(SWIGTYPE_p_void endpoint, string dst, SWIGTYPE_p_void data, int inputDataLength, double time) {
-    helicsPINVOKE.helicsEndpointSendEventRaw(SWIGTYPE_p_void.getCPtr(endpoint), dst, SWIGTYPE_p_void.getCPtr(data), inputDataLength, time);
+  public static void helicsEndpointSendBytesTo(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void data, int inputDataLength, string dst) {
+    helicsPINVOKE.helicsEndpointSendBytesTo(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(data), inputDataLength, dst);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsEndpointSendMessage(SWIGTYPE_p_void endpoint, helics_message message) {
-    helicsPINVOKE.helicsEndpointSendMessage(SWIGTYPE_p_void.getCPtr(endpoint), helics_message.getCPtr(message));
+  public static void helicsEndpointSendBytesToAt(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void data, int inputDataLength, string dst, double time) {
+    helicsPINVOKE.helicsEndpointSendBytesToAt(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(data), inputDataLength, dst, time);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsEndpointSendMessageObject(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void message) {
-    helicsPINVOKE.helicsEndpointSendMessageObject(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(message));
+  public static void helicsEndpointSendBytesAt(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void data, int inputDataLength, double time) {
+    helicsPINVOKE.helicsEndpointSendBytesAt(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(data), inputDataLength, time);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static void helicsEndpointSendMessageObjectZeroCopy(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void message) {
-    helicsPINVOKE.helicsEndpointSendMessageObjectZeroCopy(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(message));
+  public static void helicsEndpointSendMessage(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void message) {
+    helicsPINVOKE.helicsEndpointSendMessage(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(message));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsEndpointSendMessageZeroCopy(SWIGTYPE_p_void endpoint, SWIGTYPE_p_void message) {
+    helicsPINVOKE.helicsEndpointSendMessageZeroCopy(SWIGTYPE_p_void.getCPtr(endpoint), SWIGTYPE_p_void.getCPtr(message));
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
@@ -2821,47 +2833,37 @@ public class helics {
     return ret;
   }
 
-  public static int helicsFederatePendingMessages(SWIGTYPE_p_void fed) {
-    int ret = helicsPINVOKE.helicsFederatePendingMessages(SWIGTYPE_p_void.getCPtr(fed));
+  public static int helicsFederatePendingMessageCount(SWIGTYPE_p_void fed) {
+    int ret = helicsPINVOKE.helicsFederatePendingMessageCount(SWIGTYPE_p_void.getCPtr(fed));
     return ret;
   }
 
-  public static int helicsEndpointPendingMessages(SWIGTYPE_p_void endpoint) {
-    int ret = helicsPINVOKE.helicsEndpointPendingMessages(SWIGTYPE_p_void.getCPtr(endpoint));
+  public static int helicsEndpointPendingMessageCount(SWIGTYPE_p_void endpoint) {
+    int ret = helicsPINVOKE.helicsEndpointPendingMessageCount(SWIGTYPE_p_void.getCPtr(endpoint));
     return ret;
   }
 
-  public static helics_message helicsEndpointGetMessage(SWIGTYPE_p_void endpoint) {
-    helics_message ret = new helics_message(helicsPINVOKE.helicsEndpointGetMessage(SWIGTYPE_p_void.getCPtr(endpoint)), true);
-    return ret;
-  }
-
-  public static SWIGTYPE_p_void helicsEndpointGetMessageObject(SWIGTYPE_p_void endpoint) {
-    global::System.IntPtr cPtr = helicsPINVOKE.helicsEndpointGetMessageObject(SWIGTYPE_p_void.getCPtr(endpoint));
+  public static SWIGTYPE_p_void helicsEndpointGetMessage(SWIGTYPE_p_void endpoint) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsEndpointGetMessage(SWIGTYPE_p_void.getCPtr(endpoint));
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsEndpointCreateMessageObject(SWIGTYPE_p_void endpoint) {
-    global::System.IntPtr cPtr = helicsPINVOKE.helicsEndpointCreateMessageObject(SWIGTYPE_p_void.getCPtr(endpoint));
+  public static SWIGTYPE_p_void helicsEndpointCreateMessage(SWIGTYPE_p_void endpoint) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsEndpointCreateMessage(SWIGTYPE_p_void.getCPtr(endpoint));
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static helics_message helicsFederateGetMessage(SWIGTYPE_p_void fed) {
-    helics_message ret = new helics_message(helicsPINVOKE.helicsFederateGetMessage(SWIGTYPE_p_void.getCPtr(fed)), true);
-    return ret;
-  }
-
-  public static SWIGTYPE_p_void helicsFederateGetMessageObject(SWIGTYPE_p_void fed) {
-    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetMessageObject(SWIGTYPE_p_void.getCPtr(fed));
+  public static SWIGTYPE_p_void helicsFederateGetMessage(SWIGTYPE_p_void fed) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetMessage(SWIGTYPE_p_void.getCPtr(fed));
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateCreateMessageObject(SWIGTYPE_p_void fed) {
-    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateCreateMessageObject(SWIGTYPE_p_void.getCPtr(fed));
+  public static SWIGTYPE_p_void helicsFederateCreateMessage(SWIGTYPE_p_void fed) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateCreateMessage(SWIGTYPE_p_void.getCPtr(fed));
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
@@ -2869,10 +2871,6 @@ public class helics {
 
   public static void helicsFederateClearMessages(SWIGTYPE_p_void fed) {
     helicsPINVOKE.helicsFederateClearMessages(SWIGTYPE_p_void.getCPtr(fed));
-  }
-
-  public static void helicsEndpointClearMessages(SWIGTYPE_p_void endpoint) {
-    helicsPINVOKE.helicsEndpointClearMessages(SWIGTYPE_p_void.getCPtr(endpoint));
   }
 
   public static string helicsEndpointGetType(SWIGTYPE_p_void endpoint) {
@@ -2900,6 +2898,16 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static string helicsEndpointGetTag(SWIGTYPE_p_void endpoint, string tagname) {
+    string ret = helicsPINVOKE.helicsEndpointGetTag(SWIGTYPE_p_void.getCPtr(endpoint), tagname);
+    return ret;
+  }
+
+  public static void helicsEndpointSetTag(SWIGTYPE_p_void endpoint, string tagname, string tagvalue) {
+    helicsPINVOKE.helicsEndpointSetTag(SWIGTYPE_p_void.getCPtr(endpoint), tagname, tagvalue);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public static void helicsEndpointSetOption(SWIGTYPE_p_void endpoint, int option, int value) {
     helicsPINVOKE.helicsEndpointSetOption(SWIGTYPE_p_void.getCPtr(endpoint), option, value);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -2908,6 +2916,31 @@ public class helics {
   public static int helicsEndpointGetOption(SWIGTYPE_p_void endpoint, int option) {
     int ret = helicsPINVOKE.helicsEndpointGetOption(SWIGTYPE_p_void.getCPtr(endpoint), option);
     return ret;
+  }
+
+  public static void helicsEndpointAddSourceTarget(SWIGTYPE_p_void endpoint, string targetEndpoint) {
+    helicsPINVOKE.helicsEndpointAddSourceTarget(SWIGTYPE_p_void.getCPtr(endpoint), targetEndpoint);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsEndpointAddDestinationTarget(SWIGTYPE_p_void endpoint, string targetEndpoint) {
+    helicsPINVOKE.helicsEndpointAddDestinationTarget(SWIGTYPE_p_void.getCPtr(endpoint), targetEndpoint);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsEndpointRemoveTarget(SWIGTYPE_p_void endpoint, string targetEndpoint) {
+    helicsPINVOKE.helicsEndpointRemoveTarget(SWIGTYPE_p_void.getCPtr(endpoint), targetEndpoint);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsEndpointAddSourceFilter(SWIGTYPE_p_void endpoint, string filterName) {
+    helicsPINVOKE.helicsEndpointAddSourceFilter(SWIGTYPE_p_void.getCPtr(endpoint), filterName);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsEndpointAddDestinationFilter(SWIGTYPE_p_void endpoint, string filterName) {
+    helicsPINVOKE.helicsEndpointAddDestinationFilter(SWIGTYPE_p_void.getCPtr(endpoint), filterName);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
   public static string helicsMessageGetSource(SWIGTYPE_p_void message) {
@@ -2945,19 +2978,25 @@ public class helics {
     return ret;
   }
 
-  public static int helicsMessageCheckFlag(SWIGTYPE_p_void message, int flag) {
-    int ret = helicsPINVOKE.helicsMessageCheckFlag(SWIGTYPE_p_void.getCPtr(message), flag);
+  public static int helicsMessageGetFlagOption(SWIGTYPE_p_void message, int flag) {
+    int ret = helicsPINVOKE.helicsMessageGetFlagOption(SWIGTYPE_p_void.getCPtr(message), flag);
     return ret;
   }
 
-  public static int helicsMessageGetRawDataSize(SWIGTYPE_p_void message) {
-    int ret = helicsPINVOKE.helicsMessageGetRawDataSize(SWIGTYPE_p_void.getCPtr(message));
+  public static int helicsMessageGetByteCount(SWIGTYPE_p_void message) {
+    int ret = helicsPINVOKE.helicsMessageGetByteCount(SWIGTYPE_p_void.getCPtr(message));
     return ret;
   }
 
-  public static void helicsMessageGetRawData(SWIGTYPE_p_void message, SWIGTYPE_p_void data, int maxMessageLength, out int actualSize) {
-    helicsPINVOKE.helicsMessageGetRawData(SWIGTYPE_p_void.getCPtr(message), SWIGTYPE_p_void.getCPtr(data), maxMessageLength, out actualSize);
+  public static void helicsMessageGetBytes(SWIGTYPE_p_void message, SWIGTYPE_p_void data, int maxMessageLength, out int actualSize) {
+    helicsPINVOKE.helicsMessageGetBytes(SWIGTYPE_p_void.getCPtr(message), SWIGTYPE_p_void.getCPtr(data), maxMessageLength, out actualSize);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static SWIGTYPE_p_void helicsMessageGetBytesPointer(SWIGTYPE_p_void message) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsMessageGetBytesPointer(SWIGTYPE_p_void.getCPtr(message));
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    return ret;
   }
 
   public static int helicsMessageIsValid(SWIGTYPE_p_void message) {
@@ -3045,14 +3084,14 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public static SWIGTYPE_p_void helicsFederateRegisterFilter(SWIGTYPE_p_void fed, helics_filter_type type, string name) {
+  public static SWIGTYPE_p_void helicsFederateRegisterFilter(SWIGTYPE_p_void fed, HelicsFilterTypes type, string name) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterFilter(SWIGTYPE_p_void.getCPtr(fed), (int)type, name);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsFederateRegisterGlobalFilter(SWIGTYPE_p_void fed, helics_filter_type type, string name) {
+  public static SWIGTYPE_p_void helicsFederateRegisterGlobalFilter(SWIGTYPE_p_void fed, HelicsFilterTypes type, string name) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterGlobalFilter(SWIGTYPE_p_void.getCPtr(fed), (int)type, name);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -3073,7 +3112,7 @@ public class helics {
     return ret;
   }
 
-  public static SWIGTYPE_p_void helicsCoreRegisterFilter(SWIGTYPE_p_void core, helics_filter_type type, string name) {
+  public static SWIGTYPE_p_void helicsCoreRegisterFilter(SWIGTYPE_p_void core, HelicsFilterTypes type, string name) {
     global::System.IntPtr cPtr = helicsPINVOKE.helicsCoreRegisterFilter(SWIGTYPE_p_void.getCPtr(core), (int)type, name);
     SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -3161,6 +3200,16 @@ public class helics {
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public static string helicsFilterGetTag(SWIGTYPE_p_void filt, string tagname) {
+    string ret = helicsPINVOKE.helicsFilterGetTag(SWIGTYPE_p_void.getCPtr(filt), tagname);
+    return ret;
+  }
+
+  public static void helicsFilterSetTag(SWIGTYPE_p_void filt, string tagname, string tagvalue) {
+    helicsPINVOKE.helicsFilterSetTag(SWIGTYPE_p_void.getCPtr(filt), tagname, tagvalue);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
   public static void helicsFilterSetOption(SWIGTYPE_p_void filt, int option, int value) {
     helicsPINVOKE.helicsFilterSetOption(SWIGTYPE_p_void.getCPtr(filt), option, value);
     if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
@@ -3172,9 +3221,6 @@ public class helics {
   }
 
 }
-
-}
-namespace gmlc {
 
 public class SWIGTYPE_p_p_char {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
@@ -3192,9 +3238,6 @@ public class SWIGTYPE_p_p_char {
   }
 }
 
-}
-namespace gmlc {
-
 public class SWIGTYPE_p_double {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
 
@@ -3210,47 +3253,6 @@ public class SWIGTYPE_p_double {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 }
-
-}
-namespace gmlc {
-
-public class SWIGTYPE_p_int16_t {
-  private global::System.Runtime.InteropServices.HandleRef swigCPtr;
-
-  internal SWIGTYPE_p_int16_t(global::System.IntPtr cPtr, bool futureUse) {
-    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
-  }
-
-  protected SWIGTYPE_p_int16_t() {
-    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
-  }
-
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(SWIGTYPE_p_int16_t obj) {
-    return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
-  }
-}
-
-}
-namespace gmlc {
-
-public class SWIGTYPE_p_int32_t {
-  private global::System.Runtime.InteropServices.HandleRef swigCPtr;
-
-  internal SWIGTYPE_p_int32_t(global::System.IntPtr cPtr, bool futureUse) {
-    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
-  }
-
-  protected SWIGTYPE_p_int32_t() {
-    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
-  }
-
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(SWIGTYPE_p_int32_t obj) {
-    return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
-  }
-}
-
-}
-namespace gmlc {
 
 public class SWIGTYPE_p_void {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
@@ -3268,4 +3270,18 @@ public class SWIGTYPE_p_void {
   }
 }
 
+public class SWIGTYPE_p_int32_t {
+  private global::System.Runtime.InteropServices.HandleRef swigCPtr;
+
+  internal SWIGTYPE_p_int32_t(global::System.IntPtr cPtr, bool futureUse) {
+    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
+  }
+
+  protected SWIGTYPE_p_int32_t() {
+    swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
+  }
+
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(SWIGTYPE_p_int32_t obj) {
+    return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
+  }
 }

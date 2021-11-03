@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<GasNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="6d3a924e3bd244f88c72df028a56b022" ModelOrigin="Unknown" ModelName="GNET25" TimeCreated="2016-12-03T16:12:40.3266212+01:00" TimeModified="2021-05-10T19:34:21.9635385+02:00" Version="2.0.25.0" Comment="" NodeSize="1.1" LineSize="2" Arrowsize="2.143589" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8355712" LPREFPRF="" LPREFPRFVAL="1" CPSize="1.2" CVSize="1.1" VASize="1.1" RESSize="1.1" P_n="101325" T_n="273.15" rho_r="0.6" visc="1E-05" p_crit="4500000" T_crit="193.7" CV="41215000" kappa="1.3" P_a="101325" T_g="288.15" RO="1.2E-05" LAM="0.012" Z="0.84" Z_1="-0.0027" Z_2="7E-05" Pz_b="3000000" LAMBDAEQN="HOFER" ZEQN="PAPAY" VISCEQN="CNST" ISOTHERM="true" ISOQUAL="true" CnstH="false" CnstRO="false" DiscretPipe="false">
+<GasNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="6d3a924e3bd244f88c72df028a56b022" ModelOrigin="Unknown" ModelName="GNET25" TimeCreated="2016-12-03T16:12:40.3266212+01:00" TimeModified="2021-09-08T16:33:18.7026526+02:00" Version="2.0.29.0" Comment="" NodeSize="1.1" LineSize="2" Arrowsize="2.143589" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8355712" LPREFPRF="" LPREFPRFVAL="1" CPSize="1.2" CVSize="1.1" VASize="1.1" RESSize="1.1" P_n="101325" T_n="273.15" rho_r="0.6" visc="1E-05" p_crit="4500000" T_crit="193.7" CV="41215000" kappa="1.3" P_a="101325" T_g="288.15" RO="1.2E-05" LAM="0.012" Z="0.84" Z_1="-0.0027" Z_2="7E-05" Pz_b="3000000" LAMBDAEQN="HOFER" ZEQN="PAPAY" VISCEQN="CNST" ISOTHERM="true" ISOQUAL="true" CnstH="false" CnstRO="false" DiscretPipe="true">
   <Subs>
     <Sub xsi:type="GasSub" UID="c7a4caf87d4b433d939530ec09c15842" Name="NORTH" Info="-" LPREFPRF="" LPREFPRFVAL="1" />
     <Sub xsi:type="GasSub" UID="9ae7a5cfc23549ef82abc3a98730dcb2" Name="WEST" Info="-" LPREFPRF="" LPREFPRFVAL="1" />
@@ -112,7 +112,7 @@
       <PMAX ViolType="none" Val="6101324.9999999991" />
       <PMIN ViolType="SoftLimit" Val="1701324.9999999998" />
     </Node>
-    <Node UID="2c1d8a79a4f9485793a76ae57b505359" Name="N15" Visible="true" Info="-" X="-3.0999999046325684" Y="-8.1000003814697266" Z="45" SVTOL="1" NodeType="Demand" Owner="CGS" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+    <Node UID="2c1d8a79a4f9485793a76ae57b505359" Name="N15" Visible="true" Info="-" X="-3.0999999046325684" Y="-8.1000003814697266" Z="45" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
       <defcont>OFF</defcont>
       <QMAX ViolType="none" Val="0.0763888888888889" />
       <QMIN ViolType="none" Val="0" />
@@ -147,14 +147,14 @@
       <PMAX ViolType="none" Val="6101324.9999999991" />
       <PMIN ViolType="none" Val="101325" />
     </Node>
-    <Node UID="73a4204379c04321b13093ff83df2352" Name="N20" Visible="true" Info="-" X="4" Y="-8.1000003814697266" Z="160" SVTOL="1" NodeType="Demand" Owner="CGS" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+    <Node UID="73a4204379c04321b13093ff83df2352" Name="N20" Visible="true" Info="-" X="4" Y="-8.1000003814697266" Z="160" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
       <defcont>OFF</defcont>
       <QMAX ViolType="none" Val="150" />
       <QMIN ViolType="none" Val="0" />
       <PMAX ViolType="none" Val="6101324.9999999991" />
       <PMIN ViolType="SoftLimit" Val="3101324.9999999995" />
     </Node>
-    <Node UID="1888cea475f44eee81fa990f309a28ef" Name="N21" Visible="true" Info="-" X="6" Y="-8" Z="150" SVTOL="1" NodeType="Demand" Owner="CBE" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+    <Node UID="1888cea475f44eee81fa990f309a28ef" Name="N21" Visible="true" Info="-" X="6" Y="-8" Z="150" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
       <defcont>OFF</defcont>
       <QMAX ViolType="none" Val="150" />
       <QMIN ViolType="none" Val="0" />
