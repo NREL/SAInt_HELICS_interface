@@ -12,14 +12,22 @@ namespace HelicsDotNetReceiver
     {
         static void Main(string[] args)
         {
-            string netfolder = @"..\..\..\..\Demo\";
-            string outputfolder = @"..\..\..\..\..\outputs\";
-            Directory.CreateDirectory(outputfolder);
 
-            // Load Gas Model
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE1.sce");
+            // Load Gas Model - Demo 
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            //APIExport.openGNET(netfolder + "GNET25.net");
+            //APIExport.openGSCE(netfolder + "CASE1.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+
+            // Load Gas Model - Belgian model
+            string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
+            string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
+            APIExport.openGNET(netfolder + "GNETBENEWtest.net");
+            APIExport.openGSCE(netfolder + "DYN.sce");
             APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+
+            Directory.CreateDirectory(outputfolder);
             APIExport.showSIMLOG(false);
 
             // Load mapping between gas nodes and power plants 

@@ -13,14 +13,22 @@ namespace HelicsDotNetSender
     {      
         static void Main(string[] args)
         {
-            string netfolder = @"..\..\..\..\Demo\";
-            string outputfolder = @"..\..\..\..\..\outputs\";
-            Directory.CreateDirectory(outputfolder);
 
-            // Load Electric Model
-            APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openESCE(netfolder + "CASE1.esce");
+            // Load Electric Model - Demo 
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            // string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE1.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+
+            // Load Electric Model - Belgian model 
+            string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
+            string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
+            APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
+            APIExport.openESCE(netfolder + "QDYNOPF.esce");
             APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+
+            Directory.CreateDirectory(outputfolder);
             APIExport.showSIMLOG(true);
 
             // Load mapping between gas nodes and power plants 
