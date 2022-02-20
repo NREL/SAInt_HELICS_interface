@@ -40,8 +40,9 @@ namespace SAIntHelicsLib
                 double qval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dT / 3600));
 
                 double ThermalPower  = qval * s.GNET.CV / 1E6; //Thermal power in [MW]
-                h.helicsPublicationPublishDouble(m.GasPub, ThermalPower);
-                
+                h.helicsPublicationPublishDouble(m.GasPubPth, ThermalPower);
+                h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GasNode.PMIN.Val-m.GasNode.GNET.P_a)/1e5);
+
                 Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", 
                     gtime, step, m.GasNode, ThermalPower, pval, qval));
                 m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
@@ -55,23 +56,31 @@ namespace SAIntHelicsLib
 
             foreach (Mapping m in MappingList)
             {
-                double val = h.helicsInputGetDouble(m.GasSub);
-                Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW]", gtime, step, m.ElectricGen, val));
+                // subscribe to available thermal power from gas node
+                double valPth = h.helicsInputGetDouble(m.GasSubPth);
+                // subscribe to pressure difference between nodal pressure and minimum pressure from gas node
+                double valPbar = h.helicsInputGetDouble(m.GasSubPbar);
+
+                Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", gtime, step, m.ElectricGen, valPth,valPbar));
 
                 //get currently required thermal power 
                 double pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID,gtime*m.ElectricGen.Net.SCE.dT/3600));
                 double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * pval + m.ElectricGen.K_2 * pval * pval;
                 double ThermalPower = HR / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
 
-                m.lastVal.Add(val);
+                m.lastVal.Add(valPth);
 
-                if (Math.Abs(ThermalPower-val) > eps)
+                if (Math.Abs(ThermalPower-valPth) > eps && step>2)
                 {
-                    double PG = GetActivePowerFromAvailableThermalPower(m, val, pval);
-                    m.ElectricGen.PGMAX = Math.Max(0, Math.Min(PG, m.NCAP));
-                    m.ElectricGen.PGMIN = Math.Max(0, Math.Min(PG, m.NCAP));
+                    if (valPbar < eps)
+                    { 
+                        double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
+                        double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
+                        m.ElectricGen.PGMIN = PGMAXset;
+                        m.ElectricGen.PGMAX = PGMAXset; 
+                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, m.ElectricGen.PGMAX));
+                    }
                     HasViolations = true;
-                    Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", gtime, step, m.ElectricGen, m.ElectricGen.PGMAX));
                 }
                 else
                 {
@@ -105,7 +114,7 @@ namespace SAIntHelicsLib
                 //get currently available thermal power 
                 double pval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s] * {0}.CV.({1}).[MJ/sm3]", m.GasNodeID, gtime * m.GasNode.Net.SCE.dT / 3600));
 
-                if (Math.Abs(pval - val) > eps)
+                if (Math.Abs(pval - val) > eps )
                 {               
                     // calculate offtakes at corresponding node using heat rates
                     foreach (var evt in m.GasNode.EventList)
@@ -223,8 +232,10 @@ namespace SAIntHelicsLib
 
         public List<double> lastVal;
 
-        public SWIGTYPE_p_void GasPub;
-        public SWIGTYPE_p_void GasSub;
+        public SWIGTYPE_p_void GasPubPth;
+        public SWIGTYPE_p_void GasPubPbar;
+        public SWIGTYPE_p_void GasSubPth;
+        public SWIGTYPE_p_void GasSubPbar;
 
         public SWIGTYPE_p_void ElectricPub;
         public SWIGTYPE_p_void ElectricSub;

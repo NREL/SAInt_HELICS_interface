@@ -12,23 +12,33 @@ namespace HelicsDotNetReceiver
     {
         static void Main(string[] args)
         {
+            // Load Gas Model - Demo 
+            string netfolder = @"..\..\..\..\Networks\Demo\";
+            string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            APIExport.openGNET(netfolder + "GNET25.net");
+            APIExport.openGSCE(netfolder + "CASE1.sce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - Demo 
-            //string netfolder = @"..\..\..\..\Networks\Demo\";
-            //string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            //string netfolder = @"..\..\..\..\Networks\Case1\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Case1\";
             //APIExport.openGNET(netfolder + "GNET25.net");
             //APIExport.openGSCE(netfolder + "CASE1.sce");
             //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - Belgian model
-            string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
-            string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
-            APIExport.openGNET(netfolder + "GNETBENEWtest.net");
-            APIExport.openGSCE(netfolder + "DYN.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
+            //APIExport.openGNET(netfolder + "GNETBENEWtest.net");
+            //APIExport.openGSCE(netfolder + "DYN.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             Directory.CreateDirectory(outputfolder);
+#if DEBUG
+            APIExport.showSIMLOG(true);
+#else
             APIExport.showSIMLOG(false);
+#endif
 
             // Load mapping between gas nodes and power plants 
             List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
@@ -57,8 +67,11 @@ namespace HelicsDotNetReceiver
 
             // Register Publication and Subscription for coupling points
             foreach (Mapping m in MappingList) {
-                m.GasPub= h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GasNodeID, "double", "");
+                m.GasPubPth= h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
+                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
+
                 m.ElectricSub= h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
+                
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
@@ -93,6 +106,8 @@ namespace HelicsDotNetReceiver
             bool IsRepeating = false;
             bool HasViolations = false;
 
+            // Switch to release mode to enable console output to file
+#if !DEBUG
             // redirect console output to log file
             FileStream ostrm;
             StreamWriter writer;
@@ -100,7 +115,7 @@ namespace HelicsDotNetReceiver
             ostrm = new FileStream(outputfolder + "Log_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write);
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
-
+#endif
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
@@ -145,6 +160,7 @@ namespace HelicsDotNetReceiver
                         e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                                                         
                     }
+
                 }
                 
             };
@@ -157,10 +173,12 @@ namespace HelicsDotNetReceiver
             Console.WriteLine($"Requested time: {requested_time}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
+#if !DEBUG
             // close out log file
             Console.SetOut(oldOut);
             writer.Close();
             ostrm.Close();
+#endif
 
             // save SAInt output
             APIExport.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");

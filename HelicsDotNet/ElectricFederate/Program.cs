@@ -13,24 +13,33 @@ namespace HelicsDotNetSender
     {      
         static void Main(string[] args)
         {
+            // Load Electric Model - Demo 
+            string netfolder = @"..\..\..\..\Networks\Demo\";
+            string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            APIExport.openENET(netfolder + "ENET30.enet");
+            APIExport.openESCE(netfolder + "CASE1.esce");
+            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Demo 
-            //string netfolder = @"..\..\..\..\Networks\Demo\";
-            // string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            //string netfolder = @"..\..\..\..\Networks\Case1\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Case1\";
             //APIExport.openENET(netfolder + "ENET30.enet");
             //APIExport.openESCE(netfolder + "CASE1.esce");
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Belgian model 
-            string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
-            string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
-            APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
-            APIExport.openESCE(netfolder + "QDYNOPF.esce");
-            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
+            //APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
+            //APIExport.openESCE(netfolder + "QDYNOPF.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             Directory.CreateDirectory(outputfolder);
+#if DEBUG
             APIExport.showSIMLOG(true);
-
+#else
+            APIExport.showSIMLOG(false);
+#endif
             // Load mapping between gas nodes and power plants 
             List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
 
@@ -71,7 +80,9 @@ namespace HelicsDotNetSender
             foreach (Mapping m in MappingList)
             {
                 m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
-                m.GasSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GasNodeID, "");
+                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
+                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeID, "");
+                
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name+".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
@@ -107,6 +118,8 @@ namespace HelicsDotNetSender
             bool IsRepeating = false;
             bool HasViolations = false;
 
+            // Switch to release mode to enable console output to file 
+#if !DEBUG
             // redirect console output to log file
             FileStream ostrm;
             StreamWriter writer;
@@ -114,10 +127,20 @@ namespace HelicsDotNetSender
             ostrm = new FileStream(outputfolder + "Log_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write);
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
+#endif
 
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
+#if DEBUG
+                if (e.SolverState == SolverState.AfterTimeStep)
+                {
+                    foreach (var i in SAInt.ENET.Gen)
+                    {
+                        Console.WriteLine($"{i.Name} \t {i.get_PG(e.TimeStep)}");
+                    }
+                }
+#endif
                 if (e.SolverState == SolverState.BeforeTimeStep)
                 {
                     // non-iterative time request here to block until both federates are done iterating the last time step
@@ -163,7 +186,6 @@ namespace HelicsDotNetSender
                         IsRepeating = HasViolations;                          
                     }
                 }
-                
             };
 
             // run power model
@@ -174,10 +196,13 @@ namespace HelicsDotNetSender
             Console.WriteLine($"Requested time: {requested_time}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
+
+#if !DEBUG
             // close out log file
             Console.SetOut(oldOut);
             writer.Close();
             ostrm.Close();
+#endif
 
             // finalize federate
             h.helicsFederateFinalize(vfed);
