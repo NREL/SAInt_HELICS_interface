@@ -115,6 +115,7 @@ namespace HelicsDotNetSender
 
             // variables to control iterations
             Int16 step=0 ;
+            List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
             bool IsRepeating = false;
             bool HasViolations = false;
 
@@ -128,7 +129,7 @@ namespace HelicsDotNetSender
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
 #endif
-
+            TimeStepInfo currenttimestep=new TimeStepInfo() { timestep = 0, itersteps = 0 };
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
@@ -157,6 +158,9 @@ namespace HelicsDotNetSender
                         m.ElectricGen.PGMIN = 0;
                         m.lastVal.Clear();
                     }
+                    // Set time step info
+                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0};
+                    timestepinfo.Add(currenttimestep);
                 }
 
                 if ( e.SolverState == SolverState.AfterTimeStep && IsRepeating)
@@ -167,6 +171,8 @@ namespace HelicsDotNetSender
                     if (IsRepeating)
                     {
                         step += 1;
+                        currenttimestep.itersteps += 1;
+
                         int helics_iter_status;
 
                         // iterative HELICS time request
@@ -208,6 +214,19 @@ namespace HelicsDotNetSender
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
+
+            using (FileStream fs=new FileStream(outputfolder + "TimeStepInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
+            {   
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.WriteLine("TimeStep {0} \t IterStep");
+                    foreach (TimeStepInfo x in timestepinfo)
+                    {
+                        sw.WriteLine(String.Format("{0}\t{1}", x.timestep, x.itersteps));
+                    }
+                }
+
+            }
 
             // save SAInt output
             APIExport.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");

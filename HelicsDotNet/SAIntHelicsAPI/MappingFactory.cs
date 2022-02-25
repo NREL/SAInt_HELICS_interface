@@ -243,4 +243,10 @@ namespace SAIntHelicsLib
         public StreamWriter sw;
     }
 
+    public class TimeStepInfo
+    {
+        public int timestep, itersteps;
+        public DateTime time;
+    }
+
 }

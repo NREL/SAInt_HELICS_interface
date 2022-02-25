@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<NetDatafile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" FilePath="" Version="2.0.30.0" TimeCreated="2022-02-20T03:34:04.8830375+01:00" TimeModified="2022-02-20T03:34:05.0465684+01:00">
+<NetDatafile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" FilePath="" Version="2.0.30.0" TimeCreated="2022-02-25T11:46:12.9380368+01:00" TimeModified="2022-02-25T11:46:13.0870125+01:00">
   <Items>
-    <Item EventTime="2016-12-01T06:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.8850366+01:00" TimeModified="2022-02-20T03:34:04.8850366+01:00">
+    <Item EventTime="2016-12-01T06:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:12.9390342+01:00" TimeModified="2022-02-25T11:46:12.9390342+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.68454860410665" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4374242.2355564432" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -549,7 +549,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T06:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.8999935+01:00" TimeModified="2022-02-20T03:34:04.8999935+01:00">
+    <Item EventTime="2016-12-01T06:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:12.9559867+01:00" TimeModified="2022-02-25T11:46:12.9559867+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.68461212843303" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4374241.208854435" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -1097,7 +1097,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T06:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9578375+01:00" TimeModified="2022-02-20T03:34:04.9578375+01:00">
+    <Item EventTime="2016-12-01T06:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0072251+01:00" TimeModified="2022-02-25T11:46:13.0072251+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.6849876482116" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4374235.7874159785" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -1645,7 +1645,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T06:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9588048+01:00" TimeModified="2022-02-20T03:34:04.9588048+01:00">
+    <Item EventTime="2016-12-01T06:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0082225+01:00" TimeModified="2022-02-25T11:46:13.0082225+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.68631889849902" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4374217.9720724262" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -2193,7 +2193,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T07:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9597998+01:00" TimeModified="2022-02-20T03:34:04.9597998+01:00">
+    <Item EventTime="2016-12-01T07:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.00922+01:00" TimeModified="2022-02-25T11:46:13.00922+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.689919016874" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4374172.6105204318" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -2741,7 +2741,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T07:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9607993+01:00" TimeModified="2022-02-20T03:34:04.9607993+01:00">
+    <Item EventTime="2016-12-01T07:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0102172+01:00" TimeModified="2022-02-25T11:46:13.0102172+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.69800811829913" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4374075.94273362" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -3289,7 +3289,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T07:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9618242+01:00" TimeModified="2022-02-20T03:34:04.9618242+01:00">
+    <Item EventTime="2016-12-01T07:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0112145+01:00" TimeModified="2022-02-25T11:46:13.0112145+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.71366676657806" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4373898.2429327788" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -3837,7 +3837,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T07:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9628254+01:00" TimeModified="2022-02-20T03:34:04.9628254+01:00">
+    <Item EventTime="2016-12-01T07:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0112145+01:00" TimeModified="2022-02-25T11:46:13.0112145+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.74043602802078" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4373609.3518281057" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -4385,7 +4385,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T08:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9637915+01:00" TimeModified="2022-02-20T03:34:04.9637915+01:00">
+    <Item EventTime="2016-12-01T08:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0122118+01:00" TimeModified="2022-02-25T11:46:13.0122118+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.78168032357794" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4373185.006457977" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -4933,7 +4933,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T08:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9637915+01:00" TimeModified="2022-02-20T03:34:04.9637915+01:00">
+    <Item EventTime="2016-12-01T08:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0132091+01:00" TimeModified="2022-02-25T11:46:13.0132091+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.83992495951992" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4372611.8421377419" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -5481,7 +5481,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T08:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9648058+01:00" TimeModified="2022-02-20T03:34:04.9648058+01:00">
+    <Item EventTime="2016-12-01T08:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0132091+01:00" TimeModified="2022-02-25T11:46:13.0132091+01:00">
       <Nodes>
         <Node Name="N00" Q="-192.91647842255804" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4371887.9771365272" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -6029,7 +6029,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T08:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9657864+01:00" TimeModified="2022-02-20T03:34:04.9657864+01:00">
+    <Item EventTime="2016-12-01T08:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0142064+01:00" TimeModified="2022-02-25T11:46:13.0142064+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.011443527307" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4371020.2425848432" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -6577,7 +6577,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T09:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9657864+01:00" TimeModified="2022-02-20T03:34:04.9657864+01:00">
+    <Item EventTime="2016-12-01T09:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0152037+01:00" TimeModified="2022-02-25T11:46:13.0152037+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.12402482068015" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4370020.0064389128" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -7125,7 +7125,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T09:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9667803+01:00" TimeModified="2022-02-20T03:34:04.9667803+01:00">
+    <Item EventTime="2016-12-01T09:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0152037+01:00" TimeModified="2022-02-25T11:46:13.0152037+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.25294385752068" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4368899.5239091115" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -7673,7 +7673,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T09:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9677808+01:00" TimeModified="2022-02-20T03:34:04.9677808+01:00">
+    <Item EventTime="2016-12-01T09:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0162011+01:00" TimeModified="2022-02-25T11:46:13.0162011+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.39669106020128" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4367671.4982844172" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -8221,7 +8221,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T09:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9677808+01:00" TimeModified="2022-02-20T03:34:04.9677808+01:00">
+    <Item EventTime="2016-12-01T09:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0171984+01:00" TimeModified="2022-02-25T11:46:13.0171984+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.55351376912367" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4366351.09090938" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -8769,7 +8769,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T10:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9697725+01:00" TimeModified="2022-02-20T03:34:04.9697725+01:00">
+    <Item EventTime="2016-12-01T10:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0181959+01:00" TimeModified="2022-02-25T11:46:13.0181959+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.72119893101285" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4364958.9363307571" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -9317,7 +9317,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T10:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9717667+01:00" TimeModified="2022-02-20T03:34:04.9717667+01:00">
+    <Item EventTime="2016-12-01T10:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0181959+01:00" TimeModified="2022-02-25T11:46:13.0181959+01:00">
       <Nodes>
         <Node Name="N00" Q="-193.89679301169306" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4363523.6004343405" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -9865,7 +9865,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T10:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9727638+01:00" TimeModified="2022-02-20T03:34:04.9727638+01:00">
+    <Item EventTime="2016-12-01T10:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0191931+01:00" TimeModified="2022-02-25T11:46:13.0191931+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.07649113142563" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4362081.0043375306" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -10413,7 +10413,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T10:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9747585+01:00" TimeModified="2022-02-20T03:34:04.9747585+01:00">
+    <Item EventTime="2016-12-01T10:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0201904+01:00" TimeModified="2022-02-25T11:46:13.0201904+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.25576742905454" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4360671.7170860907" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -10961,7 +10961,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T11:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9757558+01:00" TimeModified="2022-02-20T03:34:04.9757558+01:00">
+    <Item EventTime="2016-12-01T11:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0201904+01:00" TimeModified="2022-02-25T11:46:13.0201904+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.4296834881614" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4359337.4263135707" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -11509,7 +11509,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T11:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.976753+01:00" TimeModified="2022-02-20T03:34:04.976753+01:00">
+    <Item EventTime="2016-12-01T11:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0211874+01:00" TimeModified="2022-02-25T11:46:13.0211874+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.59328799717514" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4358117.2470347919" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -12057,7 +12057,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T11:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9787476+01:00" TimeModified="2022-02-20T03:34:04.9787476+01:00">
+    <Item EventTime="2016-12-01T11:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0221852+01:00" TimeModified="2022-02-25T11:46:13.0221852+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.7420591637993" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4357043.91386613" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -12605,7 +12605,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T11:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9787476+01:00" TimeModified="2022-02-20T03:34:04.9787476+01:00">
+    <Item EventTime="2016-12-01T11:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0231826+01:00" TimeModified="2022-02-25T11:46:13.0231826+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.87235724231221" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4356140.0742812008" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -13153,7 +13153,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T12:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9797449+01:00" TimeModified="2022-02-20T03:34:04.9797449+01:00">
+    <Item EventTime="2016-12-01T12:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0231826+01:00" TimeModified="2022-02-25T11:46:13.0231826+01:00">
       <Nodes>
         <Node Name="N00" Q="-194.98186076364516" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4355414.88515179" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -13701,7 +13701,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T12:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9807423+01:00" TimeModified="2022-02-20T03:34:04.9807423+01:00">
+    <Item EventTime="2016-12-01T12:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0241799+01:00" TimeModified="2022-02-25T11:46:13.0241799+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.06991423995746" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4354861.9128873516" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -14249,7 +14249,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T12:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9817401+01:00" TimeModified="2022-02-20T03:34:04.9817401+01:00">
+    <Item EventTime="2016-12-01T12:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0251771+01:00" TimeModified="2022-02-25T11:46:13.0251771+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.13756445038629" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4354461.3378227092" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -14797,7 +14797,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T12:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9817401+01:00" TimeModified="2022-02-20T03:34:04.9817401+01:00">
+    <Item EventTime="2016-12-01T12:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0251771+01:00" TimeModified="2022-02-25T11:46:13.0251771+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.18720534583457" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4354185.5883608721" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -15345,7 +15345,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T13:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9827381+01:00" TimeModified="2022-02-20T03:34:04.9827381+01:00">
+    <Item EventTime="2016-12-01T13:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0261743+01:00" TimeModified="2022-02-25T11:46:13.0261743+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.2219166809403" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4354006.5842795623" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -15893,7 +15893,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T13:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9837344+01:00" TimeModified="2022-02-20T03:34:04.9837344+01:00">
+    <Item EventTime="2016-12-01T13:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0271718+01:00" TimeModified="2022-02-25T11:46:13.0271718+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.24470649303788" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353902.1067938283" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -16441,7 +16441,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T13:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9847344+01:00" TimeModified="2022-02-20T03:34:04.9847344+01:00">
+    <Item EventTime="2016-12-01T13:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0271718+01:00" TimeModified="2022-02-25T11:46:13.0271718+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.25803639145636" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353857.0219009053" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -16989,7 +16989,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T13:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9867275+01:00" TimeModified="2022-02-20T03:34:04.9867275+01:00">
+    <Item EventTime="2016-12-01T13:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0291668+01:00" TimeModified="2022-02-25T11:46:13.0291668+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.263797489875" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353860.1506946385" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -17537,7 +17537,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T14:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9877251+01:00" TimeModified="2022-02-20T03:34:04.9877251+01:00">
+    <Item EventTime="2016-12-01T14:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0301637+01:00" TimeModified="2022-02-25T11:46:13.0301637+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.26367325435211" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353898.8639478022" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -18085,7 +18085,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T14:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9897214+01:00" TimeModified="2022-02-20T03:34:04.9897214+01:00">
+    <Item EventTime="2016-12-01T14:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0311611+01:00" TimeModified="2022-02-25T11:46:13.0311611+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.25966905680357" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353954.101983346" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -18633,7 +18633,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T14:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9897214+01:00" TimeModified="2022-02-20T03:34:04.9897214+01:00">
+    <Item EventTime="2016-12-01T14:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0311611+01:00" TimeModified="2022-02-25T11:46:13.0311611+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.25440222320103" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4354000.3965647342" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -19181,7 +19181,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T14:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9907185+01:00" TimeModified="2022-02-20T03:34:04.9907185+01:00">
+    <Item EventTime="2016-12-01T14:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0321583+01:00" TimeModified="2022-02-25T11:46:13.0321583+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.25097016551138" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4354010.0728527773" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -19729,7 +19729,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T15:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9917156+01:00" TimeModified="2022-02-20T03:34:04.9917156+01:00">
+    <Item EventTime="2016-12-01T15:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0331557+01:00" TimeModified="2022-02-25T11:46:13.0331557+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.25246473906313" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353959.3868690962" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -20277,7 +20277,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T15:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.992713+01:00" TimeModified="2022-02-20T03:34:04.992713+01:00">
+    <Item EventTime="2016-12-01T15:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0341532+01:00" TimeModified="2022-02-25T11:46:13.0341532+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.261351611434" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353834.0067513045" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -20825,7 +20825,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T15:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9937107+01:00" TimeModified="2022-02-20T03:34:04.9937107+01:00">
+    <Item EventTime="2016-12-01T15:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0341532+01:00" TimeModified="2022-02-25T11:46:13.0341532+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.27907013949397" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353630.0876633283" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -21373,7 +21373,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T15:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9937107+01:00" TimeModified="2022-02-20T03:34:04.9937107+01:00">
+    <Item EventTime="2016-12-01T15:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0351499+01:00" TimeModified="2022-02-25T11:46:13.0351499+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.3060059229407" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353351.727740434" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -21921,7 +21921,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T16:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9947076+01:00" TimeModified="2022-02-20T03:34:04.9947076+01:00">
+    <Item EventTime="2016-12-01T16:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0361491+01:00" TimeModified="2022-02-25T11:46:13.0361491+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.34177771522218" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4353006.6618385194" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -22469,7 +22469,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T16:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9957069+01:00" TimeModified="2022-02-20T03:34:04.9957069+01:00">
+    <Item EventTime="2016-12-01T16:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0371454+01:00" TimeModified="2022-02-25T11:46:13.0371454+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.38566828596203" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4352602.1376712378" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -23017,7 +23017,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T16:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9957069+01:00" TimeModified="2022-02-20T03:34:04.9957069+01:00">
+    <Item EventTime="2016-12-01T16:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0381427+01:00" TimeModified="2022-02-25T11:46:13.0381427+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.43693592914957" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4352143.6921526007" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -23565,7 +23565,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T16:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9966997+01:00" TimeModified="2022-02-20T03:34:04.9966997+01:00">
+    <Item EventTime="2016-12-01T16:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0381427+01:00" TimeModified="2022-02-25T11:46:13.0381427+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.49488724120206" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4351636.380727184" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -24113,7 +24113,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T17:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9976997+01:00" TimeModified="2022-02-20T03:34:04.9976997+01:00">
+    <Item EventTime="2016-12-01T17:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0391396+01:00" TimeModified="2022-02-25T11:46:13.0391396+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.55873865916962" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4351087.2731396239" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -24661,7 +24661,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T17:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.998697+01:00" TimeModified="2022-02-20T03:34:04.998697+01:00">
+    <Item EventTime="2016-12-01T17:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.040137+01:00" TimeModified="2022-02-25T11:46:13.040137+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.62737640966404" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4350507.8923960729" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -25209,7 +25209,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T17:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.998697+01:00" TimeModified="2022-02-20T03:34:04.998697+01:00">
+    <Item EventTime="2016-12-01T17:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0411343+01:00" TimeModified="2022-02-25T11:46:13.0411343+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.69919756119131" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4349914.6359619154" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -25757,7 +25757,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T17:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:04.9996943+01:00" TimeModified="2022-02-20T03:34:04.9996943+01:00">
+    <Item EventTime="2016-12-01T17:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0411343+01:00" TimeModified="2022-02-25T11:46:13.0411343+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.77211311787414" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4349327.5334764058" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -26305,7 +26305,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T18:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0006892+01:00" TimeModified="2022-02-20T03:34:05.0006892+01:00">
+    <Item EventTime="2016-12-01T18:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0421316+01:00" TimeModified="2022-02-25T11:46:13.0421316+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.84369280137298" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4348768.164304262" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -26853,7 +26853,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T18:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0016869+01:00" TimeModified="2022-02-20T03:34:05.0016869+01:00">
+    <Item EventTime="2016-12-01T18:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0431292+01:00" TimeModified="2022-02-25T11:46:13.0431292+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.911406944753" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4348257.1198287047" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -27401,7 +27401,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T18:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0016869+01:00" TimeModified="2022-02-20T03:34:05.0016869+01:00">
+    <Item EventTime="2016-12-01T18:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0441271+01:00" TimeModified="2022-02-25T11:46:13.0441271+01:00">
       <Nodes>
         <Node Name="N00" Q="-195.97296228432833" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4347810.6465700474" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -27949,7 +27949,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T18:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0026836+01:00" TimeModified="2022-02-20T03:34:05.0026836+01:00">
+    <Item EventTime="2016-12-01T18:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0451238+01:00" TimeModified="2022-02-25T11:46:13.0451238+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.02670621150298" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4347436.9556592349" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -28497,7 +28497,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T19:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0036808+01:00" TimeModified="2022-02-20T03:34:05.0036808+01:00">
+    <Item EventTime="2016-12-01T19:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0451238+01:00" TimeModified="2022-02-25T11:46:13.0451238+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.07205176264503" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4347132.7322559869" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -29045,7 +29045,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T19:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0046787+01:00" TimeModified="2022-02-20T03:34:05.0046787+01:00">
+    <Item EventTime="2016-12-01T19:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0461219+01:00" TimeModified="2022-02-25T11:46:13.0461219+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.10985596196562" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4346880.5249402253" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -29593,7 +29593,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T19:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0046787+01:00" TimeModified="2022-02-20T03:34:05.0046787+01:00">
+    <Item EventTime="2016-12-01T19:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0471195+01:00" TimeModified="2022-02-25T11:46:13.0471195+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.14263577949046" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4346648.3323475039" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -30141,7 +30141,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T19:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0056761+01:00" TimeModified="2022-02-20T03:34:05.0056761+01:00">
+    <Item EventTime="2016-12-01T19:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0471195+01:00" TimeModified="2022-02-25T11:46:13.0471195+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.17457196455155" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4346391.1103639621" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -30689,7 +30689,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T20:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0066734+01:00" TimeModified="2022-02-20T03:34:05.0066734+01:00">
+    <Item EventTime="2016-12-01T20:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0491134+01:00" TimeModified="2022-02-25T11:46:13.0491134+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.21132146396698" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4346053.5409365082" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -31237,7 +31237,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T20:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0076705+01:00" TimeModified="2022-02-20T03:34:05.0076705+01:00">
+    <Item EventTime="2016-12-01T20:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0501117+01:00" TimeModified="2022-02-25T11:46:13.0501117+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.25944606412102" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4345577.5828890633" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -31785,7 +31785,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T20:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0086685+01:00" TimeModified="2022-02-20T03:34:05.0086685+01:00">
+    <Item EventTime="2016-12-01T20:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0501117+01:00" TimeModified="2022-02-25T11:46:13.0501117+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.32352994068336" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4344945.066525138" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -32333,7 +32333,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T20:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0096655+01:00" TimeModified="2022-02-20T03:34:05.0096655+01:00">
+    <Item EventTime="2016-12-01T20:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.051108+01:00" TimeModified="2022-02-25T11:46:13.051108+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.40430310109755" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4344179.5567942625" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -32881,7 +32881,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T21:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0106629+01:00" TimeModified="2022-02-20T03:34:05.0106629+01:00">
+    <Item EventTime="2016-12-01T21:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0521061+01:00" TimeModified="2022-02-25T11:46:13.0521061+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.49909870032275" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4343324.7791410843" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -33429,7 +33429,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T21:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0116638+01:00" TimeModified="2022-02-20T03:34:05.0116638+01:00">
+    <Item EventTime="2016-12-01T21:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0531028+01:00" TimeModified="2022-02-25T11:46:13.0531028+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.60340317373897" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4342427.0713702971" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -33977,7 +33977,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T21:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0126581+01:00" TimeModified="2022-02-20T03:34:05.0126581+01:00">
+    <Item EventTime="2016-12-01T21:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0540991+01:00" TimeModified="2022-02-25T11:46:13.0540991+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.71234952118334" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4341525.6167227281" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -34525,7 +34525,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T21:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0136548+01:00" TimeModified="2022-02-20T03:34:05.0136548+01:00">
+    <Item EventTime="2016-12-01T21:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0551007+01:00" TimeModified="2022-02-25T11:46:13.0551007+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.82166786312629" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4340649.2201101081" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -35073,7 +35073,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T22:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0136548+01:00" TimeModified="2022-02-20T03:34:05.0136548+01:00">
+    <Item EventTime="2016-12-01T22:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0560942+01:00" TimeModified="2022-02-25T11:46:13.0560942+01:00">
       <Nodes>
         <Node Name="N00" Q="-196.92808781185036" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4339816.7768320832" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -35621,7 +35621,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T22:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0156492+01:00" TimeModified="2022-02-20T03:34:05.0156492+01:00">
+    <Item EventTime="2016-12-01T22:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0590881+01:00" TimeModified="2022-02-25T11:46:13.0590881+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.02937548106104" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4339039.1597893769" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -36169,7 +36169,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T22:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.017645+01:00" TimeModified="2022-02-20T03:34:05.017645+01:00">
+    <Item EventTime="2016-12-01T22:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0600848+01:00" TimeModified="2022-02-25T11:46:13.0600848+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.12415440796826" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4338321.9139687736" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -36717,7 +36717,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T22:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0186753+01:00" TimeModified="2022-02-20T03:34:05.0186753+01:00">
+    <Item EventTime="2016-12-01T22:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0600848+01:00" TimeModified="2022-02-25T11:46:13.0600848+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.2116557990559" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4337667.5171581488" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -37265,7 +37265,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T23:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0196723+01:00" TimeModified="2022-02-20T03:34:05.0196723+01:00">
+    <Item EventTime="2016-12-01T23:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0610816+01:00" TimeModified="2022-02-25T11:46:13.0610816+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.29149710020204" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4337076.8093543313" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -37813,7 +37813,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T23:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.020636+01:00" TimeModified="2022-02-20T03:34:05.020636+01:00">
+    <Item EventTime="2016-12-01T23:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0620779+01:00" TimeModified="2022-02-25T11:46:13.0620779+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.363530476295" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4336549.6647518715" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -38361,7 +38361,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T23:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0216366+01:00" TimeModified="2022-02-20T03:34:05.0216366+01:00">
+    <Item EventTime="2016-12-01T23:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0620779+01:00" TimeModified="2022-02-25T11:46:13.0620779+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.42778396138993" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4336084.7788882982" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -38909,7 +38909,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-01T23:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0226307+01:00" TimeModified="2022-02-20T03:34:05.0226307+01:00">
+    <Item EventTime="2016-12-01T23:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0640731+01:00" TimeModified="2022-02-25T11:46:13.0640731+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.48446178886863" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4335679.3123480529" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -39457,7 +39457,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T00:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0226307+01:00" TimeModified="2022-02-20T03:34:05.0226307+01:00">
+    <Item EventTime="2016-12-02T00:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0650704+01:00" TimeModified="2022-02-25T11:46:13.0650704+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.53395978799094" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4335328.73369227" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -40005,7 +40005,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T00:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0236281+01:00" TimeModified="2022-02-20T03:34:05.0236281+01:00">
+    <Item EventTime="2016-12-02T00:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.066068+01:00" TimeModified="2022-02-25T11:46:13.066068+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.57686449386546" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4335026.9918627236" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -40553,7 +40553,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T00:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0246264+01:00" TimeModified="2022-02-20T03:34:05.0246264+01:00">
+    <Item EventTime="2016-12-02T00:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0670652+01:00" TimeModified="2022-02-25T11:46:13.0670652+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.613899282296" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334767.3905146783" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -41101,7 +41101,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T00:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0256236+01:00" TimeModified="2022-02-20T03:34:05.0256236+01:00">
+    <Item EventTime="2016-12-02T00:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0680622+01:00" TimeModified="2022-02-25T11:46:13.0680622+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.64584135721944" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334543.4190400327" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -41649,7 +41649,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T01:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0256236+01:00" TimeModified="2022-02-20T03:34:05.0256236+01:00">
+    <Item EventTime="2016-12-02T01:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0680622+01:00" TimeModified="2022-02-25T11:46:13.0680622+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.6734481647369" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334349.2181971595" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -42197,7 +42197,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T01:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0266544+01:00" TimeModified="2022-02-20T03:34:05.0266544+01:00">
+    <Item EventTime="2016-12-02T01:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0690597+01:00" TimeModified="2022-02-25T11:46:13.0690597+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.69740959093352" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334179.7636764934" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -42745,7 +42745,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T01:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0276203+01:00" TimeModified="2022-02-20T03:34:05.0276203+01:00">
+    <Item EventTime="2016-12-02T01:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0700569+01:00" TimeModified="2022-02-25T11:46:13.0700569+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.71832614451063" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334030.8628285732" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -43293,7 +43293,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T01:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0286156+01:00" TimeModified="2022-02-20T03:34:05.0286156+01:00">
+    <Item EventTime="2016-12-02T01:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0710543+01:00" TimeModified="2022-02-25T11:46:13.0710543+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.7367044473956" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333899.0857379213" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -43841,7 +43841,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T02:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0286156+01:00" TimeModified="2022-02-20T03:34:05.0286156+01:00">
+    <Item EventTime="2016-12-02T02:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0710543+01:00" TimeModified="2022-02-25T11:46:13.0710543+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.75296119146233" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333781.6887878738" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -44389,7 +44389,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T02:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0296151+01:00" TimeModified="2022-02-20T03:34:05.0296151+01:00">
+    <Item EventTime="2016-12-02T02:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0720517+01:00" TimeModified="2022-02-25T11:46:13.0720517+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.76742733824378" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333676.5931581119" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -44937,7 +44937,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T02:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0306102+01:00" TimeModified="2022-02-20T03:34:05.0306102+01:00">
+    <Item EventTime="2016-12-02T02:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0730491+01:00" TimeModified="2022-02-25T11:46:13.0730491+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.78011769194234" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333586.3477654019" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -45485,7 +45485,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T02:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0316084+01:00" TimeModified="2022-02-20T03:34:05.0316084+01:00">
+    <Item EventTime="2016-12-02T02:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0740463+01:00" TimeModified="2022-02-25T11:46:13.0740463+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.7904614743255" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333520.1886757705" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -46033,7 +46033,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T03:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0326052+01:00" TimeModified="2022-02-20T03:34:05.0326052+01:00">
+    <Item EventTime="2016-12-02T03:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0740463+01:00" TimeModified="2022-02-25T11:46:13.0740463+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.79720640241567" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333493.231377081" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -46581,7 +46581,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T03:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0326052+01:00" TimeModified="2022-02-20T03:34:05.0326052+01:00">
+    <Item EventTime="2016-12-02T03:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0750437+01:00" TimeModified="2022-02-25T11:46:13.0750437+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.79849878649262" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333524.6009683432" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -47129,7 +47129,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T03:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0336021+01:00" TimeModified="2022-02-20T03:34:05.0336021+01:00">
+    <Item EventTime="2016-12-02T03:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0760409+01:00" TimeModified="2022-02-25T11:46:13.0760409+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.79210701837266" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333634.6532000173" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -47677,7 +47677,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T03:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0345994+01:00" TimeModified="2022-02-20T03:34:05.0345994+01:00">
+    <Item EventTime="2016-12-02T03:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0770383+01:00" TimeModified="2022-02-25T11:46:13.0770383+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.7757346912413" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4333841.8808128815" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -48225,7 +48225,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T04:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0365943+01:00" TimeModified="2022-02-20T03:34:05.0365943+01:00">
+    <Item EventTime="2016-12-02T04:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0780358+01:00" TimeModified="2022-02-25T11:46:13.0780358+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.74737331055513" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334159.845383103" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -48773,7 +48773,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T04:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0375916+01:00" TimeModified="2022-02-20T03:34:05.0375916+01:00">
+    <Item EventTime="2016-12-02T04:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0800325+01:00" TimeModified="2022-02-25T11:46:13.0800325+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.70563647947452" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4334594.6966288527" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -49321,7 +49321,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T04:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0385887+01:00" TimeModified="2022-02-20T03:34:05.0385887+01:00">
+    <Item EventTime="2016-12-02T04:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0810274+01:00" TimeModified="2022-02-25T11:46:13.0810274+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.64995219307707" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4335144.8480422338" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -49869,7 +49869,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T04:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0405844+01:00" TimeModified="2022-02-20T03:34:05.0405844+01:00">
+    <Item EventTime="2016-12-02T04:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0820255+01:00" TimeModified="2022-02-25T11:46:13.0820255+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.58055676091891" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4335802.5336758038" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -50417,7 +50417,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T05:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0405844+01:00" TimeModified="2022-02-20T03:34:05.0405844+01:00">
+    <Item EventTime="2016-12-02T05:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0830232+01:00" TimeModified="2022-02-25T11:46:13.0830232+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.49831346544423" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4336556.485665706" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -50965,7 +50965,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T05:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0415835+01:00" TimeModified="2022-02-20T03:34:05.0415835+01:00">
+    <Item EventTime="2016-12-02T05:15:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0830232+01:00" TimeModified="2022-02-25T11:46:13.0830232+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.40442938165495" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4337394.8280071644" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -51513,7 +51513,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T05:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0425792+01:00" TimeModified="2022-02-20T03:34:05.0425792+01:00">
+    <Item EventTime="2016-12-02T05:30:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0840197+01:00" TimeModified="2022-02-25T11:46:13.0840197+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.30018626275407" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4338306.9559979355" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -52061,7 +52061,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T05:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0435757+01:00" TimeModified="2022-02-20T03:34:05.0435757+01:00">
+    <Item EventTime="2016-12-02T05:45:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0850167+01:00" TimeModified="2022-02-25T11:46:13.0850167+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.18675756161369" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4339284.2909968505" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
@@ -52609,7 +52609,7 @@
         <GasQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
       </GasQuals>
     </Item>
-    <Item EventTime="2016-12-02T06:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-20T03:34:05.0435757+01:00" TimeModified="2022-02-20T03:34:05.0435757+01:00">
+    <Item EventTime="2016-12-02T06:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.con" Version="1.0.0.0" TimeCreated="2022-02-25T11:46:13.0860158+01:00" TimeModified="2022-02-25T11:46:13.0860158+01:00">
       <Nodes>
         <Node Name="N00" Q="-197.06512601508325" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
         <Node Name="N01" Q="0" P="4340320.2168858936" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
