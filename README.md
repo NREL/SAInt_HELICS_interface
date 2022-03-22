@@ -1,3 +1,5 @@
+## User guide on how to setup SAInt_HELICS interface on Visual Studio
+This user guide describes the steps for setting up and running the SAInt_HELICS_interface on Visual Studio. It is divided into four sections.
 
 #### a) Clone the SAInt_HELICS_interface to your working space
   1. Open visual studio.
