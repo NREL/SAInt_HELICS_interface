@@ -15,21 +15,25 @@ namespace HelicsDotNetSender
         {
             // Load Electric Model - Demo 
             string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            string outputfolder = @"..\..\..\..\..\outputs\Demo0\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Demo1\";
             APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openESCE(netfolder + "CASE1.esce");
+            APIExport.openESCE(netfolder + "CASE0.esce");
             APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
-            // Load Electric Model - Demo 
-            //string netfolder = @"..\..\..\..\Networks\Case1\";
-            //string outputfolder = @"..\..\..\..\..\outputs\Case1\";
+            //Load Electric Model - Demo
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
+            //string outputfolder = @"..\..\..\..\..\outputs\DemoAlt0\";
+            ////string outputfolder = @"..\..\..\..\..\outputs\DemoAlt1\";
             //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
+            //APIExport.openESCE(netfolder + "CASE0.esce");
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Belgian model 
-            //string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
-            //string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
+            //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
+            ////string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
+            //string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case0\";
+            ////string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
             //APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
             //APIExport.openESCE(netfolder + "QDYNOPF.esce");
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");

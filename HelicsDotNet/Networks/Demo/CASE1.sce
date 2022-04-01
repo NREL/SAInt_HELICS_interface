@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="d5a121a9036c49b0b1bee96119e86c9b" SceName="CASE1" SceType="DynamicGas" SolverStatus="none" IniState="CMBSTEOPF" StartTime="2016-12-01T06:00:00" EndTime="2016-12-02T06:00:00" dT="900" Comment="" NetType="GAS" NetName="GNET25" NetFilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\GNET25.net" Version="2.0.30.0" TimeCreated="2016-12-03T02:13:30.4180306+01:00" TimeModified="2022-02-18T09:16:10.410345+01:00" FilePath="C:\Users\KP\Documents\GitHub\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\CASE1.sce" TR="180" SingleCnstrHandling="false">
+<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="d5a121a9036c49b0b1bee96119e86c9b" SceName="CASE00" SceType="DynamicGas" SolverStatus="Solved" IniState="CMBSTEOPF" StartTime="2016-12-01T06:00:00" EndTime="2016-12-02T06:00:00" dT="900" Comment="" NetType="GAS" NetName="GNET25" NetFilePath="C:\Users\GetnetAyele\Documents\GitHub\SAInt_HELICS_interface - Demo\HelicsDotNet\Networks\Demo\GNET25.net" Version="2.0.29.0" TimeCreated="2016-12-03T02:13:30.4180306+01:00" TimeModified="2022-03-24T18:54:07.6679542+01:00" FilePath="C:\Users\GetnetAyele\Documents\GitHub\SAInt_HELICS_interface - Demo\HelicsDotNet\Networks\Demo\CASE1.sce" TR="180" SingleCnstrHandling="false">
   <SceEvents>
     <SceEvent Active="true" Info="-" UID="78e8b0033f284dca90fd5cc1bbf5304d" EvtTime="2016-12-01T06:00:00" Parameter="QSET" Value="5.5555555555555554" EvalType="NONE" ProfileName="PROFILE1">
       <ValueExpression>
@@ -67,7 +67,7 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="false" Info="-" UID="c4330e23430a4e4f9404d5fbabc865e1" EvtTime="2016-12-01T14:00:00" Parameter="OFF" Value="NaN" EvalType="NONE" ProfileName="">
+    <SceEvent Active="true" Info="-" UID="c4330e23430a4e4f9404d5fbabc865e1" EvtTime="2016-12-01T14:00:00" Parameter="OFF" Value="NaN" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
@@ -78,7 +78,7 @@
         <ExprValues />
       </Condition>
     </SceEvent>
-    <SceEvent Active="false" Info="-" UID="c4330e23430a4e4f9404d5fbabc865e1" EvtTime="2016-12-01T22:00:00" Parameter="BP" Value="NaN" EvalType="NONE" ProfileName="">
+    <SceEvent Active="true" Info="-" UID="c4330e23430a4e4f9404d5fbabc865e1" EvtTime="2016-12-01T22:00:00" Parameter="BP" Value="NaN" EvalType="NONE" ProfileName="">
       <ValueExpression>
         <Expression />
         <ExprValues />
