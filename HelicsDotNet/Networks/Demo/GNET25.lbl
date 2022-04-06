@@ -1,4 +1,23 @@
 <?xml version="1.0"?>
-<NetDatafile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" FilePath="" Version="2.0.29.0" TimeCreated="2022-02-05T22:51:36.8235807+01:00" TimeModified="2022-02-05T22:51:36.8235807+01:00">
-  <Items />
+<NetDatafile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" FilePath="" Version="2.0.30.0" TimeCreated="2022-03-18T17:27:40.4948571-06:00" TimeModified="2022-03-18T17:27:40.4948571-06:00">
+  <Items>
+    <Item UID="2c1d8a79a4f9485793a76ae57b505359" LabelOriginLine="true" LabelType="Text" IsBackImage="false" LabelInfo="ID;PMIN;" LabelImageFile="" KeepImageAspectRatio="false" LabelFontFamily="Calibri" LabelFontSize="10" LabelFontStyle="Regular" LabelFontARGB="-65281" ShowLabel="true" ShowLabelOnZoomLevel="25" ShowLabelUntilZoomLevel="5000" LabelOpacity="39" ShowLabelFrame="true" RoundedLabelFrame="true" LabelFrameARGB="-65281" LabelBottomBackARGB="-657931" LabelTopBackARGB="-657931" LabelFixedToMap="false" ScaleLabel="false" XLOFF="-20" YLOFF="55" XLGEO="-3.62377453" YLGEO="-9.748662">
+      <LabelImageSize>
+        <Width>100</Width>
+        <Height>100</Height>
+      </LabelImageSize>
+    </Item>
+    <Item UID="73a4204379c04321b13093ff83df2352" LabelOriginLine="true" LabelType="Text" IsBackImage="false" LabelInfo="ID;PMIN;" LabelImageFile="" KeepImageAspectRatio="false" LabelFontFamily="Calibri" LabelFontSize="10" LabelFontStyle="Regular" LabelFontARGB="-32768" ShowLabel="true" ShowLabelOnZoomLevel="25" ShowLabelUntilZoomLevel="5000" LabelOpacity="39" ShowLabelFrame="true" RoundedLabelFrame="true" LabelFrameARGB="-32768" LabelBottomBackARGB="-657931" LabelTopBackARGB="-657931" LabelFixedToMap="false" ScaleLabel="false" XLOFF="-25" YLOFF="82" XLGEO="3.22285247" YLGEO="-10.60449">
+      <LabelImageSize>
+        <Width>100</Width>
+        <Height>100</Height>
+      </LabelImageSize>
+    </Item>
+    <Item UID="1888cea475f44eee81fa990f309a28ef" LabelOriginLine="true" LabelType="Text" IsBackImage="false" LabelInfo="ID;PMIN;" LabelImageFile="" KeepImageAspectRatio="false" LabelFontFamily="Calibri" LabelFontSize="10" LabelFontStyle="Regular" LabelFontARGB="-16776961" ShowLabel="true" ShowLabelOnZoomLevel="25" ShowLabelUntilZoomLevel="5000" LabelOpacity="39" ShowLabelFrame="true" RoundedLabelFrame="true" LabelFrameARGB="-16776961" LabelBottomBackARGB="-657931" LabelTopBackARGB="-657931" LabelFixedToMap="false" ScaleLabel="false" XLOFF="67" YLOFF="54" XLGEO="8.13594151" YLGEO="-9.716965">
+      <LabelImageSize>
+        <Width>100</Width>
+        <Height>100</Height>
+      </LabelImageSize>
+    </Item>
+  </Items>
 </NetDatafile>
