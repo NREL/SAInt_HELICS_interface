@@ -1,7 +1,15 @@
-## User guide on how to setup SAInt_HELICS interface on Visual Studio
-This *SAInt_HELICS_interface* project runs electricity and gas networks that are coupled through gas-fired power plants using the HELICS co-simulation platform. The two networks are modeled as independent federates on SAInt software. The values and messages are exchanged between the two federates, during the co-simulation via the HELICS platform. Three case studies (Demo-base, Demo-Alternate, and Belgian), each of them with two different scenarios (normal and compressor outage) are included in this project. The case studies on the demo network can be simulated using the SAInt demo version. However, the cases on the Belgian gas and electric networks are beyond the capacity of the SAInt demo version.
+## Overview
+
+This *SAInt_HELICS_interface* project runs electricity and gas networks that are coupled through gas-fired power plants using the [HELICS co-simulation platform](https://docs.helics.org/en/latest/). In this setup the two networks are modeled as independent federates with the SAInt software, while the relevant values and messages are exchanged between the two federates via the HELICS platform. 
+
+This repository includes the adapter code to utilize HELICS with SAInt, as well as data for three case studies (Demo-base, Demo-Alternate, and Belgian), each of them with two different scenarios (normal and compressor outage). Note that the two Demo case studies can be simulated using the trial version of SAInt (availble for free by contacting [encoord](https://www.encoord.com/ContactUs.html)), but the Belgian network requires a full SAInt license. 
+
+Additional details on this interface and the work developing HELICS support for SAInt [here](https://www.encoord.com/CaseStudyHELICS.html#top).  
+
+## Setting up the SAInt_HELICS interface 
 
 This user guide describes the steps for setting up and running the *SAInt_HELICS_interface* project on *Visual Studio*. It is divided into four sections.
+
 #### a) Clone the SAInt_HELICS_interface to your working space
   1. Open visual studio.
   2. Go to the *Team* tab and then *Manage Connections*. Alternatively, you can also directly access this by opening the *Team Explorer* from the *View* tab. Also, open the *Solution Explorer* from the *View* tab if it is not opened.
