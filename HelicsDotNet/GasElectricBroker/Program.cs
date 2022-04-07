@@ -1,6 +1,5 @@
 ﻿using System;
-using gmlc;
-using h = gmlc.helics;
+using h = helics;
 using System.Threading;
 using System.Diagnostics;
 

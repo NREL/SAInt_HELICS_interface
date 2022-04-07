@@ -4,9 +4,9 @@ Demo network:
 - Demo: normal operations
 - Demo_distruption: disruption at compressor station CS1
 
-Modified Demo network (similar to DEMO but with coupled gens at different gas nodes):  
-- Case0: normal operations
-- Case1: disruption at compressor station CS1
+DemoAlt: Modified Demo network (similar to Demo but with coupled gens at different gas nodes):  
+- DemoAlt: normal operations
+- DemoAlt_disruption: disruption at compressor station CS1
 
 Belgian network:  
 - Belgium_Case0: normal operations
@@ -31,7 +31,7 @@ Electric Network file – ENET30.enet
 Electric Scenario file – Case1.esce
 Electric State file – CMBSTEOPF.econ 
  
-Case0 - Normal operation of coupled network with wide spread distribution of gas coupling points
+DemoAlt - Normal operation of coupled network with wide spread distribution of gas coupling points
 Gas Network file – GNET25.net
 Gas Scenario file – Case0.sce
 Gas State file – CMBSTEOPF.con
@@ -39,7 +39,7 @@ Electric Network file – ENET30.enet
 Electric Scenario file – Case0.esce
 Electric State file – CMBSTEOPF.econ
  
-Case1 - Disruption at compressor station CS1 of coupled network with wide spread distribution of gas coupling points
+DemoAlt_disruption - DemoALt network with a disrupion at compressor station CS1 of coupled network with wide spread distribution of gas coupling points
 Gas Network file – GNET25.net
 Gas Scenario file – Case1.sce
 Gas State file – CMBSTEOPF.con
