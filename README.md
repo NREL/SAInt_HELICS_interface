@@ -91,9 +91,11 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
     - Similarly, open the *Program.cs* file in the *GasFederate* project and uncomment the corresponding case.
     - Figure 9 and Figure 10 show the six cases with the boxes indicating the sections corresponding to each case. As example, the figures show the Demo case beeing selected for simulation.
    
-   |![Figure 9](ReadMeImages/Figure9.png)||![Figure 10](ReadMeImages/Figure10.png)|
-   |:--:||:--:|
-   |<b>Figure 9</b>||<b>Figure 10</b>|
+   |![Figure 9](ReadMeImages/Figure9.png)|
+   |:--:|
+   |<b>Figure 9</b>|
+   |![Figure 10](ReadMeImages/Figure10.png)|
+   |<b>Figure 10</b>|
 
   3. Simulate by clicking the green button *Start* in Figure 11.
     
