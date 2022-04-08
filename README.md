@@ -103,5 +103,5 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 11</b>|
 
-  3. The log files will be displayed on two command windows: one for the electric federate and another for the gas federate.
-  4. Once the simulation is completed, the exported solution files will be found in your workspace's *outputs* folder.
+  4. The log files will be displayed on two command windows: one for the electric federate and another for the gas federate.
+  5. Once the simulation is completed, the exported solution files will be found in your workspace's *outputs* folder.
