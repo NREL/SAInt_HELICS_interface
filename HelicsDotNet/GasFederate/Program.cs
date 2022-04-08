@@ -13,18 +13,18 @@ namespace HelicsDotNetReceiver
         static void Main(string[] args)
         {
             // Load Gas Model - Demo - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\outputs\Demo\";
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE1.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
-
-            //Load Gas Model - Demo_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo\";
             //APIExport.openGNET(netfolder + "GNET25.net");
             //APIExport.openGSCE(netfolder + "CASE1.sce");
             //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+
+            //Load Gas Model - Demo_disruption - Compressor Outage
+            string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
+            string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
+            APIExport.openGNET(netfolder + "GNET25.net");
+            APIExport.openGSCE(netfolder + "CASE1.sce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\DemoAlt\";

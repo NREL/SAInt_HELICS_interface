@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-02T06:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\GetnetAyele\Source\Repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo_disruption\CASE1.con" Version="2.0.29.0" TimeCreated="2022-04-07T15:18:39.0494914+02:00" TimeModified="2022-04-07T15:18:39.1588546+02:00">
+<GasNetState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EventTime="2016-12-02T06:00:00" SceName="CASE1" ScenarioType="DynamicGas" SolverStatus="Solved" FilePath="C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo_disruption\CASE1.con" Version="2.0.29.0" TimeCreated="2022-04-08T09:55:30.9202246+02:00" TimeModified="2022-04-08T09:55:31.0013114+02:00">
   <Nodes>
     <Node Name="N00" Q="-200.79155319116305" P="5101325" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="PSET" CtrlVal="5101325" CtrlSet="PSET" CtrlSetVal="5101325" TSET="288.15" />
     <Node Name="N01" Q="0" P="4313365.12832739" T="288.15" NQ="DEFAULT" SQ="DEFAULT" Ctrl="OFF" CtrlVal="NaN" CtrlSet="OFF" CtrlSetVal="NaN" TSET="288.15" />
