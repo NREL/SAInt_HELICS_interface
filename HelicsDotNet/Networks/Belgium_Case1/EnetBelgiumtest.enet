@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<eNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="71119f11bbcc488eaf13e2b34258eeb1" ModelOrigin="Unknown" ModelName="EnetBelgiumtest" TimeCreated="2017-11-14T16:43:08.6280017+01:00" TimeModified="2021-11-17T12:52:54.7887559+01:00" Version="2.0.29.0" Comment="" NodeSize="1.49" LineSize="3.7315" Arrowsize="1" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8323073" BaseMVA="1000">
+<eNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="71119f11bbcc488eaf13e2b34258eeb1" ModelOrigin="Unknown" ModelName="EnetBelgiumtest" TimeCreated="2017-11-14T08:43:08.6280017-07:00" TimeModified="2022-02-23T09:40:45.9988314-07:00" Version="2.0.30.0" Comment="" NodeSize="1.49" LineSize="3.7315" Arrowsize="1" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8323073" BaseMVA="1000">
   <Subs>
     <Sub xsi:type="ElectricSub" UID="c9fa25a95dd24d94b876df5d94841c58" Name="SOUTH" Info="-" />
     <Sub xsi:type="ElectricSub" UID="56905aa91dcb40e3a1faf1bcf2e5bb30" Name="EAST" Info="-" />

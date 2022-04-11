@@ -13,23 +13,44 @@ namespace HelicsDotNetSender
     {      
         static void Main(string[] args)
         {
-            // Load Electric Model - Demo 
+            // Load Electric Model - Demo - Normal Operation
             string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\..\outputs\Demo\";
+            string outputfolder = @"..\..\..\..\outputs\Demo\";
             APIExport.openENET(netfolder + "ENET30.enet");
             APIExport.openESCE(netfolder + "CASE1.esce");
             APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
-            // Load Electric Model - Demo 
-            //string netfolder = @"..\..\..\..\Networks\Case1\";
-            //string outputfolder = @"..\..\..\..\..\outputs\Case1\";
+            // Load Electric Model - Demo_disruption - Compressor Outage
+            //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
             //APIExport.openENET(netfolder + "ENET30.enet");
             //APIExport.openESCE(netfolder + "CASE1.esce");
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
-            // Load Electric Model - Belgian model 
+            // Load Electric Model - DemoAlt - Normal Operation 
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE0.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+
+            // Load Electric Model - DemoAlt_disruption - Compressor Outage
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE1.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+
+            // Load Electric Model - Belgian model - Normal Operation
+            //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
+            //string outputfolder = @"..\..\..\..\outputs\Belgium_Case0\";
+            //APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
+            //APIExport.openESCE(netfolder + "QDYNOPF.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+
+            // Load Electric Model - Belgian model - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
-            //string outputfolder = @"..\..\..\..\..\outputs\Belgium_Case1\";
+            //string outputfolder = @"..\..\..\..\outputs\Belgium_Case1\";
             //APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
             //APIExport.openESCE(netfolder + "QDYNOPF.esce");
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");

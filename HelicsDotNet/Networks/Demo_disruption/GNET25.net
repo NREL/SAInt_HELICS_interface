@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<GasNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="6d3a924e3bd244f88c72df028a56b022" ModelOrigin="Unknown" ModelName="GNET25" TimeCreated="2016-12-03T08:12:40.3266212-07:00" TimeModified="2022-02-23T09:21:05.2392857-07:00" Version="2.0.30.0" Comment="" NodeSize="1.1" LineSize="2" Arrowsize="2.143589" ShowPolygons="true" LoadPolygonOnStart="true" BackColor="-8355712" LPREFPRF="" LPREFPRFVAL="1" CPSize="1.2" CVSize="1.1" VASize="1.1" RESSize="1.1" P_n="101325" T_n="273.15" rho_r="0.6" visc="1E-05" p_crit="4500000" T_crit="193.7" CV="41215000" kappa="1.3" P_a="101325" T_g="288.15" RO="1.2E-05" LAM="0.012" Z="0.84" Z_1="-0.0027" Z_2="7E-05" Pz_b="3000000" LAMBDAEQN="HOFER" ZEQN="PAPAY" VISCEQN="CNST" ISOTHERM="true" ISOQUAL="true" CnstH="false" CnstRO="false" DiscretPipe="true">
+  <Subs>
+    <Sub xsi:type="GasSub" UID="c7a4caf87d4b433d939530ec09c15842" Name="NORTH" Info="-" LPREFPRF="" LPREFPRFVAL="1" />
+    <Sub xsi:type="GasSub" UID="9ae7a5cfc23549ef82abc3a98730dcb2" Name="WEST" Info="-" LPREFPRF="" LPREFPRFVAL="1" />
+    <Sub xsi:type="GasSub" UID="08eb2ddfb0074deb9e441a4fddd18f87" Name="EAST" Info="-" LPREFPRF="" LPREFPRFVAL="1" />
+    <Sub xsi:type="GasSub" UID="efe6d0862b454fcbbd5095dcdaaea51e" Name="SOUTH" Info="-" LPREFPRF="" LPREFPRFVAL="1" />
+  </Subs>
+  <Nodes>
+    <Node UID="ccd6aacfde8a4d4e8a9b4bdb4cabe8af" Name="N00" Visible="true" Info="-" X="-2.5" Y="4.1" Z="50" SVTOL="0" NodeType="Supply" Owner="CBI" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="DEFAULT">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="277.77777777777777" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="2101325" />
+    </Node>
+    <Node UID="ec550ed6ae8e4f049f99e72650488960" Name="N01" Visible="true" Info="-" X="-0.10000000149011612" Y="2" Z="100" SVTOL="0" NodeType="Zero" Owner="CSI" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="61cc1779dcb440c69991cd76627e56b4" Name="N02" Visible="true" Info="-" X="-0.10000000149011612" Y="1.2000000476837158" Z="100" SVTOL="0" NodeType="Zero" Owner="CSO" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="955f1d71d38e41abb6097641c12de610" Name="N03" Visible="true" Info="-" X="4.4000000953674316" Y="2" Z="150" SVTOL="0" NodeType="Zero" Owner="CSI" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="f86b999d1dd1479096cfefc11a9c1d72" Name="N04" Visible="true" Info="-" X="-3.7999999523162842" Y="-2" Z="125" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="3101324.9999999995" />
+    </Node>
+    <Node UID="f7ad39b9b904496c9b2ecc808a2b9594" Name="N05" Visible="true" Info="-" X="5" Y="2" Z="150" SVTOL="0" NodeType="Zero" Owner="CSO" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="425deff4d29e465b88fe46c0b91f4a2f" Name="N06" Visible="true" Info="-" X="-6" Y="-2" Z="110" SVTOL="0" NodeType="Zero" Owner="none" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="b0a4a8ccd9614f7da4b28f863e491fd3" Name="N07" Visible="true" Info="-" X="0" Y="-4.1999998092651367" Z="75" SVTOL="0" NodeType="Zero" Owner="CSI" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="8b6e6a9b0e394a5e824b8952a4d70738" Name="N08" Visible="true" Info="-" X="5" Y="-3" Z="50" SVTOL="1" NodeType="Demand" Owner="IND" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="0.069444444444444448" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="2601325" />
+    </Node>
+    <Node UID="8abc68b3abd9445887e53f7c19e17318" Name="N09" Visible="true" Info="-" X="5" Y="4" Z="40" SVTOL="0" NodeType="Zero" Owner="none" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node xsi:type="LNGNode" UID="5eb925e30a5b4fa483012a6a057636be" Name="N10" Visible="true" Info="-" X="-7" Y="-3" Z="70" SVTOL="0" NodeType="Supply" Owner="LNG" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="DEFAULT" INVMAX="300000000" DIS="375" VESMAX="10" dLNG="587">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="2101325" />
+    </Node>
+    <Node UID="78e8b0033f284dca90fd5cc1bbf5304d" Name="N11" Visible="true" Info="-" X="-7" Y="-1" Z="300" SVTOL="1" NodeType="Demand" Owner="CGS" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="0.11111111111111112" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="1701324.9999999998" />
+    </Node>
+    <Node UID="5c4122f9bd5d4611903626b63e51f5b7" Name="N12" Visible="true" Info="-" X="0" Y="-5" Z="75" SVTOL="0" NodeType="Zero" Owner="CSO" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="70fe4707f2ec45a0936a33c33afc4edd" Name="N13" Visible="true" Info="-" X="-1.5" Y="-6.5" Z="120" SVTOL="0" NodeType="Zero" Owner="none" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="c3d4c28ab3704ba594fe838e17044804" Name="N14" Visible="true" Info="-" X="-0.10000000149011612" Y="-8.1000003814697266" Z="215" SVTOL="1" NodeType="Demand" Owner="CGS" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="0.069444444444444448" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="1701324.9999999998" />
+    </Node>
+    <Node UID="2c1d8a79a4f9485793a76ae57b505359" Name="N15" Visible="true" Info="-" X="-3.0999999046325684" Y="-8.1000003814697266" Z="45" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="0.0763888888888889" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="3101324.9999999995" />
+    </Node>
+    <Node UID="e99a54c2d4764737bb2a36a98dca1edc" Name="N16" Visible="true" Info="-" X="4" Y="5" Z="50" SVTOL="1" NodeType="Demand" Owner="IND" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="0.066666666666666666" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="2601325" />
+    </Node>
+    <Node UID="ab6d93f304fe4bd7b94b8e46b391dd38" Name="N17" Visible="true" Info="-" X="5" Y="-5" Z="60" SVTOL="0" NodeType="Zero" Owner="none" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="6595bf3496754807947af77e194e857b" Name="N18" Visible="true" Info="-" X="5" Y="-5.5999999046325684" Z="60" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="3101324.9999999995" />
+    </Node>
+    <Node UID="abdf0a559664469f825f779d31bc2007" Name="N19" Visible="true" Info="-" X="5" Y="-7" Z="170" SVTOL="0" NodeType="Zero" Owner="none" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="101325" />
+    </Node>
+    <Node UID="73a4204379c04321b13093ff83df2352" Name="N20" Visible="true" Info="-" X="4" Y="-8.1000003814697266" Z="160" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="3101324.9999999995" />
+    </Node>
+    <Node UID="1888cea475f44eee81fa990f309a28ef" Name="N21" Visible="true" Info="-" X="6" Y="-8" Z="150" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="3101324.9999999995" />
+    </Node>
+    <Node xsi:type="UGSNode" UID="9501f5a1cb554c2f96a023f9ac7ce8eb" Name="N22" Visible="true" Info="-" X="7" Y="-3" Z="140" SVTOL="0" NodeType="Storage" Owner="UGS" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="DEFAULT" INVMAX="250000000" INVWDR="0.5" INVINJ="0.4" WDRMAX="83.333333333333329" INJMAX="62.5" WDRMIN="41.666666666666664" INJMIN="41.666666666666664" StorageType="Depleted">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="2101325" />
+    </Node>
+    <Node UID="a39725033b5243fdbebc5a09cecf8fb0" Name="N23" Visible="true" Info="-" X="7" Y="4" Z="110" SVTOL="1" NodeType="Demand" Owner="GPP" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="none" Val="3101324.9999999995" />
+    </Node>
+    <Node UID="d83b0a967fe74eeda1e5fe91fd90e775" Name="N24" Visible="true" Info="-" X="7" Y="0.5" Z="80" SVTOL="1" NodeType="Demand" Owner="CGS" QSETPRF="" QSETPRFVAL="1" PREFPRF="" PREFPRFVAL="1" TREFPRF="" TREFPRFVAL="1" SQSETNAME="">
+      <defcont>OFF</defcont>
+      <QMAX ViolType="none" Val="150" />
+      <QMIN ViolType="none" Val="0" />
+      <PMAX ViolType="none" Val="6101324.9999999991" />
+      <PMIN ViolType="SoftLimit" Val="1701324.9999999998" />
+    </Node>
+  </Nodes>
+  <Pipes>
+    <Pipe UID="a9dbf3174ffe49adb622626bd6a6dde3" Name="Pi00" Visible="true" Info="" FromName="N00" ToName="N01" SubName="NORTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.9" L="100000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="9895b59cd05047e699694d7a6db0f42c" Name="Pi01" Visible="true" Info="" FromName="N01" ToName="N03" SubName="NORTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.9" L="80000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="db982be1bbea499daae7e2de8ff17d5d" Name="Pi02" Visible="true" Info="" FromName="N02" ToName="N04" SubName="WEST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="50000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="4ddd656c7a124a25b44e78c8e8f3d701" Name="Pi03" Visible="true" Info="" FromName="N04" ToName="N06" SubName="WEST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="20000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="f5efd1ee642c4782a981755d3b72a3e0" Name="Pi04" Visible="true" Info="" FromName="N06" ToName="N11" SubName="WEST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="10000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="b787ca830b1d44ebb423574a874d6472" Name="Pi05" Visible="true" Info="" FromName="N06" ToName="N10" SubName="WEST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="15000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="9b76c868d8eb45cdab315c9773f4daac" Name="Pi06" Visible="true" Info="" FromName="N04" ToName="N07" SubName="WEST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="60000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="e1e4d18d10ca44a3b4a9dfc25e6be765" Name="Pi07" Visible="true" Info="" FromName="N05" ToName="N09" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="30000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="8d0d0f0e566a4ab08b8b4ee5de897025" Name="Pi08" Visible="true" Info="" FromName="N09" ToName="N23" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="30000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="492be067df27435b8ac4bd935d8862b7" Name="Pi09" Visible="true" Info="" FromName="N23" ToName="N24" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="50000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="e7d8c34c91914f3e8e38dbf5d91489e8" Name="Pi10" Visible="true" Info="" FromName="N24" ToName="N22" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="40000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="41fa033da195434483e58ff2a50dd3f0" Name="Pi11" Visible="true" Info="" FromName="N22" ToName="N08" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="60000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="212bca8730a14650a0d5c04601abf00c" Name="Pi12" Visible="true" Info="" FromName="N08" ToName="N17" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="60000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="cf0c757d4c46482c8d60776291fbea20" Name="Pi13" Visible="true" Info="" FromName="N12" ToName="N13" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="40000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="117f0c1b2b4b4dcd87f144f953432f2c" Name="Pi14" Visible="true" Info="" FromName="N13" ToName="N15" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="25000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="58a70e9c337643d5b28a43c074fcd70b" Name="Pi15" Visible="true" Info="" FromName="N13" ToName="N14" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="20000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="5692ab7037d247d4b38943b179834dc1" Name="Pi16" Visible="true" Info="" FromName="N14" ToName="N20" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="50000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="6e87b37220274c6f9211b4886e827652" Name="Pi17" Visible="true" Info="" FromName="N18" ToName="N19" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="60000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="157d8dd788ca4a0b8fd986386f9435a8" Name="Pi18" Visible="true" Info="" FromName="N19" ToName="N20" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="30000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="148be25d4c4b4ea5881a845e8cb3aa8d" Name="Pi19" Visible="true" Info="" FromName="N19" ToName="N21" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="40000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="52c5f8466814494a93b0ce9c48942050" Name="Pi20" Visible="true" Info="" FromName="N09" ToName="N16" SubName="EAST" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.3" L="30000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="accd3e8e9baf41538673b7905c9bf97d" Name="Pi21" Visible="true" Info="" FromName="N12" ToName="N17" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.9" L="100000" RO="1.2000000424450263E-05" eta="1" />
+    <Pipe UID="c87d00fb82f54abe99bb142c1a7edbb0" Name="Pi22" Visible="true" Info="" FromName="N17" ToName="N18" SubName="SOUTH" SymbolFillColorARGB="-16777216" DrawLine="false" D="0.6" L="50000" RO="1.2000000424450263E-05" eta="1" />
+  </Pipes>
+  <Compressors>
+    <Compressor UID="b40c3135f629420eadd46101b110a77e" Name="CS0" Visible="true" Info="" FromName="N01" ToName="N02" SubName="WEST" SymbolFillColorARGB="-23296" DrawLine="false" D="0.6" R="0" CPType="Centrifugal" Driver="Gas" eta_had="0.78" eta_mech="0.9" ExtrFuel="false">
+      <defcont>BP</defcont>
+      <VMAX ViolType="none" Val="60" />
+      <POMAX ViolType="SoftLimit" Val="7101324.9999999991" />
+      <PIMIN ViolType="SoftLimit" Val="2601325" />
+      <QVOLMAX ViolType="SoftLimit" Val="50" />
+      <QMAX ViolType="SoftLimit" Val="277.77777777777777" />
+      <POWMAX ViolType="SoftLimit" Val="50000000" />
+      <PRMAX ViolType="SoftLimit" Val="2.5" />
+    </Compressor>
+    <Compressor UID="c4330e23430a4e4f9404d5fbabc865e1" Name="CS1" Visible="true" Info="" FromName="N03" ToName="N05" SubName="EAST" SymbolFillColorARGB="-23296" DrawLine="false" D="0.6" R="0" CPType="Centrifugal" Driver="Gas" eta_had="0.76" eta_mech="0.88" ExtrFuel="false">
+      <defcont>BP</defcont>
+      <VMAX ViolType="none" Val="60" />
+      <POMAX ViolType="SoftLimit" Val="6101324.9999999991" />
+      <PIMIN ViolType="SoftLimit" Val="2601325" />
+      <QVOLMAX ViolType="SoftLimit" Val="50" />
+      <QMAX ViolType="none" Val="111.11111111111111" />
+      <POWMAX ViolType="SoftLimit" Val="40000000" />
+      <PRMAX ViolType="SoftLimit" Val="2" />
+    </Compressor>
+    <Compressor UID="ede0bc866d0946abb81adae96dc6c2bb" Name="CS2" Visible="true" Info="" FromName="N07" ToName="N12" SubName="SOUTH" SymbolFillColorARGB="-23296" DrawLine="false" D="0.6" R="0" CPType="Centrifugal" Driver="Gas" eta_had="0.79" eta_mech="0.91" ExtrFuel="false">
+      <defcont>BP</defcont>
+      <VMAX ViolType="none" Val="60" />
+      <POMAX ViolType="SoftLimit" Val="6101324.9999999991" />
+      <PIMIN ViolType="SoftLimit" Val="2101325" />
+      <QVOLMAX ViolType="SoftLimit" Val="50" />
+      <QMAX ViolType="SoftLimit" Val="166.66666666666666" />
+      <POWMAX ViolType="SoftLimit" Val="45000000" />
+      <PRMAX ViolType="SoftLimit" Val="2.5" />
+    </Compressor>
+  </Compressors>
+  <Regulators />
+  <Valves />
+  <Resistors />
+  <StdQual UID="c915c753facd487b87c427c4f3450445" Name="DEFAULT" CV="41215000" RHOr="0.6" PC="4500000" TC="193.7" XC1="100" XN2="0" XCO2="0" XC2="0" XC3="0" XH2O="0" XH2S="0" XH2="0" XCO="0" XO2="0" XIC4="0" XNC4="0" XIC5="0" XNC5="0" XNC6="0" XNC7="0" XNC8="0" XNC9="0" XNC10="0" XHE="0" XAR="0" />
+  <SupplyQualities />
+</GasNet>
