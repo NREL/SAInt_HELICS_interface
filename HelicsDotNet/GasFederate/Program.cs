@@ -240,10 +240,10 @@ namespace HelicsDotNetReceiver
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("TimeStep {0} \t IterStep");
+                    sw.WriteLine("Date \t TimeStep \t IterStep");
                     foreach (TimeStepInfo x in timestepinfo)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}", x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
