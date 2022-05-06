@@ -14,11 +14,11 @@ namespace HelicsDotNetSender
         static void Main(string[] args)
         {
             // Load Electric Model - Demo - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\outputs\Demo\";
-            APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openESCE(netfolder + "CASE1.esce");
-            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE1.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
@@ -28,11 +28,11 @@ namespace HelicsDotNetSender
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - DemoAlt - Normal Operation 
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE0.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\DemoAlt\";
+            string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
+            APIExport.openENET(netfolder + "ENET30.enet");
+            APIExport.openESCE(netfolder + "CASE0.esce");
+            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - DemoAlt_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
@@ -86,6 +86,11 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Setting Federate Core Type");
             h.helicsFederateInfoSetCoreName(fedinfo, "Electric Federate Core");
             h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "tcp");
+
+            //If set to true, a federate will not be granted the requested time until all other federates have completed at least 1 iteration
+            //of the current time or have moved past it.If it is known that 1 federate depends on others in a non-cyclic fashion, this
+            //can be used to optimize the order of execution without iterating.
+            //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 1);
 
             // Federate init string
             Console.WriteLine("Electric: Setting Federate Info Init String");
@@ -150,7 +155,7 @@ namespace HelicsDotNetSender
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
 #endif
-            DateTime SCEStartTime = SAInt.SCEStartTime;
+            DateTime SCEStartTime = SAInt.ENET.SCE.StartTime;
             DateTime Trequested;
             DateTime Tgranted;
             TimeStepInfo currenttimestep =new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};            
@@ -210,7 +215,7 @@ namespace HelicsDotNetSender
                         int helics_iter_status;
 
                         // iterative HELICS time request
-                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT); ;
+                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT);
                         Console.WriteLine($"Requested time: {Trequested}, iteration: {step}");
 
                         // HELICS time granted  
@@ -222,7 +227,7 @@ namespace HelicsDotNetSender
                         MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
 
                         // get available thermal power at nodes, determine if there are violations
-                        if (!(e.TimeStep == 0 && step == 1))
+                        if (!(e.TimeStep == 0 && step <= 5))
                         {
                             HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
                         }

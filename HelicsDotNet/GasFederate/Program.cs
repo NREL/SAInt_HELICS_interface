@@ -13,25 +13,25 @@ namespace HelicsDotNetReceiver
         static void Main(string[] args)
         {
             // Load Gas Model - Demo - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\outputs\Demo\";
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE1.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo\";
+            //APIExport.openGNET(netfolder + "GNET25.net");
+            //APIExport.openGSCE(netfolder + "CASE1.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
             //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
             //APIExport.openGNET(netfolder + "GNET25.net");
             //APIExport.openGSCE(netfolder + "CASE1.sce");
-           //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE0.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            string netfolder = @"..\..\..\..\Networks\DemoAlt\";
+            string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
+            APIExport.openGNET(netfolder + "GNET25.net");
+            APIExport.openGSCE(netfolder + "CASE0.sce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
@@ -75,6 +75,11 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("Gas: Setting Federate Core Type");
             h.helicsFederateInfoSetCoreName(fedinfo, "Gas Federate Core");
             h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "tcp");
+
+            //If set to true, a federate will not be granted the requested time until all other federates have completed at least 1 iteration
+            //of the current time or have moved past it.If it is known that 1 federate depends on others in a non-cyclic fashion, this
+            //can be used to optimize the order of execution without iterating.
+            //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 1);
 
             // Federate init string
             Console.WriteLine("Gas: Setting Federate Info Init String");
@@ -138,7 +143,7 @@ namespace HelicsDotNetReceiver
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
 #endif
-            DateTime SCEStartTime = SAInt.SCEStartTime;
+            DateTime SCEStartTime = SAInt.GNET.SCE.StartTime;
             DateTime Trequested;
             DateTime Tgranted;
             TimeStepInfo currenttimestep = new TimeStepInfo() { timestep = 0, itersteps = 0, time = SCEStartTime };
@@ -198,10 +203,10 @@ namespace HelicsDotNetReceiver
                         // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
                         MappingFactory.PublishAvailableThermalPower(granted_time-1, step, MappingList);
 
-                        // get requested thermal power from connected gas plants, determine if there are violations
-                        if (!(e.TimeStep == 0 && step == 1))
+                        //// get requested thermal power from connected gas plants, determine if there are violations
+                        if (!(e.TimeStep == 0 && step <= 5))
                         {
-                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time-1,step, MappingList);
+                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
                         }
                         e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                                                         
