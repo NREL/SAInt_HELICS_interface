@@ -207,8 +207,8 @@ namespace HelicsDotNetReceiver
                         if (!(e.TimeStep == 0 && step <= 5))
                         {
                             HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
-                        }
-                        e.RepeatTimeIntegration = HasViolations;
+                    }
+                    e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                                                         
                     }
 

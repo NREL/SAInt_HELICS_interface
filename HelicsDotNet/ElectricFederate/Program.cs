@@ -230,8 +230,8 @@ namespace HelicsDotNetSender
                         if (!(e.TimeStep == 0 && step <= 5))
                         {
                             HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
-                        }
-                        e.RepeatTimeIntegration = HasViolations;
+                    }
+                    e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                          
                     }
                 }

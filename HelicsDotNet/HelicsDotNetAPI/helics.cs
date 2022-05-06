@@ -172,6 +172,12 @@ public enum HelicsFilterTypes {
   HELICS_FILTER_TYPE_FIREWALL = 6
 }
 
+public enum HelicsTranslatorTypes {
+  HELICS_TRANSLATOR_TYPE_CUSTOM = 0,
+  HELICS_TRANSLATOR_TYPE_JSON = 11,
+  HELICS_TRANSLATOR_TYPE_BINARY = 12
+}
+
 public enum HelicsSequencingModes {
   HELICS_SEQUENCING_MODE_FAST = 0,
   HELICS_SEQUENCING_MODE_ORDERED = 1,
@@ -494,6 +500,63 @@ class helicsPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_delete_HelicsComplex")]
   public static extern void delete_HelicsComplex(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCreateDataBuffer")]
+  public static extern global::System.IntPtr helicsCreateDataBuffer(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsWrapDataInBuffer")]
+  public static extern global::System.IntPtr helicsWrapDataInBuffer(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferFree")]
+  public static extern void helicsDataBufferFree(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferSize")]
+  public static extern global::System.IntPtr helicsDataBufferSize(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferCapacity")]
+  public static extern global::System.IntPtr helicsDataBufferCapacity(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferData")]
+  public static extern global::System.IntPtr helicsDataBufferData(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferReserve")]
+  public static extern int helicsDataBufferReserve(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsIntToBytes")]
+  public static extern global::System.IntPtr helicsIntToBytes(long jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDoubleToBytes")]
+  public static extern global::System.IntPtr helicsDoubleToBytes(double jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsStringToBytes")]
+  public static extern global::System.IntPtr helicsStringToBytes(string jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsBoolToBytes")]
+  public static extern global::System.IntPtr helicsBoolToBytes(int jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCharToBytes")]
+  public static extern global::System.IntPtr helicsCharToBytes(char jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTimeToBytes")]
+  public static extern global::System.IntPtr helicsTimeToBytes(double jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsComplexToBytes")]
+  public static extern global::System.IntPtr helicsComplexToBytes(double jarg1, double jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsVectorToBytes")]
+  public static extern global::System.IntPtr helicsVectorToBytes(out double jarg1, int jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferType")]
+  public static extern int helicsDataBufferType(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferToInt")]
+  public static extern long helicsDataBufferToInt(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferToDouble")]
+  public static extern double helicsDataBufferToDouble(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsDataBufferToBool")]
+  public static extern int helicsDataBufferToBool(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsGetVersion")]
   public static extern string helicsGetVersion();
@@ -1488,6 +1551,69 @@ class helicsPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFilterGetOption")]
   public static extern int helicsFilterGetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterTranslator")]
+  public static extern global::System.IntPtr helicsFederateRegisterTranslator(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateRegisterGlobalTranslator")]
+  public static extern global::System.IntPtr helicsFederateRegisterGlobalTranslator(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsCoreRegisterTranslator")]
+  public static extern global::System.IntPtr helicsCoreRegisterTranslator(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetTranslatorCount")]
+  public static extern int helicsFederateGetTranslatorCount(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetTranslator")]
+  public static extern global::System.IntPtr helicsFederateGetTranslator(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateGetTranslatorByIndex")]
+  public static extern global::System.IntPtr helicsFederateGetTranslatorByIndex(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorIsValid")]
+  public static extern int helicsTranslatorIsValid(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorGetName")]
+  public static extern string helicsTranslatorGetName(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorSet")]
+  public static extern void helicsTranslatorSet(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, double jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorSetString")]
+  public static extern void helicsTranslatorSetString(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorAddInputTarget")]
+  public static extern void helicsTranslatorAddInputTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorAddPublicationTarget")]
+  public static extern void helicsTranslatorAddPublicationTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorAddSourceEndpoint")]
+  public static extern void helicsTranslatorAddSourceEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorAddDestinationEndpoint")]
+  public static extern void helicsTranslatorAddDestinationEndpoint(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorRemoveTarget")]
+  public static extern void helicsTranslatorRemoveTarget(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorGetInfo")]
+  public static extern string helicsTranslatorGetInfo(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorSetInfo")]
+  public static extern void helicsTranslatorSetInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorGetTag")]
+  public static extern string helicsTranslatorGetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorSetTag")]
+  public static extern void helicsTranslatorSetTag(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, string jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorSetOption")]
+  public static extern void helicsTranslatorSetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2, int jarg3);
+
+  [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsTranslatorGetOption")]
+  public static extern int helicsTranslatorGetOption(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
   [global::System.Runtime.InteropServices.DllImport("CShelics", EntryPoint="CSharp_helicsFederateSetTimeRequestEntryCallback")]
   public static extern void helicsFederateSetTimeRequestEntryCallback(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
@@ -1563,6 +1689,105 @@ public class helics {
       int ret = helicsPINVOKE.HELICS_FALSE_get();
       return ret;
     } 
+  }
+
+  public static SWIGTYPE_p_void helicsCreateDataBuffer(SWIGTYPE_p_int32_t initialCapacity) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsCreateDataBuffer(SWIGTYPE_p_int32_t.getCPtr(initialCapacity));
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsWrapDataInBuffer(SWIGTYPE_p_void data, int dataSize, int dataCapacity) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsWrapDataInBuffer(SWIGTYPE_p_void.getCPtr(data), dataSize, dataCapacity);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    return ret;
+  }
+
+  public static void helicsDataBufferFree(SWIGTYPE_p_void data) {
+    helicsPINVOKE.helicsDataBufferFree(SWIGTYPE_p_void.getCPtr(data));
+  }
+
+  public static SWIGTYPE_p_int32_t helicsDataBufferSize(SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsDataBufferSize(SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsDataBufferCapacity(SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsDataBufferCapacity(SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsDataBufferData(SWIGTYPE_p_void data) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsDataBufferData(SWIGTYPE_p_void.getCPtr(data));
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    return ret;
+  }
+
+  public static int helicsDataBufferReserve(SWIGTYPE_p_void data, SWIGTYPE_p_int32_t newCapacity) {
+    int ret = helicsPINVOKE.helicsDataBufferReserve(SWIGTYPE_p_void.getCPtr(data), SWIGTYPE_p_int32_t.getCPtr(newCapacity));
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsIntToBytes(long value, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsIntToBytes(value, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsDoubleToBytes(double value, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsDoubleToBytes(value, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsStringToBytes(string str, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsStringToBytes(str, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsBoolToBytes(int value, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsBoolToBytes(value, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsCharToBytes(char value, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsCharToBytes(value, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsTimeToBytes(double value, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsTimeToBytes(value, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsComplexToBytes(double real, double imag, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsComplexToBytes(real, imag, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_int32_t helicsVectorToBytes(out double value, int dataSize, SWIGTYPE_p_void data) {
+    SWIGTYPE_p_int32_t ret = new SWIGTYPE_p_int32_t(helicsPINVOKE.helicsVectorToBytes(out value, dataSize, SWIGTYPE_p_void.getCPtr(data)), true);
+    return ret;
+  }
+
+  public static int helicsDataBufferType(SWIGTYPE_p_void data) {
+    int ret = helicsPINVOKE.helicsDataBufferType(SWIGTYPE_p_void.getCPtr(data));
+    return ret;
+  }
+
+  public static long helicsDataBufferToInt(SWIGTYPE_p_void data) {
+    long ret = helicsPINVOKE.helicsDataBufferToInt(SWIGTYPE_p_void.getCPtr(data));
+    return ret;
+  }
+
+  public static double helicsDataBufferToDouble(SWIGTYPE_p_void data) {
+    double ret = helicsPINVOKE.helicsDataBufferToDouble(SWIGTYPE_p_void.getCPtr(data));
+    return ret;
+  }
+
+  public static int helicsDataBufferToBool(SWIGTYPE_p_void data) {
+    int ret = helicsPINVOKE.helicsDataBufferToBool(SWIGTYPE_p_void.getCPtr(data));
+    return ret;
   }
 
   public static string helicsGetVersion() {
@@ -3326,6 +3551,121 @@ public class helics {
 
   public static int helicsFilterGetOption(SWIGTYPE_p_void filt, int option) {
     int ret = helicsPINVOKE.helicsFilterGetOption(SWIGTYPE_p_void.getCPtr(filt), option);
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsFederateRegisterTranslator(SWIGTYPE_p_void fed, HelicsTranslatorTypes type, string name) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterTranslator(SWIGTYPE_p_void.getCPtr(fed), (int)type, name);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsFederateRegisterGlobalTranslator(SWIGTYPE_p_void fed, HelicsTranslatorTypes type, string name) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateRegisterGlobalTranslator(SWIGTYPE_p_void.getCPtr(fed), (int)type, name);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsCoreRegisterTranslator(SWIGTYPE_p_void core, HelicsTranslatorTypes type, string name) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsCoreRegisterTranslator(SWIGTYPE_p_void.getCPtr(core), (int)type, name);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static int helicsFederateGetTranslatorCount(SWIGTYPE_p_void fed) {
+    int ret = helicsPINVOKE.helicsFederateGetTranslatorCount(SWIGTYPE_p_void.getCPtr(fed));
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsFederateGetTranslator(SWIGTYPE_p_void fed, string name) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetTranslator(SWIGTYPE_p_void.getCPtr(fed), name);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static SWIGTYPE_p_void helicsFederateGetTranslatorByIndex(SWIGTYPE_p_void fed, int index) {
+    global::System.IntPtr cPtr = helicsPINVOKE.helicsFederateGetTranslatorByIndex(SWIGTYPE_p_void.getCPtr(fed), index);
+    SWIGTYPE_p_void ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static int helicsTranslatorIsValid(SWIGTYPE_p_void trans) {
+    int ret = helicsPINVOKE.helicsTranslatorIsValid(SWIGTYPE_p_void.getCPtr(trans));
+    return ret;
+  }
+
+  public static string helicsTranslatorGetName(SWIGTYPE_p_void trans) {
+    string ret = helicsPINVOKE.helicsTranslatorGetName(SWIGTYPE_p_void.getCPtr(trans));
+    return ret;
+  }
+
+  public static void helicsTranslatorSet(SWIGTYPE_p_void trans, string prop, double val) {
+    helicsPINVOKE.helicsTranslatorSet(SWIGTYPE_p_void.getCPtr(trans), prop, val);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorSetString(SWIGTYPE_p_void trans, string prop, string val) {
+    helicsPINVOKE.helicsTranslatorSetString(SWIGTYPE_p_void.getCPtr(trans), prop, val);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorAddInputTarget(SWIGTYPE_p_void trans, string input) {
+    helicsPINVOKE.helicsTranslatorAddInputTarget(SWIGTYPE_p_void.getCPtr(trans), input);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorAddPublicationTarget(SWIGTYPE_p_void trans, string pub) {
+    helicsPINVOKE.helicsTranslatorAddPublicationTarget(SWIGTYPE_p_void.getCPtr(trans), pub);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorAddSourceEndpoint(SWIGTYPE_p_void trans, string ept) {
+    helicsPINVOKE.helicsTranslatorAddSourceEndpoint(SWIGTYPE_p_void.getCPtr(trans), ept);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorAddDestinationEndpoint(SWIGTYPE_p_void trans, string ept) {
+    helicsPINVOKE.helicsTranslatorAddDestinationEndpoint(SWIGTYPE_p_void.getCPtr(trans), ept);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorRemoveTarget(SWIGTYPE_p_void trans, string target) {
+    helicsPINVOKE.helicsTranslatorRemoveTarget(SWIGTYPE_p_void.getCPtr(trans), target);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static string helicsTranslatorGetInfo(SWIGTYPE_p_void trans) {
+    string ret = helicsPINVOKE.helicsTranslatorGetInfo(SWIGTYPE_p_void.getCPtr(trans));
+    return ret;
+  }
+
+  public static void helicsTranslatorSetInfo(SWIGTYPE_p_void trans, string info) {
+    helicsPINVOKE.helicsTranslatorSetInfo(SWIGTYPE_p_void.getCPtr(trans), info);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static string helicsTranslatorGetTag(SWIGTYPE_p_void trans, string tagname) {
+    string ret = helicsPINVOKE.helicsTranslatorGetTag(SWIGTYPE_p_void.getCPtr(trans), tagname);
+    return ret;
+  }
+
+  public static void helicsTranslatorSetTag(SWIGTYPE_p_void trans, string tagname, string tagvalue) {
+    helicsPINVOKE.helicsTranslatorSetTag(SWIGTYPE_p_void.getCPtr(trans), tagname, tagvalue);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static void helicsTranslatorSetOption(SWIGTYPE_p_void trans, int option, int value) {
+    helicsPINVOKE.helicsTranslatorSetOption(SWIGTYPE_p_void.getCPtr(trans), option, value);
+    if (helicsPINVOKE.SWIGPendingException.Pending) throw helicsPINVOKE.SWIGPendingException.Retrieve();
+  }
+
+  public static int helicsTranslatorGetOption(SWIGTYPE_p_void trans, int option) {
+    int ret = helicsPINVOKE.helicsTranslatorGetOption(SWIGTYPE_p_void.getCPtr(trans), option);
     return ret;
   }
 
