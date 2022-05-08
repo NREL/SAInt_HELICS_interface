@@ -75,7 +75,7 @@ namespace SAIntHelicsLib
 
                 m.lastVal.Add(valPth);
 
-                if (Math.Abs(ThermalPower-valPth) > eps && step>2)
+                if (Math.Abs(ThermalPower-valPth) > eps && step>=0)
                 {
                     if (valPbar < eps)
                     { 
@@ -91,8 +91,9 @@ namespace SAIntHelicsLib
                 {
                     if (m.lastVal.Count > 2)
                     {
-                        if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
-                        {
+                        //if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
+                        if (Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) 
+                        { 
                             HasViolations = true;
                         }
                     }
@@ -164,7 +165,7 @@ namespace SAIntHelicsLib
             Func<double, double> GetdFdx = (x) => -(m.ElectricGen.K_0 + 2*m.ElectricGen.K_1 * x + 3*m.ElectricGen.K_2 * x * x);
 
             double Res = Math.Abs(GetF(initVal));
-            int maxiter = 10;
+            int maxiter = 20;
             int i=0;
             double p=initVal;
 

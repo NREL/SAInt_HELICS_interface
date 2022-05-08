@@ -28,18 +28,18 @@ namespace HelicsDotNetSender
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - DemoAlt - Normal Operation 
-            string netfolder = @"..\..\..\..\Networks\DemoAlt\";
-            string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
-            APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openESCE(netfolder + "CASE0.esce");
-            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE0.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - DemoAlt_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            APIExport.openENET(netfolder + "ENET30.enet");
+            APIExport.openESCE(netfolder + "CASE1.esce");
+            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Belgian model - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
@@ -196,7 +196,17 @@ namespace HelicsDotNetSender
                         m.ElectricGen.PGMAX = m.NCAP;
                         m.ElectricGen.PGMIN = 0;
                         m.lastVal.Clear();
+
+                        // Initital publication of thermal power request equivalent to PGMAX
+                        //MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
+                        //double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * m.ElectricGen.PGMAX + m.ElectricGen.K_2 * m.ElectricGen.PGMAX * m.ElectricGen.PGMAX;
+                        //// relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
+                        //double ThermalPower = HR / 3.6 * m.ElectricGen.PGMAX; //Thermal power in [MW]
+                        //h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
                     }
+                    // Initital publication of thermal power request equivalent to PGMAX
+                    MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
+
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*SAInt.SCEdT)};
                     timestepinfo.Add(currenttimestep);
@@ -227,11 +237,11 @@ namespace HelicsDotNetSender
                         MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
 
                         // get available thermal power at nodes, determine if there are violations
-                        if (!(e.TimeStep == 0 && step <= 5))
+                        if (!(e.TimeStep == 0 && step <0))
                         {
                             HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
-                    }
-                    e.RepeatTimeIntegration = HasViolations;
+                        }
+                        e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                          
                     }
                 }

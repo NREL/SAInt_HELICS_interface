@@ -27,18 +27,18 @@ namespace HelicsDotNetReceiver
             //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\DemoAlt\";
-            string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE0.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
+            //APIExport.openGNET(netfolder + "GNET25.net");
+            //APIExport.openGSCE(netfolder + "CASE0.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE1.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            APIExport.openGNET(netfolder + "GNET25.net");
+            APIExport.openGSCE(netfolder + "CASE1.sce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Belgian model - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
@@ -153,6 +153,10 @@ namespace HelicsDotNetReceiver
             {
                 
                 if (e.SolverState == SolverState.BeforeTimeStep) {
+
+                    // Set the gas federate not to wait for the the current time update 
+                    h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 0);
+
                     // non-iterative time request here to block until both federates are done iterating
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT);
                     Console.WriteLine($"Requested time {Trequested}");
@@ -172,7 +176,14 @@ namespace HelicsDotNetReceiver
                     foreach (Mapping m in MappingList)
                     {
                         m.lastVal.Clear();
+
+                        // Publishing initial available thermal power of zero MW and zero peressure difference
+                        //MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
+                        //h.helicsPublicationPublishDouble(m.GasPubPth, 0);
+                        //h.helicsPublicationPublishDouble(m.GasPubPbar, 0);
                     }
+                    // Publishing initial available thermal power of zero MW and zero peressure difference
+                    MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
 
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT) };
@@ -181,6 +192,9 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
                 {
+                    // Set the gas federate to wait for the the current time update 
+                    //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 1);
+
                     // stop iterating if max iterations have been reached
                     IsRepeating = (step < iter_max);
 
@@ -204,11 +218,11 @@ namespace HelicsDotNetReceiver
                         MappingFactory.PublishAvailableThermalPower(granted_time-1, step, MappingList);
 
                         //// get requested thermal power from connected gas plants, determine if there are violations
-                        if (!(e.TimeStep == 0 && step <= 5))
+                        if (!(e.TimeStep == 0 && step <0))
                         {
                             HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
-                    }
-                    e.RepeatTimeIntegration = HasViolations;
+                        }
+                        e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                                                         
                     }
 
