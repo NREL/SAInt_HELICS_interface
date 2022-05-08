@@ -135,6 +135,10 @@ namespace HelicsDotNetSender
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
             Console.WriteLine($"Max iterations: {iter_max}");
 
+            // start initialization mode
+            //h.helicsFederateEnterInitializingMode(vfed);
+            //Console.WriteLine("Electric: Entering initialization mode");
+
             // start execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Electric: Entering execution mode");
@@ -196,15 +200,8 @@ namespace HelicsDotNetSender
                         m.ElectricGen.PGMAX = m.NCAP;
                         m.ElectricGen.PGMIN = 0;
                         m.lastVal.Clear();
-
-                        // Initital publication of thermal power request equivalent to PGMAX
-                        //MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
-                        //double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * m.ElectricGen.PGMAX + m.ElectricGen.K_2 * m.ElectricGen.PGMAX * m.ElectricGen.PGMAX;
-                        //// relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
-                        //double ThermalPower = HR / 3.6 * m.ElectricGen.PGMAX; //Thermal power in [MW]
-                        //h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
                     }
-                    // Initital publication of thermal power request equivalent to PGMAX
+                    // Initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
                     MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
 
                     // Set time step info

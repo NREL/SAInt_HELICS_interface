@@ -80,6 +80,7 @@ namespace HelicsDotNetReceiver
             //of the current time or have moved past it.If it is known that 1 federate depends on others in a non-cyclic fashion, this
             //can be used to optimize the order of execution without iterating.
             //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 1);
+            //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_RESTRICTIVE_TIME_POLICY, 1);
 
             // Federate init string
             Console.WriteLine("Gas: Setting Federate Info Init String");
@@ -114,7 +115,7 @@ namespace HelicsDotNetReceiver
 
             // set number of HELICS timesteps based on scenario
             double total_time = SAInt.GNET.SCE.NN;
-            Console.WriteLine($"Number of timesteps in scenario: {total_time}");
+            Console.WriteLine($"Number of timesteps in scenario: {total_time}");          
 
             double granted_time = 0;
             double requested_time;
@@ -124,6 +125,10 @@ namespace HelicsDotNetReceiver
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
             Console.WriteLine($"Max iterations: {iter_max}");
 
+            // start initialization mode
+            //h.helicsFederateEnterInitializingMode(vfed);
+            //Console.WriteLine("Gas: Entering initialization mode");
+            
             // enter execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Gas: Entering execution mode");
@@ -154,9 +159,7 @@ namespace HelicsDotNetReceiver
                 
                 if (e.SolverState == SolverState.BeforeTimeStep) {
 
-                    // Set the gas federate not to wait for the the current time update 
-                    h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 0);
-
+                    
                     // non-iterative time request here to block until both federates are done iterating
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT);
                     Console.WriteLine($"Requested time {Trequested}");
@@ -176,11 +179,6 @@ namespace HelicsDotNetReceiver
                     foreach (Mapping m in MappingList)
                     {
                         m.lastVal.Clear();
-
-                        // Publishing initial available thermal power of zero MW and zero peressure difference
-                        //MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
-                        //h.helicsPublicationPublishDouble(m.GasPubPth, 0);
-                        //h.helicsPublicationPublishDouble(m.GasPubPbar, 0);
                     }
                     // Publishing initial available thermal power of zero MW and zero peressure difference
                     MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);

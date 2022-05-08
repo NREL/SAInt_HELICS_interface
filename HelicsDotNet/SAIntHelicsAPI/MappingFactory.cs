@@ -21,10 +21,21 @@ namespace SAIntHelicsLib
 
             foreach (Mapping m in MappingList)
             {
-                double pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID,  gtime * m.ElectricGen.Net.SCE.dT / 3600));
+                double pval;
+                // Set initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
+                if (gtime == 0 && step == 0)
+                {
+                    pval = m.ElectricGen.PGMAX;
+                 }
+
+                else
+                {
+                    pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID, gtime * m.ElectricGen.Net.SCE.dT / 3600));
+                }
                 double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * pval + m.ElectricGen.K_2 * pval * pval;
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
                 double ThermalPower = HR/3.6 * pval; //Thermal power in [MW]
+
                 h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]", 
