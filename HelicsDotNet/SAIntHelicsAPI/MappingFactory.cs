@@ -100,7 +100,7 @@ namespace SAIntHelicsLib
                 }
                 else
                 {
-                    if (m.lastVal.Count > 2)
+                    if (m.lastVal.Count > 1)
                     {
                         //if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
                         if (Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) 
