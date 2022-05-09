@@ -161,7 +161,7 @@ namespace HelicsDotNetReceiver
 
                     
                     // non-iterative time request here to block until both federates are done iterating
-                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT);
+                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT);
                     Console.WriteLine($"Requested time {Trequested}");
                     //Console.WriteLine($"Requested time {e.TimeStep}");
 
@@ -169,7 +169,7 @@ namespace HelicsDotNetReceiver
 
                     // HELICS time granted 
                     granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
-                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.SCEdT);
+                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.GNET.SCE.dT);
                     Console.WriteLine($"Granted time: {Tgranted}, SolverState: {e.SolverState}");
                     //Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
 
@@ -184,15 +184,12 @@ namespace HelicsDotNetReceiver
                     MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
 
                     // Set time step info
-                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT) };
+                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT) };
                     timestepinfo.Add(currenttimestep);
                 }
 
                 if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
-                {
-                    // Set the gas federate to wait for the the current time update 
-                    //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 1);
-
+                {   
                     // stop iterating if max iterations have been reached
                     IsRepeating = (step < iter_max);
 
@@ -204,22 +201,20 @@ namespace HelicsDotNetReceiver
                         int helics_iter_status;
 
                         // iterative HELICS time request
-                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.SCEdT); ;
+                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT); ;
                         Console.WriteLine($"Requested time: {Trequested}, iteration: {step}");
 
                         // HELICS time granted 
                         granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
-                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.SCEdT);
+                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.GNET.SCE.dT);
                         Console.WriteLine($"Granted time: {Tgranted},  Iteration status: {helics_iter_status}");
 
                         // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
                         MappingFactory.PublishAvailableThermalPower(granted_time-1, step, MappingList);
 
-                        //// get requested thermal power from connected gas plants, determine if there are violations
-                        if (!(e.TimeStep == 0 && step <0))
-                        {
-                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
-                        }
+                        // get requested thermal power from connected gas plants, determine if there are violations
+                         HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
+                        
                         e.RepeatTimeIntegration = HasViolations;
                         IsRepeating = HasViolations;                                                         
                     }
@@ -234,7 +229,7 @@ namespace HelicsDotNetReceiver
             // request time for end of time + 1: serves as a blocking call until all federates are complete
             requested_time = total_time + 1;
             //Console.WriteLine($"Requested time: {requested_time}");
-            DateTime Drequested_time = SAInt.SCEEndTime + new TimeSpan(0, 0, SAInt.SCEdT);
+            DateTime Drequested_time = SAInt.GNET.SCE.EndTime + new TimeSpan(0, 0, SAInt.GNET.SCE.dT);
             Console.WriteLine($"Requested time step: {requested_time} at Time: {Drequested_time}");
             h.helicsFederateRequestTime(vfed, requested_time);
 

@@ -17,7 +17,7 @@ namespace SAIntHelicsLib
 
         public static void PublishRequiredThermalPower(double gtime, int step, List<Mapping> MappingList)
        {
-            DateTime Gtime = s.SCEStartTime + new TimeSpan(0, 0, (int)gtime * s.ENET.SCE.dT);
+            DateTime Gtime = s.ENET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.ENET.SCE.dT);
 
             foreach (Mapping m in MappingList)
             {
@@ -47,7 +47,7 @@ namespace SAIntHelicsLib
 
         public static void PublishAvailableThermalPower(double gtime, int step, List<Mapping> MappingList)
         {
-            DateTime Gtime = s.SCEStartTime + new TimeSpan(0, 0, (int)gtime * s.GNET.SCE.dT);
+            DateTime Gtime = s.GNET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.GNET.SCE.dT);
 
             foreach (Mapping m in MappingList)
             {
@@ -68,7 +68,7 @@ namespace SAIntHelicsLib
         public static bool SubscribeToAvailableThermalPower(double gtime, int step, List<Mapping> MappingList)
         {
             bool HasViolations = false;
-            DateTime Gtime = s.SCEStartTime + new TimeSpan(0, 0, (int)gtime * s.ENET.SCE.dT);
+            DateTime Gtime = s.ENET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.ENET.SCE.dT);
 
             foreach (Mapping m in MappingList)
             {
@@ -120,7 +120,7 @@ namespace SAIntHelicsLib
         public static bool SubscribeToRequiredThermalPower(double gtime, int step, List<Mapping> MappingList)
         {
             bool HasViolations = false;
-            DateTime Gtime = s.SCEStartTime + new TimeSpan(0, 0, (int)gtime * s.GNET.SCE.dT);
+            DateTime Gtime = s.GNET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.GNET.SCE.dT);
 
             foreach (Mapping m in MappingList)
             {
