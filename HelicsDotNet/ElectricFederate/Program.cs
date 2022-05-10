@@ -14,11 +14,11 @@ namespace HelicsDotNetSender
         static void Main(string[] args)
         {
             // Load Electric Model - Demo - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\Demo\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\Demo\";
+            string outputfolder = @"..\..\..\..\outputs\Demo\";
+            APIExport.openENET(netfolder + "ENET30.enet");
+            APIExport.openESCE(netfolder + "CASE1.esce");
+            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
@@ -35,11 +35,11 @@ namespace HelicsDotNetSender
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - DemoAlt_disruption - Compressor Outage
-            string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openESCE(netfolder + "CASE1.esce");
-            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE1.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Belgian model - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
@@ -202,8 +202,10 @@ namespace HelicsDotNetSender
                         m.lastVal.Clear();
                     }
                     // Initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
-                    MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
-
+                    if (e.TimeStep == 0)
+                    {
+                        MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
+                    }
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*SAInt.ENET.SCE.dT)};
                     timestepinfo.Add(currenttimestep);

@@ -13,11 +13,11 @@ namespace HelicsDotNetReceiver
         static void Main(string[] args)
         {
             // Load Gas Model - Demo - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\Demo\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE1.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            string netfolder = @"..\..\..\..\Networks\Demo\";
+            string outputfolder = @"..\..\..\..\outputs\Demo\";
+            APIExport.openGNET(netfolder + "GNET25.net");
+            APIExport.openGSCE(netfolder + "CASE1.sce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
@@ -34,11 +34,11 @@ namespace HelicsDotNetReceiver
             //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt_disruption - Compressor Outage
-            string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE1.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            //APIExport.openGNET(netfolder + "GNET25.net");
+            //APIExport.openGSCE(netfolder + "CASE1.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Belgian model - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
@@ -181,8 +181,10 @@ namespace HelicsDotNetReceiver
                         m.lastVal.Clear();
                     }
                     // Publishing initial available thermal power of zero MW and zero peressure difference
-                    MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
-
+                    if (e.TimeStep == 0)
+                    {
+                        MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
+                    }
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT) };
                     timestepinfo.Add(currenttimestep);
