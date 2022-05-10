@@ -268,4 +268,10 @@ namespace SAIntHelicsLib
         public DateTime time;
     }
 
+    public class NotConverged
+    {
+        public int timestep, itersteps;
+        public DateTime time;
+    }
+
 }

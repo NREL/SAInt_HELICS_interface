@@ -146,6 +146,7 @@ namespace HelicsDotNetSender
             // variables to control iterations
             Int16 step=0 ;
             List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
+            List<NotConverged> notconverged = new List<NotConverged>();
             bool IsRepeating = false;
             bool HasViolations = false;
 
@@ -162,7 +163,8 @@ namespace HelicsDotNetSender
             DateTime SCEStartTime = SAInt.ENET.SCE.StartTime;
             DateTime Trequested;
             DateTime Tgranted;
-            TimeStepInfo currenttimestep =new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};            
+            TimeStepInfo currenttimestep =new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
+            NotConverged CurrentDiverged = new NotConverged();
 
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
@@ -238,10 +240,19 @@ namespace HelicsDotNetSender
                         // get available thermal power at nodes, determine if there are violations                 
                         HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
 
+                        if (step == iter_max && HasViolations)
+                        {
+                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = step, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT) };
+                            notconverged.Add(CurrentDiverged);
+                        }
+
                         e.RepeatTimeIntegration = HasViolations;
-                        IsRepeating = HasViolations;                          
+                        IsRepeating = HasViolations;                      
                     }
+                    
                 }
+
+                
             };
 
             // run power model
@@ -279,6 +290,23 @@ namespace HelicsDotNetSender
                 }
 
             }
+
+            using (FileStream fs = new FileStream(outputfolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.WriteLine("Date \t TimeStep \t IterStep");
+                    foreach (NotConverged x in notconverged)
+                    {
+                        sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
+                    }
+                }
+
+            }
+
+            Console.WriteLine("Electric: Not converged time steps");
+            foreach (NotConverged x in notconverged)
+            { Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); }
 
             // save SAInt output
             APIExport.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
