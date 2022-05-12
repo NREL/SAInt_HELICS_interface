@@ -63,7 +63,7 @@ namespace HelicsDotNetReceiver
 
             // Load mapping between gas nodes and power plants 
             List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
-            
+
             // Get HELICS version
             Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
 
@@ -94,11 +94,11 @@ namespace HelicsDotNetReceiver
 
             // Register Publication and Subscription for coupling points
             foreach (Mapping m in MappingList) {
-                m.GasPubPth= h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
+                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
                 m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
 
-                m.ElectricSub= h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
-                
+                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
+
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
@@ -115,7 +115,7 @@ namespace HelicsDotNetReceiver
 
             // set number of HELICS timesteps based on scenario
             double total_time = SAInt.GNET.SCE.NN;
-            Console.WriteLine($"Number of timesteps in scenario: {total_time}");          
+            Console.WriteLine($"Number of timesteps in scenario: {total_time}");
 
             double granted_time = 0;
             double requested_time;
@@ -128,12 +128,12 @@ namespace HelicsDotNetReceiver
             // start initialization mode
             //h.helicsFederateEnterInitializingMode(vfed);
             //Console.WriteLine("Gas: Entering initialization mode");
-            
+
             // enter execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Gas: Entering execution mode");
 
-            Int16 step=0;
+            Int16 step = 0;
             List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
             List<NotConverged> notconverged = new List<NotConverged>();
             bool IsRepeating = false;
@@ -158,10 +158,10 @@ namespace HelicsDotNetReceiver
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
-                
+
                 if (e.SolverState == SolverState.BeforeTimeStep) {
 
-                    
+
                     // non-iterative time request here to block until both federates are done iterating
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT);
                     Console.WriteLine($"Requested time {Trequested}");
@@ -171,7 +171,7 @@ namespace HelicsDotNetReceiver
 
                     // HELICS time granted 
                     granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
-                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.GNET.SCE.dT);
+                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time - 1) * SAInt.GNET.SCE.dT);
                     Console.WriteLine($"Granted time: {Tgranted}, SolverState: {e.SolverState}");
                     //Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
 
@@ -193,7 +193,7 @@ namespace HelicsDotNetReceiver
                 }
 
                 if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
-                {   
+                {
                     // stop iterating if max iterations have been reached
                     IsRepeating = (step < iter_max);
 
@@ -210,14 +210,14 @@ namespace HelicsDotNetReceiver
 
                         // HELICS time granted 
                         granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
-                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.GNET.SCE.dT);
+                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time - 1) * SAInt.GNET.SCE.dT);
                         Console.WriteLine($"Granted time: {Tgranted},  Iteration status: {helics_iter_status}");
 
                         // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
-                        MappingFactory.PublishAvailableThermalPower(granted_time-1, step, MappingList);
+                        MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
 
                         // get requested thermal power from connected gas plants, determine if there are violations
-                         HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
+                        HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
 
                         if (step >= iter_max && HasViolations)
                         {
@@ -226,11 +226,11 @@ namespace HelicsDotNetReceiver
                         }
 
                         e.RepeatTimeIntegration = HasViolations;
-                        IsRepeating = HasViolations;                        
+                        IsRepeating = HasViolations;
 
-                    }                   
+                    }
 
-                }               
+                }
 
             };
 
@@ -283,7 +283,9 @@ namespace HelicsDotNetReceiver
                 }
 
             }
-            Console.WriteLine("Gas: Not converged time steps");
+
+            // Diverging time steps
+            Console.WriteLine($"Gas: number of diverging time steps = {notconverged.Count}");
             foreach(NotConverged x in notconverged)
             { Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); }
 

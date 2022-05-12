@@ -289,7 +289,12 @@ namespace HelicsDotNetSender
                     }
                 }
 
-            }
+            }                       
+
+            // save SAInt output
+            APIExport.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
+
+           
 
             using (FileStream fs = new FileStream(outputfolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
@@ -304,12 +309,10 @@ namespace HelicsDotNetSender
 
             }
 
-            Console.WriteLine("Electric: Not converged time steps");
+            // Diverging time steps
+            Console.WriteLine($"Electric: Number of diverging time steps = {notconverged.Count}");
             foreach (NotConverged x in notconverged)
             { Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); }
-
-            // save SAInt output
-            APIExport.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
 
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
 
