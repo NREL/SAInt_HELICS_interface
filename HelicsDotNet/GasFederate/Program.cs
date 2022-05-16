@@ -285,9 +285,17 @@ namespace HelicsDotNetReceiver
             }
 
             // Diverging time steps
-            Console.WriteLine($"Gas: number of diverging time steps = {notconverged.Count}");
-            foreach(NotConverged x in notconverged)
-            { Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); }
+            if (notconverged.Count == 0)
+                Console.WriteLine("Gas: There is no diverging time step");
+            else
+            {
+                Console.WriteLine("Gas: the solution diverged at the following time steps:");
+                foreach (NotConverged x in notconverged)
+                { 
+                    Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); 
+                }
+                Console.WriteLine($"Gas: The total number of diverging time steps = { notconverged.Count }");
+            }
 
             foreach (Mapping m in MappingList)
             {

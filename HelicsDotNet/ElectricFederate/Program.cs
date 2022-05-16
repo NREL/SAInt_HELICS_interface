@@ -310,9 +310,17 @@ namespace HelicsDotNetSender
             }
 
             // Diverging time steps
-            Console.WriteLine($"Electric: Number of diverging time steps = {notconverged.Count}");
-            foreach (NotConverged x in notconverged)
-            { Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); }
+            if (notconverged.Count == 0)
+                Console.WriteLine("Electric: There is no diverging time step");
+            else
+            {
+                Console.WriteLine("Electric: the solution diverged at the following time steps:");
+                foreach (NotConverged x in notconverged)
+                {
+                    Console.WriteLine($"Time \t {x.time} time-step {x.timestep}");
+                }
+                Console.WriteLine($"Electric: The total number of diverging time steps = { notconverged.Count }");
+            }
 
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
 
