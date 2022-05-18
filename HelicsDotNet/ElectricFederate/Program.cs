@@ -1,16 +1,21 @@
 ﻿using System;
 using h = helics;
 using SAInt_API;
+//using SAInt_API.NetList
 using SAInt_API.Library;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 using SAIntHelicsLib;
 
+using SAInt_API.Model.Network.Electric;
+using SAInt_API.Model.Scenarios;
+
 namespace HelicsDotNetSender
 {
     class Program
-    {      
+    {
+        public static ElectricNet ENET { get; set; }
         static void Main(string[] args)
         {
             // Load Electric Model - Demo - Normal Operation
@@ -19,7 +24,7 @@ namespace HelicsDotNetSender
             APIExport.openENET(netfolder + "ENET30.enet");
             APIExport.openESCE(netfolder + "CASE1.esce");
             APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-
+            
             // Load Electric Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
             //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
@@ -62,7 +67,7 @@ namespace HelicsDotNetSender
             APIExport.showSIMLOG(false);
 #endif
             // Load mapping between gas nodes and power plants 
-            List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
 
             // Get HELICS version
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
@@ -103,7 +108,7 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Value federate created");
 
             // Register Publication and Subscription for coupling points
-            foreach (Mapping m in MappingList)
+            foreach (ElectricGasMapping m in MappingList)
             {
                 m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
                 m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
@@ -124,7 +129,7 @@ namespace HelicsDotNetSender
             Console.WriteLine($"Time period: {period_set}");
 
             // set number of HELICS timesteps based on scenario
-            double total_time = SAInt.ENET.SCE.NN;
+            double total_time = ENET.SCE.NN;
             Console.WriteLine($"Number of timesteps in scenario: {total_time}");
 
             double granted_time = 0;
@@ -160,7 +165,7 @@ namespace HelicsDotNetSender
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
 #endif
-            DateTime SCEStartTime = SAInt.ENET.SCE.StartTime;
+            DateTime SCEStartTime = ENET.SCE.StartTime;
             DateTime Trequested;
             DateTime Tgranted;
             TimeStepInfo currenttimestep =new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
@@ -172,16 +177,16 @@ namespace HelicsDotNetSender
 #if DEBUG
                 if (e.SolverState == SolverState.AfterTimeStep)
                 {
-                    foreach (var i in SAInt.ENET.Gen)
+                    foreach (var i in ENET.Generators)
                     {
-                        Console.WriteLine($"{i.Name} \t {i.get_PG(e.TimeStep)}");
+                        Console.WriteLine($"{i.Name} \t {i.get_P(e.TimeStep)}");
                     }
                 }
 #endif
                 if (e.SolverState == SolverState.BeforeTimeStep)
                 {
                     // non-iterative time request here to block until both federates are done iterating the last time step
-                    Trequested = SCEStartTime + new TimeSpan(0,0,e.TimeStep*SAInt.ENET.SCE.dT);
+                    Trequested = SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt);
                     Console.WriteLine($"Requested time {Trequested}");
                     //Console.WriteLine($"Requested time {e.TimeStep}");
                     
@@ -189,7 +194,7 @@ namespace HelicsDotNetSender
 
                     // HELICS time granted 
                     granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
-                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1)*SAInt.ENET.SCE.dT);
+                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1)*(int)ENET.SCE.dt);
                     Console.WriteLine($"Granted time: {Tgranted}, SolverState: {e.SolverState}");
                     //Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
 
@@ -197,10 +202,10 @@ namespace HelicsDotNetSender
                     HasViolations = true;
 
                     // Reset nameplate capacity
-                    foreach (Mapping m in MappingList)
+                    foreach (ElectricGasMapping m in MappingList)
                     {
-                        m.ElectricGen.PGMAX = m.NCAP;
-                        m.ElectricGen.PGMIN = 0;
+                        m.ElectricGen.PMAX = m.NCAP;
+                        m.ElectricGen.PMIN = 0;
                         m.lastVal.Clear();
                     }
                     // Initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
@@ -209,7 +214,7 @@ namespace HelicsDotNetSender
                         MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
                     }
                     // Set time step info
-                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*SAInt.ENET.SCE.dT)};
+                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
                     timestepinfo.Add(currenttimestep);
                 }
 
@@ -226,12 +231,12 @@ namespace HelicsDotNetSender
                         int helics_iter_status;
 
                         // iterative HELICS time request
-                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.ENET.SCE.dT);
+                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                         Console.WriteLine($"Requested time: {Trequested}, iteration: {step}");                        
 
                         // HELICS time granted  
                         granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
-                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * SAInt.ENET.SCE.dT);
+                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * (int)ENET.SCE.dt);
                         Console.WriteLine($"Granted time: {Tgranted},  Iteration status: {helics_iter_status}");
 
                         // Using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0
@@ -242,7 +247,7 @@ namespace HelicsDotNetSender
 
                         if (step == iter_max && HasViolations)
                         {
-                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = step, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT) };
+                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = step, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
                             notconverged.Add(CurrentDiverged);
                         }
 
@@ -261,7 +266,7 @@ namespace HelicsDotNetSender
             // request time for end of time + 1: serves as a blocking call until all federates are complete
             requested_time = total_time + 1;            
             //Console.WriteLine($"Requested time: {requested_time}");
-            DateTime Drequested_time = SAInt.ENET.SCE.EndTime + new TimeSpan(0, 0, SAInt.ENET.SCE.dT);
+            DateTime Drequested_time = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
             Console.WriteLine($"Requested time step: {requested_time} at Time: {Drequested_time}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
@@ -324,7 +329,7 @@ namespace HelicsDotNetSender
 
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
 
-            foreach (Mapping m in MappingList)
+            foreach (ElectricGasMapping m in MappingList)
             {
                 if (m.sw != null)
                 {

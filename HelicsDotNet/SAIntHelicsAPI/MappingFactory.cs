@@ -3,60 +3,71 @@ using System.Collections.Generic;
 using System.IO;
 using s = SAInt_API.SAInt;
 using SAInt_API;
-using SAInt_API.Network.Electric;
-using SAInt_API.Network.Gas;
+using SAInt_API.Model.Network.Hub;
+using SAInt_API.Model.Network.Electric;
+using SAInt_API.Model.Network.Fluid.Gas;
+using SAInt_API.Model;
+//using SAInt_API.Network.Electric;
+//using SAInt_API.Network.Gas;
 using h = helics;
 
 namespace SAIntHelicsLib
 {
     public static class MappingFactory
     {
+        //public static CombinedSystem ENET { get; set; }
+        public static ElectricNet ENET { get; set; }
+
+        //public static CombinedSystem GNET { get; set; }
+        public static GasNet GNET { get; set; }
+        public static FuelGenerator FGEN { get; set; }
+
         public static StreamWriter gasSw;
         public static StreamWriter elecSw;
         public static double eps = 0.001;
-
-        public static void PublishRequiredThermalPower(double gtime, int step, List<Mapping> MappingList)
+        
+        public static void PublishRequiredThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
        {
-            DateTime Gtime = s.ENET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.ENET.SCE.dT);
+            DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * (int)ENET.SCE.dt);
 
-            foreach (Mapping m in MappingList)
+            foreach (ElectricGasMapping m in MappingList)
             {
                 double pval;
                 // Set initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
                 if (gtime == 0 && step == 0)
                 {
-                    pval = m.ElectricGen.PGMAX;
+                    pval = m.ElectricGen.FGEN.get_PMAX();
                  }
 
                 else
                 {
-                    pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID, gtime * m.ElectricGen.Net.SCE.dT / 3600));
+                    pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID, gtime * m.ElectricGen.Net.SCE.dt / 3600));
                 }
-                double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * pval + m.ElectricGen.K_2 * pval * pval;
+                double HR = m.ElectricGen.HR0 + m.ElectricGen.HR1 * pval + m.ElectricGen.HR2 * pval * pval;
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
                 double ThermalPower = HR/3.6 * pval; //Thermal power in [MW]
 
                 h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]", 
-                    Gtime,step, m.ElectricGen, ThermalPower,pval,m.ElectricGen.PGMAX));
+                    Gtime,step, m.ElectricGen, ThermalPower,pval,m.ElectricGen.FGEN.get_PMAX()));
                 m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
-                    gtime,step, pval, ThermalPower , m.ElectricGen.PGMAX));
+                    gtime,step, pval, ThermalPower , m.ElectricGen.FGEN.get_PMAX()));
             }
         }
 
-        public static void PublishAvailableThermalPower(double gtime, int step, List<Mapping> MappingList)
+        public static void PublishAvailableThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
         {
-            DateTime Gtime = s.GNET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.GNET.SCE.dT);
+            DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * (int)GNET.SCE.dt);
 
-            foreach (Mapping m in MappingList)
+            foreach (ElectricGasMapping m in MappingList)
             {
-                double pval = APIExport.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dT / 3600));
-                double qval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dT / 3600));
+                double pval = APIExport.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dt / 3600));
+                double qval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dt / 3600));
 
-                double ThermalPower  = qval * s.GNET.CV / 1E6; //Thermal power in [MW]
+                double ThermalPower  = qval * m.GasNode.get_GNQ((int)gtime).GCV/ 1E6; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.GasPubPth, ThermalPower);
-                h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GasNode.PMIN.Val-m.GasNode.GNET.P_a)/1e5);
+                h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GasNode.SceList.PMIN.Val-m.GasNode.GNET.PAMB)/1e5);
 
                 Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", 
                     Gtime, step, m.GasNode, ThermalPower, pval, qval));
@@ -65,12 +76,12 @@ namespace SAIntHelicsLib
             }
         }
 
-        public static bool SubscribeToAvailableThermalPower(double gtime, int step, List<Mapping> MappingList)
+        public static bool SubscribeToAvailableThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
         {
             bool HasViolations = false;
-            DateTime Gtime = s.ENET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.ENET.SCE.dT);
+            DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * (int)ENET.SCE.dt);
 
-            foreach (Mapping m in MappingList)
+            foreach (ElectricGasMapping m in MappingList)
             {
                 // subscribe to available thermal power from gas node
                 double valPth = h.helicsInputGetDouble(m.GasSubPth);
@@ -80,8 +91,8 @@ namespace SAIntHelicsLib
                 Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", Gtime, step, m.ElectricGen, valPth,valPbar));
 
                 //get currently required thermal power 
-                double pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID,gtime*m.ElectricGen.Net.SCE.dT/3600));
-                double HR = m.ElectricGen.K_0 + m.ElectricGen.K_1 * pval + m.ElectricGen.K_2 * pval * pval;
+                double pval = APIExport.evalFloat(String.Format("{0}.PG.({1}).[MW]", m.ElectricGenID,gtime*m.ElectricGen.Net.SCE.dt/3600));
+                double HR = m.ElectricGen.HR0 + m.ElectricGen.HR1 * pval + m.ElectricGen.HR2 * pval * pval;
                 double ThermalPower = HR / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
 
                 m.lastVal.Add(valPth);
@@ -92,8 +103,8 @@ namespace SAIntHelicsLib
                     { 
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
-                        m.ElectricGen.PGMIN = PGMAXset;
-                        m.ElectricGen.PGMAX = PGMAXset; 
+                        m.ElectricGen.SceList.PMIN = PGMAXset;
+                        m.ElectricGen.SceList.PMAX = PGMAXset; 
                         Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, step, m.ElectricGen, m.ElectricGen.PGMAX));
                     }
                     HasViolations = true;
@@ -117,12 +128,12 @@ namespace SAIntHelicsLib
             return HasViolations;
         }
 
-        public static bool SubscribeToRequiredThermalPower(double gtime, int step, List<Mapping> MappingList)
+        public static bool SubscribeToRequiredThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
         {
             bool HasViolations = false;
-            DateTime Gtime = s.GNET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * s.GNET.SCE.dT);
+            DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, (int)gtime * (int)GNET.SCE.dt);
 
-            foreach (Mapping m in MappingList)
+            foreach (ElectricGasMapping m in MappingList)
             {
                 // get publication from electric federate
                 double val = h.helicsInputGetDouble(m.ElectricSub);
@@ -131,18 +142,18 @@ namespace SAIntHelicsLib
                 m.lastVal.Add(val);
 
                 //get currently available thermal power 
-                double pval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s] * {0}.CV.({1}).[MJ/sm3]", m.GasNodeID, gtime * m.GasNode.Net.SCE.dT / 3600));
+                double pval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s] * {0}.CV.({1}).[MJ/sm3]", m.GasNodeID, gtime * m.GasNode.Net.SCE.dt / 3600));
 
                 if (Math.Abs(pval - val) > eps )
                 {               
                     // calculate offtakes at corresponding node using heat rates
-                    foreach (var evt in m.GasNode.EventList)
+                    foreach (var evt in m.GasNode.SceList)
                     {
-                        if (evt.ObjPar == SAInt_API.Network.CtrlType.QSET)
+                        if (evt.ObjPar == SAInt_API.Model.CtrlType.QSET)
                         {
                             double EvtVal = evt.ObjVal;
                             evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                            evt.ShowVal = string.Format("{0}", 1E6 * val /s.GNET.CV); // converting thermal power to flow rate using calorific value
+                            evt.ShowVal = string.Format("{0}", 1E6 * val /m.GasNode.get_GNQ((int)gtime).GCV); // converting thermal power to flow rate using calorific value
                             evt.Processed = false;
 
                             Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSETn = {3:0.0000} [sm3/s] \t QSETn-1 = {4:0.0000} [sm3/s]", 
@@ -169,11 +180,11 @@ namespace SAIntHelicsLib
             return HasViolations;
         }
 
-        public static double GetActivePowerFromAvailableThermalPower(Mapping m,double Pth, double initVal)
+        public static double GetActivePowerFromAvailableThermalPower(ElectricGasMapping m,double Pth, double initVal)
         {
-            Func<double,double> GetHR = (x) => m.ElectricGen.K_0 + m.ElectricGen.K_1 * x + m.ElectricGen.K_2 * x * x;
+            Func<double,double> GetHR = (x) => m.ElectricGen.HR0 + m.ElectricGen.HR1 * x + m.ElectricGen.HR2 * x * x;
             Func<double, double> GetF = (x) => 3.6 * Pth - x * GetHR(x);
-            Func<double, double> GetdFdx = (x) => -(m.ElectricGen.K_0 + 2*m.ElectricGen.K_1 * x + 3*m.ElectricGen.K_2 * x * x);
+            Func<double, double> GetdFdx = (x) => -(m.ElectricGen.HR0 + 2*m.ElectricGen.HR1 * x + 3*m.ElectricGen.HR2 * x * x);
 
             double Res = Math.Abs(GetF(initVal));
             int maxiter = 20;
@@ -195,9 +206,9 @@ namespace SAIntHelicsLib
             //throw new Exception("No solution found for given thermal power");
         }
 
-        public static List<Mapping> GetMappingFromFile(string filename)
+        public static List<ElectricGasMapping> GetMappingFromFile(string filename)
         {
-            List<Mapping> MappingList = new List<Mapping>();
+            List<ElectricGasMapping> MappingList = new List<ElectricGasMapping>();
 
             if (File.Exists(filename))
             {
@@ -215,14 +226,15 @@ namespace SAIntHelicsLib
                             {
                                 if (!zeile[0].Contains("%"))
                                 {
-                                    var mapitem = new Mapping();
+                                    var mapitem = new ElectricGasMapping();
                                     mapitem.ElectricGenID = zeile[0];
                                     mapitem.GasNodeID = zeile[1];
-                                    mapitem.ElectricGen = s.ENET[mapitem.ElectricGenID] as eGen;
-                                    mapitem.GasNode = s.GNET[mapitem.GasNodeID] as GasNode;
+                                    mapitem.ElectricGen = ENET[mapitem.ElectricGenID] as GasFiredGenerator;
+                                    mapitem.GasNode = GNET[mapitem.GasNodeID] as GasNode;
                                     mapitem.lastVal = new List<double>();
-                                    if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.PGMAX;
+                                    if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.PMAX;
                                     MappingList.Add(mapitem);
+                                    
                                 }
                             }
                         }
@@ -237,13 +249,17 @@ namespace SAIntHelicsLib
         }
     }
 
-    public class Mapping
+    public class ElectricGasMapping
     {
         public string GasNodeID;
         public GasNode GasNode;
+        //public GasDemand GasNode=GFG(1);
 
         public string ElectricGenID;
-        public eGen ElectricGen;
+        //public ElectricExternal ElectricGen;
+        //public GasFiredGenerator GFG;
+        public GasFiredGenerator ElectricGen;
+        //public GasDemand GasNode = GFG.GDEM;
 
         public double NCAP;
 
