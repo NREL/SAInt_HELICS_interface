@@ -13,11 +13,11 @@ namespace HelicsDotNetReceiver
         static void Main(string[] args)
         {
             // Load Gas Model - Demo - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\outputs\Demo\";
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE1.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo\";
+            //APIExport.openGNET(netfolder + "GNET25.net");
+            //APIExport.openGSCE(netfolder + "CASE1.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
@@ -34,11 +34,11 @@ namespace HelicsDotNetReceiver
             //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             // Load Gas Model - DemoAlt_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE1.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            APIExport.openGNET(netfolder + "GNET25.net");
+            APIExport.openGSCE(netfolder + "CASE1.sce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Belgian model - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
@@ -286,7 +286,7 @@ namespace HelicsDotNetReceiver
 
             // Diverging time steps
             if (notconverged.Count == 0)
-                Console.WriteLine("Gas: There is no diverging time step");
+                Console.WriteLine("\n Gas: There is no diverging time step.");
             else
             {
                 Console.WriteLine("Gas: the solution diverged at the following time steps:");
@@ -294,7 +294,7 @@ namespace HelicsDotNetReceiver
                 { 
                     Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); 
                 }
-                Console.WriteLine($"Gas: The total number of diverging time steps = { notconverged.Count }");
+                Console.WriteLine($"\n Gas: The total number of diverging time steps = { notconverged.Count }");
             }
 
             foreach (Mapping m in MappingList)

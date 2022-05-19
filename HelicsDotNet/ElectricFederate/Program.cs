@@ -14,11 +14,11 @@ namespace HelicsDotNetSender
         static void Main(string[] args)
         {
             // Load Electric Model - Demo - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\outputs\Demo\";
-            APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openESCE(netfolder + "CASE1.esce");
-            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo\";
+            //APIExport.openENET(netfolder + "ENET30.enet");
+            //APIExport.openESCE(netfolder + "CASE1.esce");
+            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
@@ -35,11 +35,11 @@ namespace HelicsDotNetSender
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - DemoAlt_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
+            string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
+            APIExport.openENET(netfolder + "ENET30.enet");
+            APIExport.openESCE(netfolder + "CASE1.esce");
+            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             // Load Electric Model - Belgian model - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
@@ -69,20 +69,20 @@ namespace HelicsDotNetSender
 
             // Create broker 
             //int SeparateBroker = 0;
-            int SeparateBroker = 1;
+            //int SeparateBroker = 1;
 
-            if (SeparateBroker == 0)
-            {
-                string initBrokerString = "-f 2 --name=mainbroker";
-                Console.WriteLine("Creating Broker");
-                var broker = h.helicsCreateBroker("tcp", "", initBrokerString);
-                Console.WriteLine("Created Broker");
+            //if (SeparateBroker == 0)
+            //{
+            //    string initBrokerString = "-f 2 --name=mainbroker";
+            //    Console.WriteLine("Creating Broker");
+            //    var broker = h.helicsCreateBroker("tcp", "", initBrokerString);
+            //    Console.WriteLine("Created Broker");
 
-                Console.WriteLine("Checking if Broker is connected");
-                int isconnected = h.helicsBrokerIsConnected(broker);
-                Console.WriteLine("Checked if Broker is connected");
-                if (isconnected == 1) Console.WriteLine("Broker created and connected");
-            }
+            //    Console.WriteLine("Checking if Broker is connected");
+            //    int isconnected = h.helicsBrokerIsConnected(broker);
+            //    Console.WriteLine("Checked if Broker is connected");
+            //    if (isconnected == 1) Console.WriteLine("Broker created and connected");
+            //}
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
@@ -100,7 +100,8 @@ namespace HelicsDotNetSender
 
             // Federate init string
             Console.WriteLine("Electric: Setting Federate Info Init String");
-            string fedinitstring = "--broker=mainbroker --federates=1";
+            //string fedinitstring = "--broker=mainbroker --federates=1";
+            string fedinitstring = "--federates=1";
             h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring);
 
             // Create value federate
@@ -219,7 +220,7 @@ namespace HelicsDotNetSender
                     timestepinfo.Add(currenttimestep);
                 }
 
-                if ( e.SolverState == SolverState.AfterTimeStep && IsRepeating)
+                if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
                 {
                     // stop iterating if max iterations have been reached
                     IsRepeating =  (step < iter_max); 
@@ -317,7 +318,7 @@ namespace HelicsDotNetSender
 
             // Diverging time steps
             if (notconverged.Count == 0)
-                Console.WriteLine("Electric: There is no diverging time step");
+                Console.WriteLine("\n Electric: There is no diverging time step");
             else
             {
                 Console.WriteLine("Electric: the solution diverged at the following time steps:");
@@ -325,13 +326,13 @@ namespace HelicsDotNetSender
                 {
                     Console.WriteLine($"Time \t {x.time} time-step {x.timestep}");
                 }
-                Console.WriteLine($"Electric: The total number of diverging time steps = { notconverged.Count }");
+                Console.WriteLine($"\n Electric: The total number of diverging time steps = { notconverged.Count }");
             }
 
-            if (SeparateBroker == 0)
-            {
-                //while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
-            }
+            //if (SeparateBroker == 0)
+            //{
+            //    while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
+            //}
 
             foreach (Mapping m in MappingList)
             {
@@ -343,11 +344,11 @@ namespace HelicsDotNetSender
             }
 
             // disconnect broker
-            if (SeparateBroker == 0)
-            {
-                h.helicsCloseLibrary();
-                Console.WriteLine("Electric: Broker disconnected");
-            }
+            //if (SeparateBroker == 0)
+            //{
+            //    h.helicsCloseLibrary();
+            //    Console.WriteLine("Electric: Broker disconnected");
+            //}
             
             var k = Console.ReadKey();
         }
