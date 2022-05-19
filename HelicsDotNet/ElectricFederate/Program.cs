@@ -318,7 +318,7 @@ namespace HelicsDotNetSender
 
             // Diverging time steps
             if (notconverged.Count == 0)
-                Console.WriteLine("\n Electric: There is no diverging time step");
+                Console.WriteLine("\n Electric: There is no diverging time step.");
             else
             {
                 Console.WriteLine("Electric: the solution diverged at the following time steps:");
