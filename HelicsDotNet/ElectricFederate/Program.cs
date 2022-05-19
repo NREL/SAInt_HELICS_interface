@@ -68,15 +68,21 @@ namespace HelicsDotNetSender
             Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
 
             // Create broker 
-            string initBrokerString = "-f 2 --name=mainbroker";
-            Console.WriteLine("Creating Broker");
-            var broker = h.helicsCreateBroker("tcp", "", initBrokerString);
-            Console.WriteLine("Created Broker");
+            //int SeparateBroker = 0;
+            int SeparateBroker = 1;
 
-            Console.WriteLine("Checking if Broker is connected");
-            int isconnected = h.helicsBrokerIsConnected(broker);
-            Console.WriteLine("Checked if Broker is connected");
-            if (isconnected == 1) Console.WriteLine("Broker created and connected");
+            if (SeparateBroker == 0)
+            {
+                string initBrokerString = "-f 2 --name=mainbroker";
+                Console.WriteLine("Creating Broker");
+                var broker = h.helicsCreateBroker("tcp", "", initBrokerString);
+                Console.WriteLine("Created Broker");
+
+                Console.WriteLine("Checking if Broker is connected");
+                int isconnected = h.helicsBrokerIsConnected(broker);
+                Console.WriteLine("Checked if Broker is connected");
+                if (isconnected == 1) Console.WriteLine("Broker created and connected");
+            }
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
@@ -322,7 +328,10 @@ namespace HelicsDotNetSender
                 Console.WriteLine($"Electric: The total number of diverging time steps = { notconverged.Count }");
             }
 
-            while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
+            if (SeparateBroker == 0)
+            {
+                //while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
+            }
 
             foreach (Mapping m in MappingList)
             {
@@ -334,8 +343,12 @@ namespace HelicsDotNetSender
             }
 
             // disconnect broker
-            h.helicsCloseLibrary();
-            Console.WriteLine("Electric: Broker disconnected");
+            if (SeparateBroker == 0)
+            {
+                h.helicsCloseLibrary();
+                Console.WriteLine("Electric: Broker disconnected");
+            }
+            
             var k = Console.ReadKey();
         }
     }

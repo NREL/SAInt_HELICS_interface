@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricFederate", "Electri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAIntHelicsLib", "SAIntHelicsAPI\SAIntHelicsLib.csproj", "{2E6947E8-3F38-4263-9A7D-22CAB425C4D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasElectricBroker", "..\..\SAInt_HELICS_interface2\HelicsDotNet\GasElectricBroker\GasElectricBroker.csproj", "{B12BE590-49E1-446F-A0AC-02BFE2936637}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasElectricBroker", "GasElectricBroker\GasElectricBroker.csproj", "{B12BE590-49E1-446F-A0AC-02BFE2936637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
