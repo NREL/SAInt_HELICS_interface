@@ -10,7 +10,7 @@ namespace GasElectricBroker
         static void Main(string[] args)
         {
             string initBrokerString = "-f 2 --name=mainbroker";
-            Console.WriteLine($"GasElectricBroker: Helics version ={helics.helicsGetVersion()}");
+            Console.WriteLine($"GasElectricBroker: Helics version ={h.helicsGetVersion()}");
 
             //Create broker #
             Console.WriteLine("Creating Broker");
@@ -25,6 +25,7 @@ namespace GasElectricBroker
 
             // Run Electric Federate
             Process.Start(@"..\..\..\..\ElectricFederate\bin\x64\Debug\ElectricFederate.exe");
+
             // Run Electric Federate
             Process.Start(@"..\..\..\..\GasFederate\bin\x64\Debug\GasFederate.exe");
 
