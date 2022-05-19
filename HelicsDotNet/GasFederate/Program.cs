@@ -65,11 +65,11 @@ namespace HelicsDotNetReceiver
             List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
 
             // Get HELICS version
-            Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
+            Console.WriteLine($"Gas: Helics version ={h.helicsGetVersion()}");
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Gas: Creating Federate Info");
-            var fedinfo = helics.helicsCreateFederateInfo();
+            var fedinfo = h.helicsCreateFederateInfo();
 
             // Set core type from string
             Console.WriteLine("Gas: Setting Federate Core Type");

@@ -65,7 +65,7 @@ namespace HelicsDotNetSender
             List<Mapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
 
             // Get HELICS version
-            Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
+            Console.WriteLine($"Electric: Helics version ={h.helicsGetVersion()}");
 
             // Create broker 
             //int SeparateBroker = 0;
@@ -86,7 +86,7 @@ namespace HelicsDotNetSender
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
-            var fedinfo = helics.helicsCreateFederateInfo();
+            var fedinfo = h.helicsCreateFederateInfo();
 
             // Set core type from string
             Console.WriteLine("Electric: Setting Federate Core Type");
