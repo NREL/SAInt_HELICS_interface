@@ -242,7 +242,7 @@ namespace HelicsDotNetSender
 
                         if (step == iter_max && HasViolations)
                         {
-                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = step, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.GNET.SCE.dT) };
+                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = step, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * SAInt.ENET.SCE.dT) };
                             notconverged.Add(CurrentDiverged);
                         }
 
