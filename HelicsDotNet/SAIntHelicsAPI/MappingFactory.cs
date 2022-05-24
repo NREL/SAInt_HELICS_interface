@@ -67,7 +67,7 @@ namespace SAIntHelicsLib
 
                 double ThermalPower  = qval * m.GasNode.get_GNQ((int)gtime).GCV/ 1E6; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.GasPubPth, ThermalPower);
-                h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GasNode.SceList.PMIN.Val-m.GasNode.GNET.PAMB)/1e5);
+                h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GasNode.GNET.get_PMIN((int)gtime)-m.GasNode.GNET.PAMB)/1e5);
 
                 Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", 
                     Gtime, step, m.GasNode, ThermalPower, pval, qval));
@@ -100,12 +100,36 @@ namespace SAIntHelicsLib
                 if (Math.Abs(ThermalPower-valPth) > eps && step>=0)
                 {
                     if (valPbar < eps)
-                    { 
+                    {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
-                        m.ElectricGen.SceList.PMIN = PGMAXset;
-                        m.ElectricGen.SceList.PMAX = PGMAXset; 
-                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, step, m.ElectricGen, m.ElectricGen.PGMAX));
+
+                        foreach (var evt in m.ElectricGen.FGEN.SceList)
+                        {
+                           
+                            if (evt.ObjPar == CtrlType.PMIN)
+                            {
+                                double EvtVal = evt.ObjVal;
+                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                evt.ShowVal = string.Format("{0}",PGMAXset);
+                                evt.Processed = false;
+
+                                Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PMINn = {3:0.0000} [MW/s] \t PMINn-1 = {4:0.0000} [MW]",
+                                    Gtime, step, m.ElectricGen, evt.ObjVal, EvtVal));
+                            }
+                            if (evt.ObjPar == CtrlType.PMAX)
+                            {
+                                double EvtVal = evt.ObjVal;
+                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                evt.ShowVal = string.Format("{0}", PGMAXset);
+                                evt.Processed = false;
+
+                                Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PMAXn = {3:0.0000} [MW/s] \t PMAXn-1 = {4:0.0000} [MW]",
+                                    Gtime, step, m.ElectricGen, evt.ObjVal, EvtVal));
+                            }
+                        }
+
+                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, step, m.ElectricGen, m.ElectricGen.FGEN.get_PMAX((int)gtime)));
                     }
                     HasViolations = true;
                 }
@@ -149,7 +173,7 @@ namespace SAIntHelicsLib
                     // calculate offtakes at corresponding node using heat rates
                     foreach (var evt in m.GasNode.SceList)
                     {
-                        if (evt.ObjPar == SAInt_API.Model.CtrlType.QSET)
+                        if (evt.ObjPar == CtrlType.QSET)
                         {
                             double EvtVal = evt.ObjVal;
                             evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
@@ -232,7 +256,7 @@ namespace SAIntHelicsLib
                                     mapitem.ElectricGen = ENET[mapitem.ElectricGenID] as GasFiredGenerator;
                                     mapitem.GasNode = GNET[mapitem.GasNodeID] as GasNode;
                                     mapitem.lastVal = new List<double>();
-                                    if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.PMAX;
+                                    if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.FGEN.get_PMAX();
                                     MappingList.Add(mapitem);
                                     
                                 }

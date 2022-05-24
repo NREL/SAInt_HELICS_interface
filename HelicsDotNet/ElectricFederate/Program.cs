@@ -9,7 +9,7 @@ using System.IO;
 using SAIntHelicsLib;
 
 using SAInt_API.Model.Network.Electric;
-using SAInt_API.Model.Scenarios;
+using SAInt_API.Model;
 
 namespace HelicsDotNetSender
 {
@@ -204,8 +204,28 @@ namespace HelicsDotNetSender
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
                     {
-                        m.ElectricGen.PMAX = m.NCAP;
-                        m.ElectricGen.PMIN = 0;
+                       
+                        foreach (var evt in m.ElectricGen.FGEN.SceList)
+                        {
+
+                            if (evt.ObjPar == CtrlType.PMIN)
+                            {
+                                double EvtVal = evt.ObjVal;
+                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                evt.ShowVal = string.Format("{0}", m.NCAP);
+                                evt.Processed = false;
+                                
+                            }
+                            if (evt.ObjPar == CtrlType.PMAX)
+                            {
+                                double EvtVal = evt.ObjVal;
+                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                evt.ShowVal = string.Format("{0}", 0);
+                                evt.Processed = false;
+
+                            }
+                        }
+
                         m.lastVal.Clear();
                     }
                     // Initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
@@ -256,7 +276,6 @@ namespace HelicsDotNetSender
                     }
                     
                 }
-
                 
             };
 
