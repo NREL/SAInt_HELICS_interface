@@ -287,6 +287,8 @@ namespace HelicsDotNetSender
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
+            // If all federates are disconnected from teh broker, then close libraries
+            h.helicsCloseLibrary();
 
             using (FileStream fs=new FileStream(outputfolder + "TimeStepInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
             {   

@@ -28,10 +28,10 @@ namespace GasElectricBroker
 
             // Run Electric Federate
             //Process.Start(@"..\..\..\..\GasFederate\bin\x64\Debug\GasFederate.exe");
-
-            while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
-            h.helicsCloseLibrary();
+            // Do nothing while the broker is connected
+            while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);            
             Console.WriteLine("GasElectric: Broker disconnected");
+
             _ = Console.ReadKey();
         }
     }
