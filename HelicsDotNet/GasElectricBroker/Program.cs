@@ -24,10 +24,10 @@ namespace GasElectricBroker
             if (isconnected == 1) Console.WriteLine("Broker created and connected");
 
             // Run Electric Federate
-            Process.Start(@"..\..\..\..\ElectricFederate\bin\x64\Debug\ElectricFederate.exe");
+            //Process.Start(@"..\..\..\..\ElectricFederate\bin\x64\Debug\ElectricFederate.exe");
 
             // Run Electric Federate
-            Process.Start(@"..\..\..\..\GasFederate\bin\x64\Debug\GasFederate.exe");
+            //Process.Start(@"..\..\..\..\GasFederate\bin\x64\Debug\GasFederate.exe");
 
             while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
             h.helicsCloseLibrary();

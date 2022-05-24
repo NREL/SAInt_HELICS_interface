@@ -13,6 +13,9 @@ namespace HelicsDotNetSender
     {      
         static void Main(string[] args)
         {
+            ////Number of miliseconds to let the process wait (if requiered)
+            //Thread.Sleep(10000);
+
             // Load Electric Model - Demo - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Demo\";
             //string outputfolder = @"..\..\..\..\outputs\Demo\";
