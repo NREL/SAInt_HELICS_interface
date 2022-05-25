@@ -69,20 +69,7 @@ namespace HelicsDotNetSender
             // Load mapping between gas nodes and power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
 
-            // Get HELICS version
-            Console.WriteLine($"Electric: Helics version ={helics.helicsGetVersion()}");
-
-            // Create broker 
-            string initBrokerString = "-f 2 --name=mainbroker";
-            Console.WriteLine("Creating Broker");
-            var broker = h.helicsCreateBroker("tcp", "", initBrokerString);
-            Console.WriteLine("Created Broker");
-
-            Console.WriteLine("Checking if Broker is connected");
-            int isconnected = h.helicsBrokerIsConnected(broker);
-            Console.WriteLine("Checked if Broker is connected");
-            if (isconnected == 1) Console.WriteLine("Broker created and connected");
-
+            
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
             var fedinfo = helics.helicsCreateFederateInfo();
@@ -99,7 +86,7 @@ namespace HelicsDotNetSender
 
             // Federate init string
             Console.WriteLine("Electric: Setting Federate Info Init String");
-            string fedinitstring = "--broker=mainbroker --federates=1";
+            string fedinitstring = "--federates=1";
             h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring);
 
             // Create value federate
@@ -301,6 +288,7 @@ namespace HelicsDotNetSender
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Electric: Federate finalized");
             h.helicsFederateFree(vfed);
+            h.helicsCloseLibrary();
 
             using (FileStream fs=new FileStream(outputfolder + "TimeStepInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
             {   
@@ -346,8 +334,6 @@ namespace HelicsDotNetSender
                 Console.WriteLine($"Electric: The total number of diverging time steps = { notconverged.Count }");
             }
 
-            while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
-
             foreach (ElectricGasMapping m in MappingList)
             {
                 if (m.sw != null)
@@ -355,11 +341,7 @@ namespace HelicsDotNetSender
                     m.sw.Flush();
                     m.sw.Close();
                 }
-            }
-
-            // disconnect broker
-            h.helicsCloseLibrary();
-            Console.WriteLine("Electric: Broker disconnected");
+            }           
             var k = Console.ReadKey();
         }
     }

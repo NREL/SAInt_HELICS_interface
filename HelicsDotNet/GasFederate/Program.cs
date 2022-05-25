@@ -261,6 +261,7 @@ namespace HelicsDotNetReceiver
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Gas: Federate finalized");
             h.helicsFederateFree(vfed);
+            h.helicsCloseLibrary();
 
             using (FileStream fs = new FileStream(outputfolder + "TimeStepInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {

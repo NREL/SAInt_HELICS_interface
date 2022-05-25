@@ -21,7 +21,7 @@ namespace GasElectricBroker
             int isconnected = h.helicsBrokerIsConnected(broker);
             Console.WriteLine("Checked if Broker is connected");
 
-            if (isconnected == 1) Console.WriteLine("Broker created and connected");
+            if (isconnected == 1) Console.WriteLine("Broker: Broker is created and connected");
 
             // Run Electric Federate
             //Process.Start(@"..\..\..\..\ElectricFederate\bin\x64\Debug\ElectricFederate.exe");
@@ -29,9 +29,9 @@ namespace GasElectricBroker
             // Run Electric Federate
             //Process.Start(@"..\..\..\..\GasFederate\bin\x64\Debug\GasFederate.exe");
 
-            while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);
-            h.helicsCloseLibrary();
-            Console.WriteLine("GasElectric: Broker disconnected");
+            while (h.helicsBrokerIsConnected(broker) > 0) Thread.Sleep(1);            
+            Console.WriteLine("Broker: Broker is disconnected");
+
             _ = Console.ReadKey();
         }
     }
