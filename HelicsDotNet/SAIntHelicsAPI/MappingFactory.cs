@@ -6,10 +6,9 @@ using SAInt_API;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Fluid.Gas;
-using SAInt_API.Model.Network.Hub;
+
 using SAInt_API.Model;
-//using SAInt_API.Network.Electric;
-//using SAInt_API.Network.Gas;
+
 using h = helics;
 
 namespace SAIntHelicsLib
@@ -234,7 +233,7 @@ namespace SAIntHelicsLib
             //throw new Exception("No solution found for given thermal power");
         }
 
-        public static List<ElectricGasMapping> GetMappingFromHubs(IList<HubObject> Hub)
+        public static List<ElectricGasMapping> GetMappingFromHubs(IList<GasFiredGenerator> GFGs)
         {
             List<ElectricGasMapping> MappingList = new List<ElectricGasMapping>();
 
@@ -274,7 +273,7 @@ namespace SAIntHelicsLib
             //    throw new Exception(string.Format("File {0} does not exist!", filename));
             //}
             
-            foreach (GasFiredGenerator m in Hub)
+            foreach (GasFiredGenerator m in GFGs)
             {
                 var mapitem = new ElectricGasMapping();
                 mapitem.ElectricGen = m.FGEN;

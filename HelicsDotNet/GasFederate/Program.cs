@@ -17,8 +17,15 @@ namespace HelicsDotNetReceiver
         public static GasNet GNET { get; set; }
         public static HubSystem HUB { get; set; }
 
+         static object GetObject(string funcName)
+        { 
+            var func= typeof(APIExport).GetMethod(funcName,System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            return func.Invoke(null, new object[] {});
+        }
+
         static void Main(string[] args)
         {
+            
             // Load Gas Model - 2 node case
             string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
             string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
@@ -26,6 +33,9 @@ namespace HelicsDotNetReceiver
             APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
             APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
             APIExport.openGCON(netfolder + "DYN_GAS.gcon");
+
+            GNET = (GasNet)GetObject("get_GNET");
+            HUB = (HubSystem)GetObject("get_HUBS");
 
             // Load Gas Model - Demo - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Demo\";
@@ -77,7 +87,7 @@ namespace HelicsDotNetReceiver
 #endif
 
             // Load mapping between gas nodes and power plants 
-            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.Hubs);
+            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
 
             // Get HELICS version
             Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
@@ -108,17 +118,19 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("Gas: Value federate created");
 
             // Register Publication and Subscription for coupling points
-            foreach (ElectricGasMapping m in MappingList)
-            {
-                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
-                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
+            // Load mapping between gas nodes and power plants 
+            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+            //foreach (ElectricGasMapping m in MappingList)
+            //{
+            //    m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
+            //    m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
 
-                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
+            //    m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
 
-                //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
-                m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
-            }
+            //    //Streamwriter for writing iteration results into file
+            //    m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
+            //    m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
+            //}
 
             // Set one second message interval
             double period = 1;
@@ -148,6 +160,21 @@ namespace HelicsDotNetReceiver
             // enter execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Gas: Entering execution mode");
+
+            // Register Publication and Subscription for coupling points
+            // Load mapping between gas nodes and power plants 
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+            foreach (ElectricGasMapping m in MappingList)
+            {
+                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
+                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
+
+                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
+
+                //Streamwriter for writing iteration results into file
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
+                m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
+            }
 
             Int16 step = 0;
             List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();

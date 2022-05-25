@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using SAIntHelicsLib;
 
+//using SAInt_API.Model.Network.NetSystem;
+//using SAInt_API.Model.Scenarios;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
@@ -16,8 +18,15 @@ namespace HelicsDotNetSender
 {
     class Program
     {
+
         public static ElectricNet ENET { get; set; }
         public static HubSystem HUB { get; set; }
+
+        static object GetObject(string funcName)
+        {
+            var func = typeof(APIExport).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            return func.Invoke(null, new object[] { });
+        }
         static void Main(string[] args)
         {
             // Load Electric Model - 2 node case
@@ -25,8 +34,11 @@ namespace HelicsDotNetSender
             string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
             APIExport.openENET(netfolder + "GasFiredGenerator.enet");
             APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
-            APIExport.openESCE(netfolder + "QDYN_ACOPF_PSET.esce");
-            APIExport.openECON(netfolder + "QDYN_ACOPF_PSET.econ");
+            APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
+            APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
+
+            ENET = (ElectricNet)GetObject("get_ENET");
+            HUB = (HubSystem)GetObject("get_HUBS");
 
             // Load Electric Model - Demo - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Demo\";
@@ -34,7 +46,7 @@ namespace HelicsDotNetSender
             //APIExport.openENET(netfolder + "ENET30.enet");
             //APIExport.openESCE(netfolder + "CASE1.esce");
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-            
+
             // Load Electric Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
             //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
@@ -77,8 +89,7 @@ namespace HelicsDotNetSender
             APIExport.showSIMLOG(false);
 #endif
             // Load mapping between gas nodes and power plants 
-            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.Hubs);
-
+            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
@@ -105,16 +116,19 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Value federate created");
 
             // Register Publication and Subscription for coupling points
-            foreach (HubObject m in HUB.GasFiredGenerators)
-            {
-                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
-                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
-                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeID, "");
+            //List<HubSystem> MappingList2= HubSystemObjectListProvider<HUB.GasFiredGenerators>;
+            // Load mapping between gas nodes and power plants 
+            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+            //foreach (ElectricGasMapping m in MappingList)
+            //{
+            //    m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
+            //    m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
+            //    m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeID, "");
                 
-                //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name+".txt", FileMode.Create));
-                m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
-            }
+            //    //Streamwriter for writing iteration results into file
+            //    m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name+".txt", FileMode.Create));
+            //    m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
+            //}
 
             // Set one second message interval
             double period = 1;
@@ -144,6 +158,18 @@ namespace HelicsDotNetSender
             // start execution mode
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Electric: Entering execution mode");
+
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+            foreach (ElectricGasMapping m in MappingList)
+            {
+                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
+                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
+                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeID, "");
+
+                //Streamwriter for writing iteration results into file
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name + ".txt", FileMode.Create));
+                m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
+            }
 
             // variables to control iterations
             Int16 step=0 ;
