@@ -5,22 +5,34 @@ using System.IO;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
+
 using SAInt_API.Model.Network.Fluid.Gas;
+using SAInt_API.Model.Network.Hub;
+using SAInt_API.Model;
 
 namespace HelicsDotNetReceiver
 {
     class Program
     {
         public static GasNet GNET { get; set; }
+        public static HubSystem HUB { get; set; }
 
         static void Main(string[] args)
         {
+            // Load Gas Model - 2 node case
+            string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
+            string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
+            APIExport.openGNET(netfolder + "GasFiredGenerator.gnet");
+            APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
+            APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
+            APIExport.openGCON(netfolder + "DYN_GAS.gcon");
+
             // Load Gas Model - Demo - Normal Operation
-            string netfolder = @"..\..\..\..\Networks\Demo\";
-            string outputfolder = @"..\..\..\..\outputs\Demo\";
-            APIExport.openGNET(netfolder + "GNET25.net");
-            APIExport.openGSCE(netfolder + "CASE1.sce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.con");
+            //string netfolder = @"..\..\..\..\Networks\Demo\";
+            //string outputfolder = @"..\..\..\..\outputs\Demo\";
+            //APIExport.openGNET(netfolder + "GNET25.net");
+            //APIExport.openGSCE(netfolder + "CASE1.sce");
+            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             //Load Gas Model - Demo_disruption - Compressor Outage
             //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
@@ -65,7 +77,7 @@ namespace HelicsDotNetReceiver
 #endif
 
             // Load mapping between gas nodes and power plants 
-            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromFile(netfolder + "Mapping.txt");
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.Hubs);
 
             // Get HELICS version
             Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
@@ -96,7 +108,8 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("Gas: Value federate created");
 
             // Register Publication and Subscription for coupling points
-            foreach (ElectricGasMapping m in MappingList) {
+            foreach (ElectricGasMapping m in MappingList)
+            {
                 m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
                 m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
 

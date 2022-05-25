@@ -6,6 +6,7 @@ using SAInt_API;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Fluid.Gas;
+using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
 //using SAInt_API.Network.Electric;
 //using SAInt_API.Network.Gas;
@@ -13,8 +14,11 @@ using h = helics;
 
 namespace SAIntHelicsLib
 {
+
     public static class MappingFactory
     {
+        public static HubSystem HUB { get; set; }
+
         //public static CombinedSystem ENET { get; set; }
         public static ElectricNet ENET { get; set; }
 
@@ -36,7 +40,7 @@ namespace SAIntHelicsLib
                 // Set initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
                 if (gtime == 0 && step == 0)
                 {
-                    pval = m.ElectricGen.FGEN.get_PMAX();
+                    pval = m.ElectricGen.get_PMAX();
                  }
 
                 else
@@ -50,9 +54,9 @@ namespace SAIntHelicsLib
                 h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]", 
-                    Gtime,step, m.ElectricGen, ThermalPower,pval,m.ElectricGen.FGEN.get_PMAX()));
+                    Gtime,step, m.ElectricGen, ThermalPower,pval,m.ElectricGen.get_PMAX()));
                 m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
-                    gtime,step, pval, ThermalPower , m.ElectricGen.FGEN.get_PMAX()));
+                    gtime,step, pval, ThermalPower , m.ElectricGen.get_PMAX()));
             }
         }
 
@@ -65,7 +69,7 @@ namespace SAIntHelicsLib
                 double pval = APIExport.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dt / 3600));
                 double qval = APIExport.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GasNodeID,gtime * m.GasNode.Net.SCE.dt / 3600));
 
-                double ThermalPower  = qval * m.GasNode.get_GNQ((int)gtime).GCV/ 1E6; //Thermal power in [MW]
+                double ThermalPower  = qval * m.GFG.get_GasNQ((int)gtime).GCV/ 1E6; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.GasPubPth, ThermalPower);
                 h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GasNode.GNET.get_PMIN((int)gtime)-m.GasNode.GNET.PAMB)/1e5);
 
@@ -104,7 +108,7 @@ namespace SAIntHelicsLib
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
 
-                        foreach (var evt in m.ElectricGen.FGEN.SceList)
+                        foreach (var evt in m.ElectricGen.SceList)
                         {
                            
                             if (evt.ObjPar == CtrlType.PMIN)
@@ -129,7 +133,7 @@ namespace SAIntHelicsLib
                             }
                         }
 
-                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, step, m.ElectricGen, m.ElectricGen.FGEN.get_PMAX((int)gtime)));
+                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, step, m.ElectricGen, m.ElectricGen.get_PMAX((int)gtime)));
                     }
                     HasViolations = true;
                 }
@@ -177,7 +181,7 @@ namespace SAIntHelicsLib
                         {
                             double EvtVal = evt.ObjVal;
                             evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                            evt.ShowVal = string.Format("{0}", 1E6 * val /m.GasNode.get_GNQ((int)gtime).GCV); // converting thermal power to flow rate using calorific value
+                            evt.ShowVal = string.Format("{0}", 1E6 * val /m.GFG.get_GasNQ((int)gtime).GCV); // converting thermal power to flow rate using calorific value
                             evt.Processed = false;
 
                             Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSETn = {3:0.0000} [sm3/s] \t QSETn-1 = {4:0.0000} [sm3/s]", 
@@ -230,44 +234,54 @@ namespace SAIntHelicsLib
             //throw new Exception("No solution found for given thermal power");
         }
 
-        public static List<ElectricGasMapping> GetMappingFromFile(string filename)
+        public static List<ElectricGasMapping> GetMappingFromHubs(IList<HubObject> Hub)
         {
             List<ElectricGasMapping> MappingList = new List<ElectricGasMapping>();
 
-            if (File.Exists(filename))
-            {
-                MappingList.Clear();
-                using (var fs = new FileStream(filename, FileMode.Open))
-                {
-                    using (var sr = new StreamReader(fs))
-                    {
-                        var zeile = new string[0];
-                        while (sr.Peek() != -1)
-                        {
-                            zeile = sr.ReadLine().Split(new[] { (char)9 }, StringSplitOptions.RemoveEmptyEntries);
+            //if (File.Exists(filename))
+            //{
+            //MappingList.Clear();
+            //using (var fs = new FileStream(filename, FileMode.Open))
+            //{
+            //    using (var sr = new StreamReader(fs))
+            //    {
+            //        var zeile = new string[0];
+            //        while (sr.Peek() != -1)
+            //        {
+            //            zeile = sr.ReadLine().Split(new[] { (char)9 }, StringSplitOptions.RemoveEmptyEntries);
 
-                            if (zeile.Length > 1)
-                            {
-                                if (!zeile[0].Contains("%"))
-                                {
-                                    var mapitem = new ElectricGasMapping();
-                                    mapitem.ElectricGenID = zeile[0];
-                                    mapitem.GasNodeID = zeile[1];
-                                    mapitem.ElectricGen = ENET[mapitem.ElectricGenID] as GasFiredGenerator;
-                                    mapitem.GasNode = GNET[mapitem.GasNodeID] as GasNode;
-                                    mapitem.lastVal = new List<double>();
-                                    if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.FGEN.get_PMAX();
-                                    MappingList.Add(mapitem);
-                                    
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            //            if (zeile.Length > 1)
+            //            {
+            //                if (!zeile[0].Contains("%"))
+            //                {
+            //                    var mapitem = new ElectricGasMapping();
+            //                    mapitem.ElectricGenID = zeile[0];
+            //                    mapitem.GasNodeID = zeile[1];
+            //                    mapitem.ElectricGen = ENET[mapitem.ElectricGenID] as GasFiredGenerator;
+            //                    mapitem.GasNode = GNET[mapitem.GasNodeID] as GasNode;
+            //                    mapitem.lastVal = new List<double>();
+            //                    if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.FGEN.get_PMAX();
+            //                    MappingList.Add(mapitem);
+
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //}
+            //else
+            //{
+            //    throw new Exception(string.Format("File {0} does not exist!", filename));
+            //}
+            
+            foreach (GasFiredGenerator m in Hub)
             {
-                throw new Exception(string.Format("File {0} does not exist!", filename));
+                var mapitem = new ElectricGasMapping();
+                mapitem.ElectricGen = m.FGEN;
+                mapitem.GasNode = m.GDEM;
+                mapitem.lastVal = new List<double>();
+                if (mapitem.ElectricGen != null) mapitem.NCAP = mapitem.ElectricGen.get_PMAX();
+                MappingList.Add(mapitem);
             }
             return MappingList;
         }
@@ -276,14 +290,14 @@ namespace SAIntHelicsLib
     public class ElectricGasMapping
     {
         public string GasNodeID;
-        public GasNode GasNode;
-        //public GasDemand GasNode=GFG(1);
+        public GasDemand GasNode;
+        public GasNode GASNODE;
 
         public string ElectricGenID;
-        //public ElectricExternal ElectricGen;
+        public FuelGenerator ElectricGen;
         //public GasFiredGenerator GFG;
-        public GasFiredGenerator ElectricGen;
-        //public GasDemand GasNode = GFG.GDEM;
+        public GasFiredGenerator GFG;
+        //public GasDemand GasNode;
 
         public double NCAP;
 
