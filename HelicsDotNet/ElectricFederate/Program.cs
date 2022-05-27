@@ -30,12 +30,19 @@ namespace HelicsDotNetSender
         static void Main(string[] args)
         {
             // Load Electric Model - 2 node case
-            string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
-            string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
-            APIExport.openENET(netfolder + "GasFiredGenerator.enet");
-            APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
-            APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
-            APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
+            //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
+            //string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
+            //APIExport.openENET(netfolder + "GasFiredGenerator.enet");
+            //APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
+            //APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
+            //APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
+
+            string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
+            string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
+            APIExport.openENET(netfolder + "ENET30.enet");
+            APIExport.openHUBS(netfolder + "Demo.hubs");
+            APIExport.openESCE(netfolder + "CASE1.esce");
+            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");

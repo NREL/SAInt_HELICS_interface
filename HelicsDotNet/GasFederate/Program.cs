@@ -25,14 +25,20 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            
+
             // Load Gas Model - 2 node case
-            string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
-            string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
-            APIExport.openGNET(netfolder + "GasFiredGenerator.gnet");
-            APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
-            APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
-            APIExport.openGCON(netfolder + "DYN_GAS.gcon");
+            //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
+            //string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
+            //APIExport.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
+            //APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
+            //APIExport.openGCON(netfolder + "DYN_GAS.gcon");
+            string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
+            string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
+            APIExport.openGNET(netfolder + "GNET25.gnet");
+            APIExport.openHUBS(netfolder + "Demo.hubs");
+            APIExport.openGSCE(netfolder + "CASE1.gsce");
+            APIExport.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
