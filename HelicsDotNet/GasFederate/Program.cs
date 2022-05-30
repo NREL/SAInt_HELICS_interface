@@ -2,6 +2,7 @@ using System;
 using h = helics;
 using SAInt_API;
 using System.IO;
+using System.Threading;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
@@ -19,12 +20,13 @@ namespace HelicsDotNetReceiver
 
          static object GetObject(string funcName)
         { 
-            var func= typeof(APIExport).GetMethod(funcName,System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            var func= typeof(API).GetMethod(funcName,System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
             return func.Invoke(null, new object[] {});
         }
 
         static void Main(string[] args)
         {
+            Thread.Sleep(1);
 
             // Load Gas Model - 2 node case
             //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
@@ -33,12 +35,13 @@ namespace HelicsDotNetReceiver
             //APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
             //APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
             //APIExport.openGCON(netfolder + "DYN_GAS.gcon");
+
             string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
             string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
-            APIExport.openGNET(netfolder + "GNET25.gnet");
-            APIExport.openHUBS(netfolder + "Demo.hubs");
-            APIExport.openGSCE(netfolder + "CASE1.gsce");
-            APIExport.openGCON(netfolder + "CMBSTEOPF.gcon");
+            API.openGNET(netfolder + "GNET25.gnet");
+            API.openHUBS(netfolder + "Demo.hubs");
+            API.openGSCE(netfolder + "CASE1.gsce");
+            API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
@@ -87,7 +90,7 @@ namespace HelicsDotNetReceiver
 
             Directory.CreateDirectory(outputfolder);
 #if DEBUG
-            APIExport.showSIMLOG(true);
+            API.showSIMLOG(true);
 #else
             APIExport.showSIMLOG(false);
 #endif
@@ -172,13 +175,13 @@ namespace HelicsDotNetReceiver
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
-                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
+                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeName, "double", "");
+                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeName, "double", "");
 
-                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
+                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenName, "");
 
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNodeName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
             }
 
@@ -284,7 +287,7 @@ namespace HelicsDotNetReceiver
             };
 
             // run gas model
-            APIExport.runGSIM();
+            API.runGSIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
             requested_time = total_time + 1;
@@ -301,7 +304,7 @@ namespace HelicsDotNetReceiver
 #endif
 
             // save SAInt output
-            APIExport.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
+            API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
 
             // finalize federate
             h.helicsFederateFinalize(vfed);

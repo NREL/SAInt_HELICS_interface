@@ -24,7 +24,7 @@ namespace HelicsDotNetSender
 
         static object GetObject(string funcName)
         {
-            var func = typeof(APIExport).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            var func = typeof(API).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
             return func.Invoke(null, new object[] { });
         }
         static void Main(string[] args)
@@ -39,13 +39,14 @@ namespace HelicsDotNetSender
 
             string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
             string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
-            APIExport.openENET(netfolder + "ENET30.enet");
-            APIExport.openHUBS(netfolder + "Demo.hubs");
-            APIExport.openESCE(netfolder + "CASE1.esce");
-            APIExport.openECON(netfolder + "CMBSTEOPF.econ");
+            API.openENET(netfolder + "ENET30.enet");
+            API.openHUBS(netfolder + "Demo.hubs");
+            API.openESCE(netfolder + "CASE1.esce");
+            API.openECON(netfolder + "CMBSTEOPF.econ");
 
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
+
 
             // Load Electric Model - Demo - Normal Operation
             //string netfolder = @"..\..\..\..\Networks\Demo\";
@@ -91,7 +92,7 @@ namespace HelicsDotNetSender
 
             Directory.CreateDirectory(outputfolder);
 #if DEBUG
-            APIExport.showSIMLOG(true);
+            API.showSIMLOG(true);
 #else
             APIExport.showSIMLOG(false);
 #endif
@@ -169,12 +170,12 @@ namespace HelicsDotNetSender
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
-                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
-                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeID, "");
+                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenName, "double", "");
+                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeName, "");
+                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeName, "");
 
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name + ".txt", FileMode.Create));
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGenName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
 
@@ -310,7 +311,7 @@ namespace HelicsDotNetSender
             };
 
             // run power model
-            APIExport.runESIM();
+            API.runESIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
             requested_time = total_time + 1;            
@@ -347,7 +348,7 @@ namespace HelicsDotNetSender
             }                       
 
             // save SAInt output
-            APIExport.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
+            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
 
            
 
