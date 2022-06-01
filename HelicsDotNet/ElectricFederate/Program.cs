@@ -170,12 +170,12 @@ namespace HelicsDotNetSender
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenName, "double", "");
-                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeName, "");
-                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeName, "");
+                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
+                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
+                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
 
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGenName + ".txt", FileMode.Create));
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
 
@@ -236,7 +236,7 @@ namespace HelicsDotNetSender
                     foreach (ElectricGasMapping m in MappingList)
                     {
                        
-                        foreach (var evt in m.ElectricGen.SceList)
+                        foreach (var evt in m.GFG.FGEN.SceList)
                         {
 
                             if (evt.ObjPar == CtrlType.PMIN)

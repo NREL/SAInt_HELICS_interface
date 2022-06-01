@@ -26,7 +26,7 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Thread.Sleep(1);
+            Thread.Sleep(1000);
 
             // Load Gas Model - 2 node case
             //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
@@ -175,13 +175,13 @@ namespace HelicsDotNetReceiver
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeName, "double", "");
-                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeName, "double", "");
+                m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName, "double", "");
+                m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "double", "");
 
-                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenName, "");
+                m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName, "");
 
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNodeName + ".txt", FileMode.Create));
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.GDEMName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
             }
 
