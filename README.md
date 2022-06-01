@@ -75,7 +75,7 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 6</b>|
 
-  2. In the dialog box that opens, set the *GasElectricBroker*, *ElectricFederate* and the *GasFederate* to *Start* (see Figure 8). Make sure that the *GasElectricBroker* is set at the top.
+  2. In the dialog box that opens, set the *GasElectricBroker*, *ElectricFederate* and the *GasFederate* to *Start* (see Figure 7). Make sure that the *GasElectricBroker* is set at the top.
     
    |![Figure7](ReadMeImages/Figure7.png)| 
    |:--:|
