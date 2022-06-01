@@ -62,10 +62,11 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |<b>Figure 5</b>|
 
   3. There are five projects embeded in the *HelicsDotNet* project.
-     - *ElectricFederate* loads the electric network, imports the corresponding scenario definitions and run the simulation.
-     - *GasFederate* loads the gas network, imports the corresponding scenario definitions and run the simulation.
-     - *HelicsDotNetAPI* provides the API functionality requiered for the cosimulation *HELICS* environment.
-     - *SAIntHelicsLib* provides the mapping factory for the coupling technologies. It allows the electric and gas federates to communucate.
+     - *ElectricFederate* loads the electric network, imports the corresponding scenario definitions, and runs the simulation.
+     - *GasFederate* loads the gas network, imports the corresponding scenario definitions, and run the simulation.
+     - *GasElectricBroker* serves as a broker (connection platform) for the gas and electric federates so that time synchronization and data communication channels are established. Each federate has to be connected to the broker. They must also register their publication and subscription parameters.
+     - *HelicsDotNetAPI* provides the API functionality required for the *HELICS* co-simulation environment.
+     - *SAIntHelicsLib* provides the mapping factory for the coupling technologies. It has functions that are used to process the data communicated between the federates.
 
 #### Set the project configuration as a multiple startups
   1. At the top of the *Solution Explorer* right click on the *Solution 'HelicsDotNet'* and open *Set StartUP Projects* as shown in Figure 6. 
@@ -74,7 +75,7 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 6</b>|
 
-  2. In the dialog box that opens, set the *ElectricFederate* and the *GasFederate* to *Start* (see Figure 8). 
+  2. In the dialog box that opens, set the *GasElectricBroker*, *ElectricFederate* and the *GasFederate* to *Start* (see Figure 8). Make sure that the *GasElectricBroker* is set at the top.
     
    |![Figure7](ReadMeImages/Figure7.png)| 
    |:--:|
