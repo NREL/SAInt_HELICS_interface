@@ -26,7 +26,7 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
 
             // Load Gas Model - 2 node case
             //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
@@ -39,7 +39,11 @@ namespace HelicsDotNetReceiver
             string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
             string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
             API.openGNET(netfolder + "GNET25.gnet");
-            API.openHUBS(netfolder + "Demo.hubs");
+
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+
+            //API.openHUBS(netfolder + "Demo.hubs");
+
             API.openGSCE(netfolder + "CASE1.gsce");
             API.openGCON(netfolder + "CMBSTEOPF.gcon");
 

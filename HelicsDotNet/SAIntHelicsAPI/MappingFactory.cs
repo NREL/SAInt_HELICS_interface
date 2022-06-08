@@ -269,8 +269,23 @@ namespace SAIntHelicsLib
             }
             return MappingList;
         }
+
+        public static void AccessFile(string FilePath)
+        {
+            bool FileLocked = true;
+            while (FileLocked)
+            {
+                try
+                {
+                    API.openHUBS(FilePath);                    
+                    FileLocked = false;
+                }
+                catch { FileLocked = true; }
+            }
+        }
     }
 
+  
     public class ElectricGasMapping
     {
         public GasFiredGenerator GFG;

@@ -40,7 +40,10 @@ namespace HelicsDotNetSender
             string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
             string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
             API.openENET(netfolder + "ENET30.enet");
-            API.openHUBS(netfolder + "Demo.hubs");
+
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openHUBS(netfolder + "Demo.hubs");
+
             API.openESCE(netfolder + "CASE1.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
 
