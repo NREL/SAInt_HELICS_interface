@@ -170,7 +170,10 @@ namespace HelicsDotNetSender
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Electric: Entering execution mode");
 
+            // Load the mapping between the gas demands and the gas fiered power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+
+            // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
                 m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
@@ -181,6 +184,10 @@ namespace HelicsDotNetSender
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
+
+            // Register Publication and Subscription for iteration synchronisation
+            SWIGTYPE_p_void ElecPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElecIter", "integer", "");
+            SWIGTYPE_p_void ElecSub_GasIter = h.helicsFederateRegisterSubscription(vfed, "GasIter", "");
 
             // variables to control iterations
             Int16 step=0 ;
@@ -295,6 +302,8 @@ namespace HelicsDotNetSender
 
                         // Using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0
                         MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
+
+                        h.helicsPublicationPublishInteger(ElecPubIter, e.TimeStep);
 
                         // get available thermal power at nodes, determine if there are violations                 
                         HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);

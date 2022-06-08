@@ -41,7 +41,6 @@ namespace HelicsDotNetReceiver
             API.openGNET(netfolder + "GNET25.gnet");
 
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
-
             //API.openHUBS(netfolder + "Demo.hubs");
 
             API.openGSCE(netfolder + "CASE1.gsce");
@@ -130,21 +129,6 @@ namespace HelicsDotNetReceiver
             var vfed = h.helicsCreateValueFederate("Gas Federate", fedinfo);
             Console.WriteLine("Gas: Value federate created");
 
-            // Register Publication and Subscription for coupling points
-            // Load mapping between gas nodes and power plants 
-            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
-            //foreach (ElectricGasMapping m in MappingList)
-            //{
-            //    m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GasNodeID, "double", "");
-            //    m.GasPubPbar = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GasNodeID, "double", "");
-
-            //    m.ElectricSub = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.ElectricGenID, "");
-
-            //    //Streamwriter for writing iteration results into file
-            //    m.sw = new StreamWriter(new FileStream(outputfolder + m.GasNode.Name + ".txt", FileMode.Create));
-            //    m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
-            //}
-
             // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
@@ -174,9 +158,10 @@ namespace HelicsDotNetReceiver
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Gas: Entering execution mode");
 
-            // Register Publication and Subscription for coupling points
-            // Load mapping between gas nodes and power plants 
+            // Load the mapping between the gas demands and the gas fiered power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+
+            // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
                 m.GasPubPth = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName, "double", "");
@@ -188,6 +173,10 @@ namespace HelicsDotNetReceiver
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.GDEMName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
             }
+
+            // Register Publication and Subscription for iteration synchronisation
+            SWIGTYPE_p_void GasPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "GasIter", "integer", "");
+            SWIGTYPE_p_void GasSub_ElecIter = h.helicsFederateRegisterSubscription(vfed, "ElecIter", "");
 
             Int16 step = 0;
             List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
@@ -217,8 +206,7 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.BeforeTimeStep) {
 
-
-                    // non-iterative time request here to block until both federates are done iterating
+                  // non-iterative time request here to block until both federates are done iterating
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
                     Console.WriteLine($"Requested time {Trequested}");
                     //Console.WriteLine($"Requested time {e.TimeStep}");
@@ -230,6 +218,13 @@ namespace HelicsDotNetReceiver
                     Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time - 1) * (int)GNET.SCE.dt);
                     Console.WriteLine($"Granted time: {Tgranted}, SolverState: {e.SolverState}");
                     //Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
+
+                    // Wait for the electric federate
+                    long ElecIter = h.helicsInputGetInteger(GasSub_ElecIter);
+                    while (ElecIter != e.TimeStep)
+                    {
+                        ElecIter = h.helicsInputGetInteger(GasSub_ElecIter);
+                    }
 
                     IsRepeating = !IsRepeating;
                     HasViolations = true;
@@ -243,6 +238,7 @@ namespace HelicsDotNetReceiver
                     {
                         MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
                     }
+                    h.helicsPublicationPublishInteger(GasPubIter, e.TimeStep);
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
                     timestepinfo.Add(currenttimestep);

@@ -272,16 +272,9 @@ namespace SAIntHelicsLib
 
         public static void AccessFile(string FilePath)
         {
-            bool FileLocked = true;
-            while (FileLocked)
-            {
-                try
-                {
-                    API.openHUBS(FilePath);                    
-                    FileLocked = false;
-                }
-                catch { FileLocked = true; }
-            }
+           API.openHUBS(FilePath);
+            System.Threading.Thread.Sleep(1000);
+
         }
     }
 
