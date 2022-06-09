@@ -41,8 +41,8 @@ namespace HelicsDotNetSender
             string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
             API.openENET(netfolder + "ENET30.enet");
 
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            //API.openHUBS(netfolder + "Demo.hubs");
+            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openHUBS(netfolder + "Demo.hubs");
 
             API.openESCE(netfolder + "CASE1.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
@@ -125,22 +125,7 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Creating Value Federate");
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
-
-            // Register Publication and Subscription for coupling points
-            //List<HubSystem> MappingList2= HubSystemObjectListProvider<HUB.GasFiredGenerators>;
-            // Load mapping between gas nodes and power plants 
-            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
-            //foreach (ElectricGasMapping m in MappingList)
-            //{
-            //    m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.ElectricGenID, "double", "");
-            //    m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GasNodeID, "");
-            //    m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GasNodeID, "");
-                
-            //    //Streamwriter for writing iteration results into file
-            //    m.sw = new StreamWriter(new FileStream(outputfolder + m.ElectricGen.Name+".txt", FileMode.Create));
-            //    m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
-            //}
-
+          
             // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
@@ -186,8 +171,8 @@ namespace HelicsDotNetSender
             }
 
             // Register Publication and Subscription for iteration synchronisation
-            SWIGTYPE_p_void ElecPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElecIter", "integer", "");
-            SWIGTYPE_p_void ElecSub_GasIter = h.helicsFederateRegisterSubscription(vfed, "GasIter", "");
+            SWIGTYPE_p_void ElecPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElecIter", "double", "");
+            SWIGTYPE_p_void ElecSub_GasIter = h.helicsFederateRegisterSubscription(vfed, "GasIter", "");            
 
             // variables to control iterations
             Int16 step=0 ;
@@ -210,7 +195,7 @@ namespace HelicsDotNetSender
             DateTime Trequested;
             DateTime Tgranted;
             TimeStepInfo currenttimestep =new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
-            NotConverged CurrentDiverged = new NotConverged();
+            NotConverged CurrentDiverged = new NotConverged();            
 
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
@@ -303,7 +288,7 @@ namespace HelicsDotNetSender
                         // Using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0
                         MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
 
-                        h.helicsPublicationPublishInteger(ElecPubIter, e.TimeStep);
+                        h.helicsPublicationPublishDouble(ElecPubIter, step);                       
 
                         // get available thermal power at nodes, determine if there are violations                 
                         HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
