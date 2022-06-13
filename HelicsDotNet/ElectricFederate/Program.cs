@@ -36,17 +36,17 @@ namespace HelicsDotNetSender
             //APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
             //APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
             //APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
-
+            MappingFactory.WaitForAcknowledge();
             string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
             string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
             API.openENET(netfolder + "ENET30.enet");
 
-            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openHUBS(netfolder + "Demo.hubs");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openHUBS(netfolder + "Demo.hubs");
 
             API.openESCE(netfolder + "CASE1.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
-
+            MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
@@ -99,9 +99,7 @@ namespace HelicsDotNetSender
 #else
             APIExport.showSIMLOG(false);
 #endif
-            // Load mapping between gas nodes and power plants 
-            //List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
-
+            
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
             var fedinfo = helics.helicsCreateFederateInfo();
@@ -125,7 +123,27 @@ namespace HelicsDotNetSender
             Console.WriteLine("Electric: Creating Value Federate");
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
-          
+
+            // Load the mapping between the gas demands and the gas fiered power plants 
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+
+            // Register Publication and Subscription for coupling points
+            foreach (ElectricGasMapping m in MappingList)
+            {
+                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
+                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
+                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
+                m.GasSubQ_sm3s = h.helicsFederateRegisterSubscription(vfed, "PUB_Qmax_" + m.GFG.GDEMName, "");
+
+                //Streamwriter for writing iteration results into file
+                m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
+                m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
+            }
+
+            // Register Publication and Subscription for iteration synchronisation
+            SWIGTYPE_p_void ElecPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElectricIter", "double", "");
+            SWIGTYPE_p_void ElecSub_GasIter = h.helicsFederateRegisterSubscription(vfed, "GasIter", "");
+
             // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
@@ -140,6 +158,7 @@ namespace HelicsDotNetSender
             Console.WriteLine($"Number of timesteps in scenario: {total_time}");
 
             double granted_time = 0;
+            //double granted_iteration = 0;
             double requested_time;
 
             // set max iteration at 20
@@ -153,26 +172,7 @@ namespace HelicsDotNetSender
 
             // start execution mode
             h.helicsFederateEnterExecutingMode(vfed);
-            Console.WriteLine("Electric: Entering execution mode");
-
-            // Load the mapping between the gas demands and the gas fiered power plants 
-            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
-
-            // Register Publication and Subscription for coupling points
-            foreach (ElectricGasMapping m in MappingList)
-            {
-                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
-                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
-                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
-
-                //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
-                m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
-            }
-
-            // Register Publication and Subscription for iteration synchronisation
-            SWIGTYPE_p_void ElecPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElecIter", "double", "");
-            SWIGTYPE_p_void ElecSub_GasIter = h.helicsFederateRegisterSubscription(vfed, "GasIter", "");            
+            Console.WriteLine("Electric: Entering execution mode");       
 
             // variables to control iterations
             Int16 step=0 ;
@@ -195,7 +195,8 @@ namespace HelicsDotNetSender
             DateTime Trequested;
             DateTime Tgranted;
             TimeStepInfo currenttimestep =new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
-            NotConverged CurrentDiverged = new NotConverged();            
+            NotConverged CurrentDiverged = new NotConverged();
+            //double GasIter=-1;
 
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
@@ -223,7 +224,7 @@ namespace HelicsDotNetSender
                     Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1)*(int)ENET.SCE.dt);
                     Console.WriteLine($"Granted time: {Tgranted}, SolverState: {e.SolverState}");
                     //Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
-
+                                        
                     IsRepeating = !IsRepeating;
                     HasViolations = true;
 
@@ -254,11 +255,6 @@ namespace HelicsDotNetSender
 
                         m.lastVal.Clear();
                     }
-                    // Initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
-                    if (e.TimeStep == 0)
-                    {
-                        MappingFactory.PublishRequiredThermalPower(granted_time - 1, step, MappingList);
-                    }
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
                     timestepinfo.Add(currenttimestep);
@@ -270,28 +266,40 @@ namespace HelicsDotNetSender
                     IsRepeating =  (step < iter_max); 
 
                     if (IsRepeating)
-                    {
+                    {                      
                         step += 1;
+
                         currenttimestep.itersteps += 1;
 
                         int helics_iter_status;
 
-                        // iterative HELICS time request
-                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
-                        Console.WriteLine($"Requested time: {Trequested}, iteration: {step}");                        
+                        // Wait for the gas federate to publish the outputs for the current time step
+                        //while (step > 1 && GasIter != step)
+                        //{
+                        //    // HELICS time granted 
+                        //    granted_time = h.helicsFederateRequestTimeIterative(vfed, step, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
+                        //    GasIter = h.helicsInputGetDouble(ElecSub_GasIter);
+                        //}
 
-                        // HELICS time granted  
+                        //// iterative HELICS time request
+                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
+                        Console.WriteLine($"Requested time: {Trequested}, iteration: {step}");
+
                         granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
-                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time-1) * (int)ENET.SCE.dt);
-                        Console.WriteLine($"Granted time: {Tgranted},  Iteration status: {helics_iter_status}");
+                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time - 1) * (int)ENET.SCE.dt);
+                        Console.WriteLine($"Granted Time: {Tgranted},  Iteration status: {helics_iter_status}");
 
                         // Using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0
                         MappingFactory.PublishRequiredThermalPower(granted_time-1, step, MappingList);
 
-                        h.helicsPublicationPublishDouble(ElecPubIter, step);                       
+                        //Iteration synchronization: Electric federate publishes its current iteration
+                        h.helicsPublicationPublishDouble(ElecPubIter, step);
 
-                        // get available thermal power at nodes, determine if there are violations                 
-                        HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time-1, step, MappingList);
+                        // get available thermal power at nodes, determine if there are violations
+                        if (step > 1)
+                        {
+                            HasViolations = MappingFactory.SubscribeToAvailableThermalPower(granted_time - 1, step, MappingList);
+                        }
 
                         if (step == iter_max && HasViolations)
                         {

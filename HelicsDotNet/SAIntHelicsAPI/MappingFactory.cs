@@ -11,6 +11,8 @@ using SAInt_API.Model;
 using SAInt_API.Model.Scenarios;
 
 using h = helics;
+using System.Net.Sockets;
+using System.Net;
 
 namespace SAIntHelicsLib
 {
@@ -66,7 +68,126 @@ namespace SAIntHelicsLib
                     gtime,step, pval, ThermalPower , m.GFG.FGEN.get_PMAX()));
             }
         }
+        private const string serverIP = "127.0.0.1";
+        private const Int32 port = 13000;
+        public static void WaitForAcknowledge()
+        {
+            TcpListener server = null;
+            try
+            {
+                // Set the TcpListener on port 13000.
+                IPAddress localAddr = IPAddress.Parse(serverIP);
 
+                // TcpListener server = new TcpListener(port);
+                server = new TcpListener(localAddr, port);
+
+                // Start listening for client requests.
+                server.Start();
+
+                // Buffer for reading data
+                Byte[] bytes = new Byte[256];
+                String data = null;
+
+                // Enter the listening loop.
+                while (true)
+                {
+                    Console.Write("Waiting for a connection... ");
+
+                    // Perform a blocking call to accept requests.
+                    // You could also use server.AcceptSocket() here.
+                    TcpClient client = server.AcceptTcpClient();
+                    Console.WriteLine("Connected!");
+
+                    data = null;
+
+                    // Get a stream object for reading and writing
+                    NetworkStream stream = client.GetStream();
+
+                    int i;
+
+                    // Loop to receive all the data sent by the client.
+                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                    {
+                        // Translate data bytes to a ASCII string.
+                        data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                        Console.WriteLine("Received: {0}", data);
+
+                        // Process the data sent by the client.
+                        data = data.ToUpper();
+
+                        byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+
+                        // Send back a response.
+                        stream.Write(msg, 0, msg.Length);
+                        Console.WriteLine("Sent: {0}", data);
+                    }
+
+                    // Shutdown and end connection
+                    client.Close();
+                    break;
+                }
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
+            finally
+            {
+                // Stop listening for new clients.
+                server.Stop();
+            }
+        }
+        public static void SendAcknowledge()
+        {
+            try
+            {
+                // Create a TcpClient.
+                // Note, for this client to work you need to have a TcpServer
+                // connected to the same address as specified by the server, port
+                // combination.
+                
+                TcpClient client = new TcpClient(serverIP, port);
+
+                // Translate the passed message into ASCII and store it as a Byte array.
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes("go");
+
+                // Get a client stream for reading and writing.
+                //  Stream stream = client.GetStream();
+
+                NetworkStream stream = client.GetStream();
+
+                // Send the message to the connected TcpServer.
+                stream.Write(data, 0, data.Length);
+
+                Console.WriteLine("Sent: {0}", "go");
+
+                // Receive the TcpServer.response.
+
+                // Buffer to store the response bytes.
+                data = new Byte[256];
+
+                // String to store the response ASCII representation.
+                String responseData = String.Empty;
+
+                // Read the first batch of the TcpServer response bytes.
+                Int32 bytes = stream.Read(data, 0, data.Length);
+                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                Console.WriteLine("Received: {0}", responseData);
+
+                // Close everything.
+                stream.Close();
+                client.Close();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("ArgumentNullException: {0}", e);
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
+
+        }
         public static void PublishAvailableThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
         {
             GNET = (GasNet)GetObject("get_GNET");
@@ -78,11 +199,13 @@ namespace SAIntHelicsLib
                 //double pva3 = API.evalFloat(String.Format("{0}.P.[sm3/s]", m.GasNode));
                 double pval = API.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
                 double qval = API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
-                double GCV = API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+                double GCV =  API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+                double GCV1 = m.GFG.get_GCV((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
                 double qvalN15 = m.GFG.GDEM.get_Q((int)gtime);
 
                 double ThermalPower  = qval * GCV; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.GasPubPth, ThermalPower);
+                h.helicsPublicationPublishDouble(m.GasPubQ_sm3s, qval);
                 h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.GNET.get_PMIN((int)gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
 
                 Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", 
@@ -102,8 +225,11 @@ namespace SAIntHelicsLib
             {
                 // subscribe to available thermal power from gas node
                 double valPth = h.helicsInputGetDouble(m.GasSubPth);
+
                 // subscribe to pressure difference between nodal pressure and minimum pressure from gas node
                 double valPbar = h.helicsInputGetDouble(m.GasSubPbar);
+
+                double qval = h.helicsInputGetDouble(m.GasSubQ_sm3s);
 
                 Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", Gtime, step, m.GFG.FGEN, valPth,valPbar));
 
@@ -118,7 +244,7 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-valPth) > eps && step>=0)
                 {
-                    if (valPbar < eps)
+                    if (valPbar < eps || qval>=m.Qmax)
                     {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
@@ -264,6 +390,7 @@ namespace SAIntHelicsLib
                 var mapitem = new ElectricGasMapping();
                 mapitem.GFG = m;
                 mapitem.lastVal = new List<double>();
+                if (m.GDEM != null) mapitem.Qmax = m.GDEM.get_QMAX();
                 if (m.FGEN != null) mapitem.NCAP = m.FGEN.get_PMAX();
                 MappingList.Add(mapitem);
             }
@@ -285,6 +412,8 @@ namespace SAIntHelicsLib
 
         public double NCAP;
 
+        public double Qmax;
+
         public double PreVal;
 
         public List<double> lastVal;
@@ -293,6 +422,8 @@ namespace SAIntHelicsLib
         public SWIGTYPE_p_void GasPubPbar;
         public SWIGTYPE_p_void GasSubPth;
         public SWIGTYPE_p_void GasSubPbar;
+        public SWIGTYPE_p_void GasPubQ_sm3s;
+        public SWIGTYPE_p_void GasSubQ_sm3s;
 
         public SWIGTYPE_p_void ElectricPub;
         public SWIGTYPE_p_void ElectricSub;
