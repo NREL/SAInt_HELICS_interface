@@ -61,10 +61,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SAInt-Core, Version=3.1.2.0, Culture=neutral, PublicKeyToken=2f0816c0606388a4, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Workspaces\Workspace\SAInt Software\SAInt-3-0-GA\SAInt-Core\bin\x64\Debug\SAInt-Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
