@@ -37,15 +37,16 @@ namespace HelicsDotNetSender
             //APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
             //APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
             MappingFactory.WaitForAcknowledge();
-            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\";
-            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\";
-            API.openENET(netfolder + "ENET30.enet");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openENET(netfolder + "GasFiredGenerator.enet");
 
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
             //API.openHUBS(netfolder + "Demo.hubs");
 
-            API.openESCE(netfolder + "CASE1.esce");
-            API.openECON(netfolder + "CMBSTEOPF.econ");
+            API.openESCE(netfolder + "QDYNACOPF.esce");
+            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");

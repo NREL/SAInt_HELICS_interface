@@ -36,15 +36,15 @@ namespace HelicsDotNetReceiver
             //APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
             //APIExport.openGCON(netfolder + "DYN_GAS.gcon");
 
-            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\";
-            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\";
-            API.openGNET(netfolder + "GNET25.gnet");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openGNET(netfolder + "GasFiredGenerator.gnet");
 
-            MappingFactory.AccessFile(netfolder + "Demo2.hubs");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
             //API.openHUBS(netfolder + "Demo2.hubs");
 
-            API.openGSCE(netfolder + "CASE1.gsce");
-            API.openGCON(netfolder + "CMBSTEOPF.gcon");
+            API.openGSCE(netfolder + "DYN_GAS.gsce");
+            API.openGCON(netfolder + "STEADY_GAS.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();

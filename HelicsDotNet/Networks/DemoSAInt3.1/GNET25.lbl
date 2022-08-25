@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<NetDatafile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" FilePath="" Version="2.0.29.0" TimeCreated="2022-06-09T13:02:10.2394821+02:00" TimeModified="2022-06-09T13:02:10.2396574+02:00">
+  <Items>
+    <Item UID="2c1d8a79a4f9485793a76ae57b505359" LabelOriginLine="true" LabelType="Text" IsBackImage="false" LabelInfo="ID;PMIN;" LabelImageFile="" KeepImageAspectRatio="false" LabelFontFamily="Calibri" LabelFontSize="10" LabelFontStyle="Regular" LabelFontARGB="-65281" ShowLabel="true" ShowLabelOnZoomLevel="25" ShowLabelUntilZoomLevel="5000" LabelOpacity="39" ShowLabelFrame="true" RoundedLabelFrame="true" LabelFrameARGB="-65281" LabelBottomBackARGB="-657931" LabelTopBackARGB="-657931" LabelFixedToMap="false" ScaleLabel="false" XLOFF="-20" YLOFF="55" XLGEO="-3.41637516" YLGEO="-9.117017">
+      <LabelImageSize>
+        <Width>100</Width>
+        <Height>100</Height>
+      </LabelImageSize>
+    </Item>
+    <Item UID="73a4204379c04321b13093ff83df2352" LabelOriginLine="true" LabelType="Text" IsBackImage="false" LabelInfo="ID;PMIN;" LabelImageFile="" KeepImageAspectRatio="false" LabelFontFamily="Calibri" LabelFontSize="10" LabelFontStyle="Regular" LabelFontARGB="-32768" ShowLabel="true" ShowLabelOnZoomLevel="25" ShowLabelUntilZoomLevel="5000" LabelOpacity="39" ShowLabelFrame="true" RoundedLabelFrame="true" LabelFrameARGB="-32768" LabelBottomBackARGB="-657931" LabelTopBackARGB="-657931" LabelFixedToMap="false" ScaleLabel="false" XLOFF="-25" YLOFF="82" XLGEO="3.49796033" YLGEO="-9.667716">
+      <LabelImageSize>
+        <Width>100</Width>
+        <Height>100</Height>
+      </LabelImageSize>
+    </Item>
+    <Item UID="1888cea475f44eee81fa990f309a28ef" LabelOriginLine="true" LabelType="Text" IsBackImage="false" LabelInfo="ID;PMIN;" LabelImageFile="" KeepImageAspectRatio="false" LabelFontFamily="Calibri" LabelFontSize="10" LabelFontStyle="Regular" LabelFontARGB="-16776961" ShowLabel="true" ShowLabelOnZoomLevel="25" ShowLabelUntilZoomLevel="5000" LabelOpacity="39" ShowLabelFrame="true" RoundedLabelFrame="true" LabelFrameARGB="-16776961" LabelBottomBackARGB="-657931" LabelTopBackARGB="-657931" LabelFixedToMap="false" ScaleLabel="false" XLOFF="67" YLOFF="54" XLGEO="7.37325144" YLGEO="-9.09662">
+      <LabelImageSize>
+        <Width>100</Width>
+        <Height>100</Height>
+      </LabelImageSize>
+    </Item>
+  </Items>
+</NetDatafile>

@@ -53,7 +53,8 @@ namespace SAIntHelicsLib
 
                 else
                 {                                
-                    pval = API.evalFloat(String.Format("ENO.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime * m.GFG.FGEN.Net.SCE.dt / 3600));                    
+                    //pval = API.evalFloat(String.Format("ENO.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime * m.GFG.FGEN.Net.SCE.dt / 3600));
+                    pval = m.GFG.FGEN.get_P((int)(gtime * m.GFG.FGEN.Net.SCE.dt / 3600));
                 }
 
                 double HR = m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * pval + m.GFG.FGEN.HR2 * pval * pval;
@@ -197,10 +198,14 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 //double pva3 = API.evalFloat(String.Format("{0}.P.[sm3/s]", m.GasNode));
-                double pval = API.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
-                double qval = API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
-                double GCV =  API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
-                double GCV1 = m.GFG.get_GCV((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+                //double pval = API.evalFloat(String.Format("{0}.P.({1}).[bar-g]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+                double pval = m.GFG.GDEM.get_P((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+
+                //double qval = API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+                double qval = m.GFG.GDEM.get_Q((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+
+                //double GCV =  API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));                
+                double GCV = m.GFG.get_GCV((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
                 double qvalN15 = m.GFG.GDEM.get_Q((int)gtime);
 
                 double ThermalPower  = qval * GCV; //Thermal power in [MW]
@@ -234,8 +239,8 @@ namespace SAIntHelicsLib
                 Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", Gtime, step, m.GFG.FGEN, valPth,valPbar));
 
                 //get currently required thermal power 
-                double pval = API.evalFloat(String.Format("ENO.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime * m.GFG.FGEN.Net.SCE.dt / 3600));
-                //double pval3 = m.ElectricGen.get_P((int)(gtime * m.ElectricGen.Net.SCE.dt / 3600));
+                //double pval = API.evalFloat(String.Format("ENO.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime * m.GFG.FGEN.Net.SCE.dt / 3600));
+                double pval = m.GFG.FGEN.get_P((int)(gtime * m.GFG.FGEN.Net.SCE.dt / 3600));
                 //double pval2 = m.ElectricGen.get_P((int)gtime);
                 double HR = m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * pval + m.GFG.FGEN.HR2 * pval * pval;
                 double ThermalPower = HR / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
@@ -312,9 +317,12 @@ namespace SAIntHelicsLib
                 m.lastVal.Add(val);
 
                 //get currently available thermal power 
-                double GCV = API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
-                double pval = GCV*API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));   
+                //double GCV = API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+                double GCV = m.GFG.get_GCV((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
+
+                //double pval = GCV*API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));   
                 //double pval = m.GasNode.get_Q((int)(gtime * m.GasNode.Net.SCE.dt / 3600)) * m.GFG.get_GasNQ((int)(gtime)).GCV/1e6;
+                double pval = GCV * m.GFG.GDEM.get_Q((int)(gtime * m.GFG.GDEM.Net.SCE.dt / 3600));
 
                 if (Math.Abs(pval - val) > eps )
                 {               
