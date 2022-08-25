@@ -36,8 +36,8 @@ namespace HelicsDotNetReceiver
             //APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
             //APIExport.openGCON(netfolder + "DYN_GAS.gcon");
 
-            string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
-            string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
+            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\";
+            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\";
             API.openGNET(netfolder + "GNET25.gnet");
 
             MappingFactory.AccessFile(netfolder + "Demo2.hubs");

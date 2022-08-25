@@ -37,8 +37,8 @@ namespace HelicsDotNetSender
             //APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
             //APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
             MappingFactory.WaitForAcknowledge();
-            string netfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\";
-            string outputfolder = @"C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\outputs\Demo\";
+            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\";
+            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\";
             API.openENET(netfolder + "ENET30.enet");
 
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
