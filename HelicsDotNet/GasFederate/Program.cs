@@ -145,7 +145,7 @@ namespace HelicsDotNetReceiver
                 m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
             }
 
-            // Register Publication and Subscription for iteration synchronisation
+            // Register Publication and Subscription for iteration synchronization
             SWIGTYPE_p_void GasPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "GasIter", "double", "");
             SWIGTYPE_p_void GasSub_ElecIter = h.helicsFederateRegisterSubscription(vfed, "ElectricIter", "");
 
@@ -158,32 +158,14 @@ namespace HelicsDotNetReceiver
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
             Console.WriteLine($"Time period: {period_set}");
 
-            // set number of HELICS timesteps based on scenario
+            // set number of HELICS time steps based on scenario
             double total_time = GNET.SCE.NN;
-            Console.WriteLine($"Number of timesteps in scenario: {total_time}");
-
-            double granted_time = 0;
-            double granted_iteration = 0;
-            double requested_time;
+            Console.WriteLine($"Number of time steps in scenario: {total_time}");
 
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
             Console.WriteLine($"Max iterations: {iter_max}");
-
-            // start initialization mode
-            //h.helicsFederateEnterInitializingMode(vfed);
-            //Console.WriteLine("Gas: Entering initialization mode");
-
-            // enter execution mode
-            h.helicsFederateEnterExecutingMode(vfed);
-            Console.WriteLine("Gas: Entering execution mode");
-
-            int Iter = 0;
-            List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
-            List<NotConverged> notconverged = new List<NotConverged>();
-            bool IsRepeating = false;
-            bool HasViolations = false;
 
             // Switch to release mode to enable console output to file
 #if !DEBUG
@@ -195,39 +177,71 @@ namespace HelicsDotNetReceiver
             writer = new StreamWriter(ostrm);
             Console.SetOut(writer);
 #endif
+            // variables and lists to manage iterations
+            int Iter = 0;
+            bool HasViolations = false;
+            int helics_iter_status = 3;
+
+            double granted_time = 0;
+            double requested_time;
+
             DateTime SCEStartTime = GNET.SCE.StartTime;
             DateTime Trequested;
             DateTime Tgranted;
+
             TimeStepInfo currenttimestep = new TimeStepInfo() { timestep = 0, itersteps = 0, time = SCEStartTime };
             NotConverged CurrentDiverged = new NotConverged();
-            double ElecIter = -1;    
+
+            List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
+            List<NotConverged> notconverged = new List<NotConverged>();
+
+            var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
+
+            // start initialization mode
+            h.helicsFederateEnterInitializingMode(vfed);
+            Console.WriteLine("\nGas: Entering initialization mode");
+            MappingFactory.PublishAvailableThermalPower(0, Iter, MappingList);
+
+            while (true)
+            {
+                Console.WriteLine("\nGas: Entering Iterative Execution Mode\n");
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+
+                if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+                {
+                    Console.WriteLine($"Gas: Time Step {0} Initialization Completed!");
+                    break;
+                }
+
+                // subscribe to available thermal power from gas node
+                HasViolations = MappingFactory.SubscribeToRequiredThermalPower(0, Iter, MappingList, "Initialization");
+
+                if (!HasViolations)
+                {
+                    continue;
+                }
+                else
+                {
+                    Iter += 1;
+                    MappingFactory.PublishAvailableThermalPower(0, Iter, MappingList);
+                }
+            }
 
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
 
-                if (e.SolverState == SolverState.BeforeTimeStep) {
-
-                  // non-iterative time request here to block until both federates are done iterating
-                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                    Console.WriteLine($"Requested time {Trequested}");
-                    //Console.WriteLine($"Requested time {e.TimeStep}");
-
+                if (e.SolverState == SolverState.BeforeTimeStep) 
+                {
                     Iter = 0; // Iteration number
-          
-                    // HELICS time granted 
-                    granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
-                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time - 1) * (int)GNET.SCE.dt);
-                    Console.WriteLine($"Granted time: {Tgranted}, SolverState: {e.SolverState}");
-                    //Console.WriteLine($"Granted time: {granted_time}, SolverState: {e.SolverState}");
 
-
-                IsRepeating = !IsRepeating;
                     HasViolations = true;
 
+                    MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                    
                     foreach (ElectricGasMapping m in MappingList)
                     {
-                        m.lastVal.Clear();
+                        m.lastVal.Clear(); // Clear the list before iteration starts
                     }                    
                     
                     // Set time step info
@@ -235,54 +249,52 @@ namespace HelicsDotNetReceiver
                     timestepinfo.Add(currenttimestep);
                 }
 
-                if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
-                {
-                    // stop iterating if max iterations have been reached
-                    IsRepeating = (Iter < iter_max);
+                if (e.SolverState == SolverState.AfterTimeStep)
+                {                    
+                    // Counting iterations
+                    Iter += 1;
+                    currenttimestep.itersteps += 1;
 
-                    if (IsRepeating)
+                    //Iterative HELICS time request
+                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
+                    Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
+                    
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep + 1, iter_flag, out helics_iter_status);
+
+                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time) * (int)GNET.SCE.dt);
+                    Console.WriteLine($"Gas Granted Iteration: {Tgranted},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
+
+
+                    if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        Iter += 1;
-                        currenttimestep.itersteps += 1;
+                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Completed!");
 
-                        int helics_iter_status;
+                        e.RepeatTimeIntegration = false;
+                    }
 
-                        // iterative HELICS time request
-                        Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                        Console.WriteLine($"Requested time: {Trequested}, iteration: {Iter}");                                         
+                    // get requested thermal power from connected gas plants, determine if there are violations
+                    HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, Iter, MappingList);
+                    
+                    // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
+                    
 
-                       // Wait for the electric federate
-                        while (ElecIter < Iter)
-                        {
-                            // HELICS time granted 
-                            granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);                            
-                            ElecIter = h.helicsInputGetDouble(GasSub_ElecIter);                            
-                        }
-                        granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);
-                        Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time - 1) * (int)GNET.SCE.dt);
-                        Console.WriteLine($"Granted Iteration: {granted_iteration},  Iteration status: {helics_iter_status}");
+                    // Publish if it is repeating and has violations so that the iteration continues
+                    if (HasViolations && Iter < iter_max)
+                    {
+                        MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                        h.helicsPublicationPublishDouble(GasPubIter, Iter + 1);
+                        e.RepeatTimeIntegration = true;
+                    }
+                    
 
-                        // get requested thermal power from connected gas plants, determine if there are violations
-                        if (Iter > 1)
-                        {
-                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, Iter, MappingList);
-                        }
+                    if (HasViolations && Iter < iter_max)
+                    {
+                        CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
+                        notconverged.Add(CurrentDiverged);
+                    }
 
-                        // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
-                        MappingFactory.PublishAvailableThermalPower(granted_time - 1, Iter, MappingList);
-
-                        //Iteration synchronization: Gas federate publishes it is ready for next iteration
-                        h.helicsPublicationPublishDouble(GasPubIter, Iter+1);
-
-                        if (Iter >= iter_max && HasViolations)
-                            {
-                                CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
-                                notconverged.Add(CurrentDiverged);
-                            }
-
-                            e.RepeatTimeIntegration = HasViolations;
-                            IsRepeating = HasViolations;                        
-                    }                   
+                    e.RepeatTimeIntegration = HasViolations;
+                    IsRepeating = HasViolations;
 
                 }
 

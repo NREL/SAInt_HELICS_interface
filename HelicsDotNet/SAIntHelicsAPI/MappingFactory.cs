@@ -45,7 +45,7 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 double pval;
-                // Set initital publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
+                // Set initial publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
                 if (gtime == 0 && step == 0)
                 {
                     pval = m.GFG.FGEN.get_PMAX();
@@ -261,7 +261,7 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-valPth) > eps && Iter>=0)
                 {
-                    if (valPbar < eps || qval>=m.Qmax)
+                    if (valPbar < eps || qval >= m.Qmax)
                     {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
@@ -312,6 +312,7 @@ namespace SAIntHelicsLib
                 }
             }
 
+            Console.WriteLine($"Electric HasViolations?: {HasViolations}");
             return HasViolations;
         }
 
