@@ -179,7 +179,7 @@ namespace HelicsDotNetReceiver
             h.helicsFederateEnterExecutingMode(vfed);
             Console.WriteLine("Gas: Entering execution mode");
 
-            Int16 step = 0;
+            int Iter = 0;
             List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
             List<NotConverged> notconverged = new List<NotConverged>();
             bool IsRepeating = false;
@@ -213,7 +213,7 @@ namespace HelicsDotNetReceiver
                     Console.WriteLine($"Requested time {Trequested}");
                     //Console.WriteLine($"Requested time {e.TimeStep}");
 
-                    step = 0; // Iteration number
+                    Iter = 0; // Iteration number
           
                     // HELICS time granted 
                     granted_time = h.helicsFederateRequestTime(vfed, e.TimeStep);
@@ -238,21 +238,21 @@ namespace HelicsDotNetReceiver
                 if (e.SolverState == SolverState.AfterTimeStep && IsRepeating)
                 {
                     // stop iterating if max iterations have been reached
-                    IsRepeating = (step < iter_max);
+                    IsRepeating = (Iter < iter_max);
 
                     if (IsRepeating)
                     {
-                        step += 1;
+                        Iter += 1;
                         currenttimestep.itersteps += 1;
 
                         int helics_iter_status;
 
                         // iterative HELICS time request
                         Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                        Console.WriteLine($"Requested time: {Trequested}, iteration: {step}");                                         
+                        Console.WriteLine($"Requested time: {Trequested}, iteration: {Iter}");                                         
 
                        // Wait for the electric federate
-                        while (ElecIter < step)
+                        while (ElecIter < Iter)
                         {
                             // HELICS time granted 
                             granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, HelicsIterationRequest.HELICS_ITERATION_REQUEST_FORCE_ITERATION, out helics_iter_status);                            
@@ -263,20 +263,20 @@ namespace HelicsDotNetReceiver
                         Console.WriteLine($"Granted Iteration: {granted_iteration},  Iteration status: {helics_iter_status}");
 
                         // get requested thermal power from connected gas plants, determine if there are violations
-                        if (step > 1)
+                        if (Iter > 1)
                         {
-                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, step, MappingList);
+                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(granted_time - 1, Iter, MappingList);
                         }
 
                         // using an offset of 1 on the granted_time here because HELICS starts at t=1 and SAInt starts at t=0 
-                        MappingFactory.PublishAvailableThermalPower(granted_time - 1, step, MappingList);
+                        MappingFactory.PublishAvailableThermalPower(granted_time - 1, Iter, MappingList);
 
                         //Iteration synchronization: Gas federate publishes it is ready for next iteration
-                        h.helicsPublicationPublishDouble(GasPubIter, step+1);
+                        h.helicsPublicationPublishDouble(GasPubIter, Iter+1);
 
-                        if (step >= iter_max && HasViolations)
+                        if (Iter >= iter_max && HasViolations)
                             {
-                                CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = step, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
+                                CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
                                 notconverged.Add(CurrentDiverged);
                             }
 

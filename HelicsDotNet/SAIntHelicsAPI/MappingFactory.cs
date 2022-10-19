@@ -36,7 +36,7 @@ namespace SAIntHelicsLib
         public static StreamWriter gasSw;
         public static StreamWriter elecSw;
         public static double eps = 0.001;
-        
+
         public static void PublishRequiredThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
        {
             ENET = (ElectricNet)GetObject("get_ENET");
@@ -189,7 +189,7 @@ namespace SAIntHelicsLib
             }
 
         }
-        public static void PublishAvailableThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
+        public static void PublishAvailableThermalPower(double gtime, int Iter, List<ElectricGasMapping> MappingList)
         {
             GNET = (GasNet)GetObject("get_GNET");
             
@@ -214,13 +214,13 @@ namespace SAIntHelicsLib
                 h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.GNET.get_PMIN((int)gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
 
                 Console.WriteLine(String.Format("Gas-S: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t P {4:0.0000} [bar-g] \t Q {5:0.0000} [sm3/s]", 
-                    Gtime, step, m.GFG.GDEM, ThermalPower, pval, qval));
+                    Gtime, Iter, m.GFG.GDEM, ThermalPower, pval, qval));
                 m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
-                    Gtime, step, pval, qval, ThermalPower));
+                    Gtime, Iter, pval, qval, ThermalPower));
             }
         }
 
-        public static bool SubscribeToAvailableThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
+        public static bool SubscribeToAvailableThermalPower(double gtime, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
             ENET = (ElectricNet)GetObject("get_ENET");
             bool HasViolations = false;
@@ -236,7 +236,19 @@ namespace SAIntHelicsLib
 
                 double qval = h.helicsInputGetDouble(m.GasSubQ_sm3s);
 
-                Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", Gtime, step, m.GFG.FGEN, valPth,valPbar));
+                if (Init == "Initialization")
+                {
+                    HasViolations = (valPth < 0) || (valPbar < 0) || (qval < 0);
+                    if (HasViolations) break;
+                    else
+                    {
+                        Console.WriteLine(String.Format("Electric-R: Initialization Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", Gtime, Iter, m.GFG.FGEN, valPth, valPbar));
+                        continue;
+                    }
+                }
+
+                Console.WriteLine(String.Format("Electric-R: Time {0} \t iter {1} \t {2} \t Pthg = {3:0.0000} [MW] \t dPr = {4:0.0000} [bar]", Gtime, Iter, m.GFG.FGEN, valPth, valPbar));
+
 
                 //get currently required thermal power 
                 //double pval = API.evalFloat(String.Format("ENO.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime * m.GFG.FGEN.Net.SCE.dt / 3600));
@@ -247,7 +259,7 @@ namespace SAIntHelicsLib
 
                 m.lastVal.Add(valPth);
 
-                if (Math.Abs(ThermalPower-valPth) > eps && step>=0)
+                if (Math.Abs(ThermalPower-valPth) > eps && Iter>=0)
                 {
                     if (valPbar < eps || qval>=m.Qmax)
                     {
@@ -265,7 +277,7 @@ namespace SAIntHelicsLib
                                 evt.Processed = false;
 
                                 Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PMINn = {3:0.0000} [MW/s] \t PMINn-1 = {4:0.0000} [MW]",
-                                    Gtime, step, m.GFG.FGEN, evt.ObjVal, EvtVal));
+                                    Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal));
                             }
                             if (evt.ObjPar == CtrlType.PMAX)
                             {
@@ -275,11 +287,11 @@ namespace SAIntHelicsLib
                                 evt.Processed = false;
 
                                 Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PMAXn = {3:0.0000} [MW/s] \t PMAXn-1 = {4:0.0000} [MW]",
-                                    Gtime, step, m.GFG.FGEN, evt.ObjVal, EvtVal));
+                                    Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal));
                             }
                         }
 
-                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, step, m.GFG.FGEN, m.GFG.FGEN.get_PMAX((int)gtime)));
+                        Console.WriteLine(String.Format("Electric-E: Time {0} \t iter {1} \t {2} \t PGMAXnew = {3:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX((int)gtime)));
                     }
                     HasViolations = true;
                 }
@@ -299,10 +311,11 @@ namespace SAIntHelicsLib
                     }
                 }
             }
+
             return HasViolations;
         }
 
-        public static bool SubscribeToRequiredThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList)
+        public static bool SubscribeToRequiredThermalPower(double gtime, int step, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
             GNET = (GasNet)GetObject("get_GNET");
             bool HasViolations = false;
@@ -312,6 +325,19 @@ namespace SAIntHelicsLib
             {
                 // get publication from electric federate
                 double val = h.helicsInputGetDouble(m.ElectricSub);
+                
+
+                if (Init == "Initialization")
+                {
+                    HasViolations = (val < 0);
+                    if (HasViolations) break;
+                    else
+                    {
+                        Console.WriteLine(String.Format("Gas-R: Initialization Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW]", Gtime, step, m.GFG.GDEM, val));
+                        continue;
+                    }
+                }
+
                 Console.WriteLine(String.Format("Gas-R: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW]", Gtime, step, m.GFG.GDEM, val));
 
                 m.lastVal.Add(val);
