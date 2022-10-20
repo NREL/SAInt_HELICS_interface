@@ -61,7 +61,7 @@ namespace SAIntHelicsLib
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
                 double ThermalPower = HR/3.6 * pval; //Thermal power in [MW]
 
-                h.helicsPublicationPublishDouble(m.ElectricPub, ThermalPower);
+                h.helicsPublicationPublishDouble(m.ElectricPubPthe, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]", 
                     Gtime,step, m.GFG.FGEN, ThermalPower,pval,m.GFG.FGEN.get_PMAX()));
@@ -229,12 +229,12 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 // subscribe to available thermal power from gas node
-                double valPth = h.helicsInputGetDouble(m.GasSubPth);
+                double valPth = h.helicsInputGetDouble(m.ElecSubPthg);
 
                 // subscribe to pressure difference between nodal pressure and minimum pressure from gas node
-                double valPbar = h.helicsInputGetDouble(m.GasSubPbar);
+                double valPbar = h.helicsInputGetDouble(m.ElecSubPbar);
 
-                double qval = h.helicsInputGetDouble(m.GasSubQ_sm3s);
+                double qval = h.helicsInputGetDouble(m.ElecSubQ_sm3s);
 
                 if (Init == "Initialization")
                 {
@@ -325,7 +325,7 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 // get publication from electric federate
-                double val = h.helicsInputGetDouble(m.ElectricSub);
+                double val = h.helicsInputGetDouble(m.GasSubPthe);
                 
 
                 if (Init == "Initialization")
@@ -387,6 +387,7 @@ namespace SAIntHelicsLib
                     }
                 }
             }
+            Console.WriteLine($"Gas HasViolations?: {HasViolations}");
             return HasViolations;
         }
 
@@ -455,13 +456,13 @@ namespace SAIntHelicsLib
 
         public SWIGTYPE_p_void GasPubPth;
         public SWIGTYPE_p_void GasPubPbar;
-        public SWIGTYPE_p_void GasSubPth;
-        public SWIGTYPE_p_void GasSubPbar;
+        public SWIGTYPE_p_void ElecSubPthg;
+        public SWIGTYPE_p_void ElecSubPbar;
         public SWIGTYPE_p_void GasPubQ_sm3s;
-        public SWIGTYPE_p_void GasSubQ_sm3s;
+        public SWIGTYPE_p_void ElecSubQ_sm3s;
 
-        public SWIGTYPE_p_void ElectricPub;
-        public SWIGTYPE_p_void ElectricSub;
+        public SWIGTYPE_p_void ElectricPubPthe;
+        public SWIGTYPE_p_void GasSubPthe;
 
         public StreamWriter sw;
     }

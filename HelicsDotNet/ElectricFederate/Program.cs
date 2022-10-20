@@ -126,19 +126,15 @@ namespace HelicsDotNetSender
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.ElectricPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
-                m.GasSubPth = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
-                m.GasSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
-                m.GasSubQ_sm3s = h.helicsFederateRegisterSubscription(vfed, "PUB_Qmax_" + m.GFG.GDEMName, "");
+                m.ElectricPubPthe = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
+                m.ElecSubPthg = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
+                m.ElecSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
+                m.ElecSubQ_sm3s = h.helicsFederateRegisterSubscription(vfed, "PUB_Qmax_" + m.GFG.GDEMName, "");
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
-
-            // Register Publication and Subscription for iteration synchronization
-            SWIGTYPE_p_void ElecPubIter = h.helicsFederateRegisterGlobalTypePublication(vfed, "ElectricIter", "double", "");
-            SWIGTYPE_p_void ElecSub_GasIter = h.helicsFederateRegisterSubscription(vfed, "GasIter", "");
 
             // Set one second message interval
             double period = 1;
@@ -178,19 +174,19 @@ namespace HelicsDotNetSender
 
             DateTime SCEStartTime = ENET.SCE.StartTime;
             DateTime Trequested;
-            DateTime Tgranted;
            
             TimeStepInfo currenttimestep = new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
             NotConverged CurrentDiverged = new NotConverged();
 
             List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
-            List<NotConverged> notconverged = new List<NotConverged>();
+            List<NotConverged> NotConverged = new List<NotConverged>();
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
             // start initialization mode
             h.helicsFederateEnterInitializingMode(vfed);
-            Console.WriteLine("\nElectric: Entering initialization mode");
+            Console.WriteLine("\nElectric: Entering Initialization Mode");
+            Console.WriteLine("======================================================\n");
             MappingFactory.PublishRequiredThermalPower(0, Iter, MappingList);
 
             while (true)
@@ -217,7 +213,8 @@ namespace HelicsDotNetSender
                     MappingFactory.PublishRequiredThermalPower(0, Iter, MappingList);
                 }
             }
-            
+
+            int FirstTimeStep = 0;
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {                     
@@ -227,6 +224,14 @@ namespace HelicsDotNetSender
                     Iter = 0;
 
                     HasViolations = true;
+
+                    if (FirstTimeStep == 0)
+                    {
+                        Console.WriteLine("======================================================\n");
+                        Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
+                        Console.WriteLine("======================================================\n");
+                        FirstTimeStep += 1;
+                    }
 
                     MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);                   
 
@@ -277,10 +282,9 @@ namespace HelicsDotNetSender
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     Console.WriteLine($"\nElectric Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep + 1, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                     
-                    Tgranted = SCEStartTime + new TimeSpan(0, 0, (int)(granted_time) * (int)ENET.SCE.dt);
-                    Console.WriteLine($"Electric Granted Time: {Tgranted}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
+                    Console.WriteLine($"Electric Granted Co-simulation Time Step: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
@@ -298,25 +302,28 @@ namespace HelicsDotNetSender
                         MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
                         e.RepeatTimeIntegration = true;
                     }
-
                     else if (Iter == iter_max && HasViolations)
                     {
                         CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
-                        notconverged.Add(CurrentDiverged);
+                        NotConverged.Add(CurrentDiverged);
+                        e.RepeatTimeIntegration = false;
                     }
 
                 }
                 
             };
 
-            // run power model
+            Console.WriteLine("======================================================\n");
+            Console.WriteLine("\nElectric: Starting the Electric Simulation");
+            Console.WriteLine("======================================================\n");
+            // run the electric network model
             API.runESIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
             requested_time = total_time + 1;            
             //Console.WriteLine($"Requested time: {requested_time}");
-            DateTime Drequested_time = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
-            Console.WriteLine($"Requested time step: {requested_time} at Time: {Drequested_time}");
+            DateTime DateTimeRequested = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
+            Console.WriteLine($"Requested time step: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
 
@@ -356,7 +363,7 @@ namespace HelicsDotNetSender
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     sw.WriteLine("Date \t TimeStep \t IterStep");
-                    foreach (NotConverged x in notconverged)
+                    foreach (NotConverged x in NotConverged)
                     {
                         sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
                     }
@@ -365,16 +372,16 @@ namespace HelicsDotNetSender
             }
 
             // Diverging time steps
-            if (notconverged.Count == 0)
+            if (NotConverged.Count == 0)
                 Console.WriteLine("Electric: There is no diverging time step");
             else
             {
                 Console.WriteLine("Electric: the solution diverged at the following time steps:");
-                foreach (NotConverged x in notconverged)
+                foreach (NotConverged x in NotConverged)
                 {
                     Console.WriteLine($"Time \t {x.time} time-step {x.timestep}");
                 }
-                Console.WriteLine($"Electric: The total number of diverging time steps = { notconverged.Count }");
+                Console.WriteLine($"Electric: The total number of diverging time steps = { NotConverged.Count }");
             }
 
             foreach (ElectricGasMapping m in MappingList)
