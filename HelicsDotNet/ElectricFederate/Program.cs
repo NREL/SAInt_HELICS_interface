@@ -98,7 +98,7 @@ namespace HelicsDotNetSender
 #if DEBUG
             API.showSIMLOG(true);
 #else
-            APIExport.showSIMLOG(false);
+            API.showSIMLOG(false);
 #endif
             
             // Create Federate Info object that describes the federate properties
@@ -231,9 +231,7 @@ namespace HelicsDotNetSender
                         Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
                         Console.WriteLine("======================================================\n");
                         FirstTimeStep += 1;
-                    }
-
-                    MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);                   
+                    }                                      
 
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
@@ -261,6 +259,9 @@ namespace HelicsDotNetSender
 
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
+
+                    MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
+
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
                     timestepinfo.Add(currenttimestep);
@@ -282,7 +283,7 @@ namespace HelicsDotNetSender
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     Console.WriteLine($"\nElectric Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
                     
                     Console.WriteLine($"Electric Granted Co-simulation Time Step: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
 
@@ -323,7 +324,7 @@ namespace HelicsDotNetSender
             requested_time = total_time + 1;            
             //Console.WriteLine($"Requested time: {requested_time}");
             DateTime DateTimeRequested = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
-            Console.WriteLine($"Requested time step: {requested_time} at Time: {DateTimeRequested}");
+            Console.WriteLine($"\nElectric Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
 
@@ -344,10 +345,10 @@ namespace HelicsDotNetSender
             {   
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t TimeStep \t IterStep");
+                    sw.WriteLine("Date\t\t\t\t TimeStep\t IterStep");
                     foreach (TimeStepInfo x in timestepinfo)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
@@ -362,10 +363,10 @@ namespace HelicsDotNetSender
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t TimeStep \t IterStep");
+                    sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (NotConverged x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 

@@ -1,8 +1,19 @@
 <?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="9eeeb48c75294c9b838f8c3b16e120b2" SceName="DYN_GAS" SceType="DynamicGas" SolverStatus="none" IniState="STEADY_GAS" StartTime="2021-11-16T14:00:00" EndTime="2021-11-17T14:00:00" Comment="" NetType="GAS" NetName="GasFiredGenerator" NetFilePath="C:\Users\GetnetAyele\encoord\encoord Team - Documents\Getnet\ACPF\Gas Fired Generator\Gas Fired Generator\GasFiredGenerator.gnet" Version="3.0.0.0" TimeCreated="2021-11-16T17:40:58.9190136+01:00" TimeModified="2022-08-25T19:16:55.0853845+02:00" FilePath="C:\Users\GetnetAyele\encoord\encoord Team - Documents\Getnet\ACPF\Gas Fired Generator\Gas Fired Generator\DYN_GAS.gsce" ChartStartTime="2021-11-16T14:00:00" ChartTimeStep="900" ChartEndTime="2021-11-17T14:00:00" TimeHRZ="0" dT="900" TimeLA="NaN" dtLA="NaN" UsePrfStartTime="true" PrfStartTime="2021-11-16T14:00:00" AverageFlowPrf="false" eps="1E-05" kmax="50" kmaxcnstr="10" SolverType="Xpress" SolverModel="MIP" TimeLimit="3600" RelMipGap="0.001" AbsMipGap="1000000" dumpLP="false">
+<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="9eeeb48c75294c9b838f8c3b16e120b2" SceName="DYN_GAS" SceType="DynamicGas" SolverStatus="none" IniState="STEADY_GAS" StartTime="2021-11-16T14:00:00" EndTime="2021-11-17T14:00:00" Comment="" NetType="GAS" NetName="GasFiredGenerator" NetFilePath="C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\GasFiredGenerator\GasFiredGenerator.gnet" Version="3.0.0.0" TimeCreated="2021-11-16T17:40:58.9190136+01:00" TimeModified="2022-10-22T23:16:24.6061669+02:00" FilePath="C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\GasFiredGenerator\DYN_GAS.gsce" ChartStartTime="2021-11-16T14:00:00" ChartTimeStep="900" ChartEndTime="2021-11-17T14:00:00" TimeHRZ="0" dT="900" TimeLA="NaN" dtLA="NaN" UsePrfStartTime="true" PrfStartTime="2021-11-16T14:00:00" AverageFlowPrf="false" eps="1E-05" kmax="50" kmaxcnstr="10" SolverType="Xpress" SolverModel="MIP" TimeLimit="3600" RelMipGap="0.001" AbsMipGap="1000000" dumpLP="false">
   <SceEvents>
-    <SceEvent Active="true" Info="-" UID="a8009828da3a4d86b22331a500da3c3d" StartTime="2021-11-16T14:00:00" Parameter="PSET" Value="4601325" UnitName="Pa" EvalType="NONE" ProfileName="" UsePrfStartTime="false" PrfStartTime="2021-11-16T14:00:00" InterpolatePrf="true" AveragePrf="false" />
-    <SceEvent Active="true" Info="-" UID="50bf465c16ae431092ba93f417c82249" StartTime="2021-11-16T14:00:00" Parameter="QSET" Value="4.166666666666667" UnitName="sm3_s" EvalType="NONE" ProfileName="" UsePrfStartTime="false" PrfStartTime="2021-11-16T14:00:00" InterpolatePrf="true" AveragePrf="false" />
+    <SceEvent Active="true" Info="-" UID="a8009828da3a4d86b22331a500da3c3d" StartTime="2021-11-16T14:00:00" Parameter="PSET" Value="150" UnitName="barg" EvalType="NONE" ProfileName="GDEM" UsePrfStartTime="false" PrfStartTime="2021-11-16T14:00:00" InterpolatePrf="true" AveragePrf="false" />
+    <SceEvent Active="true" Info="-" UID="50bf465c16ae431092ba93f417c82249" StartTime="2021-11-16T14:00:00" Parameter="QSET" Value="50" UnitName="sm3_s" EvalType="NONE" ProfileName="GDEM" UsePrfStartTime="false" PrfStartTime="2021-11-16T14:00:00" InterpolatePrf="true" AveragePrf="false" />
+    <SceEvent Active="true" Info="-" UID="abd8444203e84fdbbb77a89578f2feab" StartTime="2021-11-16T14:00:00" Parameter="QSET" Value="30" UnitName="sm3_s" EvalType="NONE" ProfileName="GDEM" UsePrfStartTime="false" PrfStartTime="2021-11-16T14:00:00" InterpolatePrf="true" AveragePrf="false" />
+    <SceEvent Active="true" Info="-" UID="1489723f6b9f41b0bd7379d25e0630e7" StartTime="2021-11-16T14:00:00" Parameter="QSET" Value="30" UnitName="sm3_s" EvalType="NONE" ProfileName="GDEM" UsePrfStartTime="false" PrfStartTime="2021-11-16T14:00:00" InterpolatePrf="true" AveragePrf="false" />
   </SceEvents>
-  <SceProfiles />
+  <SceProfiles>
+    <SceProfile UID="d105aa41258c4cb8a40794287598e9ec" TimeStep="3" Name="GDEM" PrflType="Deterministic" InterpolationType="Step" DistributionType="Normal" DurationType="Periodic" Sign="true" DevAtMean="true" DevAtMin="true" DevAtMax="true" UseBounds="false" UseBaseDev="false" MaxVal="INF" MinVal="-INF" BaseDev="0" DataSource="" UseSource="false" Info="-">
+      <PRFDATA>
+        <DATA Mean="1" Deviation="0" />
+        <DATA Mean="1" Deviation="0" />
+        <DATA Mean="0.5" Deviation="0" />
+        <DATA Mean="0.5" Deviation="0" />
+      </PRFDATA>
+    </SceProfile>
+  </SceProfiles>
 </Scenario>

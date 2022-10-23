@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<HubSystem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="2fbd4d2405bb42ba95616aaca4a76dd6" ModelOrigin="SAInt_API" ModelName="GasFiredGenerator" TimeCreated="2021-11-16T16:20:39.1182248+01:00" TimeModified="2022-08-16T10:47:09.4160361+02:00" Version="3.1.7.1" ENETName="GasFiredGenerator" GNETName="GasFiredGenerator">
+<HubSystem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="2fbd4d2405bb42ba95616aaca4a76dd6" ModelOrigin="SAInt_API" ModelName="GasFiredGenerator" TimeCreated="2021-11-16T16:20:39.1182248+01:00" TimeModified="2022-10-22T22:51:31.677508+02:00" Version="3.0.0.0" ENETName="GasFiredGenerator" GNETName="GasFiredGenerator">
   <Networks>
-    <Network UID="f232b290192c4dcaadde23798ba8b535" Name="GasFiredGenerator" NetType="ELECTRIC" FilePath="C:\Users\HakeemuddinFakhruddi\encoord\encoord Team - Dokumente\Energy Systems Modeler\Testing\Testing reports - SAInt 3.1.5\COUPLED\ACPF\Models\Gas Fired Generator\GasFiredGenerator.enet" />
-    <Network UID="38c6e1efa97f4a28b37473e685884473" Name="GasFiredGenerator" NetType="GAS" FilePath="C:\Users\HakeemuddinFakhruddi\encoord\encoord Team - Dokumente\Energy Systems Modeler\Testing\Testing reports - SAInt 3.1.5\COUPLED\ACPF\Models\Gas Fired Generator\GasFiredGenerator.gnet" />
+    <Network UID="f232b290192c4dcaadde23798ba8b535" Name="GasFiredGenerator" NetType="ELECTRIC" FilePath="C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\GasFiredGenerator\GasFiredGenerator.enet" />
+    <Network UID="38c6e1efa97f4a28b37473e685884473" Name="GasFiredGenerator" NetType="GAS" FilePath="C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\GasFiredGenerator\GasFiredGenerator.gnet" />
     <Network NetType="NONE" />
     <Network NetType="NONE" />
   </Networks>

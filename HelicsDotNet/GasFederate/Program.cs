@@ -97,7 +97,7 @@ namespace HelicsDotNetReceiver
 #if DEBUG
             API.showSIMLOG(true);
 #else
-            APIExport.showSIMLOG(false);
+            API.showSIMLOG(false);
 #endif
 
             // Get HELICS version
@@ -240,15 +240,15 @@ namespace HelicsDotNetReceiver
                         Console.WriteLine("\nGas: Entering Main Co-simulation Loop");
                         Console.WriteLine("======================================================\n");
                         FirstTimeStep += 1;
-                    }
-
-                    MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                    }                    
                     
                     foreach (ElectricGasMapping m in MappingList)
                     {
                         m.lastVal.Clear(); // Clear the list before iteration starts
-                    }                    
-                    
+                    }
+
+                    MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
                     timestepinfo.Add(currenttimestep);
@@ -264,7 +264,7 @@ namespace HelicsDotNetReceiver
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
                     Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
 
                     Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
 
@@ -311,7 +311,7 @@ namespace HelicsDotNetReceiver
             requested_time = total_time + 1;
             //Console.WriteLine($"Requested time: {requested_time}");
             DateTime DateTimeRequested = GNET.SCE.EndTime + new TimeSpan(0, 0, (int)GNET.SCE.dt);
-            Console.WriteLine($"Requested time step: {requested_time} at Time: {DateTimeRequested}");
+            Console.WriteLine($"\nGas Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
 #if !DEBUG
@@ -334,10 +334,10 @@ namespace HelicsDotNetReceiver
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t TimeStep \t IterStep");
+                    sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (TimeStepInfo x in timestepinfo)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
@@ -346,10 +346,10 @@ namespace HelicsDotNetReceiver
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t TimeStep \t IterStep");
+                    sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (NotConverged x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
