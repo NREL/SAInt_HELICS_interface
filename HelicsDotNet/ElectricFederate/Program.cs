@@ -95,7 +95,7 @@ namespace HelicsDotNetSender
             //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             Directory.CreateDirectory(outputfolder);
-#if DEBUG
+#if !DEBUG
             API.showSIMLOG(true);
 #else
             API.showSIMLOG(false);
@@ -197,6 +197,9 @@ namespace HelicsDotNetSender
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
                     Console.WriteLine($"Electric: Time Step {0} Initialization Completed!");
+
+                    //granted_time = h.helicsFederateRequestTimeIterative(vfed, 0, iter_flag, out helics_iter_status);
+
                     break;
                 }
 
@@ -219,7 +222,7 @@ namespace HelicsDotNetSender
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {                     
 
-                if (e.SolverState == SolverState.BeforeTimeStep)
+                if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
                 {
                     Iter = 0;
 
@@ -267,9 +270,9 @@ namespace HelicsDotNetSender
                     timestepinfo.Add(currenttimestep);
                 }
 
-                if ( e.SolverState == SolverState.AfterTimeStep)
+                if ( e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
                 {
-#if DEBUG 
+#if !DEBUG 
                     foreach (var i in ENET.Generators)
                     {
                         Console.WriteLine($"{i.Name} \t {i.get_P(e.TimeStep)}");
@@ -283,14 +286,12 @@ namespace HelicsDotNetSender
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     Console.WriteLine($"\nElectric Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                     
                     Console.WriteLine($"Electric Granted Co-simulation Time Step: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-                    {
-                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Completed!");
-
+                    {   
                         e.RepeatTimeIntegration = false;
                     }
 
@@ -298,18 +299,25 @@ namespace HelicsDotNetSender
                     HasViolations = MappingFactory.SubscribeToAvailableThermalPower(e.TimeStep, Iter, MappingList);
 
                     // Publish if it is repeating and has violations so that the iteration continues
-                    if (HasViolations && Iter < iter_max)
+                    if (HasViolations)
                     {
-                        MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
-                        e.RepeatTimeIntegration = true;
+                        if (Iter < iter_max)
+                        {
+                            MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
+                            e.RepeatTimeIntegration = true;
+                        }
+                        else
+                        {
+                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
+                            NotConverged.Add(CurrentDiverged);
+                            Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Not Converged!");
+                            e.RepeatTimeIntegration = false;
+                        }
                     }
-                    else if (Iter == iter_max && HasViolations)
+                    else
                     {
-                        CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
-                        NotConverged.Add(CurrentDiverged);
-                        e.RepeatTimeIntegration = false;
+                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Completed!");
                     }
-
                 }
                 
             };

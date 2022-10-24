@@ -45,6 +45,7 @@ namespace HelicsDotNetReceiver
 
             API.openGSCE(netfolder + "DYN_GAS.gsce");
             API.openGCON(netfolder + "STEADY_GAS.gcon");
+            //API.openGCON(netfolder + "DYN000.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
@@ -94,7 +95,7 @@ namespace HelicsDotNetReceiver
             //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             Directory.CreateDirectory(outputfolder);
-#if DEBUG
+#if !DEBUG
             API.showSIMLOG(true);
 #else
             API.showSIMLOG(false);
@@ -206,6 +207,9 @@ namespace HelicsDotNetReceiver
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
                     Console.WriteLine($"Gas: Time Step {0} Initialization Completed!");
+
+                    //granted_time = h.helicsFederateRequestTimeIterative(vfed, 0, iter_flag, out helics_iter_status);
+
                     break;
                 }
 
@@ -228,7 +232,7 @@ namespace HelicsDotNetReceiver
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
 
-                if (e.SolverState == SolverState.BeforeTimeStep) 
+                if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep>0) 
                 {
                     Iter = 0; // Iteration number
 
@@ -254,7 +258,7 @@ namespace HelicsDotNetReceiver
                     timestepinfo.Add(currenttimestep);
                 }
 
-                if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep >= 1)
+                if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
                 {
                     // Counting iterations
                     Iter += 1;
@@ -264,7 +268,7 @@ namespace HelicsDotNetReceiver
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
                     Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
 
                     Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
 
@@ -279,16 +283,24 @@ namespace HelicsDotNetReceiver
                     HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
 
                     // Publish if it is repeating and has violations so that the iteration continues
-                    if (HasViolations && Iter < iter_max)
+                    if (HasViolations)
                     {
-                        MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
-                        e.RepeatTimeIntegration = true;
+                        if (Iter < iter_max)
+                        {
+                            MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                            e.RepeatTimeIntegration = true;
+                        }
+                        else
+                        {
+                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
+                            NotConverged.Add(CurrentDiverged);
+                            Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Not Converged!");
+                            e.RepeatTimeIntegration = false;
+                        }
                     }
-                    else if (Iter == iter_max && HasViolations)
+                    else
                     {
-                        CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
-                        NotConverged.Add(CurrentDiverged);
-                        e.RepeatTimeIntegration = false;
+                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Completed!");
                     }
 
                 }
