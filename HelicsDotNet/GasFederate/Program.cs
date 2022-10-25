@@ -102,23 +102,17 @@ namespace HelicsDotNetReceiver
 #endif
 
             // Get HELICS version
-            Console.WriteLine($"Gas: Helics version ={helics.helicsGetVersion()}");
+            Console.WriteLine($"Gas: Helics version ={h.helicsGetVersion()}");
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Gas: Creating Federate Info");
-            var fedinfo = helics.helicsCreateFederateInfo();
+            var fedinfo = h.helicsCreateFederateInfo();
 
             // Set core type from string
             Console.WriteLine("Gas: Setting Federate Core Type");
             h.helicsFederateInfoSetCoreName(fedinfo, "Gas Federate Core");
             h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "tcp");
-
-            //If set to true, a federate will not be granted the requested time until all other federates have completed at least 1 iteration
-            //of the current time or have moved past it.If it is known that 1 federate depends on others in a non-cyclic fashion, this
-            //can be used to optimize the order of execution without iterating.
-            //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE, 1);
-            //h.helicsFederateInfoSetFlagOption(fedinfo, (int)HelicsFederateFlags.HELICS_FLAG_RESTRICTIVE_TIME_POLICY, 1);
-
+            
             // Federate init string
             Console.WriteLine("Gas: Setting Federate Info Init String");
             string fedinitstring = "--federates=1";
@@ -162,7 +156,7 @@ namespace HelicsDotNetReceiver
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations: {iter_max}");
+            Console.WriteLine($"Max iterations per time step: {iter_max}");
 
             // Switch to release mode to enable console output to file
 #if !DEBUG
@@ -176,7 +170,7 @@ namespace HelicsDotNetReceiver
 #endif
             // variables and lists to manage iterations
             int Iter = 0;
-            bool HasViolations = false;
+            bool HasViolations = true;
             int helics_iter_status = 3;
 
             double granted_time = 0;
@@ -207,9 +201,6 @@ namespace HelicsDotNetReceiver
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
                     Console.WriteLine($"Gas: Time Step {0} Initialization Completed!");
-
-                    //granted_time = h.helicsFederateRequestTimeIterative(vfed, 0, iter_flag, out helics_iter_status);
-
                     break;
                 }
 
@@ -251,7 +242,7 @@ namespace HelicsDotNetReceiver
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
 
-                    MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                    //MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
 
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
@@ -263,24 +254,6 @@ namespace HelicsDotNetReceiver
                     // Counting iterations
                     Iter += 1;
                     currenttimestep.itersteps += 1;
-
-                    //Iterative HELICS time request
-                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                    Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
-
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
-
-                    Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
-
-                    if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-                    {
-                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Completed!");
-
-                        e.RepeatTimeIntegration = false;
-                    }
-
-                    // get requested thermal power from connected gas plants, determine if there are violations
-                    HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
 
                     // Publish if it is repeating and has violations so that the iteration continues
                     if (HasViolations)
@@ -303,6 +276,22 @@ namespace HelicsDotNetReceiver
                         Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Completed!");
                     }
 
+                    //Iterative HELICS time request
+                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
+                    Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
+
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
+
+                    Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
+
+                    if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+                    {                        
+                        e.RepeatTimeIntegration = false;
+                    }
+
+                    // get requested thermal power from connected gas plants, determine if there are violations
+                    HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
+                    
                 }
 
                 // ACOPF starts at time step 1, while dynamic gas starts at time step = 0

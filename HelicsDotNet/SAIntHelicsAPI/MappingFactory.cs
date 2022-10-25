@@ -167,19 +167,13 @@ namespace SAIntHelicsLib
 
             foreach (ElectricGasMapping m in MappingList)
             {
-                double pval;
-                // Set initial publication of thermal power request equivalent to PGMAX for time = 0 and iter = 0;
-                if (gtime == 0 && step == 0)
-                {
-                    pval = m.GFG.FGEN.get_PMAX();
-                }
-
-                else
-                {
-                    //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime));
-                    //double pval1 = m.GFG.FGEN.get_P(gtime);
-                    pval = m.GFG.FGEN.get_P(gtime);
-                }
+                double GCV = m.GFG.get_GCV(gtime) / 1e6; // in MJ/m3
+                double Q = m.GFG.FGEN.get_F(gtime);
+                double Pthg2 = GCV * Q;
+                //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime));
+                //double pval1 = m.GFG.FGEN.get_P(gtime);
+                double pval = m.GFG.FGEN.get_P(gtime);                   
+                
 
                 double HR = m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * pval + m.GFG.FGEN.HR2 * pval * pval;
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
@@ -470,7 +464,7 @@ namespace SAIntHelicsLib
 
         public double PreVal;
 
-        public List<double> lastVal;
+        public List<double> lastVal = new List<double>();
 
         public SWIGTYPE_p_void GasPubPth;
         public SWIGTYPE_p_void GasPubPbar;
