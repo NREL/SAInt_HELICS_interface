@@ -102,7 +102,7 @@ namespace HelicsDotNetReceiver
 #endif
 
             // Get HELICS version
-            Console.WriteLine($"Gas: Helics version ={h.helicsGetVersion()}");
+            Console.WriteLine($"Gas: HELICS version ={h.helicsGetVersion()}");
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Gas: Creating Federate Info");
@@ -242,8 +242,6 @@ namespace HelicsDotNetReceiver
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
 
-                    //MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
-
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
                     timestepinfo.Add(currenttimestep);
@@ -263,34 +261,36 @@ namespace HelicsDotNetReceiver
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
                         }
-                        else
+                        else if (Iter == iter_max)
                         {
                             CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
                             NotConverged.Add(CurrentDiverged);
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Not Converged!");
-                            e.RepeatTimeIntegration = false;
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Completed!");
+                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Converged!");
                     }
 
                     //Iterative HELICS time request
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
                     Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
 
                     Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-                    {                        
+                    {
+                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
                         e.RepeatTimeIntegration = false;
                     }
-
-                    // get requested thermal power from connected gas plants, determine if there are violations
-                    HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
+                    else
+                    {  
+                        // get requested thermal power from connected gas plants, determine if there are violations
+                        HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
+                    }
                     
                 }
 

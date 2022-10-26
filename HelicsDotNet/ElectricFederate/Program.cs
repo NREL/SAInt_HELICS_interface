@@ -101,7 +101,7 @@ namespace HelicsDotNetSender
             API.showSIMLOG(false);
 #endif
             // Get HELICS version
-            Console.WriteLine($"Electric: Helics version ={h.helicsGetVersion()}");
+            Console.WriteLine($"Electric: HELICS version ={h.helicsGetVersion()}");
 
             // Create Federate Info object that describes the federate properties
             Console.WriteLine("Electric: Creating Federate Info");
@@ -262,8 +262,6 @@ namespace HelicsDotNetSender
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
 
-                    //MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
-
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
                     timestepinfo.Add(currenttimestep);
@@ -289,35 +287,37 @@ namespace HelicsDotNetSender
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
                         }
-                        else
+                        else if (Iter == iter_max)
                         {
                             CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
                             NotConverged.Add(CurrentDiverged);
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Not Converged!");
-                            e.RepeatTimeIntegration = false;
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Completed!");
+                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Converged!");
                     }
 
                     // Iterative HELICS time request
                     Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     Console.WriteLine($"\nElectric Requested Time: {Trequested}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep+1, iter_flag, out helics_iter_status);
+                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                     
                     Console.WriteLine($"Electric Granted Co-simulation Time Step: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-                    {   
+                    {
+                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
                         e.RepeatTimeIntegration = false;
                     }
 
-                    // get available thermal power at nodes, determine if there are violations
-                    HasViolations = MappingFactory.SubscribeToAvailableThermalPower(e.TimeStep, Iter, MappingList);
-
+                    else
+                    {
+                        // get available thermal power at nodes, determine if there are violations
+                        HasViolations = MappingFactory.SubscribeToAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                    }
                 }
                 
             };
