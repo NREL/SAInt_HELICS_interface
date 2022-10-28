@@ -28,14 +28,6 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            // Load Gas Model - 2 node case
-            //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
-            //string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
-            //APIExport.openGNET(netfolder + "GasFiredGenerator.gnet");
-            //APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
-            //APIExport.openGSCE(netfolder + "DYN_GAS.gsce");
-            //APIExport.openGCON(netfolder + "DYN_GAS.gcon");
-
             string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
             string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
             API.openGNET(netfolder + "GasFiredGenerator.gnet");
@@ -51,48 +43,6 @@ namespace HelicsDotNetReceiver
             MappingFactory.WaitForAcknowledge();
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
-
-            // Load Gas Model - Demo - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\Demo\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE1.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
-
-            //Load Gas Model - Demo_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE1.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
-
-            // Load Gas Model - DemoAlt - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE0.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
-
-            // Load Gas Model - DemoAlt_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            //APIExport.openGNET(netfolder + "GNET25.net");
-            //APIExport.openGSCE(netfolder + "CASE1.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
-
-            //Load Gas Model - Belgian model - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
-            //string outputfolder = @"..\..\..\..\outputs\Belgium_Case0\";
-            //APIExport.openGNET(netfolder + "GNETBENEWtest.net");
-            //APIExport.openGSCE(netfolder + "DYN.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
-
-            //Load Gas Model - Belgian model - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
-            //string outputfolder = @"..\..\..\..\outputs\Belgium_Case1\";
-            //APIExport.openGNET(netfolder + "GNETBENEWtest.net");
-            //APIExport.openGSCE(netfolder + "DYN.sce");
-            //APIExport.openGCON(netfolder + "CMBSTEOPF.con");
 
             Directory.CreateDirectory(outputfolder);
 #if !DEBUG
@@ -123,7 +73,7 @@ namespace HelicsDotNetReceiver
             var vfed = h.helicsCreateValueFederate("Gas Federate", fedinfo);
             Console.WriteLine("Gas: Value federate created");
 
-            // Load the mapping between the gas demands and the gas fiered power plants 
+            // Load the mapping between the gas demands and the gas fired power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
 
             // Register Publication and Subscription for coupling points
@@ -137,7 +87,7 @@ namespace HelicsDotNetReceiver
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.GDEMName + ".txt", FileMode.Create));
-                m.sw.WriteLine("tstep \t iter \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
             }
 
             // Set one second message interval
@@ -213,8 +163,8 @@ namespace HelicsDotNetReceiver
                 }
                 else
                 {
-                    Iter += 1;
                     MappingFactory.PublishAvailableThermalPower(0, Iter, MappingList);
+                    Iter += 1;
                 }
             }
 
@@ -240,6 +190,16 @@ namespace HelicsDotNetReceiver
                     foreach (ElectricGasMapping m in MappingList)
                     {
                         m.lastVal.Clear(); // Clear the list before iteration starts
+                        //foreach (var evt in m.GFG.GDEM.SceList)
+                        //{
+                        //    if (evt.ObjPar == CtrlType.QSET)
+                        //    {
+                        //        m.GFG.GDEM.SceList.Remove(evt);
+                        //        evt.Processed = true;
+                        //        evt.ObjVal = double.NaN;
+                        //        evt.ObjPar = CtrlType.NONE;
+                        //    }
+                        //}
                     }
 
                     // Set time step info
@@ -249,10 +209,6 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
                 {
-                    // Counting iterations
-                    Iter += 1;
-                    currenttimestep.itersteps += 1;
-
                     // Publish if it is repeating and has violations so that the iteration continues
                     if (HasViolations)
                     {
@@ -291,7 +247,10 @@ namespace HelicsDotNetReceiver
                         // get requested thermal power from connected gas plants, determine if there are violations
                         HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
                     }
-                    
+
+                    // Counting iterations
+                    Iter += 1;
+                    currenttimestep.itersteps += 1;
                 }
 
                 // ACOPF starts at time step 1, while dynamic gas starts at time step = 0
@@ -335,10 +294,10 @@ namespace HelicsDotNetReceiver
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
+                    sw.WriteLine("Date \t\t\t\t\t TimeStep \t\t IterStep");
                     foreach (TimeStepInfo x in timestepinfo)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0} \t\t {1}\t\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
@@ -350,7 +309,7 @@ namespace HelicsDotNetReceiver
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (NotConverged x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0} \t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 

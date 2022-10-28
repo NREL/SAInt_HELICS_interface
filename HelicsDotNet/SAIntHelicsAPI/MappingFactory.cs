@@ -160,7 +160,7 @@ namespace SAIntHelicsLib
         public static StreamWriter elecSw;
         public static double eps = 0.001;
 
-        public static void PublishRequiredThermalPower(int gtime, int step, List<ElectricGasMapping> MappingList)
+        public static void PublishRequiredThermalPower(int gtime, int Iter, List<ElectricGasMapping> MappingList)
         {
             ENET = (ElectricNet)GetObject("get_ENET");
             DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)ENET.SCE.dt);
@@ -182,9 +182,9 @@ namespace SAIntHelicsLib
                 h.helicsPublicationPublishDouble(m.ElectricPubPthe, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]",
-                    Gtime, step, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(gtime)));
-                m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}",
-                    gtime, step, pval, ThermalPower, m.GFG.FGEN.get_PMAX(gtime)));
+                    Gtime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(gtime)));
+                m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
+                    gtime, Iter, pval, ThermalPower, m.GFG.FGEN.get_PMAX(gtime), Gtime));
             }
         }
         public static void PublishAvailableThermalPower(int gtime, int Iter, List<ElectricGasMapping> MappingList)
@@ -215,8 +215,8 @@ namespace SAIntHelicsLib
 
                 Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t P {4:0.0000} [bar-g]\t Q {5:0.0000} [sm3/s]", 
                     Gtime, Iter, m.GFG.GDEM, ThermalPower, pval, qval));
-                m.sw.WriteLine(String.Format("{0} \t {1} \t {2} \t {3} \t {4}", 
-                    Gtime, Iter, pval, qval, ThermalPower));
+                m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}", 
+                    gtime, Iter, pval, qval, ThermalPower, Gtime));
             }
         }
 
@@ -263,35 +263,44 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-valPth) > eps)
                 {
-                    if (valPbar < eps)
+                    if (valPbar < eps || Iter > 15)
                     {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
-                        double PGMAXset = Math.Max(0, Math.Min(PG, m.NCAP));
+                        double PGSET = Math.Max(0, PG);
+
+                        int EventPset = 0;
 
                         foreach (var evt in m.GFG.FGEN.SceList)
-                        {
-                           
-                            if (evt.ObjPar == CtrlType.PMIN)
+                        {                            
+                            if (evt.ObjPar == CtrlType.PSET)
                             {
+                                EventPset += 1;
                                 double EvtVal = evt.ObjVal;
                                 evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                                evt.ShowVal = string.Format("{0}",PGMAXset);
+                                evt.ShowVal = string.Format("{0}", PGSET);
                                 evt.Processed = false;
-
-                                Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMINn = {3:0.0000} [MW/s] \t PMINn-1 = {4:0.0000} [MW]",
-                                    Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal));
-                            }
-                            if (evt.ObjPar == CtrlType.PMAX)
-                            {
-                                double EvtVal = evt.ObjVal;
-                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                                evt.ShowVal = string.Format("{0}", PGMAXset);
-                                evt.Processed = false;
-
-                                Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAXn = {3:0.0000} [MW/s] \t PMAXn-1 = {4:0.0000} [MW]",
-                                    Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal));
+                                evt.StartTime = Gtime;                                
+                                evt.Active = true;
+                                
+                                Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
+                                    Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
                             }
                         }
+                        if (EventPset == 0)
+                            {
+
+                            double EvtVal = double.NaN;
+                            SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                            ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN, CtrlType.PSET, PGSET, Unit)
+                            {
+                                Processed = false,
+                                StartTime = Gtime,
+                                Active = true
+                            };
+                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
+                                    Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
+                        }
+                        
 
                         Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAXnew = {3:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX((int)gtime)));
                     }
@@ -359,28 +368,39 @@ namespace SAIntHelicsLib
                 double pval = GCV * m.GFG.GDEM.get_Q((int)gtime);
 
                 if (Math.Abs(pval - val) > eps )
-                {               
-                    // calculate off-takes at corresponding node using heat rates
+                {
+                    int EventQset = 0;
                     foreach (ScenarioEvent evt in m.GFG.GDEM.SceList)
                     {
+                        EventQset += 1;
                         if (evt.ObjPar == CtrlType.QSET) 
                         {
+                            EventQset += 1;
                             double EvtVal = evt.ObjVal;
                             evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                            //evt.ShowVal = string.Format("{0}", 1E6 * val /m.GFG.get_GasNQ((int)gtime).GCV); // converting thermal power to flow rate using calorific value
                             evt.ShowVal = string.Format("{0}", val / GCV);
                             evt.StartTime = Gtime;
                             evt.Processed = false;
                             evt.Active = true;
-                            //m.GFG.GDEM.contnow = CtrlType.QSET;
-                            //m.GFG.GDEM.contnowval = val / GCV;
-                            //m.GFG.GDEM.contset = CtrlType.QSET;
-                            //m.GFG.GDEM.contsetval = val / GCV;
 
-                            Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSETn = {3:0.0000} [sm3/s] \t QSETn-1 = {4:0.0000} [sm3/s]",
-                                Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal));
+                            Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSET({1}) = {3:0.0000} [sm3/s] \t QSET({5}) = {4:0.0000} [sm3/s]",
+                                Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter-1));
                         }
 
+                    }
+                    if (EventQset == 0)
+                    {
+
+                        double EvtVal = double.NaN;
+                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
+                        ScenarioEvent evt = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, val / GCV, Unit)
+                        {
+                            Processed = false,
+                            StartTime = Gtime,
+                            Active = true
+                        };
+                        Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSET({1}) = {3:0.0000} [sm3/s] \t QSET({5}) = {4:0.0000} [sm3/s]",
+                                Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter - 1));
                     }
                     HasViolations = true;
                 }

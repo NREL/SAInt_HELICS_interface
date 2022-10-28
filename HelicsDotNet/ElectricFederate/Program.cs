@@ -29,13 +29,7 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            // Load Electric Model - 2 node case
-            //string netfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\";
-            //string outputfolder = @"C:\Getnet Files\HELICS Projects\Gas Fired Generator\outputs\2Node\";
-            //APIExport.openENET(netfolder + "GasFiredGenerator.enet");
-            //APIExport.openHUBS(netfolder + "GasFiredGenerator.hubs");
-            //APIExport.openESCE(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.esce");
-            //APIExport.openECON(netfolder + "QDYN_ACOPF_PMAX_PMAXPRC.econ");
+
             MappingFactory.WaitForAcknowledge();
             string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
             string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
@@ -50,49 +44,6 @@ namespace HelicsDotNetSender
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
-
-
-            // Load Electric Model - Demo - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\Demo\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-
-            // Load Electric Model - Demo_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\Demo_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\Demo_disruption\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-
-            // Load Electric Model - DemoAlt - Normal Operation 
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE0.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-
-            // Load Electric Model - DemoAlt_disruption - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\DemoAlt_disruption\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoAlt_disruption\";
-            //APIExport.openENET(netfolder + "ENET30.enet");
-            //APIExport.openESCE(netfolder + "CASE1.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-
-            // Load Electric Model - Belgian model - Normal Operation
-            //string netfolder = @"..\..\..\..\Networks\Belgium_Case0\";
-            //string outputfolder = @"..\..\..\..\outputs\Belgium_Case0\";
-            //APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
-            //APIExport.openESCE(netfolder + "QDYNOPF.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
-
-            // Load Electric Model - Belgian model - Compressor Outage
-            //string netfolder = @"..\..\..\..\Networks\Belgium_Case1\";
-            //string outputfolder = @"..\..\..\..\outputs\Belgium_Case1\";
-            //APIExport.openENET(netfolder + "EnetBelgiumtest.enet");
-            //APIExport.openESCE(netfolder + "QDYNOPF.esce");
-            //APIExport.openECON(netfolder + "CMBSTEOPF.econ");
 
             Directory.CreateDirectory(outputfolder);
 #if !DEBUG
@@ -135,7 +86,7 @@ namespace HelicsDotNetSender
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
-                m.sw.WriteLine("tstep \t iter \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
 
             // Set one second message interval
@@ -210,9 +161,9 @@ namespace HelicsDotNetSender
                     continue;
                 }
                 else
-                {
-                    Iter += 1;
+                {                    
                     MappingFactory.PublishRequiredThermalPower(0, Iter, MappingList);
+                    Iter += 1;
                 }
             }
 
@@ -238,27 +189,16 @@ namespace HelicsDotNetSender
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
                     {
-                       
-                        foreach (var evt in m.GFG.FGEN.SceList)
-                        {
-
-                            if (evt.ObjPar == CtrlType.PMAX)
-                            {
-                                double EvtVal = evt.ObjVal;
-                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                                evt.ShowVal = string.Format("{0}", m.NCAP);
-                                evt.Processed = false;                                
-                            }
-
-                            if (evt.ObjPar == CtrlType.PMIN)
-                            {
-                                double EvtVal = evt.ObjVal;
-                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                                evt.ShowVal = string.Format("{0}", 0);
-                                evt.Processed = false;
-                            }
-                        }
-
+                        //foreach (var evt in m.GFG.FGEN.SceList)
+                        //{
+                        //    if (evt.ObjPar == CtrlType.PSET)
+                        //    {
+                        //        //m.GFG.FGEN.SceList.Remove(evt);
+                        //        evt.Processed = true;
+                        //        evt.ObjVal = double.NaN;
+                        //        //evt.ObjPar = CtrlType.NONE;
+                        //    }
+                        //}
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
 
@@ -275,10 +215,6 @@ namespace HelicsDotNetSender
                         Console.WriteLine($"{i.Name} \t {i.get_P(e.TimeStep)}");
                     }
 #endif
-                    // Counting iterations
-                    Iter += 1;
-                    currenttimestep.itersteps += 1;
-
                     // Publish if it is repeating and has violations so that the iteration continues
                     if (HasViolations)
                     {
@@ -318,6 +254,10 @@ namespace HelicsDotNetSender
                         // get available thermal power at nodes, determine if there are violations
                         HasViolations = MappingFactory.SubscribeToAvailableThermalPower(e.TimeStep, Iter, MappingList);
                     }
+
+                    // Counting iterations
+                    Iter += 1;
+                    currenttimestep.itersteps += 1;
                 }
                 
             };
@@ -353,10 +293,10 @@ namespace HelicsDotNetSender
             {   
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date\t\t\t\t TimeStep\t IterStep");
+                    sw.WriteLine("Date \t\t\t\t\t TimeStep \t\t IterStep");
                     foreach (TimeStepInfo x in timestepinfo)
                     {
-                        sw.WriteLine(String.Format("{0}\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0} \t\t {1}\t\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
