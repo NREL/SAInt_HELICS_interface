@@ -79,16 +79,15 @@ namespace HelicsDotNetSender
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.ElectricPubPthe = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
-                m.ElecSubPthg = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
-                m.ElecSubPbar = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
-                m.ElecSubQ_sm3s = h.helicsFederateRegisterSubscription(vfed, "PUB_Qmax_" + m.GFG.GDEMName, "");
-
+                m.RequieredThermalPower = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
+                m.AvailableThermalPower = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
+                m.PressureRelativeToPmin = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
+                
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
             }
-
+            
             // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
@@ -129,10 +128,10 @@ namespace HelicsDotNetSender
             DateTime Trequested;
            
             TimeStepInfo currenttimestep = new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
-            NotConverged CurrentDiverged = new NotConverged();
+            TimeStepInfo CurrentDiverged = new TimeStepInfo();
 
-            List<TimeStepInfo> timestepinfo = new List<TimeStepInfo>();
-            List<NotConverged> NotConverged = new List<NotConverged>();
+            List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
+            List<TimeStepInfo> NotConverged = new List<TimeStepInfo>();
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
@@ -204,7 +203,7 @@ namespace HelicsDotNetSender
 
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
-                    timestepinfo.Add(currenttimestep);
+                    IterationInfo.Add(currenttimestep);
                 }
 
                 if ( e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
@@ -225,7 +224,7 @@ namespace HelicsDotNetSender
                         }
                         else if (Iter == iter_max)
                         {
-                            CurrentDiverged = new NotConverged() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
+                            CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
                             NotConverged.Add(CurrentDiverged);
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Not Converged!");
                         }
@@ -289,12 +288,12 @@ namespace HelicsDotNetSender
             h.helicsFederateFree(vfed);
             h.helicsCloseLibrary();
 
-            using (FileStream fs=new FileStream(outputfolder + "TimeStepInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
+            using (FileStream fs=new FileStream(outputfolder + "TimeStepIterationInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
             {   
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     sw.WriteLine("Date \t\t\t\t\t TimeStep \t\t IterStep");
-                    foreach (TimeStepInfo x in timestepinfo)
+                    foreach (TimeStepInfo x in IterationInfo)
                     {
                         sw.WriteLine(String.Format("{0} \t\t {1}\t\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
@@ -312,7 +311,7 @@ namespace HelicsDotNetSender
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
-                    foreach (NotConverged x in NotConverged)
+                    foreach (TimeStepInfo x in NotConverged)
                     {
                         sw.WriteLine(String.Format("{0}\t\t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
@@ -326,7 +325,7 @@ namespace HelicsDotNetSender
             else
             {
                 Console.WriteLine("Electric: the solution diverged at the following time steps:");
-                foreach (NotConverged x in NotConverged)
+                foreach (TimeStepInfo x in NotConverged)
                 {
                     Console.WriteLine($"Time \t {x.time} time-step {x.timestep}");
                 }

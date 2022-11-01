@@ -179,7 +179,7 @@ namespace SAIntHelicsLib
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
                 double ThermalPower = HR / 3.6 * pval; //Thermal power in [MW]
 
-                h.helicsPublicationPublishDouble(m.ElectricPubPthe, ThermalPower);
+                h.helicsPublicationPublishDouble(m.RequieredThermalPower, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]",
                     Gtime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(gtime)));
@@ -208,10 +208,9 @@ namespace SAIntHelicsLib
                 double qvalN15 = m.GFG.GDEM.get_Q(gtime);
 
                 double ThermalPower  = qval * GCV; //Thermal power in [MW]
-                h.helicsPublicationPublishDouble(m.GasPubPth, ThermalPower);
-                h.helicsPublicationPublishDouble(m.GasPubQ_sm3s, qval);
+                h.helicsPublicationPublishDouble(m.AvailableThermalPower, ThermalPower);
                 //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
-                h.helicsPublicationPublishDouble(m.GasPubPbar, pval - PMIN);
+                h.helicsPublicationPublishDouble(m.PressureRelativeToPmin, pval - PMIN);
 
                 Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t P {4:0.0000} [bar-g]\t Q {5:0.0000} [sm3/s]", 
                     Gtime, Iter, m.GFG.GDEM, ThermalPower, pval, qval));
@@ -229,16 +228,14 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 // subscribe to available thermal power from gas node
-                double valPth = h.helicsInputGetDouble(m.ElecSubPthg);
+                double valPth = h.helicsInputGetDouble(m.AvailableThermalPower);
 
                 // subscribe to pressure difference between nodal pressure and minimum pressure from gas node
-                double valPbar = h.helicsInputGetDouble(m.ElecSubPbar);
-
-                double qval = h.helicsInputGetDouble(m.ElecSubQ_sm3s);
+                double valPbar = h.helicsInputGetDouble(m.PressureRelativeToPmin);
 
                 if (Init == "Initialization")
                 {
-                    if ((valPth < 0) | (valPbar < 0) | (qval < 0))
+                    if ((valPth < 0) | (valPbar < 0))
                     { 
                         HasViolations = true;
                     }
@@ -336,7 +333,7 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 // get publication from electric federate
-                double val = h.helicsInputGetDouble(m.GasSubPthe);
+                double val = h.helicsInputGetDouble(m.RequieredThermalPower);
                 //Gtime = m.GFG.GNET.SCE.StartTime;
 
                 if (Init == "Initialization")
@@ -486,15 +483,11 @@ namespace SAIntHelicsLib
 
         public List<double> lastVal = new List<double>();
 
-        public SWIGTYPE_p_void GasPubPth;
-        public SWIGTYPE_p_void GasPubPbar;
-        public SWIGTYPE_p_void ElecSubPthg;
-        public SWIGTYPE_p_void ElecSubPbar;
-        public SWIGTYPE_p_void GasPubQ_sm3s;
-        public SWIGTYPE_p_void ElecSubQ_sm3s;
+        //public int HorizonTimeSteps = 24;  // Used for federates having different time horizons 
 
-        public SWIGTYPE_p_void ElectricPubPthe;
-        public SWIGTYPE_p_void GasSubPthe;
+        public SWIGTYPE_p_void AvailableThermalPower;
+        public SWIGTYPE_p_void PressureRelativeToPmin;
+        public SWIGTYPE_p_void RequieredThermalPower;
 
         public StreamWriter sw;
     }
@@ -504,11 +497,4 @@ namespace SAIntHelicsLib
         public int timestep, itersteps;
         public DateTime time;
     }
-
-    public class NotConverged
-    {
-        public int timestep, itersteps;
-        public DateTime time;
-    }
-
 }
