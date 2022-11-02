@@ -82,7 +82,14 @@ namespace HelicsDotNetSender
                 m.RequieredThermalPower = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
                 m.AvailableThermalPower = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
                 m.PressureRelativeToPmin = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
-                
+
+                for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                {
+                    m.RequieredThermalPower02[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
+                    m.AvailableThermalPower02[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
+                    m.PressureRelativeToPmin02[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), ""); ;
+                }
+
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
@@ -288,6 +295,9 @@ namespace HelicsDotNetSender
             h.helicsFederateFree(vfed);
             h.helicsCloseLibrary();
 
+            // save SAInt output
+            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
+
             using (FileStream fs=new FileStream(outputfolder + "TimeStepIterationInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
             {   
                 using (StreamWriter sw = new StreamWriter(fs))
@@ -299,13 +309,8 @@ namespace HelicsDotNetSender
                     }
                 }
 
-            }                       
-
-            // save SAInt output
-            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
-
-           
-
+            }            
+            
             using (FileStream fs = new FileStream(outputfolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))

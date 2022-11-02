@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-//using s = SAInt_API.SAInt;
 using SAInt_API;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model.Network.Electric;
@@ -457,6 +456,13 @@ namespace SAIntHelicsLib
                 mapitem.lastVal = new List<double>();
                 if (m.GDEM != null) mapitem.Qmax = m.GDEM.get_QMAX();
                 if (m.FGEN != null) mapitem.NCAP = m.FGEN.get_PMAX();
+
+                for (int i = 1; i<= mapitem.HorizonTimeSteps; i++)
+                {
+                    mapitem.RequieredThermalPower02.Add(i, mapitem.EmptyPubSub);
+                    mapitem.AvailableThermalPower02.Add(i, mapitem.EmptyPubSub);
+                    mapitem.PressureRelativeToPmin02.Add(i, mapitem.EmptyPubSub);
+                }
                 MappingList.Add(mapitem);
             }
             return MappingList;
@@ -483,8 +489,12 @@ namespace SAIntHelicsLib
 
         public List<double> lastVal = new List<double>();
 
-        //public int HorizonTimeSteps = 24;  // Used for federates having different time horizons 
+        public int HorizonTimeSteps = 24;  // Used for federates having different time horizons 
+        public Dictionary <int, SWIGTYPE_p_void> AvailableThermalPower02 = new Dictionary<int, SWIGTYPE_p_void> ();
+        public Dictionary<int, SWIGTYPE_p_void> PressureRelativeToPmin02 = new Dictionary<int, SWIGTYPE_p_void>();
+        public Dictionary<int, SWIGTYPE_p_void> RequieredThermalPower02 = new Dictionary<int, SWIGTYPE_p_void>();
 
+        public SWIGTYPE_p_void EmptyPubSub;
         public SWIGTYPE_p_void AvailableThermalPower;
         public SWIGTYPE_p_void PressureRelativeToPmin;
         public SWIGTYPE_p_void RequieredThermalPower;

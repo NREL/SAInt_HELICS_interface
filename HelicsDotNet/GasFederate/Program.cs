@@ -83,6 +83,13 @@ namespace HelicsDotNetReceiver
                 m.PressureRelativeToPmin = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "double", "");
                 m.RequieredThermalPower = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName, "");
 
+                for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                {
+                    m.RequieredThermalPower02[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), ""); ;
+                    m.AvailableThermalPower02[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
+                    m.PressureRelativeToPmin02[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
+                }
+
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.GDEMName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
@@ -279,14 +286,14 @@ namespace HelicsDotNetReceiver
             ostrm.Close();
 #endif
 
-            // save SAInt output
-            API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
-
             // finalize federate
             h.helicsFederateFinalize(vfed);
             Console.WriteLine("Gas: Federate finalized");
             h.helicsFederateFree(vfed);
             h.helicsCloseLibrary();
+
+            // save SAInt output
+            API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
 
             using (FileStream fs = new FileStream(outputfolder + "TimeStepIterationInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
