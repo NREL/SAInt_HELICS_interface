@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ElectricNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="141e5308cf5947cfb3833a369d32f88a" ModelOrigin="Unknown" ModelName="ENET30" TimeCreated="2016-06-01T13:29:00.5301633+02:00" TimeModified="2022-11-03T17:57:12.9968249+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="1" BaseS="100" BaseF="50" TFSize="1.2">
+<ElectricNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="141e5308cf5947cfb3833a369d32f88a" ModelOrigin="Unknown" ModelName="ENET30withoutSHT" TimeCreated="2016-06-01T13:29:00.5301633+02:00" TimeModified="2022-11-03T18:13:14.8063565+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="1" BaseS="100" BaseF="50" TFSize="1.2">
   <Constraints />
   <Nodes>
     <Node xsi:type="ElectricNodeX" UID="4fff596db8224a678c3abd356586208c" Name="BUS000" Alias="" InService="true" Info="-" Visible="true" X="-27.58285999" Y="1.31992722" ZoneName="ZONE1" H="0" Lat="0" Long="0" BaseV="135" VMAXDEF="1.05" VMINDEF="0.95">
@@ -106,9 +106,6 @@
     <External xsi:type="ElectricDemandX" UID="8054faa52e20472eb5e7c08caec0f8fd" Name="BUS003" Alias="" InService="true" Info="-" Visible="true" X="-24.608098983764648" Y="-0.23191261291503906" Lat="0" Long="0" NodeUID="69bf71bb29ea4a65aa11b10a4905abb2" PSETDEF="0" PSETPRCDEF="2000" PMAXDEF="INF" PMAXPRCDEF="INF" PMINDEF="0" PMINPRCDEF="0" QMAXDEF="INF" QMINDEF="-INF" PWF="1" PWFType="ind">
       <Groups />
     </External>
-    <External xsi:type="ElectricShuntX" UID="c93365dfc1974355b91d3ae02779975e" Name="BUS004" Alias="" InService="true" Info="-" Visible="true" X="-21.500177383422852" Y="1.2832822799682617" Lat="0" Long="0" NodeUID="86ef5e7ebc1a4cf9ad84be98d9627a5e" PSETDEF="NaN" PSETPRCDEF="NaN" PMAXDEF="NaN" PMAXPRCDEF="NaN" PMINDEF="NaN" PMINPRCDEF="NaN" QMAXDEF="NaN" QMINDEF="NaN" GSETDEF="0" BSETDEF="0.04">
-      <Groups />
-    </External>
     <External xsi:type="ElectricDemandX" UID="b6530812c60c47c4a5eeb467cf5a0ae5" Name="BUS005" Alias="" InService="true" Info="-" Visible="true" X="-22.0344181060791" Y="-0.26855754852294922" Lat="0" Long="0" NodeUID="c704d0738aa444d0a1b90a0deba5f870" PSETDEF="0" PSETPRCDEF="2000" PMAXDEF="INF" PMAXPRCDEF="INF" PMINDEF="0" PMINPRCDEF="0" QMAXDEF="INF" QMINDEF="-INF" PWF="1" PWFType="ind">
       <Groups />
     </External>
@@ -161,9 +158,6 @@
       <Groups />
     </External>
     <External xsi:type="FuelGeneratorX" UID="a2a1189087f942e3b82c3b8d95b54191" Name="BUS022" Alias="" InService="true" Info="-" Visible="true" X="-24.595724105834961" Y="-8.4842805862426758" Lat="0" Long="0" NodeUID="de48b9f0710c41728d7e8ce037c9d964" PSETDEF="0" PSETPRCDEF="2000" PMAXDEF="60" PMAXPRCDEF="INF" PMINDEF="0" PMINPRCDEF="0" QMAXDEF="48" QMINDEF="-36" GenType="GASTURBINE" PFSETDEF="1" VMSETDEF="1" MaxUpRampDef="INF" MaxDownRampDef="INF" VOMPriceDef="1.05" C0DEF="55" C1DEF="1.05" C2DEF="0.003" FuelUID="2d2ddce796624c069c80aa80167517ba" HR0="22.358974456787109" HR1="-0.56068378686904907" HR2="0.0046723647974431515" EFFMAX="0.7" EFFMIN="0.24" FC0="0" FC1="0" FC2="0" NSEG="2" MinUpTimeDef="0" MinDownTimeDef="0" StartUpPriceDef="0" ShutDownPriceDef="0">
-      <Groups />
-    </External>
-    <External xsi:type="ElectricShuntX" UID="fa03e44f4cae496592319e1a6f20a185" Name="BUS023" Alias="" InService="true" Info="-" Visible="true" X="-22.103303909301758" Y="-8.4901618957519531" Lat="0" Long="0" NodeUID="47f31bf94b96496b8ad98d9cb3e69274" PSETDEF="NaN" PSETPRCDEF="NaN" PMAXDEF="NaN" PMAXPRCDEF="NaN" PMINDEF="NaN" PMINPRCDEF="NaN" QMAXDEF="NaN" QMINDEF="NaN" GSETDEF="0" BSETDEF="0.04">
       <Groups />
     </External>
     <External xsi:type="ElectricDemandX" UID="d8736b489aad4646b28f2d1149588d0d" Name="BUS024" Alias="" InService="true" Info="-" Visible="true" X="-19.711942672729492" Y="-8.4901618957519531" Lat="0" Long="0" NodeUID="d44aca7a58e34e4484ef97c3a4817f5f" PSETDEF="0" PSETPRCDEF="2000" PMAXDEF="INF" PMAXPRCDEF="INF" PMINDEF="0" PMINPRCDEF="0" QMAXDEF="INF" QMINDEF="-INF" PWF="1" PWFType="ind">

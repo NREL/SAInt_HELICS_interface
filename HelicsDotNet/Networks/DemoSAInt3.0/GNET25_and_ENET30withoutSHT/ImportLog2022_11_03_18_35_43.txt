@@ -1,0 +1,1 @@
+2022-11-03 18:35:44.089 +01:00 [INF] 7 lines parsed succesfully

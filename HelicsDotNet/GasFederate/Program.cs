@@ -28,19 +28,23 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            //API.openGSCE(netfolder + "DYN_GAS.gsce");
+            //API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openHUBS(netfolder + "Demo2.hubs");
-
-            API.openGSCE(netfolder + "DYN_GAS.gsce");
-            API.openGCON(netfolder + "STEADY_GAS.gcon");
-            //API.openGCON(netfolder + "DYN000.gcon");
+            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
+            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
+            API.openGNET(netfolder + "GNET25.gnet");
+            MappingFactory.AccessFile(netfolder + "Demo2.hubs");
+            API.openGSCE(netfolder + "CASE1.gsce");
+            API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
+
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
 

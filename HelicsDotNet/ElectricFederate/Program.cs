@@ -31,15 +31,20 @@ namespace HelicsDotNetSender
         {
 
             MappingFactory.WaitForAcknowledge();
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            API.openENET(netfolder + "GasFiredGenerator.enet");
 
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openHUBS(netfolder + "Demo.hubs");
-
-            API.openESCE(netfolder + "QDYNACOPF.esce");
-            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+        //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+        //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+        //API.openENET(netfolder + "GasFiredGenerator.enet");
+        //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+        //API.openESCE(netfolder + "QDYNACOPF.esce");
+        //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+        
+            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
+            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
+            API.openENET(netfolder + "ENET30withoutSHT.enet");
+            MappingFactory.AccessFile(netfolder + "Demo2.hubs");
+            API.openESCE(netfolder + "CASE1.esce");
+            API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
