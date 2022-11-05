@@ -39,10 +39,10 @@ namespace HelicsDotNetSender
         //API.openESCE(netfolder + "QDYNACOPF.esce");
         //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
         
-            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
-            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
-            API.openENET(netfolder + "ENET30withoutSHT.enet");
-            MappingFactory.AccessFile(netfolder + "Demo2.hubs");
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            API.openENET(netfolder + "ENET30.enet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
             API.openESCE(netfolder + "CASE1.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
 
@@ -193,12 +193,14 @@ namespace HelicsDotNetSender
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
                     {
+                        m.GFG.FGEN.PMAXDEF = m.ElecPmax;
+                        m.GFG.FGEN.PMINDEF = m.ElecPmin;
                         //foreach (var evt in m.GFG.FGEN.SceList)
                         //{
                         //    if (evt.ObjPar == CtrlType.PSET)
                         //    {
                         //        //m.GFG.FGEN.SceList.Remove(evt);
-                        //        evt.Processed = true;
+                        //        //evt.Processed = true;
                         //        evt.ObjVal = double.NaN;
                         //        //evt.ObjPar = CtrlType.NONE;
                         //    }
@@ -307,7 +309,7 @@ namespace HelicsDotNetSender
             }                       
 
             // save SAInt output
-            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
+            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.xlsx");
 
            
 

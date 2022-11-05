@@ -35,10 +35,10 @@ namespace HelicsDotNetReceiver
             //API.openGSCE(netfolder + "DYN_GAS.gsce");
             //API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            string netfolder = @"..\..\..\..\Networks\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
-            string outputfolder = @"..\..\..\..\outputs\DemoSAInt3.0\GNET25_and_ENET30withoutSHT\";
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
             API.openGNET(netfolder + "GNET25.gnet");
-            MappingFactory.AccessFile(netfolder + "Demo2.hubs");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
             API.openGSCE(netfolder + "CASE1.gsce");
             API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
@@ -192,16 +192,16 @@ namespace HelicsDotNetReceiver
                     foreach (ElectricGasMapping m in MappingList)
                     {
                         m.lastVal.Clear(); // Clear the list before iteration starts
-                        //foreach (var evt in m.GFG.GDEM.SceList)
-                        //{
-                        //    if (evt.ObjPar == CtrlType.QSET)
-                        //    {
-                        //        m.GFG.GDEM.SceList.Remove(evt);
-                        //        evt.Processed = true;
-                        //        evt.ObjVal = double.NaN;
-                        //        evt.ObjPar = CtrlType.NONE;
-                        //    }
-                        //}
+                        foreach (var evt in m.GFG.GDEM.SceList)
+                        {
+                            if (evt.ObjPar == CtrlType.QSET)
+                            {
+                                //m.GFG.GDEM.SceList.Remove(evt);
+                                //evt.Processed = true;
+                                evt.ObjVal = double.NaN;
+                                //evt.ObjPar = CtrlType.NONE;
+                            }
+                        }
                     }
 
                     // Set time step info
@@ -284,7 +284,7 @@ namespace HelicsDotNetReceiver
 #endif
 
             // save SAInt output
-            API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
+            API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.xlsx");
 
             // finalize federate
             h.helicsFederateFinalize(vfed);

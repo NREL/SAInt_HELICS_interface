@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<Scenario xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="b57b24e06b844fe2bfc7ae9b5df2a6d9" SceName="STE" SceType="SteadyACPF" SolverStatus="none" IniState="NONE" StartTime="2022-06-28T17:00:00" EndTime="2022-06-28T18:00:00" Comment="" NetType="ELECTRIC" NetName="" NetFilePath="" Version="3.1.4.0" TimeCreated="2022-06-28T18:51:16.4339209+02:00" TimeModified="2022-06-28T18:51:16.4685553+02:00" FilePath="C:\Getnet Files\SAInt 3.0 combind simulation Exr\NewNetworkFiles\DemoSAInt3.0\STE.esce" ChartStartTime="2022-06-28T17:00:00" ChartTimeStep="3600" ChartEndTime="2022-06-28T18:00:00" TimeHRZ="0" dT="3600" TimeLA="NaN" dtLA="NaN" UsePrfStartTime="true" PrfStartTime="2022-06-28T17:00:00" AverageFlowPrf="false" eps="1E-05" kmax="50" kmaxcnstr="10" SolverType="COIN" SolverModel="MIP" TimeLimit="3600" RelMipGap="0.001" AbsMipGap="1000000" dumpLP="false">
-  <SceEvents />
-  <SceProfiles />
-</Scenario>

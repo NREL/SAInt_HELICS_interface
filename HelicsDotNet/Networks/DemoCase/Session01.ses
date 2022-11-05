@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<SessionInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="65f50e82-5e82-460f-9bc8-57a5cd4e9c9a" DisplayTime="2016-12-02T06:00:00">
+  <OpenedScenarios>
+    <OpenedScenario>C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\DemoSAInt3.0\WI_4746_Solved\WI_4746\CASE1.esce</OpenedScenario>
+    <OpenedScenario>C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\DemoSAInt3.0\WI_4746_Solved\WI_4746\CASE1.gsce</OpenedScenario>
+  </OpenedScenarios>
+  <ProjectFilePath>C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\DemoSAInt3.0\WI_4746_Solved\WI_4746_Solved.prj</ProjectFilePath>
+  <OpenedTables>
+    <Item>GEVT</Item>
+    <Item>GPRF</Item>
+    <Item>GPRFDATA</Item>
+    <Item>EEVT</Item>
+  </OpenedTables>
+  <OpenedPyScripts />
+  <OpenedCharts />
+  <OpenedEditors />
+  <OpenedMaps />
+</SessionInfo>
