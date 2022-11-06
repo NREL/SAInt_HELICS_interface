@@ -179,7 +179,7 @@ namespace SAIntHelicsLib
 
                 h.helicsPublicationPublishDouble(m.RequieredThermalPower, ThermalPower);
 
-                Console.WriteLine(String.Format("Electric-S: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW] \t P = {4:0.0000} [MW] \t  PGMAX = {5:0.0000} [MW]",
+                Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]\t P = {4:0.0000} [MW]\t  PGMAX = {5:0.0000} [MW]",
                     Gtime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(gtime)));
                 m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
                     gtime, Iter, pval, ThermalPower, m.GFG.FGEN.get_PMAX(gtime), Gtime));
@@ -258,13 +258,14 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-valPth) > eps)
                 {
-                    if (valPbar < eps || Iter > 5)
+                    if ((valPbar < eps || Iter > 6) && (!m.IsPmaxSet))
                     {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double ThermalPower02 = HR(PG) / 3.6 * PG;
                         double PGMAX_old = m.GFG.FGEN.get_PMAX();
                         double PGMAX = Math.Max(m.ElecPmin, PG);
-                        m.GFG.FGEN.PMAXDEF = PGMAX; // 0.5MW margin 
+                        m.GFG.FGEN.PMAXDEF = PGMAX;
+                        m.IsPmaxSet = true;
                         //m.GFG.FGEN.PMINDEF = PG;
 
                         //int PsetEventCount = 0;
@@ -302,7 +303,7 @@ namespace SAIntHelicsLib
                         //}
 
 
-                        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAX_new = {3:0.0000} [MW] \t  PGMAX_old = {4:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(), PGMAX_old));
+                        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAX_new = {3:0.0000} [MW]\t  PGMAX_old = {4:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(), PGMAX_old));
                     }
                     HasViolations = true;
                 }
@@ -348,12 +349,12 @@ namespace SAIntHelicsLib
                     if (HasViolations) break;
                     else
                     {
-                        Console.WriteLine(String.Format("Gas-R: Initialization Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
+                        Console.WriteLine(String.Format("Gas-R: Initialization Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
                         continue;
                     }
                 }
 
-                Console.WriteLine(String.Format("Gas-R: Time {0} \t iter {1} \t {2} \t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
+                Console.WriteLine(String.Format("Gas-R: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
 
                 m.lastVal.Add(val);
 
@@ -383,7 +384,7 @@ namespace SAIntHelicsLib
                             evt.Processed = false;
                             evt.Active = true;
 
-                            Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSET({1}) = {3:0.0000} [sm3/s] \t QSET({5}) = {4:0.0000} [sm3/s]",
+                            Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [sm3/s]\t QSET({5}) = {4:0.0000} [sm3/s]",
                                 Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter-1));
                         }
 
@@ -400,7 +401,7 @@ namespace SAIntHelicsLib
                             Active = true
                         };
                         m.GFG.GDEM.SceList.Add(evt);
-                        Console.WriteLine(String.Format("Gas-E: Time {0} \t iter {1} \t {2} \t QSET({1}) = {3:0.0000} [sm3/s] \t QSET({5}) = {4:0.0000} [sm3/s]",
+                        Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [sm3/s]\t QSET({5}) = {4:0.0000} [sm3/s]",
                                 Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter - 1));
                     }
                     HasViolations = true;
@@ -499,7 +500,7 @@ namespace SAIntHelicsLib
 
         public double ElecPmax;
         public double ElecPmin;
-
+        public bool IsPmaxSet = false;
         public double GasQmax;
 
         public List<double> lastVal = new List<double>();

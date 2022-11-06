@@ -192,16 +192,16 @@ namespace HelicsDotNetReceiver
                     foreach (ElectricGasMapping m in MappingList)
                     {
                         m.lastVal.Clear(); // Clear the list before iteration starts
-                        foreach (var evt in m.GFG.GDEM.SceList)
-                        {
-                            if (evt.ObjPar == CtrlType.QSET)
-                            {
-                                //m.GFG.GDEM.SceList.Remove(evt);
-                                //evt.Processed = true;
-                                evt.ObjVal = double.NaN;
-                                //evt.ObjPar = CtrlType.NONE;
-                            }
-                        }
+                        //foreach (var evt in m.GFG.GDEM.SceList)
+                        //{
+                        //    if (evt.ObjPar == CtrlType.QSET)
+                        //    {
+                        //        //m.GFG.GDEM.SceList.Remove(evt);
+                        //        //evt.Processed = true;
+                        //        evt.ObjVal = double.NaN;
+                        //        //evt.ObjPar = CtrlType.NONE;
+                        //    }
+                        //}
                     }
 
                     // Set time step info
@@ -218,6 +218,7 @@ namespace HelicsDotNetReceiver
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
+                            e.RepeatedTimeSteps = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -241,8 +242,13 @@ namespace HelicsDotNetReceiver
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                        e.RepeatTimeIntegration = false;
+                        
+                        if(Iter > 2)
+                        {
+                            Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
+                            e.RepeatTimeIntegration = false;
+                        }
+                        
                     }
                     else
                     {  
@@ -311,7 +317,7 @@ namespace HelicsDotNetReceiver
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (TimeStepInfo x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0} \t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0} \t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 

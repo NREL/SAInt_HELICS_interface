@@ -90,7 +90,7 @@ namespace HelicsDotNetSender
                 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
-                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW]\t PGMAX [MW]");
             }
             
             // Set one second message interval
@@ -195,6 +195,8 @@ namespace HelicsDotNetSender
                     {
                         m.GFG.FGEN.PMAXDEF = m.ElecPmax;
                         m.GFG.FGEN.PMINDEF = m.ElecPmin;
+                        m.IsPmaxSet = false;
+
                         //foreach (var evt in m.GFG.FGEN.SceList)
                         //{
                         //    if (evt.ObjPar == CtrlType.PSET)
@@ -228,6 +230,7 @@ namespace HelicsDotNetSender
                         {
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
+                            e.RepeatedTimeSteps = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -251,10 +254,12 @@ namespace HelicsDotNetSender
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                        e.RepeatTimeIntegration = false;
+                         if (Iter > 2)
+                        {
+                            Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
+                            e.RepeatTimeIntegration = false;
+                        }
                     }
-
                     else
                     {
                         // get available thermal power at nodes, determine if there are violations
@@ -320,7 +325,7 @@ namespace HelicsDotNetSender
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (TimeStepInfo x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0}\t\t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 

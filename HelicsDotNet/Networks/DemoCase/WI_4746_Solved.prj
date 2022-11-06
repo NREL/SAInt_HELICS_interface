@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<ProjectInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" BackColor="-8355712" ShowPolygons="true" LoadPolygonOnStart="true">
-  <GNETPath>C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\DemoSAInt3.0\WI_4746_Solved\WI_4746\GNET25.gnet</GNETPath>
-  <ENETPath>C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\DemoSAInt3.0\WI_4746_Solved\WI_4746\ENET30.enet</ENETPath>
-  <HUBSPath>C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\DemoSAInt3.0\WI_4746_Solved\WI_4746\Demo.hubs</HUBSPath>
-  <UID>7884f69f-52ea-48f7-9fef-118360013cc4</UID>
-  <Name>WI_4746_Solved</Name>
-</ProjectInfo>
