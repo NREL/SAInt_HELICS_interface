@@ -472,8 +472,8 @@ namespace SAIntHelicsLib
                     mapitem.ElecPmin = m.FGEN.get_PMIN();
                 }
 
-                if (m.GDEM != null) mapitem.Qmax = m.GDEM.get_QMAX();
-                if (m.FGEN != null) mapitem.NCAP = m.FGEN.get_PMAX();
+                if (m.GDEM != null) mapitem.GasQmax = m.GDEM.get_QMAX();
+                if (m.FGEN != null) mapitem.ElecPmax = m.FGEN.get_PMAX();
 
                 for (int i = 1; i<= mapitem.HorizonTimeSteps; i++)
                 {
