@@ -192,16 +192,7 @@ namespace HelicsDotNetReceiver
                     foreach (ElectricGasMapping m in MappingList)
                     {
                         m.lastVal.Clear(); // Clear the list before iteration starts
-                        //foreach (var evt in m.GFG.GDEM.SceList)
-                        //{
-                        //    if (evt.ObjPar == CtrlType.QSET)
-                        //    {
-                        //        //m.GFG.GDEM.SceList.Remove(evt);
-                        //        //evt.Processed = true;
-                        //        evt.ObjVal = double.NaN;
-                        //        //evt.ObjPar = CtrlType.NONE;
-                        //    }
-                        //}
+                
                     }
 
                     // Set time step info
@@ -243,7 +234,7 @@ namespace HelicsDotNetReceiver
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
                         
-                        if(Iter > 2)
+                        if(Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
                             e.RepeatTimeIntegration = false;
