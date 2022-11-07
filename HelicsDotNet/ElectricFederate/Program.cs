@@ -31,15 +31,20 @@ namespace HelicsDotNetSender
         {
 
             MappingFactory.WaitForAcknowledge();
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            API.openENET(netfolder + "GasFiredGenerator.enet");
 
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openHUBS(netfolder + "Demo.hubs");
-
-            API.openESCE(netfolder + "QDYNACOPF.esce");
-            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+        //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+        //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+        //API.openENET(netfolder + "GasFiredGenerator.enet");
+        //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+        //API.openESCE(netfolder + "QDYNACOPF.esce");
+        //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+        
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            API.openENET(netfolder + "ENET30.enet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openESCE(netfolder + "CASE1.esce");
+            API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
@@ -92,7 +97,7 @@ namespace HelicsDotNetSender
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
-                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW] \t PGMAX [MW]");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW]\t PGMAX [MW]");
             }
             
             // Set one second message interval
@@ -195,16 +200,11 @@ namespace HelicsDotNetSender
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
                     {
-                        //foreach (var evt in m.GFG.FGEN.SceList)
-                        //{
-                        //    if (evt.ObjPar == CtrlType.PSET)
-                        //    {
-                        //        //m.GFG.FGEN.SceList.Remove(evt);
-                        //        evt.Processed = true;
-                        //        evt.ObjVal = double.NaN;
-                        //        //evt.ObjPar = CtrlType.NONE;
-                        //    }
-                        //}
+                        // Reset PMAX and PMIN 
+                        m.GFG.FGEN.PMAXDEF = m.ElecPmax;
+                        m.GFG.FGEN.PMINDEF = m.ElecPmin;
+                        m.IsPmaxChanged = false;
+
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
 
@@ -228,6 +228,7 @@ namespace HelicsDotNetSender
                         {
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
+                            e.RepeatedTimeSteps = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -251,10 +252,12 @@ namespace HelicsDotNetSender
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                        e.RepeatTimeIntegration = false;
+                         if (Iter > 2) // To make sure that data is published from current time step
+                        {
+                            Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
+                            e.RepeatTimeIntegration = false;
+                        }
                     }
-
                     else
                     {
                         // get available thermal power at nodes, determine if there are violations
@@ -309,8 +312,13 @@ namespace HelicsDotNetSender
                     }
                 }
 
-            }            
-            
+            }                       
+
+            // save SAInt output
+            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.xlsx");
+
+           
+
             using (FileStream fs = new FileStream(outputfolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
@@ -318,7 +326,7 @@ namespace HelicsDotNetSender
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (TimeStepInfo x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0}\t\t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 

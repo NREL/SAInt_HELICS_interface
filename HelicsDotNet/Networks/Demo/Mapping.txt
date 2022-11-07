@@ -1,4 +1,0 @@
-%Electric Generator Node	Gas Demand Node
-GEN.BUS001	NO.N15
-GEN.BUS022	NO.N20
-GEN.BUS026	NO.N21

@@ -28,19 +28,23 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            //API.openGSCE(netfolder + "DYN_GAS.gsce");
+            //API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openHUBS(netfolder + "Demo2.hubs");
-
-            API.openGSCE(netfolder + "DYN_GAS.gsce");
-            API.openGCON(netfolder + "STEADY_GAS.gcon");
-            //API.openGCON(netfolder + "DYN000.gcon");
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            API.openGNET(netfolder + "GNET25.gnet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openGSCE(netfolder + "CASE1.gsce");
+            API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
+
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
@@ -195,16 +199,7 @@ namespace HelicsDotNetReceiver
                     foreach (ElectricGasMapping m in MappingList)
                     {
                         m.lastVal.Clear(); // Clear the list before iteration starts
-                        //foreach (var evt in m.GFG.GDEM.SceList)
-                        //{
-                        //    if (evt.ObjPar == CtrlType.QSET)
-                        //    {
-                        //        m.GFG.GDEM.SceList.Remove(evt);
-                        //        evt.Processed = true;
-                        //        evt.ObjVal = double.NaN;
-                        //        evt.ObjPar = CtrlType.NONE;
-                        //    }
-                        //}
+                
                     }
 
                     // Set time step info
@@ -221,6 +216,7 @@ namespace HelicsDotNetReceiver
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
+                            e.RepeatedTimeSteps = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -244,8 +240,13 @@ namespace HelicsDotNetReceiver
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                        e.RepeatTimeIntegration = false;
+                        
+                        if(Iter > 2) // To make sure that data is published from current time step
+                        {
+                            Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
+                            e.RepeatTimeIntegration = false;
+                        }
+                        
                     }
                     else
                     {  
@@ -314,7 +315,7 @@ namespace HelicsDotNetReceiver
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
                     foreach (TimeStepInfo x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0} \t\t\t{1}\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0} \t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
                 }
 
