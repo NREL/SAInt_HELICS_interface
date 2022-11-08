@@ -10,6 +10,7 @@ using SAInt_API.Library;
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
+using System.Linq;
 
 namespace HelicsDotNetReceiver
 {
@@ -111,7 +112,7 @@ namespace HelicsDotNetReceiver
             // set number of HELICS time steps based on scenario
             double total_time = GNET.SCE.NN;
             Console.WriteLine($"Number of time steps in scenario: {total_time}");
-
+            
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
@@ -131,6 +132,12 @@ namespace HelicsDotNetReceiver
             int Iter = 0;
             bool HasViolations = true;
             int helics_iter_status = 3;
+
+            int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
+            int CountStepsInHorizon = 1;
+            int CountHorizons = 0;
+            bool IsBeforeConsecutiveSimulation = true;
+            bool IsAfterConsecutiveSimulation = false;
 
             double granted_time = 0;
             double requested_time;
@@ -184,22 +191,29 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep>0) 
                 {
-                    Iter = 0; // Iteration number
-
-                    HasViolations = true;
-
-                    if (FirstTimeStep == 0)
+                    if (IsBeforeConsecutiveSimulation)
                     {
-                        Console.WriteLine("======================================================\n");
-                        Console.WriteLine("\nGas: Entering Main Co-simulation Loop");
-                        Console.WriteLine("======================================================\n");
-                        FirstTimeStep += 1;
-                    }                    
-                    
-                    foreach (ElectricGasMapping m in MappingList)
-                    {
-                        m.lastVal.Clear(); // Clear the list before iteration starts
-                
+                        Iter = 0; // Iteration number
+                        CountStepsInHorizon = 1;
+                        CountHorizons += 1;
+                        HasViolations = true;
+
+                        if (FirstTimeStep == 0)
+                        {
+                            Console.WriteLine("======================================================\n");
+                            Console.WriteLine("\nGas: Entering Main Co-simulation Loop");
+                            Console.WriteLine("======================================================\n");
+                            FirstTimeStep += 1;
+                        }
+
+                        IsBeforeConsecutiveSimulation = false;
+
+                        foreach (ElectricGasMapping m in MappingList)
+                        {
+                            //m.LastVal.Clear(); // Clear the list before iteration starts
+                            m.LastVal02[i].Clear();
+
+                        }
                     }
 
                     // Set time step info
@@ -216,7 +230,7 @@ namespace HelicsDotNetReceiver
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = true;
-                            e.RepeatedTimeSteps = 1;
+                            e.RepeatedTimeSteps = HorizonTimeSteps;
                         }
                         else if (Iter == iter_max)
                         {
@@ -274,7 +288,7 @@ namespace HelicsDotNetReceiver
             API.runGSIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
-            requested_time = total_time + 1;
+            requested_time = total_time/HorizonTimeSteps + 1;
             //Console.WriteLine($"Requested time: {requested_time}");
             DateTime DateTimeRequested = GNET.SCE.EndTime + new TimeSpan(0, 0, (int)GNET.SCE.dt);
             Console.WriteLine($"\nGas Requested Time Step: {requested_time} at Time: {DateTimeRequested}");

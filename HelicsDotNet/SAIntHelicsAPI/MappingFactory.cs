@@ -250,18 +250,18 @@ namespace SAIntHelicsLib
                 double HR (double x)=> m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
                 double ThermalPower = HR(pval) / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
 
-                m.lastVal.Add(valPth);
+                m.LastVal.Add(valPth);
 
                 if (Math.Abs(ThermalPower-valPth) > eps)
                 {
-                    if ((valPbar < eps || Iter > 6) && (!m.IsPmaxChanged))
+                    if ((valPbar < eps || Iter > 6) && (!m.IsFmaxChanged))
                     {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double ThermalPower02 = HR(PG) / 3.6 * PG;
                         double PGMAX_old = m.GFG.FGEN.get_PMAX();
-                        double PGMAX = Math.Max(m.ElecPmin, PG);
+                        double PGMAX = Math.Max(m.GenFuelMin, PG);
                         m.GFG.FGEN.PMAXDEF = PGMAX;
-                        m.IsPmaxChanged = true;
+                        m.IsFmaxChanged = true;
                         //m.GFG.FGEN.PMINDEF = PG;
 
                         //int PsetEventCount = 0;
@@ -305,10 +305,10 @@ namespace SAIntHelicsLib
                 }
                 else
                 {
-                    if (m.lastVal.Count > 2)
+                    if (m.LastVal.Count > 2)
                     {
                         //if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
-                        if (Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) 
+                        if (Math.Abs(m.LastVal[m.LastVal.Count - 1] - m.LastVal[m.LastVal.Count - 2]) > eps) 
                         { 
                             HasViolations = true;
                         }
@@ -352,7 +352,7 @@ namespace SAIntHelicsLib
 
                 Console.WriteLine(String.Format("Gas-R: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
 
-                m.lastVal.Add(val);
+                m.LastVal.Add(val);
 
                 //get currently available thermal power 
                 double GCV = m.GFG.get_GasNQ(gtime).GCV / 1e6;
@@ -400,9 +400,9 @@ namespace SAIntHelicsLib
                 }
                 else
                 {
-                    if (m.lastVal.Count > 2)
+                    if (m.LastVal.Count > 2)
                     {
-                        if (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 1]) > eps)
+                        if (Math.Abs(m.LastVal[m.LastVal.Count - 2] - m.LastVal[m.LastVal.Count - 1]) > eps)
                         {
                             HasViolations = true;
                         }
@@ -456,30 +456,39 @@ namespace SAIntHelicsLib
         {
             List<ElectricGasMapping> MappingList = new List<ElectricGasMapping>();
 
-            foreach (GasFiredGenerator m in GFGs)
+            foreach (GasFiredGenerator hub in GFGs)
             {
                 
                 var mapitem = new ElectricGasMapping();
-                mapitem.GFG = m;
-                mapitem.lastVal = new List<double>();
-                if (m.GDEM != null)
+                mapitem.GFG = hub;
+                mapitem.LastVal = new List<double>();
+                if (hub.GDEM != null)
                 {
-                    mapitem.GasQmax = m.GDEM.get_QMAX();
+                    for (int i = 0; i < hub.GDEM.ENET.SCE.NN; i++)
+                    {
+                        mapitem.GasQmax = hub.GDEM.get_QMAX(i);
+                    }
+                        
                 }
-                if (m.FGEN != null)
+                if (hub.FGEN != null)
                 {
-                    mapitem.ElecPmax = m.FGEN.get_PMAX();
-                    mapitem.ElecPmin = m.FGEN.get_PMIN();
+                    for (int i = 0; i < hub.FGEN.ENET.SCE.NN; i++)
+                    {
+                        mapitem.GenFuelMax = hub.FGEN.Fuel.get_FMAX(i);
+                        mapitem.GenFuelMin = hub.FGEN.Fuel.get_FMIN(i);
+                    }
+                   
                 }
-
-                if (m.GDEM != null) mapitem.GasQmax = m.GDEM.get_QMAX();
-                if (m.FGEN != null) mapitem.ElecPmax = m.FGEN.get_PMAX();
 
                 for (int i = 1; i<= mapitem.HorizonTimeSteps; i++)
                 {
                     mapitem.RequieredThermalPower02.Add(i, mapitem.EmptyPubSub);
                     mapitem.AvailableThermalPower02.Add(i, mapitem.EmptyPubSub);
                     mapitem.PressureRelativeToPmin02.Add(i, mapitem.EmptyPubSub);
+                    
+                    mapitem.LastVal02.Add(i, new List<double>());
+
+                    mapitem.IsFmaxChanged[i] = false;                    
                 }
                 MappingList.Add(mapitem);
             }
@@ -499,14 +508,18 @@ namespace SAIntHelicsLib
     {
         public GasFiredGenerator GFG;
 
-        public double ElecPmax;
-        public double ElecPmin;
-        public bool IsPmaxChanged = false;
-        public double GasQmax;
-
-        public List<double> lastVal = new List<double>();
+        public double[] GenFuelMax = new double[] { };
+        public double[] GenFuelMin = new double[] { };
+       
+        public double[] GasQmax = new double[] { };
+        public bool[] IsFmaxChanged = new bool[] { };
 
         public int HorizonTimeSteps = 24;  // Used for federates having different time horizons 
+
+        public List<double> LastVal = new List<double>();
+
+        public Dictionary<int, List<double>> LastVal02 = new Dictionary<int, List<double>>();
+
         public Dictionary <int, SWIGTYPE_p_void> AvailableThermalPower02 = new Dictionary<int, SWIGTYPE_p_void> ();
         public Dictionary<int, SWIGTYPE_p_void> PressureRelativeToPmin02 = new Dictionary<int, SWIGTYPE_p_void>();
         public Dictionary<int, SWIGTYPE_p_void> RequieredThermalPower02 = new Dictionary<int, SWIGTYPE_p_void>();

@@ -13,6 +13,7 @@ using SAIntHelicsLib;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
+using System.Linq;
 
 namespace HelicsDotNetSender
 {
@@ -133,6 +134,12 @@ namespace HelicsDotNetSender
             bool HasViolations = true;
             int helics_iter_status = 3;
 
+            int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
+            int CountStepsInHorizon = 1;
+            int CountHorizons = 0;
+            bool IsBeforeConsecutiveSimulation = true;
+            bool IsAfterConsecutiveSimulation = false;
+
             double granted_time = 0;
             double requested_time;
 
@@ -183,29 +190,41 @@ namespace HelicsDotNetSender
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {                     
 
-                if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
+                //if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
+                if (e.SolverState == SolverState.BeforeConsecutiveTimeStep && e.TimeStep > 0)
                 {
-                    Iter = 0;
-
-                    HasViolations = true;
-
-                    if (FirstTimeStep == 0)
+                    if (IsBeforeConsecutiveSimulation)
                     {
-                        Console.WriteLine("======================================================\n");
-                        Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
-                        Console.WriteLine("======================================================\n");
-                        FirstTimeStep += 1;
-                    }                                      
+                        Iter = 0; // Iteration number
+                        CountStepsInHorizon = 1;
+                        CountHorizons += 1;
+                        int HorizonTimeStepStart = (CountHorizons - 1) * HorizonTimeSteps;
+                        HasViolations = true;
 
-                    // Reset nameplate capacity
-                    foreach (ElectricGasMapping m in MappingList)
-                    {
-                        // Reset PMAX and PMIN 
-                        m.GFG.FGEN.PMAXDEF = m.ElecPmax;
-                        m.GFG.FGEN.PMINDEF = m.ElecPmin;
-                        m.IsPmaxChanged = false;
+                        if (FirstTimeStep == 0)
+                        {
+                            Console.WriteLine("======================================================\n");
+                            Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
+                            Console.WriteLine("======================================================\n");
+                            FirstTimeStep += 1;
+                        }
 
-                        m.lastVal.Clear(); // Clear the list before iteration starts
+                        // Reset nameplate capacity
+                        foreach (ElectricGasMapping m in MappingList)
+                        {
+                            // Reset PMAX and PMIN 
+                            for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                            {
+                                m.GFG.FGEN.Fuel.FMAX(HorizonTimeStepStart+i) = m.GenFuelMax(HorizonTimeStepStart + i);
+                                m.GFG.FGEN.Fuel.Fmin(HorizonTimeStepStart + i) = m.GenFuelMin(HorizonTimeStepStart + i);
+                                m.IsFmaxChanged = false;
+
+                                // Clear the list before iteration starts
+                                //m.LastVal.Clear();
+                                m.LastVal02[i].Clear();
+                            }
+
+                        }
                     }
 
                     // Set time step info
@@ -213,7 +232,7 @@ namespace HelicsDotNetSender
                     IterationInfo.Add(currenttimestep);
                 }
 
-                if ( e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
+                if ( e.SolverState == SolverState.AfterCOnsecutiveTimeStep && e.TimeStep > 0)
                 {
 #if !DEBUG 
                     foreach (var i in ENET.Generators)
@@ -278,12 +297,11 @@ namespace HelicsDotNetSender
             API.runESIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
-            requested_time = total_time + 1;            
+            requested_time = total_time/HorizonTimeSteps + 1;            
             //Console.WriteLine($"Requested time: {requested_time}");
             DateTime DateTimeRequested = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
             Console.WriteLine($"\nElectric Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
-
 
 #if !DEBUG
             // close out log file
@@ -315,9 +333,7 @@ namespace HelicsDotNetSender
             }                       
 
             // save SAInt output
-            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.xlsx");
-
-           
+            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.xlsx");           
 
             using (FileStream fs = new FileStream(outputfolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
