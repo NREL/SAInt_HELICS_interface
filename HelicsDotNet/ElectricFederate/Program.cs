@@ -45,7 +45,7 @@ namespace HelicsDotNetSender
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
             API.openESCE(netfolder + "CASE1.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
-
+           
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
@@ -220,8 +220,7 @@ namespace HelicsDotNetSender
                         if (Iter < iter_max)
                         {
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = true;
-                            e.RepeatedTimeSteps = 1;
+                            e.RepeatTimeIntegration = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -248,7 +247,7 @@ namespace HelicsDotNetSender
                          if (Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = false;
+                            e.RepeatTimeIntegration = 0;
                         }
                     }
                     else
