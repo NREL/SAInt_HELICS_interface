@@ -160,16 +160,16 @@ namespace SAIntHelicsLib
         public static StreamWriter elecSw;
         public static double eps = 0.1;
 
-        public static void PublishRequiredThermalPower(int gtime, int Iter, List<ElectricGasMapping> MappingList)
+        public static void PublishRequiredThermalPower(int etime, int Iter, List<ElectricGasMapping> MappingList)
         {
             ENET = (ElectricNet)GetObject("get_ENET");
-            DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)ENET.SCE.dt);
+            DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
 
             foreach (ElectricGasMapping m in MappingList)
             {
-                double GCV = m.GFG.get_GCV(gtime) / 1e6; // in MJ/m3
-                 //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime));                
-                double pval = m.GFG.FGEN.get_P(gtime);     
+                double GCV = m.GFG.get_GCV(etime) / 1e6; // in MJ/m3
+                 //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName,egtime));                
+                double pval = m.GFG.FGEN.get_P(etime);     
 
                 double HR = m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * pval + m.GFG.FGEN.HR2 * pval * pval;
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
@@ -178,9 +178,9 @@ namespace SAIntHelicsLib
                 h.helicsPublicationPublishDouble(m.RequieredThermalPower, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]\t P = {4:0.0000} [MW]\t  PGMAX = {5:0.0000} [MW]",
-                    Gtime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(gtime)));
+                    Gtime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(etime)));
                 m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
-                    gtime, Iter, pval, ThermalPower, m.GFG.FGEN.get_PMAX(gtime), Gtime));
+                    etime, Iter, pval, ThermalPower, m.GFG.FGEN.get_PMAX(etime), Gtime));
             }
         }
         public static void PublishAvailableThermalPower(int gtime, int Iter, List<ElectricGasMapping> MappingList)
@@ -260,7 +260,7 @@ namespace SAIntHelicsLib
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double ThermalPower02 = HR(PG) / 3.6 * PG;
                         double PGMAX_old = m.GFG.FGEN.get_PMAX();
-                        double PGMAX = Math.Max(m.ElecPmin, PG);
+                        double PGMAX = Math.Max(m.ElecPmin[etime], PG);
                         m.GFG.FGEN.PMAXDEF = PGMAX;
                         m.IsPmaxChanged = true;
                         //m.GFG.FGEN.PMINDEF = PG;
@@ -457,20 +457,28 @@ namespace SAIntHelicsLib
         {
             List<ElectricGasMapping> MappingList = new List<ElectricGasMapping>();
 
-            foreach (GasFiredGenerator m in GFGs)
+            foreach (GasFiredGenerator GFG in GFGs)
             {
                 
                 var mapitem = new ElectricGasMapping();
-                mapitem.GFG = m;
+                mapitem.GFG = GFG;
                 mapitem.lastVal = new List<double>();
-                if (m.GDEM != null)
+                if (GFG.GDEM != null)
                 {
-                    mapitem.GasQmax = m.GDEM.get_QMAX();
+                    for (int gtime = 0; gtime < ENET.SCE.NN; gtime++)
+                    {
+                        mapitem.GasQmax[gtime] = GFG.GDEM.get_QMAX(gtime);
+                    }
+                        
                 }
-                if (m.FGEN != null)
+                if (GFG.FGEN != null)
                 {
-                    mapitem.ElecPmax = m.FGEN.get_PMAX();
-                    mapitem.ElecPmin = m.FGEN.get_PMIN();
+                    for (int etime=0; etime<ENET.SCE.NN;etime++)
+                    {
+                        mapitem.ElecPmax[etime] = GFG.FGEN.get_PMAX(etime);
+                        mapitem.ElecPmin[etime] = GFG.FGEN.get_PMIN(etime);
+                    }
+                    
                 }
 
                 MappingList.Add(mapitem);
@@ -491,14 +499,12 @@ namespace SAIntHelicsLib
     {
         public GasFiredGenerator GFG;
 
-        public double ElecPmax;
-        public double ElecPmin;
+        public double[] ElecPmax;
+        public double[] ElecPmin;
         public bool IsPmaxChanged = false;
-        public double GasQmax;
+        public double[] GasQmax;
 
         public List<double> lastVal = new List<double>();
-
-        //public int HorizonTimeSteps = 24;  // Used for federates having different time horizons 
 
         public SWIGTYPE_p_void AvailableThermalPower;
         public SWIGTYPE_p_void PressureRelativeToPmin;
