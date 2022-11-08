@@ -13,6 +13,7 @@ using SAIntHelicsLib;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
+using SAInt_API.Model.Scenarios;
 using System.Linq;
 
 namespace HelicsDotNetSender
@@ -44,7 +45,8 @@ namespace HelicsDotNetSender
             string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
             API.openENET(netfolder + "ENET30.enet");
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openESCE(netfolder + "CASE1.esce");
+            //API.openESCE(netfolder + "CASE1.esce");
+            API.openESCE(netfolder + "PCM001.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
@@ -191,7 +193,7 @@ namespace HelicsDotNetSender
             {                     
 
                 //if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
-                if (e.SolverState == SolverState.BeforeConsecutiveTimeStep && e.TimeStep > 0)
+                if (e.SolverState == SolverState.BeforeConsecutiveRun && e.TimeStep > 0)
                 {
                     if (IsBeforeConsecutiveSimulation)
                     {
@@ -212,12 +214,37 @@ namespace HelicsDotNetSender
                         // Reset nameplate capacity
                         foreach (ElectricGasMapping m in MappingList)
                         {
+                            bool IsThereFMAXEvent = m.GFG.FGEN.Fuel.SceList.Any(evt => evt.ObjPar == CtrlType.FMAX);
                             // Reset PMAX and PMIN 
                             for (int i = 1; i <= m.HorizonTimeSteps; i++)
                             {
-                                m.GFG.FGEN.Fuel.FMAX(HorizonTimeStepStart+i) = m.GenFuelMax(HorizonTimeStepStart + i);
-                                m.GFG.FGEN.Fuel.Fmin(HorizonTimeStepStart + i) = m.GenFuelMin(HorizonTimeStepStart + i);
-                                m.IsFmaxChanged = false;
+                                DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, (HorizonTimeStepStart + i) * (int)ENET.SCE.dt);
+
+                                if (!IsThereFMAXEvent)
+                                    {
+                                    SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
+                                    ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN.Fuel, CtrlType.FMAX, m.GenFuelMax[HorizonTimeStepStart + i], Unit)
+                                    {
+                                        Processed = false,
+                                        StartTime = Etime,
+                                        Active = true
+                                    };
+                                }
+                                else
+                                {
+                                    foreach (ScenarioEvent evt in m.GFG.FGEN.Fuel.SceList.Where(Event =>Event.ObjPar==CtrlType.FMAX))
+                                    {
+                                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);                                        
+                                        {
+                                            evt.Unit = Unit;
+                                            evt.ShowVal = string.Format("{0}", m.GenFuelMax[HorizonTimeStepStart + i]);
+                                            evt.Processed = false;
+                                            evt.StartTime = Etime;
+                                            evt.Active = true;
+                                        };
+                                    }
+                                }
+                                m.IsFmaxChanged[i] = false;
 
                                 // Clear the list before iteration starts
                                 //m.LastVal.Clear();
@@ -232,7 +259,7 @@ namespace HelicsDotNetSender
                     IterationInfo.Add(currenttimestep);
                 }
 
-                if ( e.SolverState == SolverState.AfterCOnsecutiveTimeStep && e.TimeStep > 0)
+                if ( e.SolverState == SolverState.AfterConsecutiveRun && e.TimeStep > 0)
                 {
 #if !DEBUG 
                     foreach (var i in ENET.Generators)

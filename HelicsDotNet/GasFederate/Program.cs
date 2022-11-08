@@ -136,8 +136,8 @@ namespace HelicsDotNetReceiver
             int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
             int CountStepsInHorizon = 1;
             int CountHorizons = 0;
-            bool IsBeforeConsecutiveSimulation = true;
-            bool IsAfterConsecutiveSimulation = false;
+            bool IsBeforeConsecutiveRun = true;
+            bool IsAfterConsecutiveRunn = false;
 
             double granted_time = 0;
             double requested_time;
@@ -191,7 +191,7 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep>0) 
                 {
-                    if (IsBeforeConsecutiveSimulation)
+                    if (IsBeforeConsecutiveRun)
                     {
                         Iter = 0; // Iteration number
                         CountStepsInHorizon = 1;
@@ -206,12 +206,15 @@ namespace HelicsDotNetReceiver
                             FirstTimeStep += 1;
                         }
 
-                        IsBeforeConsecutiveSimulation = false;
+                        IsBeforeConsecutiveRun = false;
 
                         foreach (ElectricGasMapping m in MappingList)
                         {
-                            //m.LastVal.Clear(); // Clear the list before iteration starts
-                            m.LastVal02[i].Clear();
+                            for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                            {
+                                //m.LastVal.Clear(); // Clear the list before iteration starts
+                                m.LastVal02[i].Clear();
+                            }
 
                         }
                     }

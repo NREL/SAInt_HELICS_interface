@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ElectricNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="141e5308cf5947cfb3833a369d32f88a" ModelOrigin="Unknown" ModelName="ENET30" TimeCreated="2016-06-01T13:29:00.5301633+02:00" TimeModified="2022-11-07T18:11:34.3863183+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="1" BaseS="100" BaseF="50" TFSize="1.2">
+<ElectricNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="141e5308cf5947cfb3833a369d32f88a" ModelOrigin="Unknown" ModelName="ENET30" TimeCreated="2016-06-01T13:29:00.5301633+02:00" TimeModified="2022-11-08T11:47:02.776821+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="1" BaseS="100" BaseF="50" TFSize="1.2">
   <Constraints />
   <Nodes>
     <Node xsi:type="ElectricNodeX" UID="4fff596db8224a678c3abd356586208c" Name="BUS000" Alias="" InService="true" Info="-" Visible="true" X="-27.58285999" Y="1.31992722" ZoneName="ZONE1" H="0" Lat="0" Long="0" BaseV="135" VMAXDEF="1.05" VMINDEF="0.95">

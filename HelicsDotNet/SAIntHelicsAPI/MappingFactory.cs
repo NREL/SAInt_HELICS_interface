@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using SAInt_API;
@@ -159,16 +160,16 @@ namespace SAIntHelicsLib
         public static StreamWriter elecSw;
         public static double eps = 0.1;
 
-        public static void PublishRequiredThermalPower(int gtime, int Iter, List<ElectricGasMapping> MappingList)
+        public static void PublishRequiredThermalPower(int etime, int Iter, List<ElectricGasMapping> MappingList)
         {
             ENET = (ElectricNet)GetObject("get_ENET");
-            DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)ENET.SCE.dt);
+            DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
 
             foreach (ElectricGasMapping m in MappingList)
             {
-                double GCV = m.GFG.get_GCV(gtime) / 1e6; // in MJ/m3
-                 //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName, gtime));                
-                double pval = m.GFG.FGEN.get_P(gtime);     
+                double GCV = m.GFG.get_GCV(etime) / 1e6; // in MJ/m3
+                 //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName, etime));                
+                double pval = m.GFG.FGEN.get_P(etime);     
 
                 double HR = m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * pval + m.GFG.FGEN.HR2 * pval * pval;
                 // relation between thermal efficiency and heat rate: eta_th[-]=3.6/HR[MJ/kWh]
@@ -177,9 +178,9 @@ namespace SAIntHelicsLib
                 h.helicsPublicationPublishDouble(m.RequieredThermalPower, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]\t P = {4:0.0000} [MW]\t  PGMAX = {5:0.0000} [MW]",
-                    Gtime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(gtime)));
+                    Etime, Iter, m.GFG.FGEN, ThermalPower, pval, m.GFG.FGEN.get_PMAX(etime)));
                 m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
-                    gtime, Iter, pval, ThermalPower, m.GFG.FGEN.get_PMAX(gtime), Gtime));
+                    etime, Iter, pval, ThermalPower, m.GFG.FGEN.get_PMAX(etime), Etime));
             }
         }
         public static void PublishAvailableThermalPower(int gtime, int Iter, List<ElectricGasMapping> MappingList)
@@ -213,109 +214,113 @@ namespace SAIntHelicsLib
             }
         }
 
-        public static bool SubscribeToAvailableThermalPower(int etime, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
+        public static bool SubscribeToAvailableThermalPower(int HorizonTimeStepStart, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
             ENET = (ElectricNet)GetObject("get_ENET");
             bool HasViolations = false;
-            DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
-
+            
+            int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
             foreach (ElectricGasMapping m in MappingList)
             {
-                // subscribe to available thermal power from gas node
-                double valPth = h.helicsInputGetDouble(m.AvailableThermalPower);
-
-                // subscribe to pressure difference between nodal pressure and minimum pressure from gas node
-                double valPbar = h.helicsInputGetDouble(m.PressureRelativeToPmin);
-
-                if (Init == "Initialization")
+                int HorizonTimeStepEnd = HorizonTimeStepStart + HorizonTimeSteps - 1;
+                for (int etime = HorizonTimeStepStart; etime <= HorizonTimeStepEnd; etime++)
                 {
-                    if ((valPth < 0) | (valPbar < 0))
-                    { 
-                        HasViolations = true;
-                    }
-                    if (HasViolations) break;
-                    else
+                    DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
+                    // subscribe to available thermal power from gas node
+                    double AvailableThermalPower = h.helicsInputGetDouble(m.AvailableThermalPower);
+
+                    // subscribe to pressure difference between nodal pressure and minimum pressure from gas node
+                    double valPbar = h.helicsInputGetDouble(m.PressureRelativeToPmin);
+
+                    if (Init == "Initialization")
                     {
-                        Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar-g]", Gtime, Iter, m.GFG.FGEN, valPth, valPbar));
-                        continue;
-                    }
-                }
-
-                Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar-g]", Gtime, Iter, m.GFG.FGEN, valPth, valPbar));
-
-
-                //get currently required thermal power 
-                //double pval = API.evalFloat(String.Format("{0}.P.({1}).[MW]", m.GFG.FGEN, etime));
-                double pval = m.GFG.FGEN.get_P(etime);
-                double HR (double x)=> m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
-                double ThermalPower = HR(pval) / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
-
-                m.LastVal.Add(valPth);
-
-                if (Math.Abs(ThermalPower-valPth) > eps)
-                {
-                    if ((valPbar < eps || Iter > 6) && (!m.IsFmaxChanged))
-                    {
-                        double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
-                        double ThermalPower02 = HR(PG) / 3.6 * PG;
-                        double PGMAX_old = m.GFG.FGEN.get_PMAX();
-                        double PGMAX = Math.Max(m.GenFuelMin, PG);
-                        m.GFG.FGEN.PMAXDEF = PGMAX;
-                        m.IsFmaxChanged = true;
-                        //m.GFG.FGEN.PMINDEF = PG;
-
-                        //int PsetEventCount = 0;
-                        //m.GFG.FGEN.P
-                        //foreach (var evt in m.GFG.FGEN.SceList)
-                        //{                            
-                        //    if (evt.ObjPar == CtrlType.PSET)
-                        //    {
-                        //        PsetEventCount += 1;
-                        //        double EvtVal = evt.ObjVal;
-                        //        evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                        //        evt.ShowVal = string.Format("{0}", PGSET);
-                        //        evt.Processed = false;
-                        //        evt.StartTime = Gtime;                                
-                        //        evt.Active = true;
-
-                        //        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
-                        //            Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
-                        //    }
-                        //}
-                        //if (PsetEventCount == 0)
-                        //    {
-
-                        //    double EvtVal = double.NaN;
-                        //    SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                        //    ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN, CtrlType.PSET, PGSET, Unit)
-                        //    {
-                        //        Processed = false,
-                        //        StartTime = Gtime,
-                        //        Active = true
-                        //    };
-                        //    m.GFG.FGEN.SceList.Add(evt);
-                        //    Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
-                        //            Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
-                        //}
-
-
-                        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAX_new = {3:0.0000} [MW]\t  PGMAX_old = {4:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(), PGMAX_old));
-                    }
-                    HasViolations = true;
-                }
-                else
-                {
-                    if (m.LastVal.Count > 2)
-                    {
-                        //if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
-                        if (Math.Abs(m.LastVal[m.LastVal.Count - 1] - m.LastVal[m.LastVal.Count - 2]) > eps) 
-                        { 
+                        if ((AvailableThermalPower < 0) | (valPbar < 0))
+                        {
                             HasViolations = true;
                         }
+                        if (HasViolations) break;
+                        else
+                        {
+                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar-g]", Gtime, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
+                            continue;
+                        }
+                    }
+
+                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar-g]", Gtime, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
+
+
+                    //get currently required thermal power 
+                    //double pval = API.evalFloat(String.Format("{0}.P.({1}).[MW]", m.GFG.FGEN, etime));
+                    double pval = m.GFG.FGEN.get_P(etime);
+                    double HR(double x) => m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
+                    double FGENThermalPower = HR(pval) / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
+
+                    m.LastVal.Add(AvailableThermalPower);
+
+                    if (Math.Abs(FGENThermalPower - AvailableThermalPower) > eps)
+                    {
+                        if ((valPbar < eps || Iter > 6) && (!m.IsFmaxChanged[etime]))
+                        {
+                            double PG = GetActivePowerFromAvailableThermalPower(m, AvailableThermalPower, pval);
+                            double ThermalPower02 = HR(PG) / 3.6 * PG;
+                            double FMAX_old = m.GFG.FGEN.Fuel.get_FMAX(etime);
+                            double FMAX = m.GFG.FGEN.Fuel.get_FMAX(etime);                            
+                            double GCV = m.GFG.get_GCV(etime) / 1e6;
+                            int EventFuelMaxSet = 0;
+                            foreach (ScenarioEvent evt in m.GFG.FGEN.Fuel.SceList)
+                            {
+                                EventFuelMaxSet += 1;
+                                if (evt.ObjPar == CtrlType.FMAX)
+                                {
+                                    EventFuelMaxSet += 1;
+                                    double EvtVal = evt.ObjVal;
+                                    evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
+                                    evt.ShowVal = string.Format("{0}", AvailableThermalPower / GCV);
+                                    evt.StartTime = Gtime;
+                                    evt.Processed = false;
+                                    evt.Active = true;
+
+                                    Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t FMAX({1}) = {3:0.0000} [sm3/s]\t FMAX({5}) = {4:0.0000} [sm3/s]",
+                                        Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter - 1));
+                                }
+
+                            }
+                            if (EventFuelMaxSet == 0)
+                            {
+
+                                double EvtVal = double.NaN;
+                                SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
+                                ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN.Fuel, CtrlType.FuelMax, AvailableThermalPower / GCV, Unit)
+                                {
+                                    Processed = false,
+                                    StartTime = Gtime,
+                                    Active = true
+                                };
+                                m.GFG.GDEM.SceList.Add(evt);
+                                Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [sm3/s]\t QSET({5}) = {4:0.0000} [sm3/s]",
+                                        Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter - 1));
+                            }
+                            m.IsFmaxChanged[etime] = true;        
+
+
+                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAX_new = {3:0.0000} [MW]\t  PGMAX_old = {4:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(), FMAX_old));
+                        }
+                        HasViolations = true;
                     }
                     else
                     {
-                        HasViolations = true;
+                        if (m.LastVal.Count > 2)
+                        {
+                            //if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
+                            if (Math.Abs(m.LastVal[m.LastVal.Count - 1] - m.LastVal[m.LastVal.Count - 2]) > eps)
+                            {
+                                HasViolations = true;
+                            }
+                        }
+                        else
+                        {
+                            HasViolations = true;
+                        }
                     }
                 }
             }
@@ -464,18 +469,25 @@ namespace SAIntHelicsLib
                 mapitem.LastVal = new List<double>();
                 if (hub.GDEM != null)
                 {
-                    for (int i = 0; i < hub.GDEM.ENET.SCE.NN; i++)
+                    bool IsThereQMAXEvent = hub.GDEM.SceList.Any(evt => evt.ObjPar == CtrlType.QMAX);
+                    for (int i = 0; i < hub.GDEM.GNET.SCE.NN; i++)
                     {
-                        mapitem.GasQmax = hub.GDEM.get_QMAX(i);
+                        if (IsThereQMAXEvent)
+                        {
+                            mapitem.GasQmax[i] = hub.GDEM.get_QMAX(i);
+                        }
                     }
                         
                 }
                 if (hub.FGEN != null)
                 {
+                    bool IsThereFMAXEvent = hub.FGEN.SceList.Any(evt => evt.ObjPar == CtrlType.FMAX);
                     for (int i = 0; i < hub.FGEN.ENET.SCE.NN; i++)
                     {
-                        mapitem.GenFuelMax = hub.FGEN.Fuel.get_FMAX(i);
-                        mapitem.GenFuelMin = hub.FGEN.Fuel.get_FMIN(i);
+                        if (IsThereFMAXEvent)
+                        {
+                            mapitem.GenFuelMax[i] = hub.FGEN.Fuel.get_FMAX(i);
+                        }
                     }
                    
                 }
@@ -509,7 +521,6 @@ namespace SAIntHelicsLib
         public GasFiredGenerator GFG;
 
         public double[] GenFuelMax = new double[] { };
-        public double[] GenFuelMin = new double[] { };
        
         public double[] GasQmax = new double[] { };
         public bool[] IsFmaxChanged = new bool[] { };
