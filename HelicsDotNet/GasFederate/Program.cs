@@ -208,7 +208,7 @@ namespace HelicsDotNetReceiver
                         if (Iter < iter_max)
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = 1;
+                            e.RepeatTimeStep = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -236,7 +236,7 @@ namespace HelicsDotNetReceiver
                         if(Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = 0;
+                            e.RepeatTimeStep= 0;
                         }
                         
                     }
@@ -254,7 +254,7 @@ namespace HelicsDotNetReceiver
                 // ACOPF starts at time step 1, while dynamic gas starts at time step = 0
                 else if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep == 0)
                 {
-                    e.RepeatTimeIntegration = 0;
+                    e.RepeatTimeStep = 0;
                 }
 
             };

@@ -192,10 +192,10 @@ namespace HelicsDotNetSender
 
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
-                    {
-                        // Reset PMAX and PMIN 
-                        m.GFG.FGEN.PMAXDEF = m.ElecPmax;
-                        m.GFG.FGEN.PMINDEF = m.ElecPmin;
+                    {                        
+                            // Reset PMAX and PMIN 
+                        m.GFG.FGEN.PMAXDEF = m.ElecPmax[e.TimeStep];
+                        m.GFG.FGEN.PMINDEF = m.ElecPmin[e.TimeStep];
                         m.IsPmaxChanged = false;
 
                         m.lastVal.Clear(); // Clear the list before iteration starts
@@ -220,7 +220,7 @@ namespace HelicsDotNetSender
                         if (Iter < iter_max)
                         {
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = 1;
+                            e.RepeatTimeStep = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -247,7 +247,7 @@ namespace HelicsDotNetSender
                          if (Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = 0;
+                            e.RepeatTimeStep = 0;
                         }
                     }
                     else

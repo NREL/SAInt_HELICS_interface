@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.IO;
 //using s = SAInt_API.SAInt;
@@ -12,7 +13,7 @@ using SAInt_API.Model.Scenarios;
 
 using h = helics;
 using System.Net.Sockets;
-using System.Net;
+using System.Linq;
 
 namespace SAIntHelicsLib
 {
@@ -365,8 +366,7 @@ namespace SAIntHelicsLib
                 {
                     int EventQset = 0;
                     foreach (ScenarioEvent evt in m.GFG.GDEM.SceList)
-                    {
-                        EventQset += 1;
+                    {                       
                         if (evt.ObjPar == CtrlType.QSET) 
                         {
                             EventQset += 1;
@@ -458,27 +458,24 @@ namespace SAIntHelicsLib
             List<ElectricGasMapping> MappingList = new List<ElectricGasMapping>();
 
             foreach (GasFiredGenerator GFG in GFGs)
-            {
-                
+            {                
                 var mapitem = new ElectricGasMapping();
                 mapitem.GFG = GFG;
                 mapitem.lastVal = new List<double>();
                 if (GFG.GDEM != null)
-                {
-                    for (int gtime = 0; gtime < ENET.SCE.NN; gtime++)
+                {                    
+                    for (int gtime = 0; gtime <= GFG.GDEM.GNET.SCE.NN; gtime++)
                     {
-                        mapitem.GasQmax[gtime] = GFG.GDEM.get_QMAX(gtime);
-                    }
-                        
+                        mapitem.GasQmax.Add(GFG.GDEM.get_QMAX(gtime));
+                    }                        
                 }
                 if (GFG.FGEN != null)
-                {
-                    for (int etime=0; etime<ENET.SCE.NN;etime++)
+                { 
+                    for (int etime = 0; etime <= GFG.FGEN.ENET.SCE.NN; etime++)
                     {
-                        mapitem.ElecPmax[etime] = GFG.FGEN.get_PMAX(etime);
-                        mapitem.ElecPmin[etime] = GFG.FGEN.get_PMIN(etime);
-                    }
-                    
+                        mapitem.ElecPmax.Add(GFG.FGEN.get_PMAX(etime));
+                        mapitem.ElecPmin.Add(GFG.FGEN.get_PMIN(etime));
+                    }                    
                 }
 
                 MappingList.Add(mapitem);
@@ -499,10 +496,10 @@ namespace SAIntHelicsLib
     {
         public GasFiredGenerator GFG;
 
-        public double[] ElecPmax;
-        public double[] ElecPmin;
+        public List<double> ElecPmax = new List<double>();
+        public List<double> ElecPmin = new List<double>();
         public bool IsPmaxChanged = false;
-        public double[] GasQmax;
+        public List<double> GasQmax = new List<double>();
 
         public List<double> lastVal = new List<double>();
 
