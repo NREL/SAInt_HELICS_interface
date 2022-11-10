@@ -253,50 +253,50 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-valPth) > eps)
                 {
-                    if ((valPbar < eps || Iter > 6) && (!m.IsPmaxChanged))
+                    if ((valPbar < eps || Iter > 5) && (!m.IsPmaxChanged))
                     {
                         double PG = GetActivePowerFromAvailableThermalPower(m, valPth, pval);
                         double ThermalPower02 = HR(PG) / 3.6 * PG;
                         double PGMAX_old = m.GFG.FGEN.get_PMAX();
                         double PGMAX = Math.Max(m.ElecPmin[etime], PG);
-                        m.GFG.FGEN.PMAXDEF = PGMAX;
+                        //m.GFG.FGEN.PMAXDEF = PGMAX;
+                        double OldPmaxEventVal = double.NaN;
+                        double NewPmaxEventVal=double.NaN;
+
+                        int PmaxEventCount = 0;
+                        foreach (var evt in m.GFG.FGEN.SceList)
+                        {
+                            if (evt.ObjPar == CtrlType.PMAX)
+                            {
+                                PmaxEventCount += 1;
+                                OldPmaxEventVal = evt.ObjVal;
+                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                evt.ShowVal = string.Format("{0}", PGMAX);
+                                evt.Processed = false;
+                                evt.StartTime = Gtime;
+                                evt.Active = true;
+                                evt.Info = "HELICS";
+                                NewPmaxEventVal = evt.ObjVal;
+                            }
+                        }
+                        if (PmaxEventCount == 0)
+                        {
+                            SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                            ScenarioEvent PmaxEvent = new ScenarioEvent(m.GFG.FGEN, CtrlType.PSET, PGMAX, Unit)
+                            {
+                                Processed = false,
+                                StartTime = Gtime,
+                                Active = true,
+                                Info = "HELICS"
+                            };
+                            NewPmaxEventVal = PmaxEvent.ObjVal;
+                            m.GFG.FGEN.SceList.Add(PmaxEvent);
+                            m.GFG.ENET.SCE.SceList.Add(PmaxEvent);
+                        }
+                        
                         m.IsPmaxChanged = true;
-                        //m.GFG.FGEN.PMINDEF = PG;
-
-                        //int PsetEventCount = 0;
-                        //m.GFG.FGEN.P
-                        //foreach (var evt in m.GFG.FGEN.SceList)
-                        //{                            
-                        //    if (evt.ObjPar == CtrlType.PSET)
-                        //    {
-                        //        PsetEventCount += 1;
-                        //        double EvtVal = evt.ObjVal;
-                        //        evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                        //        evt.ShowVal = string.Format("{0}", PGSET);
-                        //        evt.Processed = false;
-                        //        evt.StartTime = Gtime;                                
-                        //        evt.Active = true;
-
-                        //        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
-                        //            Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
-                        //    }
-                        //}
-                        //if (PsetEventCount == 0)
-                        //    {
-
-                        //    double EvtVal = double.NaN;
-                        //    SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                        //    ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN, CtrlType.PSET, PGSET, Unit)
-                        //    {
-                        //        Processed = false,
-                        //        StartTime = Gtime,
-                        //        Active = true
-                        //    };
-                        //    m.GFG.FGEN.SceList.Add(evt);
-                        //    Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
-                        //            Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
-                        //}
-                        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAX_new = {3:0.0000} [MW]\t  PGMAX_old = {4:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(), PGMAX_old));
+                        Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
+                                    Gtime, Iter, m.GFG.FGEN, NewPmaxEventVal, OldPmaxEventVal, Iter - 1));
                     }
                     HasViolations = true;
                 }
@@ -467,11 +467,25 @@ namespace SAIntHelicsLib
                     }                        
                 }
                 if (GFG.FGEN != null)
-                { 
+                {
+                    bool PmaxEventExist = GFG.FGEN.SceList.Any(Event => Event.ObjPar == CtrlType.PMAX);
+
+                    if(!PmaxEventExist)
+                    {
+                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.MW);
+                        ScenarioEvent PmaxEvent = new ScenarioEvent(GFG.FGEN, CtrlType.QSET, double.PositiveInfinity, Unit)
+                        {
+                            Processed = false,
+                            Active = true,
+                            Info = "HELICS",
+                        };                        
+                        GFG.FGEN.SceList.Add(PmaxEvent);
+                        GFG.ENET.SCE.SceList.Add(PmaxEvent);
+                    }
+
                     for (int etime = 0; etime <= GFG.FGEN.ENET.SCE.NN; etime++)
                     {
                         mapitem.ElecPmax.Add(GFG.FGEN.get_PMAX(etime));
-                        mapitem.ElecPmin.Add(GFG.FGEN.get_PMIN(etime));
                     }                    
                 }
 

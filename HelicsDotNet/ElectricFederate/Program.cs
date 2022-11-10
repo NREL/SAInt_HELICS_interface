@@ -188,14 +188,24 @@ namespace HelicsDotNetSender
                         Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
                         Console.WriteLine("======================================================\n");
                         FirstTimeStep += 1;
-                    }                                      
+                    }
 
+                    DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
-                    {                        
-                            // Reset PMAX and PMIN 
-                        m.GFG.FGEN.PMAXDEF = m.ElecPmax[e.TimeStep];
-                        m.GFG.FGEN.PMINDEF = m.ElecPmin[e.TimeStep];
+                    {
+                        // Reset PMAX and PMIN 
+                        foreach (var evt in m.GFG.FGEN.SceList)
+                        {
+                            if (evt.ObjPar == CtrlType.PMAX)
+                            {                               
+                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                evt.ShowVal = string.Format("{0}", m.ElecPmax[e.TimeStep]);
+                                evt.Processed = false;
+                                evt.StartTime = Gtime;
+                                evt.Active = true;
+                            }
+                        }
                         m.IsPmaxChanged = false;
 
                         m.lastVal.Clear(); // Clear the list before iteration starts
