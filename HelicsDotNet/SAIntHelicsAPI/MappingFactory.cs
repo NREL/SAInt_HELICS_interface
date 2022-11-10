@@ -192,26 +192,23 @@ namespace SAIntHelicsLib
 
             foreach (ElectricGasMapping m in MappingList)
             {                
-                double pval = API.evalFloat(String.Format("GDEM.{0}.P.({1}).[bar-g]", m.GFG.GDEM.Name, gtime));
-                double PMIN = API.evalFloat(String.Format("{0}.PMIN.({1}).[bar-g]", m.GFG.GDEM.NetNode, gtime));
-
-                //double qval = API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime));
-                //double qval01 = API.evalFloat(String.Format("GDEM.{0}.Q.({1}).[sm3/s]", m.GFG.GDEM.Name, gtime));
-                double qval = m.GFG.GDEM.get_Q(gtime);                
-
-                //double GCV =  API.evalFloat(String.Format("GFG.{0}.GCV.({1}).[MJ/sm3]", m.GFG.Name, gtime * m.GFG.GDEM.Net.SCE.dt / 3600));                
+                double Pressure = API.evalFloat(String.Format("GDEM.{0}.P.({1}).[bar-g]", m.GFG.GDEM.Name, gtime));
+                double MinPressure = API.evalFloat(String.Format("{0}.PMIN.({1}).[bar-g]", m.GFG.GDEM.NetNode, gtime));
                 double GCV = m.GFG.get_GCV(gtime) / 1e6; // in MJ/m3
-                double qvalN15 = m.GFG.GDEM.get_Q(gtime);
+                
+                double qval01 = API.evalFloat(String.Format("{0}.Q.({1}).[MW]", m.GFG.GDEM, gtime));
+                double qval02 = API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime));
+                double GasOfftake = m.GFG.GDEM.get_Q(gtime);  
 
-                double ThermalPower  = qval * GCV; //Thermal power in [MW]
+                double ThermalPower  = GasOfftake * GCV; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.AvailableThermalPower, ThermalPower);
                 //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
-                h.helicsPublicationPublishDouble(m.PressureRelativeToPmin, pval - PMIN);
+                h.helicsPublicationPublishDouble(m.PressureRelativeToPmin, Pressure - MinPressure);
 
                 Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t P {4:0.0000} [bar-g]\t Q {5:0.0000} [sm3/s]", 
-                    Gtime, Iter, m.GFG.GDEM, ThermalPower, pval, qval));
+                    Gtime, Iter, m.GFG.GDEM, ThermalPower, Pressure, GasOfftake));
                 m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}", 
-                    gtime, Iter, pval, qval, ThermalPower, Gtime));
+                    gtime, Iter, Pressure, GasOfftake, ThermalPower, Gtime));
             }
         }
 
@@ -299,8 +296,6 @@ namespace SAIntHelicsLib
                         //    Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PSET({1}) = {3:0.0000} [MW] \t PSET({5}) = {4:0.0000} [MW]",
                         //            Gtime, Iter, m.GFG.FGEN, evt.ObjVal, EvtVal, Iter-1));
                         //}
-
-
                         Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PGMAX_new = {3:0.0000} [MW]\t  PGMAX_old = {4:0.0000} [MW]", Gtime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(), PGMAX_old));
                     }
                     HasViolations = true;
@@ -335,68 +330,70 @@ namespace SAIntHelicsLib
             foreach (ElectricGasMapping m in MappingList)
             {
                 // get publication from electric federate
-                double val = h.helicsInputGetDouble(m.RequieredThermalPower);
+                double RequieredThermalPower = h.helicsInputGetDouble(m.RequieredThermalPower);
                 //Gtime = m.GFG.GNET.SCE.StartTime;
 
                 if (Init == "Initialization")
                 {
-                    if (val < 0)
+                    if (RequieredThermalPower < 0)
                     {
                         HasViolations = true;
                     }
                     if (HasViolations) break;
                     else
                     {
-                        Console.WriteLine(String.Format("Gas-R: Initialization Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
+                        Console.WriteLine(String.Format("Gas-R: Initialization Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, RequieredThermalPower));
                         continue;
                     }
                 }
 
-                Console.WriteLine(String.Format("Gas-R: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, val));
+                Console.WriteLine(String.Format("Gas-R: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]", Gtime, Iter, m.GFG.GDEM, RequieredThermalPower));
 
-                m.lastVal.Add(val);
+                m.lastVal.Add(RequieredThermalPower);
 
                 //get currently available thermal power 
                 double GCV = m.GFG.get_GasNQ(gtime).GCV / 1e6;
 
-                //double pval = GCV*API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, gtime));                   
-                double pval = GCV * m.GFG.GDEM.get_Q(gtime);
+                double pval = API.evalFloat(String.Format("{0}.Q.({1}).[MW]", m.GFG.GDEM, gtime));                   
+                double AvailableThermalPower = GCV * m.GFG.GDEM.get_Q(gtime);
 
-                if (Math.Abs(pval - val) > eps )
+                if (Math.Abs(AvailableThermalPower - RequieredThermalPower) > eps )
                 {
+                    double OldEvtVal = double.NaN;
+                    double NewEvtVal = double.NaN;
                     int EventQset = 0;
                     foreach (ScenarioEvent evt in m.GFG.GDEM.SceList)
                     {                       
                         if (evt.ObjPar == CtrlType.QSET) 
                         {
                             EventQset += 1;
-                            double EvtVal = evt.ObjVal;
-                            evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                            evt.ShowVal = string.Format("{0}", val / GCV);
+                            OldEvtVal = evt.ObjVal;
+                            evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.MW);
+                            evt.ShowVal = string.Format("{0}", RequieredThermalPower);
                             evt.StartTime = Gtime;
                             evt.Processed = false;
                             evt.Active = true;
-
-                            Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [sm3/s]\t QSET({5}) = {4:0.0000} [sm3/s]",
-                                Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter-1));
+                            evt.Info = "HELICS";
+                            NewEvtVal = evt.ObjVal;
                         }
 
                     }
                     if (EventQset == 0)
                     {
-
-                        double EvtVal = double.NaN;
-                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                        ScenarioEvent evt = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, val / GCV, Unit)
+                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.MW);
+                        ScenarioEvent QsetEvent = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, RequieredThermalPower, Unit)
                         {
                             Processed = false,
                             StartTime = Gtime,
-                            Active = true
+                            Active = true,
+                            Info = "HELICS",
                         };
-                        m.GFG.GDEM.SceList.Add(evt);
-                        Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [sm3/s]\t QSET({5}) = {4:0.0000} [sm3/s]",
-                                Gtime, Iter, m.GFG.GDEM, evt.ObjVal, EvtVal, Iter - 1));
+                        NewEvtVal = QsetEvent.ObjVal;
+                        m.GFG.GDEM.SceList.Add(QsetEvent);
+                        m.GFG.GNET.SCE.SceList.Add(QsetEvent);
                     }
+                    Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [MW]\t QSET({5}) = {4:0.0000} [MW]",
+                        Gtime, Iter, m.GFG.GDEM, NewEvtVal, OldEvtVal, Iter - 1));
                     HasViolations = true;
                 }
                 else

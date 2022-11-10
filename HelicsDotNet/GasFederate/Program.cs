@@ -207,7 +207,7 @@ namespace HelicsDotNetReceiver
                     {
                         if (Iter < iter_max)
                         {
-                            MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
+                            MappingFactory.PublishAvailableThermalPower((int)granted_time + 1, Iter, MappingList);
                             e.RepeatTimeStep = 1;
                         }
                         else if (Iter == iter_max)

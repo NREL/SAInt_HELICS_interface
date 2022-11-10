@@ -219,7 +219,7 @@ namespace HelicsDotNetSender
                     {
                         if (Iter < iter_max)
                         {
-                            MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
+                            MappingFactory.PublishRequiredThermalPower((int)granted_time+1, Iter, MappingList);
                             e.RepeatTimeStep = 1;
                         }
                         else if (Iter == iter_max)
