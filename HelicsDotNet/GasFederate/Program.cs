@@ -207,7 +207,7 @@ namespace HelicsDotNetReceiver
                     {
                         if (Iter < iter_max)
                         {
-                            MappingFactory.PublishAvailableThermalPower((int)granted_time + 1, Iter, MappingList);
+                            MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeStep = 1;
                         }
                         else if (Iter == iter_max)
@@ -232,11 +232,11 @@ namespace HelicsDotNetReceiver
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        
-                        if(Iter > 2) // To make sure that data is published from current time step
+                        HasViolations = true;
+                        if (Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeStep= 0;
+                            e.RepeatTimeStep = 0;                            
                         }
                         
                     }
@@ -281,6 +281,7 @@ namespace HelicsDotNetReceiver
 
             // save SAInt output
             API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.xlsx");
+            API.exportGSCE(outputfolder + "GSCE.xlsx");
 
             // finalize federate
             h.helicsFederateFinalize(vfed);
