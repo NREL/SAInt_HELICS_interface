@@ -87,15 +87,11 @@ namespace HelicsDotNetSender
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.RequieredThermalPower = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName, "double", "");
-                m.AvailableThermalPower = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName, "");
-                m.PressureRelativeToPmin = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
-
-                for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                for (int i = 0; i < m.HorizonTimeSteps; i++)
                 {
-                    m.RequieredThermalPower02[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
-                    m.AvailableThermalPower02[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
-                    m.PressureRelativeToPmin02[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), ""); ;
+                    m.RequieredThermalPower[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
+                    m.AvailableThermalPower[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
+                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), ""); ;
                 }
 
                 //Streamwriter for writing iteration results into file
@@ -195,70 +191,62 @@ namespace HelicsDotNetSender
                 //if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
                 if (e.SolverState == SolverState.BeforeConsecutiveRun && e.TimeStep > 0)
                 {
-                    if (IsBeforeConsecutiveSimulation)
+                    Iter = 0; // Iteration number
+                    CountStepsInHorizon = 1;
+                    CountHorizons += 1;
+                    int HorizonTimeStepStart = (CountHorizons - 1) * HorizonTimeSteps;
+                    HasViolations = true;
+                    if (FirstTimeStep == 0)
                     {
-                        Iter = 0; // Iteration number
-                        CountStepsInHorizon = 1;
-                        CountHorizons += 1;
-                        int HorizonTimeStepStart = (CountHorizons - 1) * HorizonTimeSteps;
-                        HasViolations = true;
-
-                        if (FirstTimeStep == 0)
+                        Console.WriteLine("======================================================\n");
+                        Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
+                        Console.WriteLine("======================================================\n");
+                        FirstTimeStep += 1;
+                    }
+                    // Reset nameplate capacity
+                    foreach (ElectricGasMapping m in MappingList)
+                    {
+                        bool IsThereFMAXEvent = m.GFG.FGEN.SceList.Any(evt => evt.ObjPar == CtrlType.PMAX);
+                        // Reset PMAX 
+                        for (int i = 0; i < m.HorizonTimeSteps; i++)
                         {
-                            Console.WriteLine("======================================================\n");
-                            Console.WriteLine("\nElectric: Entering Main Co-simulation Loop");
-                            Console.WriteLine("======================================================\n");
-                            FirstTimeStep += 1;
-                        }
-
-                        // Reset nameplate capacity
-                        foreach (ElectricGasMapping m in MappingList)
-                        {
-                            bool IsThereFMAXEvent = m.GFG.FGEN.Fuel.SceList.Any(evt => evt.ObjPar == CtrlType.FMAX);
-                            // Reset PMAX and PMIN 
-                            for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                            DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, (HorizonTimeStepStart + i) * (int)ENET.SCE.dt);
+                            if (!IsThereFMAXEvent)
                             {
-                                DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, (HorizonTimeStepStart + i) * (int)ENET.SCE.dt);
-
-                                if (!IsThereFMAXEvent)
-                                    {
-                                    SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                                    ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN.Fuel, CtrlType.FMAX, m.GenFuelMax[HorizonTimeStepStart + i], Unit)
-                                    {
-                                        Processed = false,
-                                        StartTime = Etime,
-                                        Active = true
-                                    };
-                                }
-                                else
+                                SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                                ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN, CtrlType.PMAX, m.ElecPmax[HorizonTimeStepStart + i], Unit)
                                 {
-                                    foreach (ScenarioEvent evt in m.GFG.FGEN.Fuel.SceList.Where(Event =>Event.ObjPar==CtrlType.FMAX))
-                                    {
-                                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);                                        
-                                        {
-                                            evt.Unit = Unit;
-                                            evt.ShowVal = string.Format("{0}", m.GenFuelMax[HorizonTimeStepStart + i]);
-                                            evt.Processed = false;
-                                            evt.StartTime = Etime;
-                                            evt.Active = true;
-                                        };
-                                    }
-                                }
-                                m.IsFmaxChanged[i] = false;
-
-                                // Clear the list before iteration starts
-                                //m.LastVal.Clear();
-                                m.LastVal02[i].Clear();
+                                    Processed = false,
+                                    StartTime = Etime,
+                                    Active = true,
+                                    Info = "HELICS"
+                                };
+                                m.GFG.FGEN.SceList.Add(evt);
+                                m.GFG.ENET.SCE.SceList.Add(evt);
                             }
-
+                            else
+                            {
+                                SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.sm3_s);
+                                foreach (ScenarioEvent evt in m.GFG.FGEN.SceList.Where(Event =>Event.ObjPar==CtrlType.PMAX))
+                                {
+                                    evt.Unit = Unit;
+                                    evt.ShowVal = string.Format("{0}", m.ElecPmax[HorizonTimeStepStart + i]);
+                                    evt.Processed = false;
+                                    evt.StartTime = Etime;
+                                    evt.Active = true;
+                                    evt.Info = "HELICS";
+                                    m.GFG.FGEN.SceList.Add(evt);
+                                    m.GFG.ENET.SCE.SceList.Add(evt);
+                                }
+                            }
+                            // Clear the list before iteration starts
+                            m.LastVal[i].Clear();
                         }
                     }
-
                     // Set time step info
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
                     IterationInfo.Add(currenttimestep);
                 }
-
                 if ( e.SolverState == SolverState.AfterConsecutiveRun && e.TimeStep > 0)
                 {
 #if !DEBUG 
@@ -273,8 +261,7 @@ namespace HelicsDotNetSender
                         if (Iter < iter_max)
                         {
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = true;
-                            e.RepeatedTimeSteps = 1;
+                            e.RepeatConsecutiveRun = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -301,7 +288,7 @@ namespace HelicsDotNetSender
                          if (Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = false;
+                            e.RepeatConsecutiveRun = 0;
                         }
                     }
                     else
@@ -345,6 +332,7 @@ namespace HelicsDotNetSender
 
             // save SAInt output
             API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.txt");
+            API.exportESCE(outputfolder + "ESCE.xlsx");
 
             using (FileStream fs=new FileStream(outputfolder + "TimeStepIterationInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
             {   

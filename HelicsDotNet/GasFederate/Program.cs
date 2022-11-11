@@ -84,15 +84,11 @@ namespace HelicsDotNetReceiver
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                m.AvailableThermalPower = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName, "double", "");
-                m.PressureRelativeToPmin = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "double", "");
-                m.RequieredThermalPower = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName, "");
-
-                for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                for (int i = 0; i < m.HorizonTimeSteps; i++)
                 {
-                    m.RequieredThermalPower02[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), ""); ;
-                    m.AvailableThermalPower02[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
-                    m.PressureRelativeToPmin02[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
+                    m.RequieredThermalPower[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), ""); ;
+                    m.AvailableThermalPower[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
+                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
                 }
 
                 //Streamwriter for writing iteration results into file
@@ -210,10 +206,10 @@ namespace HelicsDotNetReceiver
 
                         foreach (ElectricGasMapping m in MappingList)
                         {
-                            for (int i = 1; i <= m.HorizonTimeSteps; i++)
+                            for (int i = 0; i < m.HorizonTimeSteps; i++)
                             {
-                                //m.LastVal.Clear(); // Clear the list before iteration starts
-                                m.LastVal02[i].Clear();
+                                // Clear the list before iteration starts
+                                m.LastVal[i].Clear();
                             }
 
                         }
@@ -232,8 +228,7 @@ namespace HelicsDotNetReceiver
                         if (Iter < iter_max)
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = true;
-                            e.RepeatedTimeSteps = HorizonTimeSteps;
+                            e.RepeatTimeStep = (uint)HorizonTimeSteps;
                         }
                         else if (Iter == iter_max)
                         {
@@ -261,7 +256,7 @@ namespace HelicsDotNetReceiver
                         if(Iter > 2) // To make sure that data is published from current time step
                         {
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = false;
+                            e.RepeatTimeStep = 0;
                         }
                         
                     }
@@ -279,7 +274,7 @@ namespace HelicsDotNetReceiver
                 // ACOPF starts at time step 1, while dynamic gas starts at time step = 0
                 else if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep == 0)
                 {
-                    e.RepeatTimeIntegration = false;
+                    e.RepeatTimeStep = 0;
                 }
 
             };
@@ -312,6 +307,7 @@ namespace HelicsDotNetReceiver
 
             // save SAInt output
             API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
+            API.exportGSCE(outputfolder + "GSCE.xlsx");
 
             using (FileStream fs = new FileStream(outputfolder + "TimeStepIterationInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
