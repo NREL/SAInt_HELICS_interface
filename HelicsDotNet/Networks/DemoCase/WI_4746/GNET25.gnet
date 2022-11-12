@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<GasNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="6d3a924e3bd244f88c72df028a56b022" ModelOrigin="Unknown" ModelName="GNET25" TimeCreated="2016-12-03T16:12:40.3266212+01:00" TimeModified="2022-11-07T16:12:30.130395+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="2.143589" CSSize="1.2" CVSize="1.1" VASize="1.1" RESize="1.1" Pn="101325" Tn="273.15" visc="1E-05" kappa="1.3" PAMB="101325" TAMBDEF="288.15" Z_1="-0.0027" Z_2="7E-05" Pz_b="3000000">
+<GasNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="6d3a924e3bd244f88c72df028a56b022" ModelOrigin="Unknown" ModelName="GNET25" TimeCreated="2016-12-03T16:12:40.3266212+01:00" TimeModified="2022-11-12T13:14:02.6665773+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="2.143589" CSSize="1.2" CVSize="1.1" VASize="1.1" RESize="1.1" Pn="101325" Tn="273.15" visc="1E-05" kappa="1.3" PAMB="101325" TAMBDEF="288.15" Z_1="-0.0027" Z_2="7E-05" Pz_b="3000000">
   <Constraints />
   <Nodes>
     <Node xsi:type="GasNodeX" UID="ccd6aacfde8a4d4e8a9b4bdb4cabe8af" Name="N00" Alias="" InService="true" Info="-" Visible="true" X="-2.5" Y="4.1" ZoneName="ZONE1" H="50" Lat="0" Long="0" PMAXDEF="6101324.9999999991" PMAXPRCDEF="1000" PMINDEF="2101325" PMINPRCDEF="1000">
@@ -97,7 +97,7 @@
     <External xsi:type="GasDemandX" UID="dfe7c227bf7044a6915dc82e564278ba" Name="N14" Alias="" InService="true" Info="-" Visible="true" X="-0.10000000149011612" Y="-8.1000003814697266" Lat="0" Long="0" NodeUID="c3d4c28ab3704ba594fe838e17044804" QMAXDEF="0.069444444444444448" QMAXPRCDEF="INF">
       <Groups />
     </External>
-    <External xsi:type="GasDemandX" UID="e15a40f742ad4b44b4a94cdb438bd266" Name="N15" Alias="" InService="true" Info="-" Visible="false" X="-3.0999999046325684" Y="-8.1000003814697266" Lat="0" Long="0" NodeUID="2c1d8a79a4f9485793a76ae57b505359" QMAXDEF="5.5555555555555554" QMAXPRCDEF="INF">
+    <External xsi:type="GasDemandX" UID="e15a40f742ad4b44b4a94cdb438bd266" Name="N15" Alias="" InService="true" Info="-" Visible="false" X="-3.0999999046325684" Y="-8.1000003814697266" Lat="0" Long="0" NodeUID="2c1d8a79a4f9485793a76ae57b505359" QMAXDEF="8.3333333333333339" QMAXPRCDEF="INF">
       <Groups />
     </External>
     <External xsi:type="GasDemandX" UID="f0a8a09d813547978ceb5458374090c7" Name="N16" Alias="" InService="true" Info="-" Visible="true" X="4" Y="5" Lat="0" Long="0" NodeUID="e99a54c2d4764737bb2a36a98dca1edc" QMAXDEF="0.066666666666666666" QMAXPRCDEF="INF">

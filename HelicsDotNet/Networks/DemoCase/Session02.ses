@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<SessionInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="b3c87330-953d-4a15-a433-9c0339d7d0c2" DisplayTime="2016-12-02T06:00:00">
+  <OpenedScenarios>
+    <OpenedScenario>WI_4746\CASE1.esce</OpenedScenario>
+    <OpenedScenario>WI_4746\CASE1.gsce</OpenedScenario>
+  </OpenedScenarios>
+  <ProjectFilePath>DemoCase.prj</ProjectFilePath>
+  <OpenedTables>
+    <Item>EPRF</Item>
+    <Item>EPRFDATA</Item>
+    <Item>table('GDEM.N15.Q.(%)','FGEN.BUS001.P.(%)','GDEM.N20.Q.(%)','FGEN.BUS022.P.(%)','GDEM.N21.Q.(%)', 'FGEN.BUS026.P.(%)')</Item>
+  </OpenedTables>
+  <OpenedPyScripts />
+  <OpenedCharts />
+  <OpenedEditors />
+  <OpenedMaps>
+    <MapState UID="7af575571eb545258b5de93df5cae0f0">
+      <NodeBar IsBranchShown="true" IsExternalShown="true" IsObjIDShown="false" IsClusteringModeOn="false">
+        <BackgroundColor>NamedColor:White</BackgroundColor>
+      </NodeBar>
+      <MapTransform XMAX="7" XMIN="-27.6238213" YMAX="15.56683" YMIN="-19.0569916" XFOFF="391.2942" YFOFF="154.911835" XFSCALE="7.78654671" YFSCALE="-7.78654671" XOFF="391.2942" YOFF="154.911835" XSCALE="7.78654671" YSCALE="-7.78654671" MapScale="388.3136" NormScale="388.3136" Zoom="100" MapHeight="337" MapWidth="622" MapLength="269.6" MapFrameX="176.2" MapFrameY="33.6999969" MapDpi="96" FrameWidth="0.1" NetVisible="GAS ELECTRIC HUBS" UID="e200daf5-d701-4ca8-88df-a8ac6ca2551e" mouseLabelResize="false" ShowLabels="true" ShowPolygons="true" ShowLineArrows="true" ShowNodes="true" ShowGrid="false" ShowFullViewBox="true" ShowTimeStamp="true" ShowRuler="true" HoldLineLeg="false" HoldGasPipeLeg="false" HoldGasNodeLeg="false" HoldBusLeg="false" HoldThermalNodeLeg="false" HoldThermalPipeLeg="false" HoldLiquidNodeLeg="false" HoldLiquidPipeLeg="false" GridDensity="6" FullView="false" RefreshFullViewRect="false" FullViewFocused="false" ExternalMapFocused="false" zoomRectFocused="false">
+        <MouseGeo>
+          <X>-13.1372986</X>
+          <Y>-22.3575573</Y>
+        </MouseGeo>
+        <MouseGeoFB>
+          <X>7.410963</X>
+          <Y>10.9049416</Y>
+        </MouseGeoFB>
+        <gp>
+          <FillMode>Alternate</FillMode>
+        </gp>
+        <FullViewRect>
+          <Location>
+            <X>25</X>
+            <Y>50</Y>
+          </Location>
+          <Size>
+            <Width>108</Width>
+            <Height>108</Height>
+          </Size>
+          <X>25</X>
+          <Y>50</Y>
+          <Width>108</Width>
+          <Height>108</Height>
+        </FullViewRect>
+        <ExternalMapRect>
+          <Location>
+            <X>0</X>
+            <Y>0</Y>
+          </Location>
+          <Size>
+            <Width>0</Width>
+            <Height>0</Height>
+          </Size>
+          <X>0</X>
+          <Y>0</Y>
+          <Width>0</Width>
+          <Height>0</Height>
+        </ExternalMapRect>
+        <zoomRectInFullRect>
+          <Location>
+            <X>0</X>
+            <Y>0</Y>
+          </Location>
+          <Size>
+            <Width>622</Width>
+            <Height>337</Height>
+          </Size>
+          <X>0</X>
+          <Y>0</Y>
+          <Width>622</Width>
+          <Height>337</Height>
+        </zoomRectInFullRect>
+        <GeoRect>
+          <Location>
+            <X>-50.2525978</X>
+            <Y>-23.38497</Y>
+          </Location>
+          <Size>
+            <Width>79.88137</Width>
+            <Height>43.2797775</Height>
+          </Size>
+          <X>-50.2525978</X>
+          <Y>-23.38497</Y>
+          <Width>79.88137</Width>
+          <Height>43.2797775</Height>
+        </GeoRect>
+        <MouseAction>Normal</MouseAction>
+      </MapTransform>
+      <SingelValueControl>
+        <Pair Name="btnholdliquidnodelegend" Value="Off" />
+        <Pair Name="btnshowtimestamp" Value="On" />
+        <Pair Name="btnelementarrowonoff" Value="On" />
+        <Pair Name="btnturnonoffpolygons" Value="On" />
+        <Pair Name="btnholdheatnodelegend" Value="Off" />
+        <Pair Name="btnshowgrid" Value="Off" />
+        <Pair Name="cmbxelectricbranchlegend" Value="-1" />
+        <Pair Name="cmbxnodelegend" Value="-1" />
+        <Pair Name="cmbxheatpipelegend" Value="6" />
+        <Pair Name="btnelectricnodelegendloglinear" Value="Off" />
+        <Pair Name="btnturnonofflabels" Value="On" />
+        <Pair Name="btnnodelegendloglinear" Value="Off" />
+        <Pair Name="btnholdelectricnodelegend" Value="Off" />
+        <Pair Name="btnholdliquidpipelegend" Value="Off" />
+        <Pair Name="btnholdgaspipelegend" Value="Off" />
+        <Pair Name="btnliquidnodelegendloglinear" Value="Off" />
+        <Pair Name="btnshowruler" Value="On" />
+        <Pair Name="cmbxelectricnodelegend" Value="-1" />
+        <Pair Name="btnheatnodelegendloglinear" Value="Off" />
+        <Pair Name="btnholdelectricbranchlegend" Value="Off" />
+        <Pair Name="cmbxliquidnodelegend" Value="0" />
+        <Pair Name="btnholdheatpipelegend" Value="Off" />
+        <Pair Name="cmbxpipelegend" Value="-1" />
+        <Pair Name="btnshownodes" Value="On" />
+        <Pair Name="cmbxliquidpipelegend" Value="6" />
+        <Pair Name="mapfilter1" Value="19" />
+        <Pair Name="btnshowfullviewbox" Value="On" />
+        <Pair Name="btnholdgasnodelegend" Value="Off" />
+        <Pair Name="cmbxheatnodelegend" Value="0" />
+        <Pair Name="trackbarmapgrid" Value="6" />
+      </SingelValueControl>
+    </MapState>
+  </OpenedMaps>
+</SessionInfo>
