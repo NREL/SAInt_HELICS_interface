@@ -505,7 +505,7 @@ namespace SAIntHelicsLib
 
         public List<double> GasQSET = new List<double>();
 
-        public int HorizonTimeSteps = 24;  // Used for federates having different time horizons 
+        public int HorizonTimeSteps = 4;  // Used for federates having different time horizons 
 
         //public List<double> LastVal = new List<double>();
 
