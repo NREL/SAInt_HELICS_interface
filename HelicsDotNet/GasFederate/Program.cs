@@ -37,7 +37,7 @@ namespace HelicsDotNetReceiver
             //API.openGCON(netfolder + "STEADY_GAS.gcon");
 
             string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\DCUCOPF_DynGas\";
             API.openGNET(netfolder + "GNET25.gnet");
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
             API.openGSCE(netfolder + "CASE1.gsce");
@@ -130,10 +130,9 @@ namespace HelicsDotNetReceiver
             int helics_iter_status = 3;
 
             int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
-            int CountStepsInHorizon = 1;
+            int TimeStepCounts = 0;
             int CountHorizons = 0;
-            bool IsBeforeConsecutiveRun = true;
-            bool IsAfterConsecutiveRunn = false;
+            bool HorizonCompleted = false;
 
             double granted_time = 0;
             double requested_time;
@@ -187,11 +186,11 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep>0) 
                 {
-                    if (IsBeforeConsecutiveRun)
+                    if (!HorizonCompleted)
                     {
                         Iter = 0; // Iteration number
-                        CountStepsInHorizon = 1;
-                        CountHorizons += 1;
+                        TimeStepCounts += 1;
+                        //CountHorizons += 1;
                         HasViolations = true;
 
                         if (FirstTimeStep == 0)
@@ -201,18 +200,21 @@ namespace HelicsDotNetReceiver
                             Console.WriteLine("======================================================\n");
                             FirstTimeStep += 1;
                         }
-
-                        IsBeforeConsecutiveRun = false;
+                        if (TimeStepCounts== HorizonTimeSteps)
+                        {
+                            HorizonCompleted = true;
+                        }
+                        
 
                         foreach (ElectricGasMapping m in MappingList)
                         {
-                            for (int i = 0; i < m.HorizonTimeSteps; i++)
-                            {
-                                // Clear the list before iteration starts
-                                m.LastVal[i].Clear();
-                            }
-
+                            // Clear the list before iteration starts
+                            m.LastVal[TimeStepCounts].Clear();                           
                         }
+                    }
+                    else
+                    {
+
                     }
 
                     // Set time step info
@@ -222,6 +224,10 @@ namespace HelicsDotNetReceiver
 
                 if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
                 {
+                    if(!HorizonCompleted)
+                    {
+
+                    }
                     // Publish if it is repeating and has violations so that the iteration continues
                     if (HasViolations)
                     {
