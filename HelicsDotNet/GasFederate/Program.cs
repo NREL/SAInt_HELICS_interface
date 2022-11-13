@@ -130,9 +130,11 @@ namespace HelicsDotNetReceiver
             int helics_iter_status = 3;
 
             int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
+            int HorizonTimeStepStart = 1;
             int TimeStepCounts = 0;
             int CountHorizons = 0;
             bool HorizonCompleted = false;
+            bool NewHorizon = false;
 
             double granted_time = 0;
             double requested_time;
@@ -183,16 +185,31 @@ namespace HelicsDotNetReceiver
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
-
-                if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep>0) 
+                if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
                 {
-                    if (!HorizonCompleted)
+                    if (NewHorizon)
                     {
-                        Iter = 0; // Iteration number
-                        TimeStepCounts += 1;
-                        //CountHorizons += 1;
-                        HasViolations = true;
+                        CountHorizons += 1;
+                        HorizonTimeStepStart = e.TimeStep;
+                        foreach (ElectricGasMapping m in MappingList)
+                        {
+                            for (int i = 0; i < m.HorizonTimeSteps; i++)
+                            {
+                                // Clear the list before iteration starts
+                                m.LastVal[i].Clear();
+                            }
+                        }
+                        NewHorizon = false;
+                        HorizonCompleted = false;
+                        Iter = 0;
+                        // Set horizon iteration info
+                        currenttimestep = new TimeStepInfo() {timestep = CountHorizons, itersteps = Iter};
 
+                        IterationInfo.Add(currenttimestep);
+                        HasViolations = false;
+                    }
+                    if(!HorizonCompleted)
+                    {
                         if (FirstTimeStep == 0)
                         {
                             Console.WriteLine("======================================================\n");
@@ -200,81 +217,67 @@ namespace HelicsDotNetReceiver
                             Console.WriteLine("======================================================\n");
                             FirstTimeStep += 1;
                         }
-                        if (TimeStepCounts== HorizonTimeSteps)
+
+                        e.RepeatTimeStep = 0;
+                        TimeStepCounts += 1;
+                        if (TimeStepCounts == HorizonTimeSteps)
                         {
                             HorizonCompleted = true;
-                        }
-                        
-
-                        foreach (ElectricGasMapping m in MappingList)
-                        {
-                            // Clear the list before iteration starts
-                            m.LastVal[TimeStepCounts].Clear();                           
+                            TimeStepCounts = 0;
                         }
                     }
                     else
                     {
+                        // Publish if it is repeating and has violations so that the iteration continues
+                        if (HasViolations)
+                        {                        
+                            if (Iter < iter_max)
+                            {
+                                MappingFactory.PublishAvailableThermalPower(HorizonTimeStepStart, Iter, MappingList);
+                                e.RepeatTimeStep = (uint)HorizonTimeSteps;
+                            }
+                            else if (Iter == iter_max)
+                            {
+                                granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
 
-                    }
-
-                    // Set time step info
-                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
-                    IterationInfo.Add(currenttimestep);
-                }
-
-                if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep > 0)
-                {
-                    if(!HorizonCompleted)
-                    {
-
-                    }
-                    // Publish if it is repeating and has violations so that the iteration continues
-                    if (HasViolations)
-                    {
-                        if (Iter < iter_max)
-                        {
-                            MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeStep = (uint)HorizonTimeSteps;
+                                CurrentDiverged = new TimeStepInfo() { timestep = CountHorizons, itersteps = Iter};
+                                NotConverged.Add(CurrentDiverged);
+                                Console.WriteLine($"Gas: Horizon {CountHorizons} Iteration Not Converged!");
+                            }
                         }
-                        else if (Iter == iter_max)
+                        else
                         {
-                            CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
-                            NotConverged.Add(CurrentDiverged);
-                            Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Not Converged!");
+                            granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
+                            Console.WriteLine($"Gas: Horizon {CountHorizons} Iteration Converged!");
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Converged!");
-                    }
 
-                    //Iterative HELICS time request
-                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                    Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
+                        //Iterative HELICS time request
+                        //Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
+                        Console.WriteLine($"\nGas Requested Time: {CountHorizons}, iteration: {Iter}");
 
-                    granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
+                        granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
 
-                    Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
+                        Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
 
-                    if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-                    {
-                        
-                        if(Iter > 2) // To make sure that data is published from current time step
+                        if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                         {
-                            Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeStep = 0;
-                        }
-                        
-                    }
-                    else
-                    {  
-                        // get requested thermal power from connected gas plants, determine if there are violations
-                        HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
-                    }
+                            Console.WriteLine($"Gas: Horizon {CountHorizons} Iteration Stopped!\n");
+                                e.RepeatTimeStep = 0;
 
-                    // Counting iterations
-                    Iter += 1;
-                    currenttimestep.itersteps += 1;
+                            NewHorizon = true;
+                        }
+                        else
+                        {
+                            // get requested thermal power from connected gas plants, determine if there are violations
+                            HasViolations = MappingFactory.SubscribeToRequiredThermalPower(HorizonTimeStepStart, Iter, MappingList);
+
+                            // Counting iterations
+                            Iter += 1;
+                            currenttimestep.itersteps += 1;
+                        }
+
+                        HorizonCompleted = false;
+                    }
                 }
 
                 // ACOPF starts at time step 1, while dynamic gas starts at time step = 0
@@ -315,14 +318,14 @@ namespace HelicsDotNetReceiver
             API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.txt");
             API.exportGSCE(outputfolder + "GSCE.xlsx");
 
-            using (FileStream fs = new FileStream(outputfolder + "TimeStepIterationInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream(outputfolder + "HorizonsIterationInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t\t\t\t\t TimeStep \t\t IterStep");
+                    sw.WriteLine("TimeStep \t\t IterStep");
                     foreach (TimeStepInfo x in IterationInfo)
                     {
-                        sw.WriteLine(String.Format("{0} \t\t {1}\t\t\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t\t\t{1}", x.timestep, x.itersteps));
                     }
                 }
 
@@ -331,26 +334,25 @@ namespace HelicsDotNetReceiver
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
+                    sw.WriteLine("Horizon \t IterStep");
                     foreach (TimeStepInfo x in NotConverged)
                     {
-                        sw.WriteLine(String.Format("{0} \t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t\t{1}", x.timestep, x.itersteps));
                     }
                 }
-
             }
 
-            // Diverging time steps
+            // Diverging tHorizons
             if (NotConverged.Count == 0)
-                Console.WriteLine("Gas: There is no diverging time step");
+                Console.WriteLine("Gas: There is no diverging Horizon");
             else
             {
-                Console.WriteLine("Gas: the solution diverged at the following time steps:");
+                Console.WriteLine("Gas: the solution diverged at the following Horizons:");
                 foreach (TimeStepInfo x in NotConverged)
                 { 
-                    Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); 
+                    Console.WriteLine($"Horizon {x.timestep}"); 
                 }
-                Console.WriteLine($"Gas: The total number of diverging time steps = { NotConverged.Count }");
+                Console.WriteLine($"Gas: The total number of diverging Horizons = { NotConverged.Count }");
             }
 
             foreach (ElectricGasMapping m in MappingList)

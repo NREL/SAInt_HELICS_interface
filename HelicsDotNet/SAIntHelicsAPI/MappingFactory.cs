@@ -200,7 +200,7 @@ namespace SAIntHelicsLib
 
             foreach (ElectricGasMapping m in MappingList)
             {
-                for (int i=0; i < HorizonTimeSteps; i++)
+                for (int i = 0; i < HorizonTimeSteps; i++)
                 {
                     gtime = i + HorizonTimeStepStart;
                     DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
@@ -239,7 +239,7 @@ namespace SAIntHelicsLib
 
             foreach (ElectricGasMapping m in MappingList)
             {                
-                for (int i=0; i < HorizonTimeSteps; i++)
+                for (int i = 0; i < HorizonTimeSteps; i++)
                 {
                     etime = HorizonTimeStepStart + i;
                     DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
@@ -303,9 +303,8 @@ namespace SAIntHelicsLib
                     else
                     { int Count = m.LastVal[i].Count;
                         if (Count > 2)
-                        {
-                            //if ((Math.Abs(m.lastVal[m.lastVal.Count - 1] - m.lastVal[m.lastVal.Count - 2]) > eps) || (Math.Abs(m.lastVal[m.lastVal.Count - 2] - m.lastVal[m.lastVal.Count - 3]) > eps))
-                            if (Math.Abs(m.LastVal[i][Count - 1] - m.LastVal[i][Count - 2]) > eps)
+                        {                            
+                            if ((Math.Abs(m.LastVal[i][Count - 1] - m.LastVal[i][Count - 2]) > eps) || (Math.Abs(m.LastVal[i][Count - 2] - m.LastVal[i][Count - 3]) > eps))
                             {
                                 HasViolations = true;
                             }
