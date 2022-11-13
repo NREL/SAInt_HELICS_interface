@@ -45,7 +45,6 @@ namespace HelicsDotNetSender
             string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
             API.openENET(netfolder + "ENET30.enet");
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            //API.openESCE(netfolder + "CASE1.esce");
             API.openESCE(netfolder + "PCM001.esce");
             API.openECON(netfolder + "CMBSTEOPF.econ");
 
