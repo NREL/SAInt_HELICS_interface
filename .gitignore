@@ -4,6 +4,7 @@
 # bin/obj folders
 bin/
 obj/
+Networks/
 
 # vs files
 .vs

@@ -28,19 +28,19 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
-            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openGSCE(netfolder + "DYN_GAS.gsce");
-            //API.openGCON(netfolder + "STEADY_GAS.gcon");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            API.openGSCE(netfolder + "DYN_GAS.gsce");
+            API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openGNET(netfolder + "GNET25.gnet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openGSCE(netfolder + "CASE1.gsce");
-            API.openGCON(netfolder + "CMBSTEOPF.gcon");
+            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            //API.openGNET(netfolder + "GNET25.gnet");
+            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openGSCE(netfolder + "CASE1.gsce");
+            //API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
@@ -107,8 +107,8 @@ namespace HelicsDotNetReceiver
 
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
-            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {iter_max}");
+            int Iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
+            Console.WriteLine($"Max iterations per time step: {Iter_max}");
 
             // Switch to release mode to enable console output to file
 #if !DEBUG
@@ -205,13 +205,14 @@ namespace HelicsDotNetReceiver
                     // Publish if it is repeating and has violations so that the iteration continues
                     if (HasViolations)
                     {
-                        if (Iter < iter_max)
+                        if (Iter < Iter_max)
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
                             e.RepeatTimeIntegration = 1;
                         }
-                        else if (Iter == iter_max)
+                        else if (Iter == Iter_max)
                         {
+                            granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                             CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
                             NotConverged.Add(CurrentDiverged);
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Not Converged!");
@@ -219,6 +220,7 @@ namespace HelicsDotNetReceiver
                     }
                     else
                     {
+                        granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                         Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Converged!");
                     }
 
@@ -232,13 +234,8 @@ namespace HelicsDotNetReceiver
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                        HasViolations = true;
-                        if (Iter > 2) // To make sure that data is published from current time step
-                        {
-                            Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = 0;                            
-                        }
-                        
+                        Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
+                            e.RepeatTimeIntegration = 0; 
                     }
                     else
                     {  

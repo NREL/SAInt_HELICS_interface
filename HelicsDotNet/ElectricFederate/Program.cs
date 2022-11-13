@@ -32,19 +32,19 @@ namespace HelicsDotNetSender
 
             MappingFactory.WaitForAcknowledge();
 
-            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            //API.openENET(netfolder + "GasFiredGenerator.enet");
-            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openESCE(netfolder + "QDYNACOPF.esce");
-            //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openENET(netfolder + "GasFiredGenerator.enet");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            API.openESCE(netfolder + "QDYNACOPF.esce");
+            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openENET(netfolder + "ENET30.enet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openESCE(netfolder + "CASE1.esce");
-            API.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            //API.openENET(netfolder + "ENET30.enet");
+            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openESCE(netfolder + "CASE1.esce");
+            //API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
@@ -234,6 +234,8 @@ namespace HelicsDotNetSender
                         }
                         else if (Iter == iter_max)
                         {
+                            granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
+
                             CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
                             NotConverged.Add(CurrentDiverged);
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Not Converged!");
@@ -241,6 +243,7 @@ namespace HelicsDotNetSender
                     }
                     else
                     {
+                        granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                         Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Converged!");
                     }
 
@@ -254,11 +257,8 @@ namespace HelicsDotNetSender
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
-                         if (Iter > 2) // To make sure that data is published from current time step
-                        {
-                            Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = 0;
-                        }
+                        Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
+                            e.RepeatTimeIntegration = 0;                     
                     }
                     else
                     {
