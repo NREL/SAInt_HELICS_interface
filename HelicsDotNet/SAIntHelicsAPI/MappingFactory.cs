@@ -347,8 +347,10 @@ namespace SAIntHelicsLib
                     double NewEvtVal = QsetEvent.ObjVal;     
                     m.GFG.GDEM.SceList.Add(QsetEvent);
                     m.GFG.GNET.SCE.SceList.Add(QsetEvent);
-                    Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET({1}) = {3:0.0000} [MW]",
-                        Gtime, Iter, m.GFG.GDEM, NewEvtVal));
+
+                    Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET = {3:0.0000} [MW]",
+                        Gtime, Iter, m.GFG.GDEM, m.GFG.GDEM.get_QSET(gtime)));
+
                     HasViolations = true;
                 }
                 else
@@ -372,13 +374,13 @@ namespace SAIntHelicsLib
 
         public static double GetActivePowerFromAvailableThermalPower(ElectricGasMapping m, double Pth, double initVal)
         {
-            Func<double,double> GetHR = (x) => m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
-            Func<double, double> Get_dF = (x) => 3.6 * Pth - x * GetHR(x);
-            Func<double, double> GetdF_by_dx = (x) => -(m.GFG.FGEN.HR0 + 2*m.GFG.FGEN.HR1 * x + 3*m.GFG.FGEN.HR2 * x * x);
+            double GetHR (double x) => m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
+            double Get_dF (double x) => 3.6 * Pth - x * GetHR(x);
+            double GetdF_by_dx (double x) => -(m.GFG.FGEN.HR0 + 2*m.GFG.FGEN.HR1 * x + 3*m.GFG.FGEN.HR2 * x * x);
 
             int maxiter = 30;
             int i=0;
-            double p=initVal;
+            double p = initVal;
             double Residual;
 
             while (i<maxiter)
