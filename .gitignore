@@ -10,8 +10,10 @@ bin/
 obj/
 
 # Network folders
-/HelicsDotNet/Networks/**
-/HelicsDotNet/Networks/GasFiredGenerator/**
+!/HelicsDotNet/Networks/**/*.enet
+/HelicsDotNet/Networks/GasFiredGenerator/
+/HelicsDotNet/Networks/WI_4746/
+/HelicsDotNet/Networks/GasFiredGenerator/QDYNACOPF.econ
 # vs files
 .vs
 

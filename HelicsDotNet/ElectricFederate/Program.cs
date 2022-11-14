@@ -9,10 +9,11 @@ using System.IO;
 using SAIntHelicsLib;
 
 //using SAInt_API.Model.Network.NetSystem;
-//using SAInt_API.Model.Scenarios;
+using SAInt_API.Model.Scenarios;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
+using System.Linq;
 
 namespace HelicsDotNetSender
 {
@@ -32,19 +33,19 @@ namespace HelicsDotNetSender
 
             MappingFactory.WaitForAcknowledge();
 
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            API.openENET(netfolder + "GasFiredGenerator.enet");
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            API.openESCE(netfolder + "QDYNACOPF.esce");
-            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            //API.openENET(netfolder + "GasFiredGenerator.enet");
+            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            //API.openESCE(netfolder + "QDYNACOPF.esce");
+            //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
-            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            //API.openENET(netfolder + "ENET30.enet");
-            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            //API.openESCE(netfolder + "CASE1.esce");
-            //API.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            API.openENET(netfolder + "ENET30.enet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openESCE(netfolder + "CASE1.esce");
+            API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
@@ -190,22 +191,35 @@ namespace HelicsDotNetSender
                         FirstTimeStep += 1;
                     }
 
-                    DateTime Gtime = ENET.SCE.StartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
+                    DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
                     {
-                        // Reset PMAX and PMIN 
-                        foreach (var evt in m.GFG.FGEN.SceList)
+                        // Reset PMAX
+                        bool PmaxEventList = m.GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == Etime);
+                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                        if (PmaxEventList)
                         {
-                            if (evt.ObjPar == CtrlType.PMAX)
-                            {                               
-                                evt.Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
+                            foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == Etime))
+                            {
+                                evt.Unit = Unit;
                                 evt.ShowVal = string.Format("{0}", m.ElecPmax[e.TimeStep]);
                                 evt.Processed = false;
-                                evt.StartTime = Gtime;
                                 evt.Active = true;
                             }
                         }
+                        else
+                        {
+                            ScenarioEvent PmaxEvent = new ScenarioEvent(m.GFG.FGEN, CtrlType.PMAX, m.ElecPmax[e.TimeStep], Unit)
+                            {
+                                Processed = false,
+                                StartTime = Etime,
+                                Active = true
+                            };
+                            m.GFG.FGEN.SceList.Add(PmaxEvent);
+                            m.GFG.ENET.SCE.SceList.Add(PmaxEvent);
+                        }
+                        
                         m.IsPmaxChanged = false;
 
                         m.lastVal.Clear(); // Clear the list before iteration starts
@@ -230,7 +244,7 @@ namespace HelicsDotNetSender
                         if (Iter < iter_max)
                         {
                             MappingFactory.PublishRequiredThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = 1;
+                            e.RepeatTimeStep = 1;
                         }
                         else if (Iter == iter_max)
                         {
@@ -258,7 +272,7 @@ namespace HelicsDotNetSender
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
                         Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = 0;                     
+                            e.RepeatTimeStep = 0;                     
                     }
                     else
                     {

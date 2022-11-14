@@ -6,10 +6,12 @@ using System.Threading;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
+using SAInt_API.Model.Scenarios;
 
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model;
+using System.Linq;
 
 namespace HelicsDotNetReceiver
 {
@@ -28,19 +30,19 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            API.openGNET(netfolder + "GasFiredGenerator.gnet");
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            API.openGSCE(netfolder + "DYN_GAS.gsce");
-            API.openGCON(netfolder + "STEADY_GAS.gcon");
+            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            //API.openGSCE(netfolder + "DYN_GAS.gsce");
+            //API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            //API.openGNET(netfolder + "GNET25.gnet");
-            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            //API.openGSCE(netfolder + "CASE1.gsce");
-            //API.openGCON(netfolder + "CMBSTEOPF.gcon");
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            API.openGNET(netfolder + "GNET25.gnet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openGSCE(netfolder + "CASE1.gsce");
+            API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
@@ -187,12 +189,34 @@ namespace HelicsDotNetReceiver
                         Console.WriteLine("\nGas: Entering Main Co-simulation Loop");
                         Console.WriteLine("======================================================\n");
                         FirstTimeStep += 1;
-                    }                    
-                    
+                    }
+                    DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
                     foreach (ElectricGasMapping m in MappingList)
                     {
-                        m.lastVal.Clear(); // Clear the list before iteration starts
-                
+                        bool QsetEventExist = m.GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == Gtime);
+                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
+                        if (QsetEventExist)
+                        {
+                            foreach (var evt in m.GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == Gtime))
+                            {
+                                evt.Unit = Unit;
+                                evt.ShowVal = string.Format("{0}", m.GasQset[e.TimeStep]);
+                                evt.Processed = false;
+                                evt.Active = true;
+                            }
+                        }
+                        else
+                        {
+                            ScenarioEvent QsetEvent = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, m.GasQset[e.TimeStep], Unit)
+                            {
+                                Processed = false,
+                                StartTime = Gtime,
+                                Active = true
+                            };
+                            m.GFG.GDEM.SceList.Add(QsetEvent);
+                            m.GFG.GNET.SCE.SceList.Add(QsetEvent);
+                        }
+                        m.lastVal.Clear(); // Clear the list before iteration starts                
                     }
 
                     // Set time step info
@@ -208,7 +232,7 @@ namespace HelicsDotNetReceiver
                         if (Iter < Iter_max)
                         {
                             MappingFactory.PublishAvailableThermalPower(e.TimeStep, Iter, MappingList);
-                            e.RepeatTimeIntegration = 1;
+                            e.RepeatTimeStep = 1;
                         }
                         else if (Iter == Iter_max)
                         {
@@ -235,7 +259,7 @@ namespace HelicsDotNetReceiver
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
                         Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
-                            e.RepeatTimeIntegration = 0; 
+                            e.RepeatTimeStep = 0; 
                     }
                     else
                     {  
@@ -251,7 +275,7 @@ namespace HelicsDotNetReceiver
                 // ACOPF starts at time step 1, while dynamic gas starts at time step = 0
                 else if (e.SolverState == SolverState.AfterTimeStep && e.TimeStep == 0)
                 {
-                    e.RepeatTimeIntegration = 0;
+                    e.RepeatTimeStep = 0;
                 }
 
             };
