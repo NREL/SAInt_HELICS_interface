@@ -6,6 +6,7 @@ using System.Threading;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
+using SAInt_API.Model.Scenarios;
 
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
@@ -191,10 +192,36 @@ namespace HelicsDotNetReceiver
                     {
                         CountHorizons += 1;
                         HorizonTimeStepStart = e.TimeStep;
+                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
+
                         foreach (ElectricGasMapping m in MappingList)
-                        {
+                        {                            
                             for (int i = 0; i < m.HorizonTimeSteps; i++)
                             {
+                                int gtime = HorizonTimeStepStart + i;
+                                DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
+
+                                bool QsetEventExist = m.GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == Gtime);
+                                if (QsetEventExist)
+                                {
+                                    foreach (var evt in m.GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == Gtime))
+                                    {
+                                        evt.Unit = Unit;
+                                        evt.ShowVal = string.Format("{0}", m.GasQset[gtime]);
+                                        evt.Processed = false;
+                                        evt.Active = true;
+                                    }
+                                }
+                                else
+                                {
+                                    ScenarioEvent QsetEvent = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, m.GasQset[gtime], Unit)
+                                    {
+                                        Processed = false,
+                                        StartTime = Gtime,
+                                        Active = true
+                                    };
+                                    m.GFG.GNET.SCE.SceList.Add(QsetEvent);
+                                }
                                 // Clear the list before iteration starts
                                 m.LastVal[i].Clear();
                             }

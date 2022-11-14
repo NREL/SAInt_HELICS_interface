@@ -465,6 +465,15 @@ namespace SAIntHelicsLib
             {
                 
                 var mapitem = new ElectricGasMapping() { GFG = hub };
+
+                if (hub.GDEM != null)
+                {
+                    for (int gtime = 0; gtime <= hub.GDEM.GNET.SCE.NN; gtime++)
+                    {
+                        mapitem.GasQset.Add(hub.GDEM.get_QSET(gtime));
+                    }
+                }
+
                 if (hub.FGEN != null)
                 {
                     for (int etime = 0; etime <= hub.FGEN.ENET.SCE.NN; etime++)
@@ -502,7 +511,7 @@ namespace SAIntHelicsLib
         public List<double> ElecPmax = new List<double>();
         public List<bool> IsPmaxChanged = new List<bool>();
 
-        public List<double> GasQSET = new List<double>();
+        public List<double> GasQset = new List<double>();
 
         public int HorizonTimeSteps = 4;  // Used for federates having different time horizons 
 
