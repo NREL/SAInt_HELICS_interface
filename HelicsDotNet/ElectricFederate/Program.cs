@@ -33,19 +33,19 @@ namespace HelicsDotNetSender
 
             MappingFactory.WaitForAcknowledge();
 
-            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            //API.openENET(netfolder + "GasFiredGenerator.enet");
-            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openESCE(netfolder + "QDYNACOPF.esce");
-            //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openENET(netfolder + "GasFiredGenerator.enet");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            API.openESCE(netfolder + "QDYNACOPF.esce");
+            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openENET(netfolder + "ENET30.enet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openESCE(netfolder + "CASE1.esce");
-            API.openECON(netfolder + "CMBSTEOPF.econ");
+            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            //API.openENET(netfolder + "ENET30.enet");
+            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openESCE(netfolder + "CASE1.esce");
+            //API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
@@ -215,8 +215,7 @@ namespace HelicsDotNetSender
                                 Processed = false,
                                 StartTime = Etime,
                                 Active = true
-                            };
-                            m.GFG.FGEN.SceList.Add(PmaxEvent);
+                            };                            
                             m.GFG.ENET.SCE.SceList.Add(PmaxEvent);
                         }
                         

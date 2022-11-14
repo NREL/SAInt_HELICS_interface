@@ -30,19 +30,19 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
-            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openGSCE(netfolder + "DYN_GAS.gsce");
-            //API.openGCON(netfolder + "STEADY_GAS.gcon");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            API.openGSCE(netfolder + "DYN_GAS.gsce");
+            API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openGNET(netfolder + "GNET25.gnet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openGSCE(netfolder + "CASE1.gsce");
-            API.openGCON(netfolder + "CMBSTEOPF.gcon");
+            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            //API.openGNET(netfolder + "GNET25.gnet");
+            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openGSCE(netfolder + "CASE1.gsce");
+            //API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
@@ -213,7 +213,6 @@ namespace HelicsDotNetReceiver
                                 StartTime = Gtime,
                                 Active = true
                             };
-                            m.GFG.GDEM.SceList.Add(QsetEvent);
                             m.GFG.GNET.SCE.SceList.Add(QsetEvent);
                         }
                         m.lastVal.Clear(); // Clear the list before iteration starts                
