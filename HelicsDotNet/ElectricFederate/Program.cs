@@ -38,7 +38,7 @@ namespace HelicsDotNetSender
             //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
             string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\DCUCOPF_DynGas";
             API.openENET(netfolder + "GasFiredGenerator.enet");
             MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
             API.openESCE(netfolder + "PCM.esce");
@@ -54,6 +54,9 @@ namespace HelicsDotNetSender
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
+            
+            ENET.SCE.SolverType = SolverType.Gurobi;
+            ENET.SCE.SolverModel = SolverModel.LP;
 
             Directory.CreateDirectory(outputfolder);
 #if !DEBUG

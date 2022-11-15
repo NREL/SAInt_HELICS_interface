@@ -31,7 +31,7 @@ namespace HelicsDotNetReceiver
             Thread.Sleep(100);
 
             string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\DCUCOPF_DynGas";
             API.openGNET(netfolder + "GasFiredGenerator.gnet");
             MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
             API.openGSCE(netfolder + "DYN_GAS.gsce");

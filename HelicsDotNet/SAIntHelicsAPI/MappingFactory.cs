@@ -326,7 +326,7 @@ namespace SAIntHelicsLib
                 for (int i = 0; i < HorizonTimeSteps; i++)
                 {
                     int gtime = HorizonTimeStepStart + i;
-                    DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
+                    DateTime Gtime = GNET.SCE.dTime[gtime];// + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
 
                     // get publication from electric federate
                     double RequieredFuelRate = h.helicsInputGetDouble(m.RequieredFuelRate[i]);
