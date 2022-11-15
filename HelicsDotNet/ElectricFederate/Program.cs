@@ -3,6 +3,7 @@ using h = helics;
 using SAInt_API;
 //using SAInt_API.NetList
 using SAInt_API.Library;
+using SAInt_API.Library.Units;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO;
@@ -133,16 +134,12 @@ namespace HelicsDotNetSender
             int helics_iter_status = 3;
 
             double granted_time = 0;
-            double requested_time;
-
-            DateTime SCEStartTime = ENET.SCE.StartTime;
-            DateTime Trequested;
            
-            TimeStepInfo currenttimestep = new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
+            TimeStepInfo currenttimestep = new TimeStepInfo() {timestep = 0, itersteps = 0,time= ENET.SCE.dTime(0)};
             TimeStepInfo CurrentDiverged = new TimeStepInfo();
 
             List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
-            List<TimeStepInfo> NotConverged = new List<TimeStepInfo>();
+            List<TimeStepInfo> AllDiverged = new List<TimeStepInfo>();
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
@@ -180,8 +177,7 @@ namespace HelicsDotNetSender
             int FirstTimeStep = 0;
             // this function is called each time the SAInt solver state changes
             Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
-            {                     
-
+            {
                 if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
                 {
                     Iter = 0;
@@ -195,42 +191,16 @@ namespace HelicsDotNetSender
                         Console.WriteLine("======================================================\n");
                         FirstTimeStep += 1;
                     }
-
-                    DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
-                    {
-                        // Reset PMAX
-                        bool PmaxEventList = m.GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == Etime);
-                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
-                        if (PmaxEventList)
-                        {
-                            foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == Etime))
-                            {
-                                evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", m.ElecPmax[e.TimeStep]);
-                                evt.Processed = false;
-                                evt.Active = true;
-                            }
-                        }
-                        else
-                        {
-                            ScenarioEvent PmaxEvent = new ScenarioEvent(m.GFG.FGEN, CtrlType.PMAX, m.ElecPmax[e.TimeStep], Unit)
-                            {
-                                Processed = false,
-                                StartTime = Etime,
-                                Active = true
-                            };                            
-                            m.GFG.ENET.SCE.AddEvent(PmaxEvent);
-                        }
-                        
+                    { 
                         m.IsPmaxChanged = false;
 
                         m.lastVal.Clear(); // Clear the list before iteration starts
                     }
 
                     // Set time step info
-                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
+                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = ENET.SCE.dTime[e.TimeStep]};
                     IterationInfo.Add(currenttimestep);
                 }
 
@@ -254,8 +224,8 @@ namespace HelicsDotNetSender
                         {
                             granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
 
-                            CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt) };
-                            NotConverged.Add(CurrentDiverged);
+                            CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = ENET.SCE.dTime[e.TimeStep]};
+                            AllDiverged.Add(CurrentDiverged);
                             Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Not Converged!");
                         }
                     }
@@ -266,8 +236,7 @@ namespace HelicsDotNetSender
                     }
 
                     // Iterative HELICS time request
-                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)ENET.SCE.dt);
-                    Console.WriteLine($"\nElectric Requested Time: {Trequested}, iteration: {Iter}");
+                    Console.WriteLine($"\nElectric Requested Time: {ENET.SCE.dTime[e.TimeStep]}, iteration: {Iter}");
 
                     granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                     
@@ -298,11 +267,10 @@ namespace HelicsDotNetSender
             API.runESIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
-            requested_time = total_time + 1;            
-            //Console.WriteLine($"Requested time: {requested_time}");
-            DateTime DateTimeRequested = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
-            Console.WriteLine($"\nElectric Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
-            h.helicsFederateRequestTime(vfed, requested_time);
+          
+            DateTime DateTimeRequested = ENET.SCE.EndTime.AddSeconds(ENET.SCE.dt);
+            Console.WriteLine($"\nElectric Requested Time Step: {total_time + 1} at Time: {DateTimeRequested}");
+            h.helicsFederateRequestTime(vfed, total_time + 1);
 
 
 #if !DEBUG
@@ -340,7 +308,7 @@ namespace HelicsDotNetSender
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
-                    foreach (TimeStepInfo x in NotConverged)
+                    foreach (TimeStepInfo x in AllDiverged)
                     {
                         sw.WriteLine(String.Format("{0}\t\t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
@@ -349,16 +317,16 @@ namespace HelicsDotNetSender
             }
 
             // Diverging time steps
-            if (NotConverged.Count == 0)
+            if (AllDiverged.Count == 0)
                 Console.WriteLine("Electric: There is no diverging time step");
             else
             {
                 Console.WriteLine("Electric: the solution diverged at the following time steps:");
-                foreach (TimeStepInfo x in NotConverged)
+                foreach (TimeStepInfo x in AllDiverged)
                 {
                     Console.WriteLine($"Time \t {x.time} time-step {x.timestep}");
                 }
-                Console.WriteLine($"Electric: The total number of diverging time steps = { NotConverged.Count }");
+                Console.WriteLine($"Electric: The total number of diverging time steps = { AllDiverged.Count }");
             }
 
             foreach (ElectricGasMapping m in MappingList)

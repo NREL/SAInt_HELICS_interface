@@ -6,6 +6,7 @@ using System.Threading;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
+using SAInt_API.Library.Units;
 using SAInt_API.Model.Scenarios;
 
 using SAInt_API.Model.Network.Fluid.Gas;
@@ -127,17 +128,13 @@ namespace HelicsDotNetReceiver
             bool HasViolations = true;
             int helics_iter_status = 3;
 
-            double granted_time = 0;
-            double requested_time;
+            double granted_time = 0;    
 
-            DateTime SCEStartTime = GNET.SCE.StartTime;
-            DateTime Trequested;
-
-            TimeStepInfo currenttimestep = new TimeStepInfo() { timestep = 0, itersteps = 0, time = SCEStartTime };
+            TimeStepInfo currenttimestep = new TimeStepInfo() { timestep = 0, itersteps = 0, time = GNET.SCE.dTime(0)};
             TimeStepInfo CurrentDiverged = new TimeStepInfo();
 
             List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
-            List<TimeStepInfo> NotConverged = new List<TimeStepInfo>();
+            List<TimeStepInfo> AllDiverged = new List<TimeStepInfo>();
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
@@ -190,36 +187,13 @@ namespace HelicsDotNetReceiver
                         Console.WriteLine("======================================================\n");
                         FirstTimeStep += 1;
                     }
-                    DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                    foreach (ElectricGasMapping m in MappingList)
-                    {
-                        bool QsetEventExist = m.GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == Gtime);
-                        SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.Q, SAInt_API.Library.Units.UnitList.sm3_s);
-                        if (QsetEventExist)
-                        {
-                            foreach (var evt in m.GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == Gtime))
-                            {
-                                evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", m.GasQset[e.TimeStep]);
-                                evt.Processed = false;
-                                evt.Active = true;
-                            }
-                        }
-                        else
-                        {
-                            ScenarioEvent QsetEvent = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, m.GasQset[e.TimeStep], Unit)
-                            {
-                                Processed = false,
-                                StartTime = Gtime,
-                                Active = true
-                            };
-                            m.GFG.GNET.SCE.AddEvent(QsetEvent);
-                        }
+                    foreach  (ElectricGasMapping m in MappingList)
+                    { 
                         m.lastVal.Clear(); // Clear the list before iteration starts                
                     }
 
                     // Set time step info
-                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
+                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0, time = GNET.SCE.dTime[e.TimeStep]};
                     IterationInfo.Add(currenttimestep);
                 }
 
@@ -236,8 +210,8 @@ namespace HelicsDotNetReceiver
                         else if (Iter == Iter_max)
                         {
                             granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
-                            CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt) };
-                            NotConverged.Add(CurrentDiverged);
+                            CurrentDiverged = new TimeStepInfo() { timestep = e.TimeStep, itersteps = Iter, time = GNET.SCE.dTime[e.TimeStep] };
+                            AllDiverged.Add(CurrentDiverged);
                             Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Not Converged!");
                         }
                     }
@@ -248,8 +222,7 @@ namespace HelicsDotNetReceiver
                     }
 
                     //Iterative HELICS time request
-                    Trequested = SCEStartTime + new TimeSpan(0, 0, e.TimeStep * (int)GNET.SCE.dt);
-                    Console.WriteLine($"\nGas Requested Time: {Trequested}, iteration: {Iter}");
+                    Console.WriteLine($"\nGas Requested Time: {GNET.SCE.dTime[e.TimeStep]}, iteration: {Iter}");
 
                     granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
 
@@ -286,11 +259,9 @@ namespace HelicsDotNetReceiver
             API.runGSIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
-            requested_time = total_time + 1;
-            //Console.WriteLine($"Requested time: {requested_time}");
-            DateTime DateTimeRequested = GNET.SCE.EndTime + new TimeSpan(0, 0, (int)GNET.SCE.dt);
-            Console.WriteLine($"\nGas Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
-            h.helicsFederateRequestTime(vfed, requested_time);
+            DateTime DateTimeRequested = GNET.SCE.EndTime.AddSeconds(GNET.SCE.dt);
+            Console.WriteLine($"\nGas Requested Time Step: {total_time + 1} at Time: {DateTimeRequested}");
+            h.helicsFederateRequestTime(vfed, total_time + 1);
 
 #if !DEBUG
             // close out log file
@@ -326,7 +297,7 @@ namespace HelicsDotNetReceiver
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
                     sw.WriteLine("Date \t\t\t\t TimeStep \t IterStep");
-                    foreach (TimeStepInfo x in NotConverged)
+                    foreach (TimeStepInfo x in AllDiverged)
                     {
                         sw.WriteLine(String.Format("{0} \t{1}\t\t\t{2}", x.time, x.timestep, x.itersteps));
                     }
@@ -335,16 +306,16 @@ namespace HelicsDotNetReceiver
             }
 
             // Diverging time steps
-            if (NotConverged.Count == 0)
+            if (AllDiverged.Count == 0)
                 Console.WriteLine("Gas: There is no diverging time step");
             else
             {
                 Console.WriteLine("Gas: the solution diverged at the following time steps:");
-                foreach (TimeStepInfo x in NotConverged)
+                foreach (TimeStepInfo x in AllDiverged)
                 { 
                     Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); 
                 }
-                Console.WriteLine($"Gas: The total number of diverging time steps = { NotConverged.Count }");
+                Console.WriteLine($"Gas: The total number of diverging time steps = { AllDiverged.Count }");
             }
 
             foreach (ElectricGasMapping m in MappingList)
@@ -354,8 +325,7 @@ namespace HelicsDotNetReceiver
                     m.sw.Flush();
                     m.sw.Close();
                 }
-            }
-      
+            }            
             var k = Console.ReadKey();
         }        
     }
