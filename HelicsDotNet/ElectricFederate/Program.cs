@@ -37,12 +37,19 @@ namespace HelicsDotNetSender
             //API.openESCE(netfolder + "QDYNACOPF.esce");
             //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openENET(netfolder + "ENET30.enet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openESCE(netfolder + "PCM001.esce");
-            API.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            API.openENET(netfolder + "GasFiredGenerator.enet");
+            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            API.openESCE(netfolder + "PCM.esce");
+            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
+
+            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
+            //API.openENET(netfolder + "ENET30.enet");
+            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            //API.openESCE(netfolder + "PCM001.esce");
+            //API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
@@ -84,14 +91,14 @@ namespace HelicsDotNetSender
             {
                 for (int i = 0; i < m.HorizonTimeSteps; i++)
                 {
-                    m.RequieredThermalPower[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
-                    m.AvailableThermalPower[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
+                    m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
+                    m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
                     m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), ""); ;
                 }
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
-                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW]\t PGMAX [MW]");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t FuelRate [m3/s]\t PGMAX [MW]");
             }
             
             // Set one second message interval
@@ -149,7 +156,7 @@ namespace HelicsDotNetSender
             h.helicsFederateEnterInitializingMode(vfed);
             Console.WriteLine("\nElectric: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
-            MappingFactory.PublishRequiredThermalPower(0, Iter, MappingList);
+            MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);
 
             while (true)
             {
@@ -163,7 +170,7 @@ namespace HelicsDotNetSender
                 }
 
                 // subscribe to available thermal power from gas node
-                HasViolations = MappingFactory.SubscribeToAvailableThermalPower(0, Iter, MappingList, "Initialization");                
+                HasViolations = MappingFactory.SubscribeToAvailableFuelRate(0, Iter, MappingList, "Initialization");                
 
                 if (!HasViolations)
                 {
@@ -171,7 +178,7 @@ namespace HelicsDotNetSender
                 }
                 else
                 {                    
-                    MappingFactory.PublishRequiredThermalPower(0, Iter, MappingList);
+                    MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);
                     Iter += 1;
                 }
             }
@@ -182,7 +189,7 @@ namespace HelicsDotNetSender
             {                     
 
                 //if (e.SolverState == SolverState.BeforeTimeStep && e.TimeStep > 0)
-                if (e.SolverState == SolverState.BeforeConsecutiveRun && e.TimeStep > 0)
+                if (e.SolverState == SolverState.BeforeConsecutiveRun)
                 {
                     Iter = 0; // Iteration number
                     CountHorizons += 1;
@@ -227,7 +234,7 @@ namespace HelicsDotNetSender
                                     Active = true
                                 };
 
-                                m.GFG.ENET.SCE.SceList.Add(evt);
+                                m.GFG.ENET.SCE.AddEvent(evt);
                             }
                             // Clear the list before iteration starts
                             m.LastVal[i].Clear();
@@ -237,7 +244,7 @@ namespace HelicsDotNetSender
                     currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
                     IterationInfo.Add(currenttimestep);
                 }
-                if ( e.SolverState == SolverState.AfterConsecutiveRun && e.TimeStep > 0)
+                if ( e.SolverState == SolverState.AfterConsecutiveRun)
                 {
 #if !DEBUG 
                     foreach (var i in ENET.Generators)
@@ -250,7 +257,7 @@ namespace HelicsDotNetSender
                     {
                         if (Iter < iter_max)
                         {
-                            MappingFactory.PublishRequiredThermalPower(HorizonTimeStepStart, Iter, MappingList);
+                            MappingFactory.PublishRequiredFuelRate(HorizonTimeStepStart, Iter, MappingList);
                             e.RepeatConsecutiveRun = 1;
                         }
                         else if (Iter == iter_max)
@@ -284,7 +291,7 @@ namespace HelicsDotNetSender
                     else
                     {
                         // get available thermal power at nodes, determine if there are violations
-                        HasViolations = MappingFactory.SubscribeToAvailableThermalPower(HorizonTimeStepStart, Iter, MappingList);
+                        HasViolations = MappingFactory.SubscribeToAvailableFuelRate(HorizonTimeStepStart, Iter, MappingList);
                     }
 
                     // Counting iterations
