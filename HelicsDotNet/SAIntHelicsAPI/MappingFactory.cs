@@ -159,7 +159,7 @@ namespace SAIntHelicsLib
 
         public static StreamWriter gasSw;
         public static StreamWriter elecSw;
-        public static double eps = 0.1;
+        public static double eps = 0.0001;
 
         public static void PublishRequiredThermalPower(int etime, int Iter, List<ElectricGasMapping> MappingList)
         {

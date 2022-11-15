@@ -51,6 +51,9 @@ namespace HelicsDotNetSender
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
+            // Option for IV models
+            ENET.SCE.UseIVModel = true;
+
             Directory.CreateDirectory(outputfolder);
 #if !DEBUG
             API.showSIMLOG(true);
