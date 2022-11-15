@@ -2,6 +2,7 @@
 using h = helics;
 using SAInt_API;
 using SAInt_API.Library;
+using SAInt_API.Library.Units;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO;
@@ -92,7 +93,7 @@ namespace HelicsDotNetSender
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                for (int i = 0; i < m.HorizonTimeSteps; i++)
+                for (int i = 0; i < m.Horizon; i++)
                 {
                     m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
                     m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
@@ -137,21 +138,17 @@ namespace HelicsDotNetSender
             bool HasViolations = true;
             int helics_iter_status = 3;
 
-            int HorizonTimeSteps = MappingList.First().HorizonTimeSteps;
-            int HorizonTimeStepStart = 1;
+            int Horizon = MappingList.First().Horizon;
+            int HorizonStartingTimeStep = 1;
             int CountHorizons = 0;
 
             double granted_time = 0;
-            double requested_time;
-
-            DateTime SCEStartTime = ENET.SCE.StartTime;
-            DateTime Trequested;
            
-            TimeStepInfo currenttimestep = new TimeStepInfo() {timestep = 0, itersteps = 0,time= SCEStartTime};
+            TimeStepInfo CurrentHorizon = new TimeStepInfo() {HorizonStep = 0, IterationCount = 0};
             TimeStepInfo CurrentDiverged = new TimeStepInfo();
 
             List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
-            List<TimeStepInfo> NotConverged = new List<TimeStepInfo>();
+            List<TimeStepInfo> AllDiverged = new List<TimeStepInfo>();
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
@@ -196,7 +193,7 @@ namespace HelicsDotNetSender
                 {
                     Iter = 0; // Iteration number
                     CountHorizons += 1;
-                    HorizonTimeStepStart = e.TimeStep;
+                    HorizonStartingTimeStep = e.TimeStep;
                     HasViolations = true;
                     if (FirstTimeStep == 0)
                     {
@@ -206,46 +203,18 @@ namespace HelicsDotNetSender
                         FirstTimeStep += 1;
                     }
 
-                    SAInt_API.Library.Units.Units Unit = new SAInt_API.Library.Units.Units(SAInt_API.Library.Units.UnitTypeList.PPOW, SAInt_API.Library.Units.UnitList.MW);
                     // Reset nameplate capacity
                     foreach (ElectricGasMapping m in MappingList)
-                    {                        
-                        // Reset PMAX 
-                        for (int i = 0; i < m.HorizonTimeSteps; i++)
-                        {
-                            int etime = HorizonTimeStepStart + i;
-                            DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
-
-                            bool IsThereFMAXEvent = m.GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == Etime);
-
-                            if (IsThereFMAXEvent)
-                            {
-                                foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == Etime))
-                                {
-                                    evt.Unit = Unit;
-                                    evt.ShowVal = string.Format("{0}", m.ElecPmax[etime]);
-                                    evt.Processed = false;
-                                    evt.Active = true;
-                                }      
-                            }
-                            else
-                            {
-                                ScenarioEvent evt = new ScenarioEvent(m.GFG.FGEN, CtrlType.PMAX, m.ElecPmax[etime], Unit)
-                                {
-                                    Processed = false,
-                                    StartTime = Etime,
-                                    Active = true
-                                };
-
-                                m.GFG.ENET.SCE.AddEvent(evt);
-                            }
+                    {  
+                        for (int i = 0; i < m.Horizon; i++)
+                        { 
                             // Clear the list before iteration starts
                             m.LastVal[i].Clear();
                         }
                     }
                     // Set time step info
-                    currenttimestep = new TimeStepInfo() { timestep = e.TimeStep, itersteps = 0,time= SCEStartTime + new TimeSpan(0,0,e.TimeStep*(int)ENET.SCE.dt)};
-                    IterationInfo.Add(currenttimestep);
+                    CurrentHorizon = new TimeStepInfo() { HorizonStep = e.TimeStep, IterationCount = 0};
+                    IterationInfo.Add(CurrentHorizon);
                 }
                 if ( e.SolverState == SolverState.AfterConsecutiveRun)
                 {
@@ -260,15 +229,15 @@ namespace HelicsDotNetSender
                     {
                         if (Iter < iter_max)
                         {
-                            MappingFactory.PublishRequiredFuelRate(HorizonTimeStepStart, Iter, MappingList);
+                            MappingFactory.PublishRequiredFuelRate(HorizonStartingTimeStep, Iter, MappingList);
                             e.RepeatConsecutiveRun = 1;
                         }
                         else if (Iter == iter_max)
                         {
                             granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
 
-                            CurrentDiverged = new TimeStepInfo() { timestep = CountHorizons, itersteps = Iter};
-                            NotConverged.Add(CurrentDiverged);
+                            CurrentDiverged = new TimeStepInfo() { HorizonStep = CountHorizons, IterationCount = Iter};
+                            AllDiverged.Add(CurrentDiverged);
                             Console.WriteLine($"Electric: Horizon {CountHorizons} Iteration Not Converged!");
                         }
                     }
@@ -279,7 +248,6 @@ namespace HelicsDotNetSender
                     }
 
                     // Iterative HELICS time request
-                    //Trequested = SCEStartTime + new TimeSpan(0, 0, CountHorizons * (int)ENET.SCE.dt);
                     Console.WriteLine($"\nElectric Requested Horizon: {CountHorizons}, iteration: {Iter}");
 
                     granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
@@ -294,12 +262,12 @@ namespace HelicsDotNetSender
                     else
                     {
                         // get available thermal power at nodes, determine if there are violations
-                        HasViolations = MappingFactory.SubscribeToAvailableFuelRate(HorizonTimeStepStart, Iter, MappingList);
+                        HasViolations = MappingFactory.SubscribeToAvailableFuelRate(HorizonStartingTimeStep, Iter, MappingList);
                     }
 
                     // Counting iterations
                     Iter += 1;
-                    currenttimestep.itersteps += 1;
+                    CurrentHorizon.IterationCount += 1;
                 }
                 
             };
@@ -311,9 +279,9 @@ namespace HelicsDotNetSender
             API.runESIM();
 
             // request time for end of time + 1: serves as a blocking call until all federates are complete
-            requested_time = total_time/HorizonTimeSteps + 1;            
+            int requested_time = (int)total_time / Horizon + 1; ;            
             //Console.WriteLine($"Requested time: {requested_time}");
-            DateTime DateTimeRequested = ENET.SCE.EndTime + new TimeSpan(0, 0, (int)ENET.SCE.dt);
+            DateTime DateTimeRequested = ENET.SCE.EndTime.AddSeconds(ENET.SCE.dt); 
             Console.WriteLine($"\nElectric Requested Horizon: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
@@ -341,7 +309,7 @@ namespace HelicsDotNetSender
                     sw.WriteLine("Horizon \t\t IterStep");
                     foreach (TimeStepInfo x in IterationInfo)
                     {
-                        sw.WriteLine(String.Format("{0}\t\t\t\t{1}", x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t\t\t{1}", x.HorizonStep, x.IterationCount));
                     }
                 }
 
@@ -354,26 +322,26 @@ namespace HelicsDotNetSender
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("TimeStep \t IterStep");
-                    foreach (TimeStepInfo x in NotConverged)
+                    sw.WriteLine("HorizonStep \t IterStep");
+                    foreach (TimeStepInfo x in AllDiverged)
                     {
-                        sw.WriteLine(String.Format("{0}\t\t\t{1}", x.timestep, x.itersteps));
+                        sw.WriteLine(String.Format("{0}\t\t\t{1}", x.HorizonStep, x.IterationCount));
                     }
                 }
 
             }
 
             // Diverging time steps
-            if (NotConverged.Count == 0)
+            if (AllDiverged.Count == 0)
                 Console.WriteLine("Electric: There is no diverging Horizons");
             else
             {
                 Console.WriteLine("Electric: the solution diverged at the following Horizons:");
-                foreach (TimeStepInfo x in NotConverged)
+                foreach (TimeStepInfo x in AllDiverged)
                 {
-                    Console.WriteLine($"Horizon {x.timestep}");
+                    Console.WriteLine($"Horizon {x.HorizonStep}");
                 }
-                Console.WriteLine($"Electric: The total number of diverging Horizons = { NotConverged.Count }");
+                Console.WriteLine($"Electric: The total number of diverging Horizons = { AllDiverged.Count }");
             }
 
             foreach (ElectricGasMapping m in MappingList)
