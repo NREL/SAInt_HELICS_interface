@@ -52,8 +52,9 @@ namespace HelicsDotNetSender
             HUB = (HubSystem)GetObject("get_HUBS");
 
             // Option for IV models
-            ENET.SCE.UseIVModel = false;
-            ENET.SCE.SolverModel = SolverModel.LP;
+            ENET.SCE.UseIVModel = true;
+            ENET.SCE.SolverType = SolverType.Gurobi;
+            //ENET.SCE.SolverModel = SolverModel.LP;
 
             Directory.CreateDirectory(outputfolder);
 #if !DEBUG

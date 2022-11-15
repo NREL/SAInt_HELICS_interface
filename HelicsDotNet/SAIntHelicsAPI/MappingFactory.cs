@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 //using s = SAInt_API.SAInt;
 using SAInt_API;
+using SAInt_API.Library.Units;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Fluid.Gas;
@@ -188,7 +189,7 @@ namespace SAIntHelicsLib
         {
             GNET = (GasNet)GetObject("get_GNET");
             
-            DateTime Gtime = GNET.SCE.StartTime + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
+            DateTime Gtime = GNET.SCE.dTime[gtime];
 
             foreach (ElectricGasMapping m in MappingList)
             {                
@@ -216,7 +217,7 @@ namespace SAIntHelicsLib
         {
             ENET = (ElectricNet)GetObject("get_ENET");
             bool HasViolations = false;
-            DateTime Etime = ENET.SCE.StartTime + new TimeSpan(0, 0, etime * (int)ENET.SCE.dt);
+            DateTime Etime = ENET.SCE.dTime[etime];
 
             foreach (ElectricGasMapping m in MappingList)
             {
@@ -248,6 +249,9 @@ namespace SAIntHelicsLib
                 double pval = m.GFG.FGEN.get_P(etime);
                 double HR (double x)=> m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
                 double ThermalPower = HR(pval) / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
+
+                Units FperTUnit = m.GFG.FGEN.Fuel.FuelPerTimeUnit;
+                double FuelRate = m.GFG.FGEN.get_F(etime); //[(s)m3/h]
 
                 m.lastVal.Add(AvailableThermalPower);
 
@@ -343,14 +347,11 @@ namespace SAIntHelicsLib
 
                     foreach (var evt in m.GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET)) // && xx.StartTime == Gtime
                     {
-                        if (evt.ObjPar == CtrlType.QSET)
-                        {
-                            evt.ObjVal = RequieredThermalPower / GCV;
-                            evt.Unit = Unit;
-                            evt.Processed = false;
-                            evt.Active = true;
-                            evt.Info = "HELICS";
-                        }
+                        evt.ObjVal = RequieredThermalPower / GCV;
+                        evt.Unit = Unit;
+                        evt.Processed = false;
+                        evt.Active = true;
+                        evt.Info = "HELICS";
                     }
                     Console.WriteLine(String.Format("Gas-E: Time {0}\t iter {1}\t {2}\t QSET = {3:0.0000} [sm3/s]",
                         Gtime, Iter, m.GFG.GDEM, m.GFG.GDEM.get_QSET(gtime)));

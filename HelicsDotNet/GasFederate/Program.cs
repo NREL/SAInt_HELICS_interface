@@ -28,7 +28,7 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Thread.Sleep(100);
+            //Thread.Sleep(100);
 
             //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
             //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
