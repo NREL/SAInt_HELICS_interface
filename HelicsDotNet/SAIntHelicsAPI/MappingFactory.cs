@@ -159,7 +159,7 @@ namespace SAIntHelicsLib
 
         public static StreamWriter gasSw;
         public static StreamWriter elecSw;
-        public static double eps = 0.0001;
+        public static double eps = 0.1;
 
         public static void PublishRequiredThermalPower(int etime, int Iter, List<ElectricGasMapping> MappingList)
         {
@@ -273,7 +273,7 @@ namespace SAIntHelicsLib
                             }
                         }
 
-                        m.IsPmaxChanged = false;
+                        m.IsPmaxChanged = true; // To avoid oscillation
                         Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAX = {3:0.0000} [MW]",
                                     Etime, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(etime)));
                     }
