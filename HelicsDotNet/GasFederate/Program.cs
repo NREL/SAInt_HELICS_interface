@@ -6,12 +6,9 @@ using System.Threading;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
-using SAInt_API.Library.Units;
-using SAInt_API.Model.Scenarios;
-
+using SAInt_API.Model.Network;
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
-using SAInt_API.Model;
 using System.Linq;
 
 namespace HelicsDotNetReceiver
@@ -47,7 +44,6 @@ namespace HelicsDotNetReceiver
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
-
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
@@ -135,7 +131,7 @@ namespace HelicsDotNetReceiver
             int HorizonStartingTimeStep = 1;
             int CountTimeSteps = 0;
             int CountHorizons = 0;
-            bool IsHorizonCompleted = false;
+            bool IsHorizonProcessed = false;
             bool BeforeConsecutiveRun = true;
 
             double granted_time = 0;
@@ -191,7 +187,7 @@ namespace HelicsDotNetReceiver
                         CountHorizons += 1;
                         HorizonStartingTimeStep = e.TimeStep;
                         BeforeConsecutiveRun = false;
-                        IsHorizonCompleted = false;
+                        IsHorizonProcessed = false;
                         Iter = 0;
 
                         // Set horizon iteration info
@@ -207,7 +203,7 @@ namespace HelicsDotNetReceiver
                             }
                         }
                     }
-                    if(!IsHorizonCompleted)
+                    if(!IsHorizonProcessed)
                     {
                         if (FirstTimeStep == 0)
                         {
@@ -221,11 +217,11 @@ namespace HelicsDotNetReceiver
                         CountTimeSteps += 1;
                         if (CountTimeSteps == Horizon)
                         {
-                            IsHorizonCompleted = true;
+                            IsHorizonProcessed = true;
                             CountTimeSteps = 0;
                         }
                     }
-                    if (IsHorizonCompleted)
+                    if (IsHorizonProcessed)
                     {
                         // Publish if it is repeating and has violations so that the iteration continues
                         if (HasViolations)
@@ -274,7 +270,7 @@ namespace HelicsDotNetReceiver
                             CurrentHorizon.IterationCount += 1;
                         }
 
-                        IsHorizonCompleted = false;
+                        IsHorizonProcessed = false;
                     }
                 }
             };

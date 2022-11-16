@@ -143,29 +143,10 @@ namespace SAIntHelicsLib
 
         }
 #endregion
-
-        public static HubSystem HUB { get; set; }
-
-        //public static CombinedSystem ENET { get; set; }
-        public static ElectricNet ENET { get; set; }
-
-        //public static CombinedSystem GNET { get; set; }
-        public static GasNet GNET { get; set; }
-        public static FuelGenerator FGEN { get; set; }
-        static object GetObject(string funcName)
-        {
-            var func = typeof(API).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            return func.Invoke(null, new object[] { });
-        }
-
-        public static StreamWriter gasSw;
-        public static StreamWriter elecSw;
-        public static double eps = 0.1;
+        public static double eps = 0.001;
 
         public static void PublishRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
         {
-            ENET = (ElectricNet)GetObject("get_ENET");
-
             int Horizon = MappingList.First().Horizon;
             int kstep;
 
@@ -174,7 +155,7 @@ namespace SAIntHelicsLib
                 for (int i = 0; i < Horizon; i++)
                 {
                     kstep = i + HorizonStartingTimeStep;
-                    DateTime DateTimeStep = ENET.SCE.dTime[kstep];               
+                    DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep];               
                     double Pval = m.GFG.FGEN.get_P(kstep);
 
                     double RequieredFuelRate = (m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * Pval + m.GFG.FGEN.FC2 * Pval * Pval)/3600; // in m3/s                  
@@ -182,7 +163,7 @@ namespace SAIntHelicsLib
 
                     h.helicsPublicationPublishDouble(m.RequieredFuelRate[i], RequieredFuelRate);
 
-                    Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\t FuelRate = {3:0.0000} [m3/s]\t P = {4:0.0000} [MW]\t  PGMAX = {5:0.0000} [MW]",
+                    Console.WriteLine(String.Format("Electric-S: Time {0}\titer {1}\t{2}\tFuelRate = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\tPGMAX = {5:0.000} [MW]",
                         DateTimeStep, Iter, m.GFG.FGEN, RequieredFuelRate, Pval, m.GFG.FGEN.get_PMAX(kstep)));
                     m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
                         kstep, Iter, Pval, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep));
@@ -191,8 +172,6 @@ namespace SAIntHelicsLib
         }
         public static void PublishAvailableFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
         {
-            GNET = (GasNet)GetObject("get_GNET");
-
             int Horizon = MappingList.First().Horizon;
             int kstep;
 
@@ -201,7 +180,7 @@ namespace SAIntHelicsLib
                 for (int i = 0; i < Horizon; i++)
                 {
                     kstep = i + HorizonStartingTimeStep;
-                    DateTime DateTimeStep = GNET.SCE.dTime[kstep];
+                    DateTime DateTimeStep = m.GFG.GNET.SCE.dTime[kstep];
 
                     double Pval = API.evalFloat(String.Format("GDEM.{0}.P.({1}).[bar-g]", m.GFG.GDEM.Name, kstep));
                     double PMIN = API.evalFloat(String.Format("{0}.PMIN.({1}).[bar-g]", m.GFG.GDEM.NetNode, kstep));
@@ -223,8 +202,6 @@ namespace SAIntHelicsLib
 
         public static bool SubscribeToAvailableFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
-            ENET = (ElectricNet)GetObject("get_ENET");
-
             bool HasViolations = false;            
             int Horizon = MappingList.First().Horizon;
             int kstep;
@@ -236,7 +213,7 @@ namespace SAIntHelicsLib
                 for (int i = 0; i < Horizon; i++)
                 {
                     kstep = HorizonStartingTimeStep + i;
-                    DateTime DateTimeStep = ENET.SCE.dTime[kstep]; ;
+                    DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep]; ;
                     // subscribe to available thermal power from gas node
                     double AvailableFuelRate = h.helicsInputGetDouble(m.AvailableFuelRate[i]);
 
@@ -314,8 +291,6 @@ namespace SAIntHelicsLib
 
         public static bool SubscribeToRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
-            GNET = (GasNet)GetObject("get_GNET");
-
             int Horizon = MappingList.First().Horizon;
 
             bool HasViolations = false;
@@ -327,7 +302,7 @@ namespace SAIntHelicsLib
                 for (int i = 0; i < Horizon; i++)
                 {
                     int kstep = HorizonStartingTimeStep + i;
-                    DateTime DateTimeStep = GNET.SCE.dTime[kstep];// + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
+                    DateTime DateTimeStep = m.GFG.GNET.SCE.dTime[kstep];// + new TimeSpan(0, 0, gtime * (int)GNET.SCE.dt);
 
                     // get publication from electric federate
                     double RequieredFuelRate = h.helicsInputGetDouble(m.RequieredFuelRate[i]);
@@ -399,29 +374,29 @@ namespace SAIntHelicsLib
             double Res = Math.Abs(GetF(initVal));
             int maxiter = 30;
             int i=0;
-            double p=initVal;
+            double ActivePower=initVal;
 
             while (i<maxiter)
-            { if (GetdFdx(p) != 0)
+            { if (GetdFdx(ActivePower) != 0)
                 {
-                    p -= GetF(p) / GetdFdx(p);
+                    ActivePower -= GetF(ActivePower) / GetdFdx(ActivePower);
                 }
                 else
                 {
-                    p -= 0.0001;
+                    ActivePower -= 0.0001;
                 }                
 
-                Res =Math.Abs(GetF(p));
+                Res =Math.Abs(GetF(ActivePower));
 
                 if (Res < 1e-10)
                 {
-                    return p;
+                    return ActivePower;
                 }
 
                 i+=1;
             }
 
-            return p;
+            return ActivePower;
         }
 
         public static List<ElectricGasMapping> GetMappingFromHubs(IList<GasFiredGenerator> GFGs)
@@ -437,9 +412,9 @@ namespace SAIntHelicsLib
                     Units Unit = new Units(UnitTypeList.Q, UnitList.sm3_s);
 
                     // Inititalize events for each time step before simulation
-                    for (int kstep = 0; kstep <= hub.GDEM.GNET.SCE.NN; kstep++)
+                    for (int kstep = 0; kstep <= hub.GNET.SCE.NN; kstep++)
                     {
-                        DateTime DateTimeStep = GNET.SCE.dTime[kstep];
+                        DateTime DateTimeStep = hub.GNET.SCE.dTime[kstep];
 
                         bool IsThereQsetEvent = hub.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep);
                         if (IsThereQsetEvent)
@@ -469,9 +444,9 @@ namespace SAIntHelicsLib
                 {
                     Units Unit = new Units(UnitTypeList.PPOW, UnitList.MW);
 
-                    for (int kstep = 0; kstep <= hub.FGEN.ENET.SCE.NN; kstep++)
+                    for (int kstep = 0; kstep <= hub.ENET.SCE.NN; kstep++)
                     {
-                        DateTime DateTimeStep = ENET.SCE.dTime[kstep];
+                        DateTime DateTimeStep = hub.ENET.SCE.dTime[kstep];
 
                         bool IsTherePMAXEvent = hub.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);
 

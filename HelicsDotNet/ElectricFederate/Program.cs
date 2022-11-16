@@ -55,7 +55,7 @@ namespace HelicsDotNetSender
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
-            
+
             ENET.SCE.SolverType = SolverType.Gurobi;
             ENET.SCE.SolverModel = SolverModel.LP;
 
