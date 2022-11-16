@@ -143,7 +143,7 @@ namespace SAIntHelicsLib
 
         }
 #endregion
-        public static double eps = 0.001;
+        public static double eps = 0.01;
 
         public static void PublishRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
         {
@@ -159,7 +159,7 @@ namespace SAIntHelicsLib
                     double Pval = m.GFG.FGEN.get_P(kstep);
 
                     double RequieredFuelRate = (m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * Pval + m.GFG.FGEN.FC2 * Pval * Pval)/3600; // in m3/s                  
-                    double RequieredFuelRate02 = m.GFG.FGEN.get_F(kstep) / 3600; //in m3/s
+                    //double RequieredFuelRate02 = m.GFG.FGEN.get_F(kstep) / 3600; //in m3/s
 
                     h.helicsPublicationPublishDouble(m.RequieredFuelRate[i], RequieredFuelRate);
 
@@ -192,7 +192,7 @@ namespace SAIntHelicsLib
                     //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
                     h.helicsPublicationPublishDouble(m.PressureRelativeToPmin[i], Pval - PMIN);
 
-                    Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Q = {3:0.0000} [sm3/s]\t Q = {3:0.0000} [sm3/s]\t P {5:0.0000} [bar]",
+                    Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Q = {3:0.000} [sm3/s]\t Q = {3:0.000} [sm3/s]\t P {5:0.000} [bar]",
                         DateTimeStep, Iter, m.GFG.GDEM, AvailableFuelRate, m.GFG.GDEM.get_QSET(kstep), Pval));
                     m.sw.WriteLine(String.Format("{3}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {4:0.00000}",
                         kstep, Iter, Pval, DateTimeStep, AvailableFuelRate));
@@ -239,8 +239,8 @@ namespace SAIntHelicsLib
                     //get currently required thermal power 
                     double PGval = m.GFG.FGEN.get_P(kstep);
                     double FuelRate(double x) => m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * x + m.GFG.FGEN.FC2 * x * x;  // in m3/h                  
-                    double RequieredFuelRate = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
-                    double RequieredFuelRate02 = FuelRate(PGval)/3600; // in m3/s
+                    //double RequieredFuelRate02 = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
+                    double RequieredFuelRate = FuelRate(PGval)/3600; // in m3/s
 
                     m.LastVal[i].Add(AvailableFuelRate);
 
