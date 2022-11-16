@@ -163,7 +163,7 @@ namespace SAIntHelicsLib
 
                     h.helicsPublicationPublishDouble(m.RequieredFuelRate[i], RequieredFuelRate);
 
-                    Console.WriteLine(String.Format("Electric-S: Time {0}\titer {1}\t{2}\tFuelRate = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\tPGMAX = {5:0.000} [MW]",
+                    Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\tFuelRate = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\t PGMAX = {5:0.000} [MW]",
                         DateTimeStep, Iter, m.GFG.FGEN, RequieredFuelRate, Pval, m.GFG.FGEN.get_PMAX(kstep)));
                     m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
                         kstep, Iter, Pval, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep));
@@ -182,9 +182,9 @@ namespace SAIntHelicsLib
                     kstep = i + HorizonStartingTimeStep;
                     DateTime DateTimeStep = m.GFG.GNET.SCE.dTime[kstep];
 
-                    double Pval = API.evalFloat(String.Format("GDEM.{0}.P.({1}).[bar-g]", m.GFG.GDEM.Name, kstep));
-                    double PMIN = API.evalFloat(String.Format("{0}.PMIN.({1}).[bar-g]", m.GFG.GDEM.NetNode, kstep));
-                 
+                    double Pval = m.GFG.GDEM.get_P(kstep)/1e5; // in bar
+                    double PMIN = m.GFG.GNET.get_PMIN(kstep) / 1e5; // in bar
+
                     double AvailableFuelRate = m.GFG.GDEM.get_Q(kstep); // in sm3/s
                     
                     h.helicsPublicationPublishDouble(m.AvailableFuelRate[i], AvailableFuelRate);
@@ -192,8 +192,8 @@ namespace SAIntHelicsLib
                     //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
                     h.helicsPublicationPublishDouble(m.PressureRelativeToPmin[i], Pval - PMIN);
 
-                    Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Q = {3:0.0000} [sm3/s]\t P {4:0.0000} [bar-g]",
-                        DateTimeStep, Iter, m.GFG.GDEM, AvailableFuelRate, Pval));
+                    Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Q = {3:0.0000} [sm3/s]\t Q = {3:0.0000} [sm3/s]\t P {5:0.0000} [bar]",
+                        DateTimeStep, Iter, m.GFG.GDEM, AvailableFuelRate, m.GFG.GDEM.get_QSET(kstep), Pval));
                     m.sw.WriteLine(String.Format("{3}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {4:0.00000}",
                         kstep, Iter, Pval, DateTimeStep, AvailableFuelRate));
                 }
@@ -222,7 +222,7 @@ namespace SAIntHelicsLib
 
                     if (Init == "Initialization")
                     {
-                        if ((AvailableFuelRate < 0) | (valPbar < 0))
+                        if ((AvailableFuelRate < 0))
                         {
                             HasViolations = true;
                         }
@@ -239,7 +239,7 @@ namespace SAIntHelicsLib
                     //get currently required thermal power 
                     double PGval = m.GFG.FGEN.get_P(kstep);
                     double FuelRate(double x) => m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * x + m.GFG.FGEN.FC2 * x * x;  // in m3/h                  
-                    double RequieredFuelRate = m.GFG.FGEN.Fuel.get_F(kstep)/3600; // in m3/s
+                    double RequieredFuelRate = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
                     double RequieredFuelRate02 = FuelRate(PGval)/3600; // in m3/s
 
                     m.LastVal[i].Add(AvailableFuelRate);

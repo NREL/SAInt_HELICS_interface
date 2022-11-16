@@ -32,32 +32,25 @@ namespace HelicsDotNetSender
             MappingFactory.WaitForAcknowledge();
 
             //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
+            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\DCUCOPF_DynGas";
             //API.openENET(netfolder + "GasFiredGenerator.enet");
             //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openESCE(netfolder + "QDYNACOPF.esce");
+            //API.openESCE(netfolder + "PCM.esce");
             //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\DCUCOPF_DynGas";
-            API.openENET(netfolder + "GasFiredGenerator.enet");
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            API.openESCE(netfolder + "PCM.esce");
-            API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
-
-            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            //API.openENET(netfolder + "ENET30.enet");
-            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            //API.openESCE(netfolder + "PCM001.esce");
-            //API.openECON(netfolder + "CMBSTEOPF.econ");
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\\DCUCOPF_DynGas";
+            API.openENET(netfolder + "ENET30.enet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openESCE(netfolder + "PCM001.esce");
+            API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
             ENET.SCE.SolverType = SolverType.Gurobi;
-            ENET.SCE.SolverModel = SolverModel.LP;
+            //ENET.SCE.SolverModel = SolverModel.LP;
 
             Directory.CreateDirectory(outputfolder);
 #if !DEBUG
@@ -160,7 +153,7 @@ namespace HelicsDotNetSender
 
             while (true)
             {
-                Console.WriteLine("\nElectric: Entering Iterative Execution Mode\n");
+                Console.WriteLine("\nElectric: Initialize Iterative Execution Mode\n");
                 HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
 
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)

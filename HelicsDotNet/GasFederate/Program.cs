@@ -28,19 +28,19 @@ namespace HelicsDotNetReceiver
         {
             Thread.Sleep(100);
 
-            string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\DCUCOPF_DynGas";
-            API.openGNET(netfolder + "GasFiredGenerator.gnet");
-            MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            API.openGSCE(netfolder + "DYN_GAS.gsce");
-            API.openGCON(netfolder + "STEADY_GAS.gcon");
+            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
+            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\DCUCOPF_DynGas";
+            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
+            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
+            //API.openGSCE(netfolder + "DYN_GAS.gsce");
+            //API.openGCON(netfolder + "STEADY_GAS.gcon");
 
-            //string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            //string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\DCUCOPF_DynGas\";
-            //API.openGNET(netfolder + "GNET25.gnet");
-            //MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            //API.openGSCE(netfolder + "CASE1.gsce");
-            //API.openGCON(netfolder + "CMBSTEOPF.gcon");
+            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\DCUCOPF_DynGas\";
+            API.openGNET(netfolder + "GNET25.gnet");
+            MappingFactory.AccessFile(netfolder + "Demo.hubs");
+            API.openGSCE(netfolder + "CASE1.gsce");
+            API.openGCON(netfolder + "CMBSTEOPF.gcon");
 
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
@@ -152,7 +152,7 @@ namespace HelicsDotNetReceiver
 
             while (true)
             {
-                Console.WriteLine("\nGas: Entering Iterative Execution Mode\n");
+                Console.WriteLine("\nGas: Initialize Iterative Execution Mode\n");
                 HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
 
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
