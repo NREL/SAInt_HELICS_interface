@@ -5,6 +5,7 @@ using System.IO;
 using SAInt_API;
 using SAInt_API.Library;
 using SAInt_API.Library.Units;
+using SAInt_API.Model.Network;
 using SAInt_API.Model.Network.Hub;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Fluid.Gas;
@@ -143,7 +144,7 @@ namespace SAIntHelicsLib
 
         }
 #endregion
-        public static double eps = 0.01;
+        public static double eps = 0.001;
 
         public static void PublishRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
         {
@@ -156,17 +157,15 @@ namespace SAIntHelicsLib
                 {
                     kstep = i + HorizonStartingTimeStep;
                     DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep];               
-                    double Pval = m.GFG.FGEN.get_P(kstep);
-
-                    double RequieredFuelRate = (m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * Pval + m.GFG.FGEN.FC2 * Pval * Pval)/3600; // in m3/s                  
-                    //double RequieredFuelRate02 = m.GFG.FGEN.get_F(kstep) / 3600; //in m3/s
+                    double ActivePower = m.GFG.FGEN.get_P(kstep);
+                    double RequieredFuelRate = m.GFG.FGEN.get_F(kstep) / 3600; //in m3/s
 
                     h.helicsPublicationPublishDouble(m.RequieredFuelRate[i], RequieredFuelRate);
 
-                    Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\tFuelRate = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\t PGMAX = {5:0.000} [MW]",
-                        DateTimeStep, Iter, m.GFG.FGEN, RequieredFuelRate, Pval, m.GFG.FGEN.get_PMAX(kstep)));
+                    Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\tFuelRateRequested = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\t PGMAX = {5:0.000} [MW]",
+                        DateTimeStep, Iter, m.GFG.FGEN, RequieredFuelRate, ActivePower, m.GFG.FGEN.get_PMAX(kstep)));
                     m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
-                        kstep, Iter, Pval, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep));
+                        kstep, Iter, ActivePower, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep));
                 }
             }
         }
@@ -192,7 +191,7 @@ namespace SAIntHelicsLib
                     //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
                     h.helicsPublicationPublishDouble(m.PressureRelativeToPmin[i], Pval - PMIN);
 
-                    Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Q = {3:0.000} [sm3/s]\t Q = {3:0.000} [sm3/s]\t P {5:0.000} [bar]",
+                    Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.000} [sm3/s]\t QSET = {3:0.000} [sm3/s]\t P {5:0.000} [bar]",
                         DateTimeStep, Iter, m.GFG.GDEM, AvailableFuelRate, m.GFG.GDEM.get_QSET(kstep), Pval));
                     m.sw.WriteLine(String.Format("{3}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {4:0.00000}",
                         kstep, Iter, Pval, DateTimeStep, AvailableFuelRate));
@@ -229,18 +228,16 @@ namespace SAIntHelicsLib
                         if (HasViolations) break;
                         else
                         {
-                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t FuelRate = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
+                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
                             continue;
                         }
                     }
 
-                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t FuelRate = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
+                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
 
                     //get currently required thermal power 
-                    double PGval = m.GFG.FGEN.get_P(kstep);
-                    double FuelRate(double x) => m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * x + m.GFG.FGEN.FC2 * x * x;  // in m3/h                  
-                    //double RequieredFuelRate02 = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
-                    double RequieredFuelRate = FuelRate(PGval)/3600; // in m3/s
+                    double ActivePower = m.GFG.FGEN.get_P(kstep);                                    
+                    double RequieredFuelRate = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
 
                     m.LastVal[i].Add(AvailableFuelRate);
 
@@ -248,8 +245,7 @@ namespace SAIntHelicsLib
                     {
                         if ((valPbar < eps || Iter > 5) && (!m.IsPmaxChanged[kstep]))
                         {
-                            double PG = GetActivePowerFromAvailableFuelRate(m, AvailableFuelRate, PGval);
-                            double PGMAX_old = m.GFG.FGEN.get_PMAX(kstep);
+                            double PG = GetActivePowerFromAvailableFuelRate(m, AvailableFuelRate, ActivePower);
                             double PGMAX = Math.Max(m.GFG.FGEN.get_PMIN(kstep), PG);                            
 
                             foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
@@ -262,8 +258,8 @@ namespace SAIntHelicsLib
                                 evt.Info = "HELICS";
                             };
 
-                            m.IsPmaxChanged[kstep] = false; // true if we want to set it only once.
-                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAX = {3:0.0000} [MW]",
+                            m.IsPmaxChanged[kstep] = true; // true if we want to set it only once.
+                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAXset = {3:0.0000} [MW]",
                                 DateTimeStep, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(kstep)));                            
                         }
                         HasViolations = true;
@@ -369,7 +365,7 @@ namespace SAIntHelicsLib
         {
             double GetFuelRate (double x) => m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * x + m.GFG.FGEN.FC2 * x * x;
             double GetF (double x) => 3600 * AvailableFuelRate - GetFuelRate(x);
-            double GetdFdx (double x)  => -(m.GFG.FGEN.FC1 * x + 2*m.GFG.FGEN.FC2 * x);
+            double GetdFdx (double x)  => -(m.GFG.FGEN.FC1 + 2*m.GFG.FGEN.FC2 * x);
 
             double Res = Math.Abs(GetF(initVal));
             int maxiter = 30;

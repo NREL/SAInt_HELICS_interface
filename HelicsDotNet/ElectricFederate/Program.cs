@@ -2,15 +2,11 @@
 using h = helics;
 using SAInt_API;
 using SAInt_API.Library;
-using SAInt_API.Library.Units;
-using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 using SAIntHelicsLib;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
-using SAInt_API.Model;
-using SAInt_API.Model.Scenarios;
 using System.Linq;
 
 namespace HelicsDotNetSender
@@ -39,17 +35,17 @@ namespace HelicsDotNetSender
             //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
 
             string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\\DCUCOPF_DynGas";
+            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\\DCUCOPF_DynGas\";
             API.openENET(netfolder + "ENET30.enet");
             MappingFactory.AccessFile(netfolder + "Demo.hubs");
             API.openESCE(netfolder + "PCM001.esce");
-            API.openECON(netfolder + "CMBSTEOPF.econ");
+            //API.openECON(netfolder + "CMBSTEOPF.econ");
 
             MappingFactory.SendAcknowledge();
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
-            ENET.SCE.SolverType = SolverType.Gurobi;
+            //ENET.SCE.SolverType = SolverType.Gurobi;
             //ENET.SCE.SolverModel = SolverModel.LP;
 
             Directory.CreateDirectory(outputfolder);
@@ -321,7 +317,6 @@ namespace HelicsDotNetSender
                         sw.WriteLine(String.Format("{0}\t\t\t{1}", x.HorizonStep, x.IterationCount));
                     }
                 }
-
             }
 
             // Diverging time steps
