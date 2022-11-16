@@ -422,10 +422,10 @@ namespace SAIntHelicsLib
                     for (int kstep = 0; kstep <= GFG.GDEM.GNET.SCE.NN; kstep++)
                     {
                         DateTime DateTimeStep = GNET.SCE.dTime[kstep];
-                        bool QsetEventExist = m.GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep);
+                        bool QsetEventExist = GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep);
                         if (QsetEventExist)
                         {
-                            foreach (var evt in m.GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep))
+                            foreach (var evt in GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
                                 evt.ShowVal = string.Format("{0}", GFG.GDEM.get_QSET(kstep));
@@ -435,7 +435,7 @@ namespace SAIntHelicsLib
                         }
                         else
                         {
-                            ScenarioEvent QsetEvent = new ScenarioEvent(m.GFG.GDEM, CtrlType.QSET, GFG.GDEM.get_QSET(kstep), Unit)
+                            ScenarioEvent QsetEvent = new ScenarioEvent(GFG.GDEM, CtrlType.QSET, GFG.GDEM.get_QSET(kstep), Unit)
                             {
                                 Processed = false,
                                 StartTime = DateTimeStep,
@@ -454,11 +454,11 @@ namespace SAIntHelicsLib
                     {
                         DateTime DateTimeStep = ENET.SCE.dTime[kstep];
                         // Initial PMAX event values
-                        bool IsTherePmaxEvent = m.GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);
+                        bool IsTherePmaxEvent = GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);
                         
                         if (IsTherePmaxEvent)
                         {
-                            foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
+                            foreach (var evt in GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
                                 evt.ShowVal = string.Format("{0}", GFG.FGEN.get_PMAX(kstep));
@@ -468,7 +468,7 @@ namespace SAIntHelicsLib
                         }
                         else
                         {
-                            ScenarioEvent PmaxEvent = new ScenarioEvent(m.GFG.FGEN, CtrlType.PMAX, GFG.FGEN.get_PMAX(kstep), Unit)
+                            ScenarioEvent PmaxEvent = new ScenarioEvent(GFG.FGEN, CtrlType.PMAX, GFG.FGEN.get_PMAX(kstep), Unit)
                             {
                                 Processed = false,
                                 StartTime = DateTimeStep,

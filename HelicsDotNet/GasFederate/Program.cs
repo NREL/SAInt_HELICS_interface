@@ -130,7 +130,7 @@ namespace HelicsDotNetReceiver
 
             double granted_time = 0;    
 
-            TimeStepInfo currenttimestep = new TimeStepInfo() { timestep = 0, itersteps = 0, time = GNET.SCE.dTime(0)};
+            TimeStepInfo currenttimestep = new TimeStepInfo() { timestep = 0, itersteps = 0, time = GNET.SCE.dTime[0]};
             TimeStepInfo CurrentDiverged = new TimeStepInfo();
 
             List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
