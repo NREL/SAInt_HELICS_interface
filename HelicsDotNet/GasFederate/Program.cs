@@ -1,18 +1,12 @@
 using System;
+using System.IO;
+using System.Collections.Generic;
 using h = helics;
 using SAInt_API;
-using System.IO;
-using System.Threading;
-using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
-using SAInt_API.Library.Units;
-using SAInt_API.Model.Scenarios;
-
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
-using SAInt_API.Model;
-using System.Linq;
 
 namespace HelicsDotNetReceiver
 {
@@ -28,30 +22,44 @@ namespace HelicsDotNetReceiver
         }
 
         static void Main(string[] args)
-        {
-            //Thread.Sleep(100);
+        {            
+            Console.WriteLine("\nEnter the gas network folder path:");
+            string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
+          
+            Console.WriteLine("\nEnter the gas network file name:");
+            string NetFileName = Console.ReadLine(); // "GNET25.gnet"
 
-            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            //API.openGNET(netfolder + "GasFiredGenerator.gnet");
-            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openGSCE(netfolder + "DYN_GAS.gsce");
-            //API.openGCON(netfolder + "STEADY_GAS.gcon");
+            Console.WriteLine("\nEnter the gas scenario file name:");
+            string SceFileName = Console.ReadLine(); // "CASE1.gsce"
 
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openGNET(netfolder + "GNET25.gnet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openGSCE(netfolder + "CASE1.gsce");
-            API.openGCON(netfolder + "CMBSTEOPF.gcon");
+            Console.WriteLine("\nEnter the gas state file name:");
+            string StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
 
+            Console.WriteLine("\nEnter the hub file name:\n");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            Console.WriteLine("\nEnter the gas output description file name:");
+            string SolDescFilePath = Console.ReadLine(); // "gsol.txt"
+
+            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName;
+            Directory.CreateDirectory(OutputFolder);
+
+            string LocalNetFolder = @"..\NetFolder\";
+            Directory.CreateDirectory(LocalNetFolder);
+            MappingFactory.CopyDirectory(NetworkSourceFolder, LocalNetFolder, true);
+
+            API.openGNET(LocalNetFolder + NetFileName);
+            MappingFactory.AccessFile(LocalNetFolder + HubFileName);
+            API.openGSCE(LocalNetFolder + SceFileName);
+            API.openGCON(LocalNetFolder + StateFileName);
+
+            // Send signal to indicate that the hub file is available
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
 
             GNET = (GasNet)GetObject("get_GNET");
             HUB = (HubSystem)GetObject("get_HUBS");
-
-            Directory.CreateDirectory(outputfolder);
+            
 #if !DEBUG
             API.showSIMLOG(true);
 #else
@@ -91,10 +99,9 @@ namespace HelicsDotNetReceiver
                 m.RequieredThermalPower = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName, "");
 
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.GDEMName + ".txt", FileMode.Create));
-                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar-g] \t Q [sm3/s] \t ThPow [MW] ");
+                m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.GDEMName + ".txt", FileMode.Create));
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar] \t Q [sm3/s] \t ThPow [MW] ");
             }
-
             // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
@@ -146,7 +153,7 @@ namespace HelicsDotNetReceiver
 
             while (true)
             {
-                Console.WriteLine("\nGas: Entering Iterative Execution Mode\n");
+                Console.WriteLine("\nGas: Initialize Iterative Execution Mode\n");
                 HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
 
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
@@ -249,7 +256,6 @@ namespace HelicsDotNetReceiver
                 {
                     e.RepeatTimeStep = 0;
                 }
-
             };
 
             Console.WriteLine("======================================================\n");
@@ -271,8 +277,8 @@ namespace HelicsDotNetReceiver
 #endif
 
             // save SAInt output
-            API.writeGSOL(netfolder + "gsolin.txt", outputfolder + "gsolout_HELICS.xlsx");
-            API.exportGSCE(outputfolder + "GSCE.xlsx");
+            API.writeGSOL(LocalNetFolder + "gsolin.txt", OutputFolder + "gsolout_HELICS.xlsx");
+            API.exportGSCE(OutputFolder + "GasScenarioEventsGSCE.xlsx");
 
             // finalize federate
             h.helicsFederateFinalize(vfed);
@@ -280,7 +286,7 @@ namespace HelicsDotNetReceiver
             h.helicsFederateFree(vfed);
             h.helicsCloseLibrary();
 
-            using (FileStream fs = new FileStream(outputfolder + "TimeStepIterationInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream(OutputFolder + "TimeStepIterationInfo_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
@@ -292,7 +298,7 @@ namespace HelicsDotNetReceiver
                 }
 
             }
-            using (FileStream fs = new FileStream(outputfolder + "NotConverged_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream(OutputFolder + "NotConverged_gas_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {

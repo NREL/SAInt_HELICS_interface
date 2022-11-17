@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ElectricNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="f232b290192c4dcaadde23798ba8b535" ModelOrigin="SAInt_API" ModelName="GasFiredGenerator" TimeCreated="2021-11-16T13:44:08.5193764+01:00" TimeModified="2022-11-12T23:41:01.3246438+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="0.5" BaseS="100" BaseF="50" TFSize="1.2">
+<ElectricNet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" UID="f232b290192c4dcaadde23798ba8b535" ModelOrigin="SAInt_API" ModelName="GasFiredGenerator" TimeCreated="2021-11-16T13:44:08.5193764+01:00" TimeModified="2022-11-13T00:55:23.2247727+01:00" Version="3.0.0.0" NodeSize="1.1" LineSize="2" Arrowsize="0.5" BaseS="100" BaseF="50" TFSize="1.2">
   <Constraints />
   <Nodes>
     <Node xsi:type="ElectricNodeX" UID="004e2144629d4707ad475449d2dd787d" Name="ENO_0" Alias="" InService="true" Info="-" Visible="true" X="3.0671019586734474" Y="3.00786392390728" ZoneName="ZONE1" H="0" Lat="0" Long="0" BaseV="20" VMAXDEF="1.1" VMINDEF="0.7">

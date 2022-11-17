@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using System.Collections.Generic;
 using System.IO;
-//using s = SAInt_API.SAInt;
+using System.Linq;
+using h = helics;
 using SAInt_API;
 using SAInt_API.Library.Units;
-using SAInt_API.Model.Network.Hub;
-using SAInt_API.Model.Network.Electric;
-using SAInt_API.Model.Network.Fluid.Gas;
-
 using SAInt_API.Model;
 using SAInt_API.Model.Scenarios;
-
-using h = helics;
-using System.Net.Sockets;
-using System.Linq;
+using SAInt_API.Model.Network.Hub;
+using SAInt_API.Model.Network.Fluid.Gas;
 
 namespace SAIntHelicsLib
 {
-
     public static class MappingFactory
     {
         #region Server client communication to open hub file without conflict
@@ -143,34 +138,14 @@ namespace SAIntHelicsLib
 
         }
 #endregion
-
-        public static HubSystem HUB { get; set; }
-
-        //public static CombinedSystem ENET { get; set; }
-        public static ElectricNet ENET { get; set; }
-
-        //public static CombinedSystem GNET { get; set; }
-        public static GasNet GNET { get; set; }
-        public static FuelGenerator FGEN { get; set; }
-        static object GetObject(string funcName)
-        {
-            var func = typeof(API).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            return func.Invoke(null, new object[] { });
-        }
-
-        public static StreamWriter gasSw;
-        public static StreamWriter elecSw;
+ 
         public static double eps = 0.001;
 
         public static void PublishRequiredThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList)
         {
-            ENET = (ElectricNet)GetObject("get_ENET");
-            DateTime DateTimeStep = ENET.SCE.dTime[kstep];
-
             foreach (ElectricGasMapping m in MappingList)
             {
-                double GCV = m.GFG.get_GCV(kstep) / 1e6; // in MJ/m3
-                 //double pval0 = API.evalFloat(String.Format("FGEN.{0}.P.({1}).[MW]", m.GFG.FGENName,egtime));                
+                double GCV = m.GFG.get_GCV(kstep) / 1e6; // in MJ/m3                
                 double PGval = m.GFG.FGEN.get_P(kstep);     
 
                 double HR = m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * PGval + m.GFG.FGEN.HR2 * PGval * PGval;
@@ -180,47 +155,42 @@ namespace SAIntHelicsLib
                 h.helicsPublicationPublishDouble(m.RequieredThermalPower, ThermalPower);
 
                 Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\t Pthe = {3:0.0000} [MW]\t P = {4:0.0000} [MW]\t  PGMAX = {5:0.0000} [MW]",
-                    DateTimeStep, Iter, m.GFG.FGEN, ThermalPower, PGval, m.GFG.FGEN.get_PMAX(kstep)));
+                    m.GFG.ENET.SCE.dTime[kstep], Iter, m.GFG.FGEN, ThermalPower, PGval, m.GFG.FGEN.get_PMAX(kstep)));
                 m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
-                    kstep, Iter, PGval, ThermalPower, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep));
+                    kstep, Iter, PGval, ThermalPower, m.GFG.FGEN.get_PMAX(kstep), m.GFG.ENET.SCE.dTime[kstep]));
             }
         }
         public static void PublishAvailableThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList)
         {
-            GNET = (GasNet)GetObject("get_GNET");
-            
-            DateTime DateTimeStep = GNET.SCE.dTime[kstep];
-
             foreach (ElectricGasMapping m in MappingList)
             {                
-                double Pressure = API.evalFloat(String.Format("GDEM.{0}.P.({1}).[bar-g]", m.GFG.GDEM.Name, kstep));
-                double MinPressure = API.evalFloat(String.Format("{0}.PMIN.({1}).[bar-g]", m.GFG.GDEM.NetNode, kstep));
-                double GCV = m.GFG.get_GCV(kstep) / 1e6; // in MJ/m3
+                GasNode GNODE = (GasNode)m.GFG.GDEM.NetNode;
+                double Pressure = (GNODE.get_P(kstep) ) / 1e5; // in bar
+                double MinPressure = GNODE.get_PMIN(kstep) / 1e5; // in bar
+                double GCV = m.GFG.get_GCV(kstep) / 1e6; // in MJ/m3    
                 
-                double ThermalPower = API.evalFloat(String.Format("{0}.Q.({1}).[MW]", m.GFG.GDEM, kstep));
-                double qval02 = API.evalFloat(String.Format("{0}.Q.({1}).[sm3/s]", m.GFG.GDEM, kstep));
-                double GasOfftake = m.GFG.GDEM.get_Q(kstep);  
+                double GasOfftake = m.GFG.GDEM.get_Q(kstep);
+                double ThermalPower = GasOfftake * GCV;            
 
                 //double ThermalPower  = GasOfftake * GCV; //Thermal power in [MW]
                 h.helicsPublicationPublishDouble(m.AvailableThermalPower, ThermalPower);
-                //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
                 h.helicsPublicationPublishDouble(m.PressureRelativeToPmin, Pressure - MinPressure);
 
-                Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t P {4:0.0000} [bar-g]\t Q {5:0.0000} [sm3/s]", 
-                    DateTimeStep, Iter, m.GFG.GDEM, ThermalPower, Pressure, GasOfftake));
+                Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t P {4:0.0000} [bar]\t Q {5:0.0000} [sm3/s]",
+                    m.GFG.GNET.SCE.dTime[kstep], Iter, m.GFG.GDEM, ThermalPower, Pressure, GasOfftake));
                 m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}", 
-                    kstep, Iter, Pressure, GasOfftake, ThermalPower, DateTimeStep));
+                    kstep, Iter, Pressure, GasOfftake, ThermalPower, m.GFG.GNET.SCE.dTime[kstep]));
             }
         }
 
         public static bool SubscribeToAvailableThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
-            ENET = (ElectricNet)GetObject("get_ENET");
             bool HasViolations = false;
-            DateTime DateTimeStep = ENET.SCE.dTime[kstep];
 
             foreach (ElectricGasMapping m in MappingList)
             {
+                DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep];
+
                 // subscribe to available thermal power from gas node
                 double AvailableThermalPower = h.helicsInputGetDouble(m.AvailableThermalPower);
 
@@ -236,16 +206,15 @@ namespace SAIntHelicsLib
                     if (HasViolations) break;
                     else
                     {
-                        Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
+                        Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
                         continue;
                     }
                 }
 
-                Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
+                Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
 
 
                 //get currently required thermal power 
-                //double pval = API.evalFloat(String.Format("{0}.P.({1}).[MW]", m.GFG.FGEN, etime));
                 double pval = m.GFG.FGEN.get_P(kstep);
                 double HR (double x)=> m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
                 double ThermalPower = HR(pval) / 3.6 * pval; //Thermal power in [MW]; // eta_th=3.6/HR[MJ/kWh]
@@ -300,12 +269,11 @@ namespace SAIntHelicsLib
 
         public static bool SubscribeToRequiredThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
         {
-            GNET = (GasNet)GetObject("get_GNET");
             bool HasViolations = false;
-            DateTime DateTimeStep = GNET.SCE.StartTime + new TimeSpan(0, 0, kstep * (int)GNET.SCE.dt);
             
             foreach (ElectricGasMapping m in MappingList)
             {
+                DateTime DateTimeStep = m.GFG.GNET.SCE.dTime[kstep];
                 // get publication from electric federate
                 double RequieredThermalPower = h.helicsInputGetDouble(m.RequieredThermalPower);
                 //Gtime = m.GFG.GNET.SCE.StartTime;
@@ -372,7 +340,7 @@ namespace SAIntHelicsLib
             return HasViolations;
         }
 
-        public static double GetActivePowerFromAvailableThermalPower(ElectricGasMapping m, double Pth, double initVal)
+        public static double GetActivePowerFromAvailableThermalPower(ElectricGasMapping m, double Pth, double InitVal)
         {
             double GetHR (double x) => m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
             double Get_dF (double x) => 3.6 * Pth - x * GetHR(x);
@@ -380,28 +348,28 @@ namespace SAIntHelicsLib
 
             int maxiter = 30;
             int i=0;
-            double p = initVal;
+            double ActivePower = InitVal;
             double Residual;
 
             while (i<maxiter)
             {
-                Residual = Math.Abs(Get_dF(p));
-                if (Residual < 1e-10)
+                Residual = Math.Abs(Get_dF(ActivePower));
+                if (Residual < 1e-6)
                 {
-                    return p;
+                    return ActivePower;
                 }
-                else if (GetdF_by_dx(p) != 0)
+                else if (GetdF_by_dx(ActivePower) != 0)
                 {
-                    p -= Get_dF(p) / GetdF_by_dx(p);
+                    ActivePower -= Get_dF(ActivePower) / GetdF_by_dx(ActivePower);
                 }
                 else
                 {
-                    p -= 0.0001;
+                    ActivePower -= 0.0001;
                 }  
                 i+=1;
             }
 
-            return p;
+            return ActivePower;
         }
 
         public static List<ElectricGasMapping> GetMappingFromHubs(IList<GasFiredGenerator> GFGs)
@@ -421,7 +389,7 @@ namespace SAIntHelicsLib
                     // Initial QSET event values
                     for (int kstep = 0; kstep <= GFG.GDEM.GNET.SCE.NN; kstep++)
                     {
-                        DateTime DateTimeStep = GNET.SCE.dTime[kstep];
+                        DateTime DateTimeStep = GFG.GNET.SCE.dTime[kstep];
                         bool QsetEventExist = GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep);
                         if (QsetEventExist)
                         {
@@ -452,7 +420,7 @@ namespace SAIntHelicsLib
 
                     for (int kstep = 0; kstep <= GFG.FGEN.ENET.SCE.NN; kstep++)
                     {
-                        DateTime DateTimeStep = ENET.SCE.dTime[kstep];
+                        DateTime DateTimeStep = GFG.ENET.SCE.dTime[kstep];
                         // Initial PMAX event values
                         bool IsTherePmaxEvent = GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);
                         
@@ -488,6 +456,38 @@ namespace SAIntHelicsLib
         {
             API.openHUBS(FilePath);
             System.Threading.Thread.Sleep(100);
+        }
+        public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
+        {
+            // Get information about the source directory
+            var dir = new DirectoryInfo(sourceDir);
+
+            // Check if the source directory exists
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+
+            // Cache directories before we start copying
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // Create the destination directory
+            Directory.CreateDirectory(destinationDir);
+
+            // Get the files in the source directory and copy to the destination directory
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                string targetFilePath = Path.Combine(destinationDir, file.Name);
+                file.CopyTo(targetFilePath, true);
+            }
+
+            // If recursive and copying subdirectories, recursively call this method
+            if (recursive)
+            {
+                foreach (DirectoryInfo subDir in dirs)
+                {
+                    string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                    CopyDirectory(subDir.FullName, newDestinationDir, true);
+                }
+            }
         }
     }
 

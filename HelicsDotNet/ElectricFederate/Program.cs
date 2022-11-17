@@ -1,20 +1,12 @@
 ﻿using System;
-using h = helics;
-using SAInt_API;
-//using SAInt_API.NetList
-using SAInt_API.Library;
-using SAInt_API.Library.Units;
-using System.Threading;
 using System.Collections.Generic;
 using System.IO;
+using h = helics;
+using SAInt_API;
+using SAInt_API.Library;
 using SAIntHelicsLib;
-
-//using SAInt_API.Model.Network.NetSystem;
-using SAInt_API.Model.Scenarios;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
-using SAInt_API.Model;
-using System.Linq;
 
 namespace HelicsDotNetSender
 {
@@ -31,24 +23,41 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
+            Console.WriteLine("\nEnter the electric network folder path:");
+            string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\ENET30.enet"
+    
+            Console.WriteLine("\nEnter the electric network file name:");
+            string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
+            Console.WriteLine("\nEnter the electric scenario file name:");
+            string SceFileName = Console.ReadLine(); // "CASE1.esce"
+
+            Console.WriteLine("\nEnter the electric state file name:");
+            string StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+
+            Console.WriteLine("\nEnter the hub file name:\n");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            Console.WriteLine("\nEnter the electric output description file name:");
+            string SolDescFilePath = Console.ReadLine(); // "esol.txt"
+
+            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName;
+            Directory.CreateDirectory(OutputFolder);
+
+            string LocalNetFolder = @"..\NetFolder\";
+            Directory.CreateDirectory(LocalNetFolder);
+            MappingFactory.CopyDirectory(NetworkSourceFolder, LocalNetFolder, true);
+
+            // Wait until the hub file is accessible
             MappingFactory.WaitForAcknowledge();
 
-            //string netfolder = @"..\..\..\..\Networks\GasFiredGenerator\";
-            //string outputfolder = @"..\..\..\..\outputs\GasFiredGenerator\";
-            //API.openENET(netfolder + "GasFiredGenerator.enet");
-            //MappingFactory.AccessFile(netfolder + "GasFiredGenerator.hubs");
-            //API.openESCE(netfolder + "QDYNACOPF.esce");
-            //API.openECON(netfolder + "QDYN_ACPF_OFF_ON.econ");
-
-            string netfolder = @"..\..\..\..\Networks\DemoCase\WI_4746\";
-            string outputfolder = @"..\..\..\..\outputs\DemoCase\WI_4746\";
-            API.openENET(netfolder + "ENET30.enet");
-            MappingFactory.AccessFile(netfolder + "Demo.hubs");
-            API.openESCE(netfolder + "CASE1.esce");
-            API.openECON(netfolder + "CMBSTEOPF.econ");
+            API.openENET(LocalNetFolder + NetFileName);
+            MappingFactory.AccessFile(LocalNetFolder + HubFileName);
+            API.openESCE(LocalNetFolder + SceFileName);
+            API.openECON(LocalNetFolder + StateFileName);
 
             MappingFactory.SendAcknowledge();
+
             ENET = (ElectricNet)GetObject("get_ENET");
             HUB = (HubSystem)GetObject("get_HUBS");
 
@@ -57,7 +66,7 @@ namespace HelicsDotNetSender
             ENET.SCE.SolverType = SolverType.Gurobi;
             //ENET.SCE.SolverModel = SolverModel.LP;
 
-            Directory.CreateDirectory(outputfolder);
+            Directory.CreateDirectory(OutputFolder);
 #if !DEBUG
             API.showSIMLOG(true);
 #else
@@ -96,7 +105,7 @@ namespace HelicsDotNetSender
                 m.PressureRelativeToPmin = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName, "");
                 
                 //Streamwriter for writing iteration results into file
-                m.sw = new StreamWriter(new FileStream(outputfolder + m.GFG.FGENName + ".txt", FileMode.Create));
+                m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t ThPow [MW]\t PGMAX [MW]");
             }
             
@@ -151,7 +160,7 @@ namespace HelicsDotNetSender
 
             while (true)
             {
-                Console.WriteLine("\nElectric: Entering Iterative Execution Mode\n");
+                Console.WriteLine("\nElectric: Initialize Iterative Execution Mode\n");
                 HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
 
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
@@ -286,7 +295,7 @@ namespace HelicsDotNetSender
             h.helicsFederateFree(vfed);
             h.helicsCloseLibrary();
 
-            using (FileStream fs=new FileStream(outputfolder + "TimeStepIterationInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
+            using (FileStream fs=new FileStream(OutputFolder + "TimeStepIterationInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
             {   
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
@@ -300,10 +309,10 @@ namespace HelicsDotNetSender
             }                       
 
             // save SAInt output
-            API.writeESOL(netfolder + "esolin.txt", outputfolder + "esolout_HELICS.xlsx");
-            API.exportESCE(outputfolder + "ESCE.xlsx");
+            API.writeESOL(SolDescFilePath, OutputFolder + "esolout_HELICS.xlsx");
+            API.exportESCE(OutputFolder + "ElectricScenarioEventsESCE.xlsx");
 
-            using (FileStream fs = new FileStream(outputfolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream(OutputFolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
