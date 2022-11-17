@@ -39,9 +39,9 @@ namespace HelicsDotNetSender
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nEnter the electric output description file name:");
-            string SolDescFilePath = Console.ReadLine(); // "esol.txt"
+            string SolDescFileName = Console.ReadLine(); // "esol.txt"
 
-            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName;
+            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName +@"\";
             Directory.CreateDirectory(OutputFolder);
 
             string LocalNetFolder = @"..\NetFolder\";
@@ -309,7 +309,7 @@ namespace HelicsDotNetSender
             }                       
 
             // save SAInt output
-            API.writeESOL(SolDescFilePath, OutputFolder + "esolout_HELICS.xlsx");
+            API.writeESOL(LocalNetFolder + SolDescFileName, OutputFolder + "esolout_HELICS.xlsx");
             API.exportESCE(OutputFolder + "ElectricScenarioEventsESCE.xlsx");
 
             using (FileStream fs = new FileStream(OutputFolder + "NotConverged_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write))

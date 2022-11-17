@@ -39,9 +39,9 @@ namespace HelicsDotNetReceiver
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nEnter the gas output description file name:");
-            string SolDescFilePath = Console.ReadLine(); // "gsol.txt"
+            string SolDescFileName = Console.ReadLine(); // "gsol.txt"
 
-            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName;
+            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
 
             string LocalNetFolder = @"..\NetFolder\";
@@ -277,7 +277,7 @@ namespace HelicsDotNetReceiver
 #endif
 
             // save SAInt output
-            API.writeGSOL(LocalNetFolder + "gsolin.txt", OutputFolder + "gsolout_HELICS.xlsx");
+            API.writeGSOL(LocalNetFolder + SolDescFileName, OutputFolder + "gsolout_HELICS.xlsx");
             API.exportGSCE(OutputFolder + "GasScenarioEventsGSCE.xlsx");
 
             // finalize federate
