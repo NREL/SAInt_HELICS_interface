@@ -544,7 +544,7 @@ namespace SAIntHelicsLib
 
         public List<bool> IsPmaxChanged = new List<bool>();
 
-        public int Horizon = 4;  // Used for federates having different time horizons 
+        public int Horizon;  // Used for federates having different time horizons 
 
         //public List<double> LastVal = new List<double>();
 

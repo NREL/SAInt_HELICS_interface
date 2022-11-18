@@ -24,7 +24,7 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the electric network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\ENET30.enet"
 
@@ -108,16 +108,18 @@ namespace HelicsDotNetSender
             {
                 for (int i = 0; i < m.Horizon; i++)
                 {
-                    m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", ""); ;
-                    m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), ""); ;
-                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), ""); ;
+                    m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", "");
+                    m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "");
+                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "");
                 }
-
+                m.Horizon = m.GFG.ENET.SCE.NNHRZ;
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t FuelRate [m3/s]\t PGMAX [MW]");
             }
-            
+            // Register publication for the time horizon
+            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
+
             // Set one second message interval
             double period = 1;
             Console.WriteLine("Electric: Setting Federate Timing");
@@ -151,7 +153,7 @@ namespace HelicsDotNetSender
             bool HasViolations = true;
             int helics_iter_status = 3;
 
-            int Horizon = MappingList.First().Horizon;
+            int Horizon = ENET.SCE.NNHRZ;
             int HorizonStartingTimeStep = 1;
             int CountHorizons = 0;
 
@@ -170,6 +172,7 @@ namespace HelicsDotNetSender
             Console.WriteLine("\nElectric: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
             MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);
+            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
 
             while (true)
             {

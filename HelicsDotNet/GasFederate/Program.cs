@@ -26,7 +26,7 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the gas network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
 
@@ -107,15 +107,18 @@ namespace HelicsDotNetReceiver
             {
                 for (int i = 0; i < m.Horizon; i++)
                 {
-                    m.RequieredFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), ""); ;
-                    m.AvailableFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
-                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", ""); ;
+                    m.RequieredFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "");
+                    m.AvailableFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", "");
+                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", "");
                 }
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.GDEMName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar] \t Q [sm3/s]");
-            }            
+            }   
+            
+            // Register subscription for the time horizon
+            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
 
             // Set one second message interval
             double period = 1;
@@ -150,7 +153,7 @@ namespace HelicsDotNetReceiver
             bool HasViolations = true;
             int helics_iter_status = 3;
 
-            int Horizon = MappingList.First().Horizon;
+            int Horizon = 0;
             int HorizonStartingTimeStep = 1;
             int CountTimeSteps = 0;
             int CountHorizons = 0;
@@ -186,7 +189,7 @@ namespace HelicsDotNetReceiver
 
                 // subscribe to available thermal power from gas node
                 HasViolations = MappingFactory.SubscribeToRequiredFuelRate(0, Iter, MappingList, "Initialization");
-
+                Horizon = (int)h.helicsInputGetInteger(HorizonSub);
                 if (!HasViolations)
                 {
                     continue;
@@ -199,8 +202,12 @@ namespace HelicsDotNetReceiver
             }
 
             int FirstTimeStep = 0;
-            // this function is called each time the SAInt solver state changes
-            Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
+            foreach (ElectricGasMapping m in MappingList)
+            {
+                m.Horizon = Horizon;
+            }
+                // this function is called each time the SAInt solver state changes
+                Solver.SolverStateChanged += (object sender, SolverStateChangedEventArgs e) =>
             {
                 if (e.SolverState == SolverState.AfterTimeStep)
                 {
