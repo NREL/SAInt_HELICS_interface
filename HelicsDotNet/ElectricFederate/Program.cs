@@ -22,7 +22,7 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the electric network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\ENET30.enet"
     
@@ -32,6 +32,12 @@ namespace HelicsDotNetSender
             Console.WriteLine("\nEnter the electric scenario file name:");
             string SceFileName = Console.ReadLine(); // "CASE1.esce"
 
+            Console.WriteLine("\nEnter the hub file name:");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            Console.WriteLine("\nEnter the electric solution description file name:");
+            string SolDescFileName = Console.ReadLine(); // "esolin.txt"
+
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
             string InitialStateExist = Console.ReadLine();
             string StateFileName = "Null";
@@ -40,12 +46,6 @@ namespace HelicsDotNetSender
                 Console.WriteLine("\nEnter the electric state file name:");
                 StateFileName = Console.ReadLine();// "CMBSTEOPF.econ"
             } 
-
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            Console.WriteLine("\nEnter the electric output description file name:");
-            string SolDescFileName = Console.ReadLine(); // "esolin.txt"
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName +@"\";
             Directory.CreateDirectory(OutputFolder);

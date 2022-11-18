@@ -23,7 +23,7 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {            
-            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the gas network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
           
@@ -33,6 +33,12 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("\nEnter the gas scenario file name:");
             string SceFileName = Console.ReadLine(); // "CASE1.gsce"
 
+            Console.WriteLine("\nEnter the hub file name:");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            Console.WriteLine("\nEnter the gas solution description file name:");
+            string SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
             string InitialStateExist = Console.ReadLine();
             string StateFileName = "Null";
@@ -41,12 +47,6 @@ namespace HelicsDotNetReceiver
                 Console.WriteLine("\nEnter the gas state file name:");
                 StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
             }
-
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            Console.WriteLine("\nEnter the gas output description file name:");
-            string SolDescFileName = Console.ReadLine(); // "gsolin.txt"
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
