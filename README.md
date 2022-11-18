@@ -42,14 +42,14 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 2</b>|
 
-  5. Once cloning is completed, the *SAInt_HELICS_interface* appears in your *Team Explorer* (Figure 3). 
+  5. Once cloning is completed, the *SAInt_HELICS_interface* appears in your *Team Explorer* Local Git Repository Section (Figure 3).
      
    |![Figure3](ReadMeImages/Figure3.png)|
    |:--:|
    |<b>Figure 3</b>|
    
 #### Loading the visual studio project 
-  1. Double click the *SAInt_HELICS_interface* in the *Team Explorer*. Then you will see the *HelicsDotNet.sln* solution file as shown in Figure 4.
+  1. Double click the *SAInt_HELICS_interface* to open it. It should look like as shown in Figure 4. Make sure that the branch *SAInt_v3.2* is selected. Then you will see the *HelicsDotNet.sln* in the solution section of *Team Explorer*.
 
    |![Figure4](ReadMeImages/Figure4.png)|
    |:--:|
@@ -61,11 +61,11 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 5</b>|
 
-  3. There are five projects embeded in the *HelicsDotNet* project.
-     - *ElectricFederate* loads the electric network, imports the corresponding scenario definitions and run the simulation.
-     - *GasFederate* loads the gas network, imports the corresponding scenario definitions and run the simulation.
-     - *HelicsDotNetAPI* provides the API functionality requiered for the cosimulation *HELICS* environment.
-     - *SAIntHelicsLib* provides the mapping factory for the coupling technologies. It allows the electric and gas federates to communucate.
+  3. There are five projects embedded in the *HelicsDotNet* project.
+     - *ElectricFederate* loads the electric network, imports the corresponding scenario definitions and run the simulation. Make sure that this project has a reference to *SAInt_Core.dll* which is found in the SAInt installation folder. The default path is: *C:\Program Files\encoord\SAInt-v3-Alpha\SAInt-Core.dll*.
+     - *GasFederate* loads the gas network, imports the corresponding scenario definitions and run the simulation. Make sure that this project has a reference to *SAInt_Core.dll* which is found in the SAInt installation folder. The default path is: *C:\Program Files\encoord\SAInt-v3-Alpha\SAInt-Core.dll*.
+     - *HelicsDotNetAPI* provides the API functionality required for the co-simulation *HELICS* environment.
+     - *SAIntHelicsLib* provides the mapping factory for the coupling technologies. It has functions that are used to initialize events, generate publication and subscription ids, receive, process and publish data that is communicated between electric and gas federates. Make sure that this project has a reference to *SAInt_Core.dll* which is found in the SAInt installation folder. The default path is: *C:\Program Files\encoord\SAInt-v3-Alpha\SAInt-Core.dll*.
 
 #### Set the project configuration as a multiple startups
   1. At the top of the *Solution Explorer* right click on the *Solution 'HelicsDotNet'* and open *Set StartUP Projects* as shown in Figure 6. 
@@ -74,7 +74,7 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 6</b>|
 
-  2. In the dialog box that opens, set the *ElectricFederate* and the *GasFederate* to *Start* (see Figure 8). 
+  2. In the dialog box that opens, set the *GasElectricBroker*, *ElectricFederate* and the *GasFederate* to *Start* (see Figure 7). 
     
    |![Figure7](ReadMeImages/Figure7.png)| 
    |:--:|
@@ -89,22 +89,21 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |:--:|
    |<b>Figure 8</b>|
 
-  2. Select your case:
-     - Open the *Program.cs* files in the *ElectricFederate* project and uncomment only one case that youwant to simulate.
-     - Similarly, open the *Program.cs* file in the *GasFederate* project and uncomment the corresponding case.
-     - Figure 9 and Figure 10 show the six cases with the boxes indicating the sections corresponding to each case. As example, the figures show the Demo case beeing selected for simulation.
-   
+  2. Make sure all the network, scenario, state and solution description files of both electric and gas networks are located in the same folder. Simulate by clicking the green button *Start* in Figure 9. 
+    
    |![Figure 9](ReadMeImages/Figure9.png)|
    |:--:|
    |<b>Figure 9</b>|
+
+  3. Three processes will open up: one for the broker, one for the gas federate and another for the electric federate. Follow the instructions in the gas and electric process and input the path to the network folder and different files names (including their extension). Figures 10, 11 and 12 shows inputs for the example use case included in the "..\Network\Demo\" folder.    
+   
    |![Figure 10](ReadMeImages/Figure10.png)|
-   |<b>Figure 10</b>|
-
-  3. Simulate by clicking the green button *Start* in Figure 11.
-    
-   |![Figure 11](ReadMeImages/Figure11.png)|
    |:--:|
-   |<b>Figure 11</b>|
+   |<b>Figure 10: Broker log window</b>| 
+   |![Figure 11](ReadMeImages/Figure11.png)|
+   |<b>Figure 11: Electric federate log window</b>|
+   |![Figure 12](ReadMeImages/Figure12.png)|
+   |<b>Figure 12: Gas federate log window</b>|
 
-  4. The log files will be displayed on two command windows: one for the electric federate and another for the gas federate.
-  5. Once the simulation is completed, the exported solution files will be found in your workspace's *outputs* folder.
+  4. The logs will be displayed on the three command windows.
+  5. Once the simulation is completed, the solution files, scenario events and iteration information will be exported to the *Outputs* sub-folder inside your network folder.
