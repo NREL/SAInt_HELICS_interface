@@ -485,13 +485,13 @@ namespace SAIntHelicsLib
                     }
                 }
 
-                for (int i = 0; i < mapitem.Horizon; i++)
-                {
-                    mapitem.RequieredFuelRate.Add(i, mapitem.EmptyPubSub);
-                    mapitem.AvailableFuelRate.Add(i, mapitem.EmptyPubSub);
-                    mapitem.PressureRelativeToPmin.Add(i, mapitem.EmptyPubSub);
-                    mapitem.LastVal.Add(i, new List<double>());
-                }
+                //for (int i = 0; i < mapitem.Horizon; i++)
+                //{
+                //    mapitem.RequieredFuelRate.Add(i, mapitem.EmptyPubSub);
+                //    mapitem.AvailableFuelRate.Add(i, mapitem.EmptyPubSub);
+                //    mapitem.PressureRelativeToPmin.Add(i, mapitem.EmptyPubSub);
+                //    mapitem.LastVal.Add(i, new List<double>());
+                //}
                 MappingList.Add(mapitem);
             }
             return MappingList;

@@ -48,7 +48,7 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
-            Console.WriteLine("\nEnter the gas output description file name:");
+            Console.WriteLine("\nEnter the gas solution description file name:");
             string SolDescFileName = Console.ReadLine(); // "gsolin.txt"
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName + @"\";
@@ -99,26 +99,49 @@ namespace HelicsDotNetReceiver
             var vfed = h.helicsCreateValueFederate("Gas Federate", fedinfo);
             Console.WriteLine("Gas: Value federate created");
 
+            var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
+
+            int Horizon = -1;
+
+            // Register subscription for the time horizon
+            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
+            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "HorizonRecieved", "int", "");
+            // start initialization mode
+            h.helicsFederateEnterInitializingMode(vfed);
+            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            while (true)
+            {
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+
+                if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+                {
+                    break;
+                }
+                Horizon = (int)h.helicsInputGetInteger(HorizonSub);
+                if (Horizon > 0) continue;
+                
+                h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            }
+
             // Load the mapping between the gas demands and the gas fired power plants 
-            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);       
 
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                for (int i = 0; i < m.Horizon; i++)
+                for (int i = 0; i < Horizon; i++)
                 {
                     m.RequieredFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "");
                     m.AvailableFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", "");
                     m.PressureRelativeToPmin[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", "");
-                }
 
+                    m.LastVal.Add(i, new List<double>());
+                }
+                m.Horizon = Horizon;
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.GDEMName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar] \t Q [sm3/s]");
-            }   
-            
-            // Register subscription for the time horizon
-            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
+            }             
 
             // Set one second message interval
             double period = 1;
@@ -153,7 +176,6 @@ namespace HelicsDotNetReceiver
             bool HasViolations = true;
             int helics_iter_status = 3;
 
-            int Horizon = 0;
             int HorizonStartingTimeStep = 1;
             int CountTimeSteps = 0;
             int CountHorizons = 0;
@@ -168,10 +190,8 @@ namespace HelicsDotNetReceiver
             List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
             List<TimeStepInfo> AllDiverged = new List<TimeStepInfo>();
 
-            var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
-
             // start initialization mode
-            h.helicsFederateEnterInitializingMode(vfed);
+           // h.helicsFederateEnterInitializingMode(vfed);
             Console.WriteLine("\nGas: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
             MappingFactory.PublishAvailableFuelRate(0, Iter, MappingList);
@@ -189,7 +209,6 @@ namespace HelicsDotNetReceiver
 
                 // subscribe to available thermal power from gas node
                 HasViolations = MappingFactory.SubscribeToRequiredFuelRate(0, Iter, MappingList, "Initialization");
-                Horizon = (int)h.helicsInputGetInteger(HorizonSub);
                 if (!HasViolations)
                 {
                     continue;
@@ -224,14 +243,18 @@ namespace HelicsDotNetReceiver
                         CurrentHorizon = new TimeStepInfo() { HorizonStep = CountHorizons, IterationCount = Iter };
                         IterationInfo.Add(CurrentHorizon);  
                         
-                        foreach (ElectricGasMapping m in MappingList)
-                        {                            
-                            for (int i = 0; i < m.Horizon; i++)
+                        if (CountHorizons>1)
+                        {
+                            foreach (ElectricGasMapping m in MappingList)
                             {
-                                // Clear the list before iteration starts
-                                m.LastVal[i].Clear();
+                                for (int i = 0; i < m.Horizon; i++)
+                                {
+                                    // Clear the list before iteration starts
+                                    m.LastVal[i].Clear();
+                                }
                             }
                         }
+                        
                     }
                     if(!IsHorizonProcessed)
                     {

@@ -32,12 +32,12 @@ namespace HelicsDotNetSender
             string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
             Console.WriteLine("\nEnter the electric scenario file name:");
-            string SceFileName = Console.ReadLine(); // "CASE1.esce"
+            string SceFileName = Console.ReadLine(); // "PC001.esce"
 
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
-            Console.WriteLine("\nEnter the electric output description file name:");
+            Console.WriteLine("\nEnter the electric solution description file name:");
             string SolDescFileName = Console.ReadLine(); // "esolin.txt"
 
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
@@ -100,25 +100,50 @@ namespace HelicsDotNetSender
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
 
+            var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
+
+            // Register publication for the time horizon
+            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
+            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceived", "");
+            int Horizon = ENET.SCE.NNHRZ;
+            int HorizonReceived = 0;
+
+            // start initialization mode to publish time horizon
+            h.helicsFederateEnterInitializingMode(vfed);
+            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            while (true)
+            {
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+
+                if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+                {
+                    break;
+                }
+                HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
+                if (HorizonReceived == Horizon) continue;
+
+                h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            }
+
             // Load the mapping between the gas demands and the gas fired power plants 
-            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);
+            List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);            
 
             // Register Publication and Subscription for coupling points
             foreach (ElectricGasMapping m in MappingList)
             {
-                for (int i = 0; i < m.Horizon; i++)
+                for (int i = 0; i < Horizon; i++)
                 {
                     m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", "");
                     m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "");
                     m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "");
+
+                    m.LastVal.Add(i, new List<double>());
                 }
-                m.Horizon = m.GFG.ENET.SCE.NNHRZ;
+                m.Horizon = Horizon;
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t FuelRate [m3/s]\t PGMAX [MW]");
-            }
-            // Register publication for the time horizon
-            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
+            }            
 
             // Set one second message interval
             double period = 1;
@@ -152,8 +177,7 @@ namespace HelicsDotNetSender
             int Iter = 0;   
             bool HasViolations = true;
             int helics_iter_status = 3;
-
-            int Horizon = ENET.SCE.NNHRZ;
+            
             int HorizonStartingTimeStep = 1;
             int CountHorizons = 0;
 
@@ -165,14 +189,11 @@ namespace HelicsDotNetSender
             List<TimeStepInfo> IterationInfo = new List<TimeStepInfo>();
             List<TimeStepInfo> AllDiverged = new List<TimeStepInfo>();
 
-            var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
-
             // start initialization mode
-            h.helicsFederateEnterInitializingMode(vfed);
+            //h.helicsFederateEnterInitializingMode(vfed);
             Console.WriteLine("\nElectric: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
             MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);
-            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
 
             while (true)
             {
@@ -219,13 +240,15 @@ namespace HelicsDotNetSender
                         FirstTimeStep += 1;
                     }
 
-                    // Reset nameplate capacity
-                    foreach (ElectricGasMapping m in MappingList)
-                    {  
-                        for (int i = 0; i < m.Horizon; i++)
-                        { 
-                            // Clear the list before iteration starts
-                            m.LastVal[i].Clear();
+                    if (CountHorizons > 1)
+                    {
+                        foreach (ElectricGasMapping m in MappingList)
+                        {
+                            for (int i = 0; i < m.Horizon; i++)
+                            {
+                                // Clear the list before iteration starts
+                                m.LastVal[i].Clear();
+                            }
                         }
                     }
                     // Set time step info
