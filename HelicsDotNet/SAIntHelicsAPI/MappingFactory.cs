@@ -143,7 +143,8 @@ namespace SAIntHelicsLib
         public static double eps = 0.001;
 
         // Iteration to start to curtail FGEN
-        public static int IterPMAX = 4;
+        static int CurtailmentIterStart = 4;
+        static int CurtailmentIter;
 
         public static void PublishRequiredThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList)
         {
@@ -191,6 +192,8 @@ namespace SAIntHelicsLib
         {             
             bool HasViolations = false;
             bool AnyCurtailment = false;
+            if (Iter == 0) CurtailmentIter = CurtailmentIterStart;
+
             foreach (ElectricGasMapping m in MappingList)
             {
                 DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep];
@@ -226,7 +229,7 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-AvailableThermalPower) > eps)
                 {
-                    if ((valPbar < eps || Iter > IterPMAX) && (!m.IsPmaxChanged))
+                    if ((valPbar < eps || Iter > CurtailmentIter) && (!m.IsPmaxChanged))
                     {
                         AnyCurtailment = true;
                         
@@ -270,7 +273,7 @@ namespace SAIntHelicsLib
             // Make sure the effect of the current curtailment is communicated before the next round
             if (AnyCurtailment)
             {
-                IterPMAX += 3;
+                CurtailmentIter += 3;
             }
 
             Console.WriteLine($"Electric HasViolations?: {HasViolations}");
