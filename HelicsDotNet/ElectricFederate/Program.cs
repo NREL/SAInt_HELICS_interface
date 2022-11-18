@@ -24,7 +24,8 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nEnter the electric network folder path:");
+            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+                "\nEnter the electric network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\ENET30.enet"
 
             Console.WriteLine("\nEnter the electric network file name:");

@@ -185,20 +185,20 @@ namespace SAIntHelicsLib
                     kstep = i + HorizonStartingTimeStep;
                     DateTime DateTimeStep = m.GFG.GNET.SCE.dTime[kstep];
 
-                    double Pval = m.GFG.GDEM.get_P(kstep)/1e5; // in bar
-                    double PMIN = m.GFG.GNET.get_PMIN(kstep) / 1e5; // in bar
+                    GasNode GNODE = (GasNode)m.GFG.GDEM.NetNode;
+                    double Pressure = (GNODE.get_P(kstep)) / 1e5; // in bar
+                    double MinPressure = GNODE.get_PMIN(kstep) / 1e5; // in bar
 
                     double AvailableFuelRate = m.GFG.GDEM.get_Q(kstep); // in sm3/s
                     
                     h.helicsPublicationPublishDouble(m.AvailableFuelRate[i], AvailableFuelRate);
 
-                    //h.helicsPublicationPublishDouble(m.GasPubPbar, pval-(m.GFG.GDEM.PMIN(gtime)-m.GFG.GDEM.GNET.PAMB)/1e5);
-                    h.helicsPublicationPublishDouble(m.PressureRelativeToPmin[i], Pval - PMIN);
+                    h.helicsPublicationPublishDouble(m.PressureRelativeToPmin[i], Pressure - MinPressure);
 
                     Console.WriteLine(String.Format("Gas-S: Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.000} [sm3/s]\t QSET = {3:0.000} [sm3/s]\t P {5:0.000} [bar]",
-                        DateTimeStep, Iter, m.GFG.GDEM, AvailableFuelRate, m.GFG.GDEM.get_QSET(kstep), Pval));
+                        DateTimeStep, Iter, m.GFG.GDEM, AvailableFuelRate, m.GFG.GDEM.get_QSET(kstep), Pressure));
                     m.sw.WriteLine(String.Format("{3}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {4:0.00000}",
-                        kstep, Iter, Pval, DateTimeStep, AvailableFuelRate));
+                        kstep, Iter, Pressure, DateTimeStep, AvailableFuelRate));
                 }
             }
         }
@@ -235,12 +235,12 @@ namespace SAIntHelicsLib
                         if (HasViolations) break;
                         else
                         {
-                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
+                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
                             continue;
                         }
                     }
 
-                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar-g]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
+                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
 
                     //get currently required thermal power 
                     double ActivePower = m.GFG.FGEN.get_P(kstep);                                    

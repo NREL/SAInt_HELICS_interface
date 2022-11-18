@@ -26,7 +26,8 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\nEnter the gas network folder path:");
+            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+                "\nEnter the gas network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
 
             Console.WriteLine("\nEnter the gas network file name:");
@@ -113,7 +114,7 @@ namespace HelicsDotNetReceiver
 
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.GDEMName + ".txt", FileMode.Create));
-                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar-g] \t Q [sm3/s]");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar] \t Q [sm3/s]");
             }            
 
             // Set one second message interval
