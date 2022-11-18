@@ -139,7 +139,11 @@ namespace SAIntHelicsLib
         }
 #endregion
  
+        // Convergence criteria
         public static double eps = 0.001;
+
+        // Iteration to start to curtail FGEN
+        public static int IterPMAX = 4;
 
         public static void PublishRequiredThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList)
         {
@@ -184,9 +188,9 @@ namespace SAIntHelicsLib
         }
 
         public static bool SubscribeToAvailableThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList, string Init = "Execute")
-        {
+        {             
             bool HasViolations = false;
-
+            bool AnyCurtailment = false;
             foreach (ElectricGasMapping m in MappingList)
             {
                 DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep];
@@ -213,7 +217,6 @@ namespace SAIntHelicsLib
 
                 Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t Pthg = {3:0.0000} [MW]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableThermalPower, valPbar));
 
-
                 //get currently required thermal power 
                 double pval = m.GFG.FGEN.get_P(kstep);
                 double HR (double x)=> m.GFG.FGEN.HR0 + m.GFG.FGEN.HR1 * x + m.GFG.FGEN.HR2 * x * x;
@@ -223,8 +226,10 @@ namespace SAIntHelicsLib
 
                 if (Math.Abs(ThermalPower-AvailableThermalPower) > eps)
                 {
-                    if ((valPbar < eps || Iter > 4) && (!m.IsPmaxChanged))
+                    if ((valPbar < eps || Iter > IterPMAX) && (!m.IsPmaxChanged))
                     {
+                        AnyCurtailment = true;
+                        
                         double PG = GetActivePowerFromAvailableThermalPower(m, AvailableThermalPower, pval);
                         double ThermalPower02 = HR(PG) / 3.6 * PG;
                         double PGMAX = Math.Max(m.GFG.FGEN.get_PMIN(kstep), PG);                        
@@ -261,6 +266,11 @@ namespace SAIntHelicsLib
                         HasViolations = true;
                     }
                 }
+            }
+            // Make sure the effect of the current curtailment is communicated before the next round
+            if (AnyCurtailment)
+            {
+                IterPMAX += 3;
             }
 
             Console.WriteLine($"Electric HasViolations?: {HasViolations}");

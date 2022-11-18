@@ -35,11 +35,11 @@ namespace HelicsDotNetSender
             Console.WriteLine("\nEnter the electric state file name:");
             string StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
 
-            Console.WriteLine("\nEnter the hub file name:\n");
+            Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nEnter the electric output description file name:");
-            string SolDescFileName = Console.ReadLine(); // "esol.txt"
+            string SolDescFileName = Console.ReadLine(); // "esolin.txt"
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName +@"\";
             Directory.CreateDirectory(OutputFolder);

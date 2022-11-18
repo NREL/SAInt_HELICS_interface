@@ -35,11 +35,11 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("\nEnter the gas state file name:");
             string StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
 
-            Console.WriteLine("\nEnter the hub file name:\n");
+            Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nEnter the gas output description file name:");
-            string SolDescFileName = Console.ReadLine(); // "gsol.txt"
+            string SolDescFileName = Console.ReadLine(); // "gsolin.txt"
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
