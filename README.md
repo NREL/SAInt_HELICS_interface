@@ -9,7 +9,7 @@ Additional details on this interface and the work developing HELICS support for 
 ## System requirements 
 
    - Windows Operating System (any of Windows 7, 8 or 10 running either 32-Bit or 64-Bit versions)
-   - SAInt 2.0 (Demo version available for free by contacting [encoord](https://www.encoord.com/ContactUs.html)).
+   - SAInt 3.2 (Demo version available for free by contacting [encoord](https://www.encoord.com/ContactUs.html)).
    - Visual Studio (Visual Studio Community is available for free from [Microsoft](https://visualstudio.microsoft.com/free-developer-offers/)).
    - Recommended minimum specifications:
       - 2GHz CPU
