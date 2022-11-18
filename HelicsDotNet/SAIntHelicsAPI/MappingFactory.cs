@@ -146,6 +146,10 @@ namespace SAIntHelicsLib
 #endregion
         public static double eps = 0.001;
 
+        // Iteration to start to curtail FGEN
+        static int CurtailmentIterStart = 4;
+        static int CurtailmentIter;
+
         public static void PublishRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
         {
             int Horizon = MappingList.First().Horizon;
@@ -205,6 +209,9 @@ namespace SAIntHelicsLib
             int Horizon = MappingList.First().Horizon;
             int kstep;
 
+            bool AnyCurtailment = false;
+            if (Iter == 0) CurtailmentIter = CurtailmentIterStart;
+
             Units Unit = new Units(UnitTypeList.PPOW, UnitList.MW);
 
             foreach (ElectricGasMapping m in MappingList)
@@ -243,8 +250,10 @@ namespace SAIntHelicsLib
 
                     if (Math.Abs(RequieredFuelRate - AvailableFuelRate) > eps)
                     {
-                        if ((valPbar < eps || Iter > 5) && (!m.IsPmaxChanged[kstep]))
+                        if ((valPbar < eps || Iter > CurtailmentIter) && (!m.IsPmaxChanged[kstep]))
                         {
+                            AnyCurtailment = true;
+
                             double PG = GetActivePowerFromAvailableFuelRate(m, AvailableFuelRate, ActivePower);
                             double PGMAX = Math.Max(m.GFG.FGEN.get_PMIN(kstep), PG);                            
 
@@ -279,6 +288,11 @@ namespace SAIntHelicsLib
                         }
                     }
                 }
+            }
+            // Make sure the effect of the current curtailment is communicated before the next round
+            if (AnyCurtailment)
+            {
+                CurtailmentIter += 3;
             }
 
             Console.WriteLine($"Electric HasViolations?: {HasViolations}");
@@ -487,6 +501,39 @@ namespace SAIntHelicsLib
         {
            API.openHUBS(FilePath);
             System.Threading.Thread.Sleep(10);
+        }
+
+        public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
+        {
+            // Get information about the source directory
+            var dir = new DirectoryInfo(sourceDir);
+
+            // Check if the source directory exists
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+
+            // Cache directories before we start copying
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // Create the destination directory
+            Directory.CreateDirectory(destinationDir);
+
+            // Get the files in the source directory and copy to the destination directory
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                string targetFilePath = Path.Combine(destinationDir, file.Name);
+                file.CopyTo(targetFilePath, true);
+            }
+
+            // If recursive and copying subdirectories, recursively call this method
+            if (recursive)
+            {
+                foreach (DirectoryInfo subDir in dirs)
+                {
+                    string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                    CopyDirectory(subDir.FullName, newDestinationDir, true);
+                }
+            }
         }
     }
 
