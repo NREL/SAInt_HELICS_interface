@@ -23,7 +23,8 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {            
-            Console.WriteLine("\nEnter the gas network folder path:");
+            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+                "\nEnter the gas network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
           
             Console.WriteLine("\nEnter the gas network file name:");
@@ -32,8 +33,14 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("\nEnter the gas scenario file name:");
             string SceFileName = Console.ReadLine(); // "CASE1.gsce"
 
-            Console.WriteLine("\nEnter the gas state file name:");
-            string StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
+            Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            string InitialStateExist = Console.ReadLine();
+            string StateFileName = "Null";
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                Console.WriteLine("\nEnter the gas state file name:");
+                StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
+            }
 
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
@@ -51,7 +58,10 @@ namespace HelicsDotNetReceiver
             API.openGNET(LocalNetFolder + NetFileName);
             MappingFactory.AccessFile(LocalNetFolder + HubFileName);
             API.openGSCE(LocalNetFolder + SceFileName);
-            API.openGCON(LocalNetFolder + StateFileName);
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                API.openGCON(LocalNetFolder + StateFileName);
+            }
 
             // Send signal to indicate that the hub file is available
             MappingFactory.SendAcknowledge();

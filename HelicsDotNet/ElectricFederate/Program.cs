@@ -12,7 +12,6 @@ namespace HelicsDotNetSender
 {
     class Program
     {
-
         public static ElectricNet ENET { get; set; }
         public static HubSystem HUB { get; set; }
 
@@ -23,7 +22,8 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nEnter the electric network folder path:");
+            Console.WriteLine("\nMAke sure that all the model files are in the same folder." +
+                "\nEnter the electric network folder path:");
             string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\ENET30.enet"
     
             Console.WriteLine("\nEnter the electric network file name:");
@@ -32,8 +32,14 @@ namespace HelicsDotNetSender
             Console.WriteLine("\nEnter the electric scenario file name:");
             string SceFileName = Console.ReadLine(); // "CASE1.esce"
 
-            Console.WriteLine("\nEnter the electric state file name:");
-            string StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+            Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            string InitialStateExist = Console.ReadLine();
+            string StateFileName = "Null";
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                Console.WriteLine("\nEnter the electric state file name:");
+                StateFileName = Console.ReadLine();// "CMBSTEOPF.econ"
+            } 
 
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
@@ -54,7 +60,10 @@ namespace HelicsDotNetSender
             API.openENET(LocalNetFolder + NetFileName);
             MappingFactory.AccessFile(LocalNetFolder + HubFileName);
             API.openESCE(LocalNetFolder + SceFileName);
-            API.openECON(LocalNetFolder + StateFileName);
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                API.openECON(LocalNetFolder + StateFileName);
+            }
 
             MappingFactory.SendAcknowledge();
 
