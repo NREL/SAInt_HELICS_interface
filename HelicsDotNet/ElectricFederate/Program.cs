@@ -37,8 +37,14 @@ namespace HelicsDotNetSender
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
-            Console.WriteLine("\nEnter the electric solution description file name:");
-            string SolDescFileName = Console.ReadLine(); // "esolin.txt"
+            Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            string SolDescExist = Console.ReadLine();
+            string SolDescFileName = "Null";
+            if (SolDescExist == "Y" || SolDescExist == "y")
+            {
+                Console.WriteLine("\nEnter the electric solution description file name:");
+                SolDescFileName = Console.ReadLine(); // "esolin.txt"
+            }
 
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
             string InitialStateExist = Console.ReadLine();
@@ -49,22 +55,18 @@ namespace HelicsDotNetSender
                 StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
             }
 
-            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName + @"\";
+            string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
-
-            string LocalNetFolder = @"..\NetFolder\";
-            Directory.CreateDirectory(LocalNetFolder);
-            MappingFactory.CopyDirectory(NetworkSourceFolder, LocalNetFolder, true);
 
             // Wait until the hub file is accessible
             MappingFactory.WaitForAcknowledge();
 
-            API.openENET(LocalNetFolder + NetFileName);
-            MappingFactory.AccessFile(LocalNetFolder + HubFileName);
-            API.openESCE(LocalNetFolder + SceFileName);
+            API.openENET(NetworkSourceFolder + NetFileName);
+            MappingFactory.AccessFile(NetworkSourceFolder + HubFileName);
+            API.openESCE(NetworkSourceFolder + SceFileName);
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {                
-                API.openECON(LocalNetFolder + StateFileName);
+                API.openECON(NetworkSourceFolder + StateFileName);
             }
             MappingFactory.SendAcknowledge();
 
@@ -337,8 +339,14 @@ namespace HelicsDotNetSender
             h.helicsFederateFree(vfed);
             h.helicsCloseLibrary();
 
-            // save SAInt output
-            API.writeESOL(LocalNetFolder + SolDescFileName, OutputFolder + "esolout_HELICS.xlsx");
+            // Export SAInt output and scenario events
+            string result = SceFileName.Split('.')[0];
+            File.Copy(NetworkSourceFolder + result + ".esol", OutputFolder + result + ".esol", true);
+            File.Copy(NetworkSourceFolder + result + ".econ", OutputFolder + result + ".econ", true);
+            if (SolDescExist == "Y" || SolDescExist == "y")
+            {
+                API.writeESOL(NetworkSourceFolder + SolDescFileName, OutputFolder + "esolout_HELICS.xlsx");
+            }
             API.exportESCE(OutputFolder + "ElectricScenarioEventsESCE.xlsx");
 
             using (FileStream fs=new FileStream(OutputFolder + "HorizonIterationInfo_electric_federate.txt", FileMode.OpenOrCreate, FileAccess.Write)) 
