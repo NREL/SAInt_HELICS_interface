@@ -36,8 +36,14 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
-            Console.WriteLine("\nEnter the gas solution description file name:");
-            string SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+            Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            string SolDescExist = Console.ReadLine();
+            string SolDescFileName = "Null";
+            if (SolDescExist == "Y" || SolDescExist == "y")
+            {
+                Console.WriteLine("\nEnter the gas solution description file name:");
+                SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+            }
 
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
             string InitialStateExist = Console.ReadLine();
@@ -48,19 +54,15 @@ namespace HelicsDotNetReceiver
                 StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
             }
 
-            string OutputFolder = NetworkSourceFolder + @"\Outputs\" + SceFileName + @"\";
+            string OutputFolder = NetworkSourceFolder + @"\Outputs\ACOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
 
-            string LocalNetFolder = @"..\NetFolder\";
-            Directory.CreateDirectory(LocalNetFolder);
-            MappingFactory.CopyDirectory(NetworkSourceFolder, LocalNetFolder, true);
-
-            API.openGNET(LocalNetFolder + NetFileName);
-            MappingFactory.AccessFile(LocalNetFolder + HubFileName);
-            API.openGSCE(LocalNetFolder + SceFileName);
+            API.openGNET(NetworkSourceFolder + NetFileName);
+            MappingFactory.AccessFile(NetworkSourceFolder + HubFileName);
+            API.openGSCE(NetworkSourceFolder + SceFileName);
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                API.openGCON(LocalNetFolder + StateFileName);
+                API.openGCON(NetworkSourceFolder + StateFileName);
             }
 
             // Send signal to indicate that the hub file is available
@@ -286,8 +288,16 @@ namespace HelicsDotNetReceiver
             ostrm.Close();
 #endif
 
-            // save SAInt output
-            API.writeGSOL(LocalNetFolder + SolDescFileName, OutputFolder + "gsolout_HELICS.xlsx");
+            // Export SAInt output and scenario events
+            string result = SceFileName.Split('.')[0];
+            File.Copy(NetworkSourceFolder + result + ".gsol", OutputFolder + result + ".gsol", true);
+            File.Copy(NetworkSourceFolder + result + ".gcon", OutputFolder + result + ".gcon", true);
+
+            if (SolDescExist == "Y" || SolDescExist == "y")
+            {
+                API.writeGSOL(NetworkSourceFolder + SolDescFileName, OutputFolder + "gsolout_HELICS.xlsx");
+            }
+            
             API.exportGSCE(OutputFolder + "GasScenarioEventsGSCE.xlsx");
 
             // finalize federate

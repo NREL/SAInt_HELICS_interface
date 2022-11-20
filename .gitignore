@@ -4,20 +4,20 @@
 *.gsol
 *.econ
 *.esol
+# vs files
+.vs
 
 # bin/obj folders
 bin/
 obj/
 
-# Network folders
-# !/HelicsDotNet/Networks/**/*.enet
-/HelicsDotNet/Networks/
-/HelicsDotNet/Networks/GasFiredGenerator/
-/HelicsDotNet/Networks/WI_4746/
-/HelicsDotNet/Networks/GasFiredGenerator/QDYNACOPF.econ
-# vs files
-.vs
+#Outputs
+/Outputs/
 
-# outputs
-outputs/
+# Network folders
+/HelicsDotNet/Networks/
+# !/HelicsDotNet/Networks/**/*.enet
+# !/HelicsDotNet/Networks/**/*.esce
+# !/HelicsDotNet/Networks/**/*.econ
+
 /HelicsDotNet/packages/UnmanagedExports.1.2.7
