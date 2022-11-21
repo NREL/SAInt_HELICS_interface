@@ -122,6 +122,7 @@ namespace HelicsDotNetReceiver
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
             int Horizon = -1;
+            int countPub = 0;
 
             // Register subscription for the time horizon
             SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
@@ -131,14 +132,17 @@ namespace HelicsDotNetReceiver
             h.helicsPublicationPublishInteger(HorizonPub, Horizon);
             while (true)
             {
-                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+                Horizon = (int)h.helicsInputGetInteger(HorizonSub);
 
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
                     break;
                 }
-                Horizon = (int)h.helicsInputGetInteger(HorizonSub);
-                if (Horizon > 0) continue;
+                
+                if (Horizon > 0) countPub += 1;
+
+                if (countPub > 1) continue;
                 
                 h.helicsPublicationPublishInteger(HorizonPub, Horizon);
             }

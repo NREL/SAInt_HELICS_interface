@@ -55,8 +55,6 @@ namespace HelicsDotNetSender
                 SolDescFileName = Console.ReadLine(); // "esolin.txt"
             }
 
-
-
             string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
 
@@ -128,21 +126,22 @@ namespace HelicsDotNetSender
             SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
             SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceive", "");
             int Horizon = ENET.SCE.NNHRZ;
-            int HorizonReceived = 0;
+            int HorizonReceived = -1;
 
             // start initialization mode to publish time horizon
             h.helicsFederateEnterInitializingMode(vfed);
             h.helicsPublicationPublishInteger(HorizonPub, Horizon);
             while (true)
             {
-                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+                HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
 
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
                     break;
                 }
-                HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
-                if (HorizonReceived == Horizon) continue;
+
+                if (HorizonReceived == Horizon)  continue;
 
                 h.helicsPublicationPublishInteger(HorizonPub, Horizon);
             }
