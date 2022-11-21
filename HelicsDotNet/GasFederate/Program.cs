@@ -101,13 +101,31 @@ namespace HelicsDotNetReceiver
             var vfed = h.helicsCreateValueFederate("Gas Federate", fedinfo);
             Console.WriteLine("Gas: Value federate created");
 
+            // Set one second message interval
+            double period = 1;
+            Console.WriteLine("Electric: Setting Federate Timing");
+            h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
+
+            // check to make sure setting the time property worked
+            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
+            Console.WriteLine($"Time period: {period_set}");
+
+            // set number of HELICS time steps based on scenario
+            double total_time = GNET.SCE.NN;
+            Console.WriteLine($"Number of time steps in scenario: {total_time}");
+
+            // set max iteration at 20
+            h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
+            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
+            Console.WriteLine($"Max iterations per time step: {iter_max}");
+
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
             int Horizon = -1;
 
             // Register subscription for the time horizon
             SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
-            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "HorizonRecieved", "int", "");
+            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "HorizonReceive", "int", "");
             // start initialization mode
             h.helicsFederateEnterInitializingMode(vfed);
             h.helicsPublicationPublishInteger(HorizonPub, Horizon);
@@ -143,25 +161,7 @@ namespace HelicsDotNetReceiver
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.GDEMName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t P[bar] \t Q [sm3/s]");
-            }             
-
-            // Set one second message interval
-            double period = 1;
-            Console.WriteLine("Electric: Setting Federate Timing");
-            h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
-
-            // check to make sure setting the time property worked
-            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
-            Console.WriteLine($"Time period: {period_set}");
-
-            // set number of HELICS time steps based on scenario
-            double total_time = GNET.SCE.NN;
-            Console.WriteLine($"Number of time steps in scenario: {total_time}");
-            
-            // set max iteration at 20
-            h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
-            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {iter_max}");
+            }  
 
             // Switch to release mode to enable console output to file
 #if !DEBUG

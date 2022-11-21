@@ -32,10 +32,7 @@ namespace HelicsDotNetSender
             string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
             Console.WriteLine("\nEnter the electric scenario file name:");
-            string SceFileName = Console.ReadLine(); // "PCM001.esce"
-
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+            string SceFileName = Console.ReadLine(); // "PCM001.esce"           
 
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
             string InitialStateExist = Console.ReadLine();
@@ -45,6 +42,9 @@ namespace HelicsDotNetSender
                 Console.WriteLine("\nEnter the electric state file name:");
                 StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
             }
+
+            Console.WriteLine("\nEnter the hub file name:");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nIf there is a solution description file, enter Y:");
             string SolDescExist = Console.ReadLine();
@@ -104,11 +104,29 @@ namespace HelicsDotNetSender
             var vfed = h.helicsCreateValueFederate("Electric Federate", fedinfo);
             Console.WriteLine("Electric: Value federate created");
 
+            // Set one second message interval
+            double period = 1;
+            Console.WriteLine("Electric: Setting Federate Timing");
+            h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
+
+            // check to make sure setting the time property worked
+            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
+            Console.WriteLine($"Time period: {period_set}");
+
+            // set number of HELICS time steps based on scenario
+            double total_time = ENET.SCE.NN;
+            Console.WriteLine($"Number of time steps in scenario: {total_time}");
+
+            // set max iteration at 20
+            h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
+            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
+            Console.WriteLine($"Max iterations per time step: {iter_max}");
+
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
             // Register publication for the time horizon
             SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
-            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceived", "");
+            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceive", "");
             int Horizon = ENET.SCE.NNHRZ;
             int HorizonReceived = 0;
 
@@ -148,24 +166,6 @@ namespace HelicsDotNetSender
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.FGENName + ".txt", FileMode.Create));
                 m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t FuelRate [m3/s]\t PGMAX [MW]");
             }            
-
-            // Set one second message interval
-            double period = 1;
-            Console.WriteLine("Electric: Setting Federate Timing");
-            h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
-
-            // check to make sure setting the time property worked
-            double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
-            Console.WriteLine($"Time period: {period_set}");
-
-            // set number of HELICS time steps based on scenario
-            double total_time = ENET.SCE.NN;
-            Console.WriteLine($"Number of time steps in scenario: {total_time}");
-
-            // set max iteration at 20
-            h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
-            int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {iter_max}");
 
             // Switch to release mode to enable console output to file 
 #if !DEBUG

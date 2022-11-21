@@ -10,11 +10,12 @@ bin/
 obj/
 
 # Network folders
-/HelicsDotNet/Networks/**
-/HelicsDotNet/Networks/GasFiredGenerator/**
+/HelicsDotNet/Networks/
+
 # vs files
 .vs
 
 # outputs
 outputs/
+
 /HelicsDotNet/packages/UnmanagedExports.1.2.7
