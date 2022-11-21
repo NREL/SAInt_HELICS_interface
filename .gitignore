@@ -10,7 +10,7 @@ bin/
 obj/
 
 # Network folders
-#HelicsDotNet/Networks/
+HelicsDotNet/Networks/
 
 # vs files
 .vs
