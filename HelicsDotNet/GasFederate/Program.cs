@@ -25,7 +25,7 @@ namespace HelicsDotNetReceiver
         {            
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the gas network folder path:");
-            string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
+            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
           
             Console.WriteLine("\nEnter the gas network file name:");
             string NetFileName = Console.ReadLine(); // "GNET25.gnet"
@@ -36,6 +36,15 @@ namespace HelicsDotNetReceiver
             Console.WriteLine("\nEnter the hub file name:");
             string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
+            Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            string InitialStateExist = Console.ReadLine();
+            string StateFileName = "Null";
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                Console.WriteLine("\nEnter the gas state file name:");
+                StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
+            }
+
             Console.WriteLine("\nIf there is a solution description file, enter Y:");
             string SolDescExist = Console.ReadLine();
             string SolDescFileName = "Null";
@@ -45,14 +54,7 @@ namespace HelicsDotNetReceiver
                 SolDescFileName = Console.ReadLine(); // "gsolin.txt"
             }
 
-            Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = Console.ReadLine();
-            string StateFileName = "Null";
-            if (InitialStateExist == "Y" || InitialStateExist == "y")
-            {
-                Console.WriteLine("\nEnter the gas state file name:");
-                StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
-            }
+
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\ACOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
