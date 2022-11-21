@@ -421,7 +421,7 @@ namespace SAIntHelicsLib
                 {
                     Units Unit = new Units(UnitTypeList.Q, UnitList.sm3_s);
 
-                    // Inititalize events for each time step before simulation
+                    // Initialize events for each time step before simulation
                     for (int kstep = 0; kstep <= hub.GNET.SCE.NN; kstep++)
                     {
                         DateTime DateTimeStep = hub.GNET.SCE.dTime[kstep];

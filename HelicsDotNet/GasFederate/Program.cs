@@ -28,7 +28,7 @@ namespace HelicsDotNetReceiver
         {
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the gas network folder path:");
-            string NetworkSourceFolder = Console.ReadLine(); // @"..\..\..\..\Networks\DemoCase\WI_4746\"
+            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
             Console.WriteLine("\nEnter the gas network file name:");
             string NetFileName = Console.ReadLine(); // "GNET25.gnet"
