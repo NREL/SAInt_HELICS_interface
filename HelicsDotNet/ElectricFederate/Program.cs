@@ -122,29 +122,29 @@ namespace HelicsDotNetSender
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
-            // Register publication for the time horizon
-            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
-            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceive", "");
+            //// Register publication for the time horizon
+            //SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
+            //SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceive", "");
             int Horizon = ENET.SCE.NNHRZ;
-            int HorizonReceived = -1;
+            //int HorizonReceived = -1;
 
             // start initialization mode to publish time horizon
-            h.helicsFederateEnterInitializingMode(vfed);
-            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
-            while (true)
-            {
-                HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
+            //h.helicsFederateEnterInitializingMode(vfed);
+            //h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            //while (true)
+            //{
+            //    HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
 
-                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
-                if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-                {
-                    break;
-                }
+            //    HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+            //    if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+            //    {
+            //        break;
+            //    }
 
-                if (HorizonReceived == Horizon)  continue;
+            //    if (HorizonReceived == Horizon)  continue;
 
-                h.helicsPublicationPublishInteger(HorizonPub, Horizon);
-            }
+            //    h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            //}
 
             // Load the mapping between the gas demands and the gas fired power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);            
@@ -193,7 +193,7 @@ namespace HelicsDotNetSender
             List<TimeStepInfo> AllDiverged = new List<TimeStepInfo>();
 
             // start initialization mode
-            //h.helicsFederateEnterInitializingMode(vfed);
+            h.helicsFederateEnterInitializingMode(vfed);
             Console.WriteLine("\nElectric: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
             MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);

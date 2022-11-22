@@ -147,7 +147,7 @@ namespace SAIntHelicsLib
         public static double eps = 0.001;
 
         // Iteration to start to curtail FGEN
-        static int CurtailmentIterStart = 4;
+        static int CurtailmentIterStart = 2;
         static int CurtailmentIter;
 
         public static void PublishRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
@@ -212,7 +212,7 @@ namespace SAIntHelicsLib
             bool AnyCurtailment = false;
             if (Iter == 0) CurtailmentIter = CurtailmentIterStart;
 
-            Units Unit = new Units(UnitTypeList.PPOW, UnitList.MW);
+            Units Unit = new Units(UnitTypeList.FUELVOLDOT, UnitList.m3_s);
 
             foreach (ElectricGasMapping m in MappingList)
             {                
@@ -245,29 +245,34 @@ namespace SAIntHelicsLib
                     //get currently required thermal power 
                     double ActivePower = m.GFG.FGEN.get_P(kstep);                                    
                     double RequieredFuelRate = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
+                    //double PGMAX;
 
                     m.LastVal[i].Add(AvailableFuelRate);
 
                     if (Math.Abs(RequieredFuelRate - AvailableFuelRate) > eps)
                     {
-                        if ((valPbar < eps || Iter > CurtailmentIter) && (!m.IsPmaxChanged[kstep]))
+                        if ((valPbar < eps || Iter > CurtailmentIter) && (!m.IsFmaxChanged[kstep]))
                         {
                             AnyCurtailment = true;
 
-                            double PG = GetActivePowerFromAvailableFuelRate(m, AvailableFuelRate, ActivePower);
-                            double PGMAX = Math.Max(m.GFG.FGEN.get_PMIN(kstep), PG);                            
+                            //double PG = GetActivePowerFromAvailableFuelRate(m, AvailableFuelRate, ActivePower);                            
+                            //if (PG >= m.GFG.FGEN.get_PMIN(kstep))
+                            //{
+                            //    PGMAX = PG;
+                            //}
+                            //else PGMAX = 0;
 
-                            foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
+                            foreach (var evt in m.GFG.FGEN.Fuel.SceList.Where(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", PGMAX);
+                                evt.ShowVal = string.Format("{0}", AvailableFuelRate);
                                 evt.Processed = false;
                                 evt.StartTime = DateTimeStep;
                                 evt.Active = true;
                                 evt.Info = "HELICS";
                             };
+                            m.IsFmaxChanged[kstep] = true; // true if we want to set it only once.
 
-                            m.IsPmaxChanged[kstep] = true; // true if we want to set it only once.
                             Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAXset = {3:0.0000} [MW]",
                                 DateTimeStep, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(kstep)));                            
                         }
@@ -292,7 +297,7 @@ namespace SAIntHelicsLib
             // Make sure the effect of the current curtailment is communicated before the next round
             if (AnyCurtailment)
             {
-                CurtailmentIter += 3;
+                CurtailmentIter += 2;
             }
 
             Console.WriteLine($"Electric HasViolations?: {HasViolations}");
@@ -400,13 +405,13 @@ namespace SAIntHelicsLib
 
                 if (Res < 1e-10)
                 {
-                    return ActivePower;
+                    return Math.Max(ActivePower, 0);
                 }
 
                 i+=1;
             }
 
-            return ActivePower;
+            return Math.Max (ActivePower, 0);
         }
 
         public static List<ElectricGasMapping> GetMappingFromHubs(IList<GasFiredGenerator> GFGs)
@@ -452,27 +457,27 @@ namespace SAIntHelicsLib
 
                 if (hub.FGEN != null)
                 {
-                    Units Unit = new Units(UnitTypeList.PPOW, UnitList.MW);
+                    Units Unit = new Units(UnitTypeList.FUELVOLDOT, UnitList.m3_h);
 
                     for (int kstep = 0; kstep <= hub.ENET.SCE.NN; kstep++)
                     {
                         DateTime DateTimeStep = hub.ENET.SCE.dTime[kstep];
 
-                        bool IsTherePMAXEvent = hub.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);
+                        bool IsThereFMAXEvent = hub.FGEN.Fuel.SceList.Any(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep);
 
-                        if (IsTherePMAXEvent)
+                        if (IsThereFMAXEvent)
                         {
-                            foreach (var evt in hub.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
+                            foreach (var evt in hub.FGEN.Fuel.SceList.Where(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", hub.FGEN.get_PMAX(kstep));
+                                evt.ShowVal = string.Format("{0}", hub.FGEN.Fuel.get_FMAX(kstep));
                                 evt.Processed = false;
                                 evt.Active = true;
                             }
                         }
                         else
                         {
-                            ScenarioEvent evt = new ScenarioEvent(hub.FGEN, CtrlType.PMAX, hub.FGEN.get_PMAX(kstep), Unit)
+                            ScenarioEvent evt = new ScenarioEvent(hub.FGEN.Fuel, CtrlType.FMAX, hub.FGEN.Fuel.get_FMAX(kstep), Unit)
                             {
                                 Processed = false,
                                 StartTime = DateTimeStep,
@@ -481,17 +486,10 @@ namespace SAIntHelicsLib
                             hub.ENET.SCE.AddEvent(evt);
                         }
 
-                        mapitem.IsPmaxChanged.Add(false);
+                        mapitem.IsFmaxChanged.Add(false);                        
                     }
                 }
 
-                //for (int i = 0; i < mapitem.Horizon; i++)
-                //{
-                //    mapitem.RequieredFuelRate.Add(i, mapitem.EmptyPubSub);
-                //    mapitem.AvailableFuelRate.Add(i, mapitem.EmptyPubSub);
-                //    mapitem.PressureRelativeToPmin.Add(i, mapitem.EmptyPubSub);
-                //    mapitem.LastVal.Add(i, new List<double>());
-                //}
                 MappingList.Add(mapitem);
             }
             return MappingList;
@@ -509,7 +507,7 @@ namespace SAIntHelicsLib
     {
         public GasFiredGenerator GFG;
 
-        public List<bool> IsPmaxChanged = new List<bool>();
+        public List<bool> IsFmaxChanged = new List<bool>();
 
         public int Horizon;  // Used for federates having different time horizons 
 
