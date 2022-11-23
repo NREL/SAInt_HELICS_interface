@@ -26,28 +26,28 @@ namespace HelicsDotNetSender
         {
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the electric network folder path:");
-            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            string NetworkSourceFolder = @"C:\Getnet Files\HELICS_Final_Project\"; // Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
             Console.WriteLine("\nEnter the electric network file name:");
-            string NetFileName = Console.ReadLine(); // "ENET30.enet"
+            string NetFileName = @"psco.enet"; //Console.ReadLine(); // "ENET30.enet"
 
             Console.WriteLine("\nEnter the electric scenario file name:");
-            string SceFileName = Console.ReadLine(); // "PCM001.esce"           
+            string SceFileName = @"cold_wave.esce"; //Console.ReadLine(); // "PCM001.esce"           
 
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = Console.ReadLine();
+            string InitialStateExist = "Y"; // Console.ReadLine();
             string StateFileName ="Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
                 Console.WriteLine("\nEnter the electric state file name:");
-                StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+                StateFileName = @"intialize.econ"; //Console.ReadLine(); // "CMBSTEOPF.econ"
             }
 
             Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+            string HubFileName = @"PSCOHELICS112222.hubs";//Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            string SolDescExist = Console.ReadLine();
+            string SolDescExist = "N"; //Console.ReadLine();
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
@@ -74,7 +74,7 @@ namespace HelicsDotNetSender
             HUB = (HubSystem)GetObject("get_HUBS");
 
             //ENET.SCE.SolverType = SolverType.Gurobi;
-            //ENET.SCE.SolverModel = SolverModel.MLP;
+            //ENET.SCE.SolverModel = SolverModel.MIP;
 #if !DEBUG
             API.showSIMLOG(true);
 #else
@@ -163,7 +163,7 @@ namespace HelicsDotNetSender
                 m.Horizon = Horizon;
                 //Streamwriter for writing iteration results into file
                 m.sw = new StreamWriter(new FileStream(OutputFolder + m.GFG.FGENName + ".txt", FileMode.Create));
-                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t FuelRate [m3/s]\t PGMAX [MW]");
+                m.sw.WriteLine("Date\t\t\t\t TimeStep\t Iteration \t PG[MW] \t FuelRate[m3/s]\t PGMAX[MW]\t FMAX[m3/s]");
             }            
 
             // Switch to release mode to enable console output to file 
@@ -233,7 +233,7 @@ namespace HelicsDotNetSender
                 {
                     Iter = 0; // Iteration number
                     CountHorizons += 1;
-                    HorizonStartingTimeStep = e.TimeStep;
+                    HorizonStartingTimeStep = (CountHorizons - 1) * Horizon +1;
                     HasViolations = true;
                     if (FirstTimeStep == 0)
                     {
@@ -255,7 +255,7 @@ namespace HelicsDotNetSender
                         }
                     }
                     // Set time step info
-                    CurrentHorizon = new TimeStepInfo() { HorizonStep = e.TimeStep, IterationCount = 0};
+                    CurrentHorizon = new TimeStepInfo() { HorizonStep = CountHorizons, IterationCount = 0};
                     IterationInfo.Add(CurrentHorizon);
                 }
                 if ( e.SolverState == SolverState.AfterConsecutiveRun)

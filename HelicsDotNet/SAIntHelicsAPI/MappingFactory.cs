@@ -168,8 +168,8 @@ namespace SAIntHelicsLib
 
                     Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\tFuelRateRequested = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\t PGMAX = {5:0.000} [MW]",
                         DateTimeStep, Iter, m.GFG.FGEN, RequieredFuelRate, ActivePower, m.GFG.FGEN.get_PMAX(kstep)));
-                    m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t {4:0.00000}",
-                        kstep, Iter, ActivePower, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep));
+                    m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t\t{4:0.00000} \t{6:0.00000}",
+                        kstep, Iter, ActivePower, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep, m.GFG.FGEN.Fuel.get_FMAX(kstep)/3600));
                 }
             }
         }
@@ -212,7 +212,7 @@ namespace SAIntHelicsLib
             bool AnyCurtailment = false;
             if (Iter == 0) CurtailmentIter = CurtailmentIterStart;
 
-            Units Unit = new Units(UnitTypeList.FUELVOLDOT, UnitList.m3_s);
+            Units Unit = new Units(UnitTypeList.FUELVOLDOT, UnitList.m3_h);
 
             foreach (ElectricGasMapping m in MappingList)
             {                
@@ -255,17 +255,10 @@ namespace SAIntHelicsLib
                         {
                             AnyCurtailment = true;
 
-                            //double PG = GetActivePowerFromAvailableFuelRate(m, AvailableFuelRate, ActivePower);                            
-                            //if (PG >= m.GFG.FGEN.get_PMIN(kstep))
-                            //{
-                            //    PGMAX = PG;
-                            //}
-                            //else PGMAX = 0;
-
                             foreach (var evt in m.GFG.FGEN.Fuel.SceList.Where(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", AvailableFuelRate);
+                                evt.ObjVal = AvailableFuelRate*3600;
                                 evt.Processed = false;
                                 evt.StartTime = DateTimeStep;
                                 evt.Active = true;
@@ -347,7 +340,7 @@ namespace SAIntHelicsLib
                         foreach (var evt in m.GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep))
                         {
                             evt.Unit = Unit;
-                            evt.ShowVal = string.Format("{0}", RequieredFuelRate);
+                            evt.ObjVal = RequieredFuelRate;
                             evt.StartTime = DateTimeStep;
                             evt.Processed = false;
                             evt.Active = true;
@@ -379,40 +372,7 @@ namespace SAIntHelicsLib
             Console.WriteLine($"Gas HasViolations?: {HasViolations}");
             return HasViolations;
         }
-
-        public static double GetActivePowerFromAvailableFuelRate(ElectricGasMapping m,double AvailableFuelRate, double initVal)
-        {
-            double GetFuelRate (double x) => m.GFG.FGEN.FC0 + m.GFG.FGEN.FC1 * x + m.GFG.FGEN.FC2 * x * x;
-            double GetF (double x) => 3600 * AvailableFuelRate - GetFuelRate(x);
-            double GetdFdx (double x)  => -(m.GFG.FGEN.FC1 + 2*m.GFG.FGEN.FC2 * x);
-
-            double Res = Math.Abs(GetF(initVal));
-            int maxiter = 30;
-            int i=0;
-            double ActivePower=initVal;
-
-            while (i<maxiter)
-            { if (GetdFdx(ActivePower) != 0)
-                {
-                    ActivePower -= GetF(ActivePower) / GetdFdx(ActivePower);
-                }
-                else
-                {
-                    ActivePower -= 0.0001;
-                }                
-
-                Res =Math.Abs(GetF(ActivePower));
-
-                if (Res < 1e-10)
-                {
-                    return Math.Max(ActivePower, 0);
-                }
-
-                i+=1;
-            }
-
-            return Math.Max (ActivePower, 0);
-        }
+    
 
         public static List<ElectricGasMapping> GetMappingFromHubs(IList<GasFiredGenerator> GFGs)
         {
@@ -457,6 +417,7 @@ namespace SAIntHelicsLib
 
                 if (hub.FGEN != null)
                 {
+                    double FMAX;
                     Units Unit = new Units(UnitTypeList.FUELVOLDOT, UnitList.m3_h);
 
                     for (int kstep = 0; kstep <= hub.ENET.SCE.NN; kstep++)
@@ -470,18 +431,27 @@ namespace SAIntHelicsLib
                             foreach (var evt in hub.FGEN.Fuel.SceList.Where(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", hub.FGEN.Fuel.get_FMAX(kstep));
+                                if (hub.FGEN.Fuel.get_FMAX(kstep) == double.PositiveInfinity)
+                                {
+                                    FMAX = 3.6 * 1e9; // Arbitrary FMAX large value
+                                }
+                                else FMAX = hub.FGEN.Fuel.get_FMAX(kstep);
+
+                                evt.ObjVal = hub.FGEN.Fuel.get_FMAX(kstep);
                                 evt.Processed = false;
                                 evt.Active = true;
+                                evt.Info = "FMAX_DEF";
                             }
                         }
                         else
                         {
-                            ScenarioEvent evt = new ScenarioEvent(hub.FGEN.Fuel, CtrlType.FMAX, hub.FGEN.Fuel.get_FMAX(kstep), Unit)
+                            FMAX = 3.6 * 1e9;
+                            ScenarioEvent evt = new ScenarioEvent(hub.FGEN.Fuel, CtrlType.FMAX, FMAX, Unit) // hub.FGEN.Fuel.get_FMAX(kstep)
                             {
                                 Processed = false,
                                 StartTime = DateTimeStep,
-                                Active = true
+                                Active = true,
+                                Info = "FMAX_DEF"
                             };
                             hub.ENET.SCE.AddEvent(evt);
                         }
