@@ -26,35 +26,53 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
-                "\nEnter the gas network folder path:");
-            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            //Console.WriteLine("\nMake sure that all the model files are in the same folder." +
+            //    "\nEnter the gas network folder path:");
+            //string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
-            Console.WriteLine("\nEnter the gas network file name:");
-            string NetFileName = Console.ReadLine(); // "GNET25.gnet"
+            //Console.WriteLine("\nEnter the gas network file name:");
+            //string NetFileName = Console.ReadLine(); // "GNET25.gnet"
 
-            Console.WriteLine("\nEnter the gas scenario file name:");
-            string SceFileName = Console.ReadLine(); // "CASE1.gsce"
+            //Console.WriteLine("\nEnter the gas scenario file name:");
+            //string SceFileName = Console.ReadLine(); // "CASE1.gsce"
 
-            Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = Console.ReadLine();
+            //Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            //string InitialStateExist = Console.ReadLine();
+            //string StateFileName = "Null";
+            //if (InitialStateExist == "Y" || InitialStateExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the gas state file name:");
+            //    StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
+            //} 
+
+            //Console.WriteLine("\nEnter the hub file name:");
+            //string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            //Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            //string SolDescExist = Console.ReadLine();
+            //string SolDescFileName = "Null";
+            //if (SolDescExist == "Y" || SolDescExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the gas solution description file name:");
+            //    SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+            //}
+
+            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\";
+            string NetFileName = "GNET25.gnet";
+            string SceFileName = "CASE1.gsce";
+            string InitialStateExist = "Y";
             string StateFileName = "Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                Console.WriteLine("\nEnter the gas state file name:");
-                StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
-            } 
+                StateFileName = "CMBSTEOPF.gcon";
+            }
 
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            string SolDescExist = Console.ReadLine();
+            string HubFileName = "Demo.hubs";
+            string SolDescExist = "Y";
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
-                Console.WriteLine("\nEnter the gas solution description file name:");
-                SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+                SolDescFileName = "gsolin.txt";
             }
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
@@ -121,31 +139,32 @@ namespace HelicsDotNetReceiver
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
-            int Horizon = 24;
-            //int countPub = 0;
+            int Horizon = -1;
+            int countPub = 0;
 
             // Register subscription for the time horizon
-            //SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
-            //SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "HorizonReceive", "int", "");
-            //// start initialization mode
-            //h.helicsFederateEnterInitializingMode(vfed);
-            //h.helicsPublicationPublishInteger(HorizonPub, Horizon);
-            //while (true)
-            //{
-            //    Horizon = (int)h.helicsInputGetInteger(HorizonSub);
+            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "Horizon", "");
+            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "HorizonReceive", "int", "");
+            // start initialization mode
+            h.helicsFederateEnterInitializingMode(vfed);
+            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            while (true)
+            {
+                Horizon = (int)h.helicsInputGetInteger(HorizonSub);
 
-            //    HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
-            //    if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-            //    {
-            //        break;
-            //    }
-                
-            //    if (Horizon > 0) countPub += 1;
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+                if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+                {
+                    break;
+                }
 
-            //    if (countPub > 1) continue;
-                
-            //    h.helicsPublicationPublishInteger(HorizonPub, Horizon);
-            //}
+                if (Horizon > 0) countPub += 1;               
+
+                h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+                if (countPub > 1) break;
+            }
+
+            Console.WriteLine($"\nGas: Number of time steps in a single horizon: {Horizon}");
 
             // Load the mapping between the gas demands and the gas fired power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);       

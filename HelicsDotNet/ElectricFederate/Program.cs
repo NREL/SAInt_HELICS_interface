@@ -24,38 +24,55 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
-                "\nEnter the electric network folder path:");
-            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            //Console.WriteLine("\nMake sure that all the model files are in the same folder." +
+            //    "\nEnter the electric network folder path:");
+            //string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
-            Console.WriteLine("\nEnter the electric network file name:");
-            string NetFileName = Console.ReadLine(); // "ENET30.enet"
+            //Console.WriteLine("\nEnter the electric network file name:");
+            //string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
-            Console.WriteLine("\nEnter the electric scenario file name:");
-            string SceFileName = Console.ReadLine(); // "PCM001.esce"           
+            //Console.WriteLine("\nEnter the electric scenario file name:");
+            //string SceFileName = Console.ReadLine(); // "PCM001.esce"           
 
-            Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = Console.ReadLine();
-            string StateFileName ="Null";
+            //Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            //string InitialStateExist = Console.ReadLine();
+            //string StateFileName ="Null";
+            //if (InitialStateExist == "Y" || InitialStateExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the electric state file name:");
+            //    StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+            //}
+
+            //Console.WriteLine("\nEnter the hub file name:");
+            //string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            //Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            //string SolDescExist = Console.ReadLine();
+            //string SolDescFileName = "Null";
+            //if (SolDescExist == "Y" || SolDescExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the electric solution description file name:");
+            //    SolDescFileName = Console.ReadLine(); // "esolin.txt"
+            //}
+
+            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\";
+            string NetFileName = "ENET30.enet";
+            string SceFileName = "PCM001.esce";
+            string InitialStateExist = "Y";
+            string StateFileName = "Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                Console.WriteLine("\nEnter the electric state file name:");
-                StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+                StateFileName = "CMBSTEOPF.econ";
             }
-
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            string SolDescExist = Console.ReadLine();
+            string HubFileName = "Demo.hubs";
+            string SolDescExist = "Y";
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
-            {
-                Console.WriteLine("\nEnter the electric solution description file name:");
-                SolDescFileName = Console.ReadLine(); // "esolin.txt"
+            { 
+                SolDescFileName = "esolin.txt";
             }
 
-            string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
+        string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
 
             // Wait until the hub file is accessible
@@ -122,29 +139,29 @@ namespace HelicsDotNetSender
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
-            //// Register publication for the time horizon
-            //SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
-            //SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceive", "");
+            // Register publication for the time horizon
+            SWIGTYPE_p_void HorizonPub = h.helicsFederateRegisterGlobalTypePublication(vfed, "Horizon", "int", "");
+            SWIGTYPE_p_void HorizonSub = h.helicsFederateRegisterSubscription(vfed, "HorizonReceive", "");
             int Horizon = ENET.SCE.NNHRZ;
-            //int HorizonReceived = -1;
+            int HorizonReceived = -1;
 
-            // start initialization mode to publish time horizon
-            //h.helicsFederateEnterInitializingMode(vfed);
-            //h.helicsPublicationPublishInteger(HorizonPub, Horizon);
-            //while (true)
-            //{
-            //    HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
+            //start initialization mode to publish time horizon
+            h.helicsFederateEnterInitializingMode(vfed);
+            h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+            while (true)
+            {
+                HorizonReceived = (int)h.helicsInputGetInteger(HorizonSub);
 
-            //    HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
-            //    if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
-            //    {
-            //        break;
-            //    }
+                HelicsIterationResult itr_status = h.helicsFederateEnterExecutingModeIterative(vfed, iter_flag);
+                if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
+                {
+                    break;
+                }               
 
-            //    if (HorizonReceived == Horizon)  continue;
-
-            //    h.helicsPublicationPublishInteger(HorizonPub, Horizon);
-            //}
+                h.helicsPublicationPublishInteger(HorizonPub, Horizon);
+                if (HorizonReceived == Horizon) break;
+            }
+            Console.WriteLine($"\nElectric: Number of time steps in a single horizon: {Horizon} ");
 
             // Load the mapping between the gas demands and the gas fired power plants 
             List<ElectricGasMapping> MappingList = MappingFactory.GetMappingFromHubs(HUB.GasFiredGenerators);            

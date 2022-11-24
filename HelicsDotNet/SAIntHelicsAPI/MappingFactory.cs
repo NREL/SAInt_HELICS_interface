@@ -397,7 +397,7 @@ namespace SAIntHelicsLib
                             foreach (var evt in hub.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", hub.GDEM.get_QSET(kstep));
+                                evt.ObjVal = hub.GDEM.get_QSET(kstep);
                                 evt.Processed = false;
                                 evt.Active = true;
                             }
@@ -418,11 +418,18 @@ namespace SAIntHelicsLib
                 if (hub.FGEN != null)
                 {
                     double FMAX;
+
                     Units Unit = new Units(UnitTypeList.FUELVOLDOT, UnitList.m3_h);
 
                     for (int kstep = 0; kstep <= hub.ENET.SCE.NN; kstep++)
                     {
                         DateTime DateTimeStep = hub.ENET.SCE.dTime[kstep];
+
+                        if (hub.FGEN.Fuel.get_FMAX(kstep) == double.PositiveInfinity)
+                        {
+                            FMAX = 1e9;
+                        }
+                        else FMAX = hub.FGEN.Fuel.get_FMAX(kstep);
 
                         bool IsThereFMAXEvent = hub.FGEN.Fuel.SceList.Any(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep);
 
@@ -431,27 +438,22 @@ namespace SAIntHelicsLib
                             foreach (var evt in hub.FGEN.Fuel.SceList.Where(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep))
                             {
                                 evt.Unit = Unit;
-                                if (hub.FGEN.Fuel.get_FMAX(kstep) == double.PositiveInfinity)
-                                {
-                                    FMAX = 3.6 * 1e9; // Arbitrary FMAX large value
-                                }
-                                else FMAX = hub.FGEN.Fuel.get_FMAX(kstep);
-
-                                evt.ObjVal = hub.FGEN.Fuel.get_FMAX(kstep);
+                                evt.ObjVal = FMAX;
                                 evt.Processed = false;
                                 evt.Active = true;
-                                evt.Info = "FMAX_DEF";
                             }
                         }
                         else
                         {
-                            FMAX = 3.6 * 1e9;
-                            ScenarioEvent evt = new ScenarioEvent(hub.FGEN.Fuel, CtrlType.FMAX, FMAX, Unit) // hub.FGEN.Fuel.get_FMAX(kstep)
+                            ScenarioEvent evt = new ScenarioEvent
                             {
+                                NetObject= hub.FGEN.Fuel,
+                                ObjPar = CtrlType.FMAX,
+                                ObjVal = FMAX,
+                                Unit= Unit,
                                 Processed = false,
                                 StartTime = DateTimeStep,
-                                Active = true,
-                                Info = "FMAX_DEF"
+                                Active = true
                             };
                             hub.ENET.SCE.AddEvent(evt);
                         }
