@@ -26,28 +26,28 @@ namespace HelicsDotNetSender
         {
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the electric network folder path:");
-            string NetworkSourceFolder = @"C:\Getnet Files\HELICS_Final_Project\"; // Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
             Console.WriteLine("\nEnter the electric network file name:");
-            string NetFileName = @"psco.enet"; //Console.ReadLine(); // "ENET30.enet"
+            string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
             Console.WriteLine("\nEnter the electric scenario file name:");
-            string SceFileName = @"cold_wave.esce"; //Console.ReadLine(); // "PCM001.esce"           
+            string SceFileName = Console.ReadLine(); // "PCM001.esce"           
 
             Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = "Y"; // Console.ReadLine();
+            string InitialStateExist = Console.ReadLine();
             string StateFileName ="Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
                 Console.WriteLine("\nEnter the electric state file name:");
-                StateFileName = @"intialize.econ"; //Console.ReadLine(); // "CMBSTEOPF.econ"
+                StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
             }
 
             Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = @"PSCOHELICS112222.hubs";//Console.ReadLine(); // "Demo.hubs"
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
 
             Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            string SolDescExist = "N"; //Console.ReadLine();
+            string SolDescExist = Console.ReadLine();
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
