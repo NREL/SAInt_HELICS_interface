@@ -26,53 +26,35 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            //Console.WriteLine("\nMake sure that all the model files are in the same folder." +
-            //    "\nEnter the gas network folder path:");
-            //string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
+                "\nEnter the gas network folder path:");
+            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
-            //Console.WriteLine("\nEnter the gas network file name:");
-            //string NetFileName = Console.ReadLine(); // "GNET25.gnet"
+            Console.WriteLine("\nEnter the gas network file name:");
+            string NetFileName = Console.ReadLine(); // "GNET25.gnet"
 
-            //Console.WriteLine("\nEnter the gas scenario file name:");
-            //string SceFileName = Console.ReadLine(); // "CASE1.gsce"
+            Console.WriteLine("\nEnter the gas scenario file name:");
+            string SceFileName = Console.ReadLine(); // "CASE1.gsce"
 
-            //Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            //string InitialStateExist = Console.ReadLine();
-            //string StateFileName = "Null";
-            //if (InitialStateExist == "Y" || InitialStateExist == "y")
-            //{
-            //    Console.WriteLine("\nEnter the gas state file name:");
-            //    StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
-            //} 
-
-            //Console.WriteLine("\nEnter the hub file name:");
-            //string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            //Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            //string SolDescExist = Console.ReadLine();
-            //string SolDescFileName = "Null";
-            //if (SolDescExist == "Y" || SolDescExist == "y")
-            //{
-            //    Console.WriteLine("\nEnter the gas solution description file name:");
-            //    SolDescFileName = Console.ReadLine(); // "gsolin.txt"
-            //}
-
-            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\";
-            string NetFileName = "GNET25.gnet";
-            string SceFileName = "CASE1.gsce";
-            string InitialStateExist = "Y";
+            Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            string InitialStateExist = Console.ReadLine();
             string StateFileName = "Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                StateFileName = "CMBSTEOPF.gcon";
+                Console.WriteLine("\nEnter the gas state file name:");
+                StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
             }
 
-            string HubFileName = "Demo.hubs";
-            string SolDescExist = "Y";
+            Console.WriteLine("\nEnter the hub file name:");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            string SolDescExist = Console.ReadLine();
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
-                SolDescFileName = "gsolin.txt";
+                Console.WriteLine("\nEnter the gas solution description file name:");
+                SolDescFileName = Console.ReadLine(); // "gsolin.txt"
             }
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
