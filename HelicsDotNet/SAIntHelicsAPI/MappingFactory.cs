@@ -445,12 +445,8 @@ namespace SAIntHelicsLib
                         }
                         else
                         {
-                            ScenarioEvent evt = new ScenarioEvent
+                            ScenarioEvent evt = new ScenarioEvent (hub.FGEN.Fuel, CtrlType.FMAX, FMAX, Unit)
                             {
-                                NetObject= hub.FGEN.Fuel,
-                                ObjPar = CtrlType.FMAX,
-                                ObjVal = FMAX,
-                                Unit= Unit,
                                 Processed = false,
                                 StartTime = DateTimeStep,
                                 Active = true
