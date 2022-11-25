@@ -143,7 +143,7 @@ namespace SAIntHelicsLib
         public static double eps = 0.001;
 
         // Iteration to start to curtail FGEN
-        static int CurtailmentIterStart = 4;
+        static int CurtailmentIterStart = 2;
         static int CurtailmentIter;
 
         public static void PublishRequiredThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList)
@@ -194,6 +194,8 @@ namespace SAIntHelicsLib
             bool AnyCurtailment = false;
             if (Iter == 0) CurtailmentIter = CurtailmentIterStart;
 
+            Units Unit = new Units(UnitTypeList.PPOW, UnitList.MW);
+
             foreach (ElectricGasMapping m in MappingList)
             {
                 DateTime DateTimeStep = m.GFG.ENET.SCE.dTime[kstep];
@@ -234,10 +236,7 @@ namespace SAIntHelicsLib
                         AnyCurtailment = true;
                         
                         double PG = GetActivePowerFromAvailableThermalPower(m, AvailableThermalPower, pval);
-                        double ThermalPower02 = HR(PG) / 3.6 * PG;
-                        double PGMAX = Math.Max(m.GFG.FGEN.get_PMIN(kstep), PG);                        
-
-                        Units Unit = new Units(UnitTypeList.PPOW, UnitList.MW);
+                        double PGMAX = PG > m.GFG.FGEN.get_PMIN(kstep)? PG: 0;
 
                         foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
                         {
@@ -247,10 +246,23 @@ namespace SAIntHelicsLib
                             evt.Active = true;
                             evt.Info = "HELICS";
                         }
-
                         m.IsPmaxChanged = true; // To avoid oscillation
                         Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAX = {3:0.0000} [MW]",
                                     DateTimeStep, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(kstep)));
+
+                        if(PGMAX==0)
+                        {
+                            foreach (var evt in m.GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMIN && xx.StartTime == DateTimeStep))
+                            {
+                                evt.ObjVal = PGMAX;
+                                evt.Unit = Unit;
+                                evt.Processed = false;
+                                evt.Active = true;
+                                evt.Info = "HELICS";
+                            }
+                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMIN = {3:0.0000} [MW]",
+                                    DateTimeStep, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMIN(kstep)));
+                        }
                     }
                     HasViolations = true;
                 }
@@ -273,7 +285,7 @@ namespace SAIntHelicsLib
             // Make sure the effect of the current curtailment is communicated before the next round
             if (AnyCurtailment)
             {
-                CurtailmentIter += 3;
+                CurtailmentIter += 2;
             }
 
             Console.WriteLine($"Electric HasViolations?: {HasViolations}");
@@ -404,17 +416,7 @@ namespace SAIntHelicsLib
                     {
                         DateTime DateTimeStep = GFG.GNET.SCE.dTime[kstep];
                         bool QsetEventExist = GFG.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep);
-                        if (QsetEventExist)
-                        {
-                            foreach (var evt in GFG.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep))
-                            {
-                                evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", GFG.GDEM.get_QSET(kstep));
-                                evt.Processed = false;
-                                evt.Active = true;
-                            }
-                        }
-                        else
+                        if (!QsetEventExist)
                         {
                             ScenarioEvent QsetEvent = new ScenarioEvent(GFG.GDEM, CtrlType.QSET, GFG.GDEM.get_QSET(kstep), Unit)
                             {
@@ -435,19 +437,8 @@ namespace SAIntHelicsLib
                     {
                         DateTime DateTimeStep = GFG.ENET.SCE.dTime[kstep];
                         // Initial PMAX event values
-                        bool IsTherePmaxEvent = GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);
-                        
-                        if (IsTherePmaxEvent)
-                        {
-                            foreach (var evt in GFG.FGEN.SceList.Where(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep))
-                            {
-                                evt.Unit = Unit;
-                                evt.ShowVal = string.Format("{0}", GFG.FGEN.get_PMAX(kstep));
-                                evt.Processed = false;
-                                evt.Active = true;
-                            }
-                        }
-                        else
+                        bool IsTherePmaxEvent = GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMAX && xx.StartTime == DateTimeStep);                        
+                        if (!IsTherePmaxEvent)
                         {
                             ScenarioEvent PmaxEvent = new ScenarioEvent(GFG.FGEN, CtrlType.PMAX, GFG.FGEN.get_PMAX(kstep), Unit)
                             {
@@ -457,7 +448,20 @@ namespace SAIntHelicsLib
                             };
                             GFG.ENET.SCE.AddEvent(PmaxEvent);
                         }
-                    }                    
+
+                        // Initial PMIN event values
+                        bool IsTherePminEvent = GFG.FGEN.SceList.Any(xx => xx.ObjPar == CtrlType.PMIN && xx.StartTime == DateTimeStep);
+                        if (!IsTherePminEvent)
+                        {
+                            ScenarioEvent PminEvent = new ScenarioEvent(GFG.FGEN, CtrlType.PMIN, GFG.FGEN.get_PMIN(kstep), Unit)
+                            {
+                                Processed = false,
+                                StartTime = DateTimeStep,
+                                Active = true
+                            };
+                            GFG.ENET.SCE.AddEvent(PminEvent);
+                        }
+                    }
                 }
 
                 MappingList.Add(mapitem);

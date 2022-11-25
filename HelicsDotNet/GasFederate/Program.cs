@@ -22,11 +22,11 @@ namespace HelicsDotNetReceiver
         }
 
         static void Main(string[] args)
-        {            
+        {
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the gas network folder path:");
             string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
-          
+
             Console.WriteLine("\nEnter the gas network file name:");
             string NetFileName = Console.ReadLine(); // "GNET25.gnet"
 
@@ -53,8 +53,6 @@ namespace HelicsDotNetReceiver
                 Console.WriteLine("\nEnter the gas solution description file name:");
                 SolDescFileName = Console.ReadLine(); // "gsolin.txt"
             }
-
-
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\ACOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);
@@ -251,6 +249,8 @@ namespace HelicsDotNetReceiver
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
+                        // Get the status of violation before moving to next time step (in case the other federate converged first).
+                        if(HasViolations) HasViolations = MappingFactory.SubscribeToRequiredThermalPower(e.TimeStep, Iter, MappingList);
                         Console.WriteLine($"Gas: Time Step {e.TimeStep} Iteration Stopped!\n");
                             e.RepeatTimeStep = 0; 
                     }

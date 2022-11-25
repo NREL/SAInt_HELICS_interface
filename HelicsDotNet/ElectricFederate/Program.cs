@@ -25,7 +25,7 @@ namespace HelicsDotNetSender
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the electric network folder path:");
             string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
-    
+
             Console.WriteLine("\nEnter the electric network file name:");
             string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
@@ -42,7 +42,7 @@ namespace HelicsDotNetSender
             {
                 Console.WriteLine("\nEnter the electric state file name:");
                 StateFileName = Console.ReadLine();// "CMBSTEOPF.econ"
-            } 
+            }
 
             Console.WriteLine("\nIf there is a solution description file, enter Y:");
             string SolDescExist = Console.ReadLine();
@@ -52,8 +52,6 @@ namespace HelicsDotNetSender
                 Console.WriteLine("\nEnter the electric solution description file name:");
                 SolDescFileName = Console.ReadLine(); // "esolin.txt"
             }
-
-
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\ACOPF_DynGas\" + SceFileName +@"\";
             Directory.CreateDirectory(OutputFolder);
@@ -266,6 +264,8 @@ namespace HelicsDotNetSender
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
+                        // Get the status of violation before moving to next time step (in case the other federate converged first).
+                        if(HasViolations) HasViolations = MappingFactory.SubscribeToAvailableThermalPower(e.TimeStep, Iter, MappingList);
                         Console.WriteLine($"Electric: Time Step {e.TimeStep} Iteration Stopped!\n");
                             e.RepeatTimeStep = 0;                     
                     }
