@@ -298,6 +298,8 @@ namespace HelicsDotNetSender
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
+                        // Check if the the simulation is also converged while the other federate has converged
+                        if (HasViolations) { HasViolations = MappingFactory.SubscribeToAvailableFuelRate(HorizonStartingTimeStep, Iter, MappingList); }
                         Console.WriteLine($"Electric: Horizon {CountHorizons} Iteration Stopped!\n");
                             e.RepeatConsecutiveRun = 0;                        
                     }

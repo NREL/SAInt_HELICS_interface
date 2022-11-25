@@ -392,17 +392,7 @@ namespace SAIntHelicsLib
                         DateTime DateTimeStep = hub.GNET.SCE.dTime[kstep];
 
                         bool IsThereQsetEvent = hub.GDEM.SceList.Any(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep);
-                        if (IsThereQsetEvent)
-                        {
-                            foreach (var evt in hub.GDEM.SceList.Where(xx => xx.ObjPar == CtrlType.QSET && xx.StartTime == DateTimeStep))
-                            {
-                                evt.Unit = Unit;
-                                evt.ObjVal = hub.GDEM.get_QSET(kstep);
-                                evt.Processed = false;
-                                evt.Active = true;
-                            }
-                        }
-                        else
+                        if (!IsThereQsetEvent)
                         {
                             ScenarioEvent QsetEvent = new ScenarioEvent(hub.GDEM, CtrlType.QSET, hub.GDEM.get_QSET(kstep), Unit)
                             {
@@ -432,18 +422,7 @@ namespace SAIntHelicsLib
                         else FMAX = hub.FGEN.Fuel.get_FMAX(kstep);
 
                         bool IsThereFMAXEvent = hub.FGEN.Fuel.SceList.Any(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep);
-
-                        if (IsThereFMAXEvent)
-                        {
-                            foreach (var evt in hub.FGEN.Fuel.SceList.Where(xx => xx.ObjPar == CtrlType.FMAX && xx.StartTime == DateTimeStep))
-                            {
-                                evt.Unit = Unit;
-                                evt.ObjVal = FMAX;
-                                evt.Processed = false;
-                                evt.Active = true;
-                            }
-                        }
-                        else
+                        if (!IsThereFMAXEvent)
                         {
                             ScenarioEvent evt = new ScenarioEvent (hub.FGEN.Fuel, CtrlType.FMAX, FMAX, Unit)
                             {
@@ -478,8 +457,6 @@ namespace SAIntHelicsLib
         public List<bool> IsFmaxChanged = new List<bool>();
 
         public int Horizon;  // Used for federates having different time horizons 
-
-        //public List<double> LastVal = new List<double>();
 
         public Dictionary<int, List<double>> LastVal = new Dictionary<int, List<double>>();
 

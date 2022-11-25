@@ -315,6 +315,8 @@ namespace HelicsDotNetReceiver
 
                         if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                         {
+                            // Check if the the simulation is also converged while the other federate has converged
+                            if (HasViolations) { HasViolations = MappingFactory.SubscribeToRequiredFuelRate(HorizonStartingTimeStep, Iter, MappingList); }
                             Console.WriteLine($"Gas: Horizon {CountHorizons} Iteration Stopped!\n");
                                 e.RepeatTimeStep = 0;
 
