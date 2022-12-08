@@ -147,7 +147,7 @@ namespace SAIntHelicsLib
         public static double eps = 0.001;
 
         // Iteration to start to curtail FGEN
-        static int CurtailmentIterStart = 2;
+        static int CurtailmentIterStart = 1;
         static int CurtailmentIter;
 
         public static void PublishRequiredFuelRate(int HorizonStartingTimeStep, int Iter, List<ElectricGasMapping> MappingList)
@@ -166,8 +166,8 @@ namespace SAIntHelicsLib
 
                     h.helicsPublicationPublishDouble(m.RequieredFuelRate[i], RequieredFuelRate);
 
-                    Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\tFuelRateRequested = {3:0.000} [m3/s]\tP = {4:0.000} [MW]\t PGMAX = {5:0.000} [MW]",
-                        DateTimeStep, Iter, m.GFG.FGEN, RequieredFuelRate, ActivePower, m.GFG.FGEN.get_PMAX(kstep)));
+                    Console.WriteLine(String.Format("Electric-S: Time {0}\t iter {1}\t {2}\t GDEM.{3}\t FuelRateRequested = {4:0.000} [m3/s]\tP = {5:0.000} [MW]\t PGMAX = {6:0.000} [MW]",
+                        DateTimeStep, Iter, m.GFG.FGEN, m.GFG.GDEMName, RequieredFuelRate, ActivePower, m.GFG.FGEN.get_PMAX(kstep)));
                     m.sw.WriteLine(String.Format("{5}\t\t{0}\t\t\t{1}\t\t {2:0.00000} \t {3:0.00000} \t\t{4:0.00000} \t{6:0.00000}",
                         kstep, Iter, ActivePower, RequieredFuelRate, m.GFG.FGEN.get_PMAX(kstep), DateTimeStep, m.GFG.FGEN.Fuel.get_FMAX(kstep)/3600));
                 }
@@ -235,17 +235,16 @@ namespace SAIntHelicsLib
                         if (HasViolations) break;
                         else
                         {
-                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
+                            Console.WriteLine(String.Format("Electric-R: Initialization Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.000} [m3/s]\t dPr = {4:0.000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
                             continue;
                         }
                     }
 
-                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t FuelRateAvailable = {3:0.0000} [m3/s]\t dPr = {4:0.0000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, AvailableFuelRate, valPbar));
+                    Console.WriteLine(String.Format("Electric-R: Time {0}\t iter {1}\t {2}\t GDEM.{3}\t FuelRateAvailable = {4:0.000} [m3/s]\t dPr = {5:0.000} [bar]", DateTimeStep, Iter, m.GFG.FGEN, m.GFG.GDEMName, AvailableFuelRate, valPbar));
 
                     //get currently required thermal power 
                     double ActivePower = m.GFG.FGEN.get_P(kstep);                                    
                     double RequieredFuelRate = m.GFG.FGEN.get_F(kstep)/3600; // in m3/s
-                    //double PGMAX;
 
                     m.LastVal[i].Add(AvailableFuelRate);
 
@@ -266,16 +265,16 @@ namespace SAIntHelicsLib
                             };
                             m.IsFmaxChanged[kstep] = true; // true if we want to set it only once.
 
-                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t PMAXset = {3:0.0000} [MW]",
-                                DateTimeStep, Iter, m.GFG.FGEN, m.GFG.FGEN.get_PMAX(kstep)));                            
+                            Console.WriteLine(String.Format("Electric-E: Time {0}\t iter {1}\t {2}\t FMAXset = {3:0.0000} [MW]",
+                                DateTimeStep, Iter, m.GFG.FGEN, m.GFG.FGEN.Fuel.get_FMAX(kstep)));                            
                         }
                         HasViolations = true;
                     }
                     else
                     { int Count = m.LastVal[i].Count;
-                        if (Count > 2)
+                        if (Count > 1)
                         {                            
-                            if ((Math.Abs(m.LastVal[i][Count - 1] - m.LastVal[i][Count - 2]) > eps) || (Math.Abs(m.LastVal[i][Count - 2] - m.LastVal[i][Count - 3]) > eps))
+                            if (Math.Abs(m.LastVal[i][Count - 1] - m.LastVal[i][Count - 2]) > eps)
                             {
                                 HasViolations = true;
                             }
@@ -324,12 +323,12 @@ namespace SAIntHelicsLib
                         if (HasViolations) return HasViolations;
                         else
                         {
-                            Console.WriteLine(String.Format("Gas-R: Initialization Time {0}\t iter {1}\t {2}\t RequieredFuelRate = {3:0.0000} [m3/s]", DateTimeStep, Iter, m.GFG.GDEM, RequieredFuelRate));
+                            Console.WriteLine(String.Format("Gas-R: Initialization Time {0}\t iter {1}\t {2}\t RequieredFuelRate = {3:0.000} [m3/s]", DateTimeStep, Iter, m.GFG.GDEM, RequieredFuelRate));
                             continue;
                         }
                     }
 
-                    Console.WriteLine(String.Format("Gas-R: Time {0}\t iter {1}\t {2}\t RequieredFuelRate = {3:0.0000} [m3/s]", DateTimeStep, Iter, m.GFG.GDEM, RequieredFuelRate));
+                    Console.WriteLine(String.Format("Gas-R: Time {0}\t iter {1}\t {2}\t RequieredFuelRate = {3:0.000} [m3/s]", DateTimeStep, Iter, m.GFG.GDEM, RequieredFuelRate));
 
                     m.LastVal[i].Add(RequieredFuelRate);
                                    
@@ -355,9 +354,9 @@ namespace SAIntHelicsLib
                     else
                     {
                         int Count = m.LastVal[i].Count;
-                        if (Count > 2)
+                        if (Count > 1)
                         {
-                            if ((Math.Abs(m.LastVal[i][Count - 2] - m.LastVal[i][Count - 1]) > eps) || (Math.Abs(m.LastVal[i][Count - 3] - m.LastVal[i][Count - 2]) > eps))
+                            if (Math.Abs(m.LastVal[i][Count - 2] - m.LastVal[i][Count - 1]) > eps)
                             {
                                 HasViolations = true;
                             }

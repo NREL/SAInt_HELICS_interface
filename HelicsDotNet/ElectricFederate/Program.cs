@@ -154,9 +154,9 @@ namespace HelicsDotNetSender
             {
                 for (int i = 0; i < Horizon; i++)
                 {
-                    m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "double", "");
-                    m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "");
-                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "");
+                    m.RequieredFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "FuelReq_" + m.GFG.FGENName + i.ToString(), "double", "");
+                    m.AvailableFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "FuelAvail_" + m.GFG.GDEMName + i.ToString(), "");
+                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterSubscription(vfed, "DeltaP_" + m.GFG.GDEMName + i.ToString(), "");
 
                     m.LastVal.Add(i, new List<double>());
                 }
@@ -196,7 +196,7 @@ namespace HelicsDotNetSender
             h.helicsFederateEnterInitializingMode(vfed);
             Console.WriteLine("\nElectric: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
-            MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);
+            MappingFactory.PublishRequiredFuelRate(1, Iter, MappingList);
 
             while (true)
             {
@@ -205,12 +205,12 @@ namespace HelicsDotNetSender
 
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
-                    Console.WriteLine($"Electric: Time Step {0} Initialization Completed!");
+                    Console.WriteLine($"Electric: Horizon {1} Initialization Completed!");
                     break;
                 }
 
                 // subscribe to available thermal power from gas node
-                HasViolations = MappingFactory.SubscribeToAvailableFuelRate(0, Iter, MappingList, "Initialization");                
+                HasViolations = MappingFactory.SubscribeToAvailableFuelRate(1, Iter, MappingList, "Initialization");                
 
                 if (!HasViolations)
                 {
@@ -218,7 +218,7 @@ namespace HelicsDotNetSender
                 }
                 else
                 {                    
-                    MappingFactory.PublishRequiredFuelRate(0, Iter, MappingList);
+                    MappingFactory.PublishRequiredFuelRate(1, Iter, MappingList);
                     Iter += 1;
                 }
             }

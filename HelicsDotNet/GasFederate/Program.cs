@@ -103,7 +103,7 @@ namespace HelicsDotNetReceiver
 
             // Set one second message interval
             double period = 1;
-            Console.WriteLine("Electric: Setting Federate Timing");
+            Console.WriteLine("Gas: Setting Federate Timing");
             h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
 
             // check to make sure setting the time property worked
@@ -156,9 +156,9 @@ namespace HelicsDotNetReceiver
             {
                 for (int i = 0; i < Horizon; i++)
                 {
-                    m.RequieredFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "PUB_" + m.GFG.FGENName + i.ToString(), "");
-                    m.AvailableFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pth_" + m.GFG.GDEMName + i.ToString(), "double", "");
-                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "PUB_Pbar_" + m.GFG.GDEMName + i.ToString(), "double", "");
+                    m.RequieredFuelRate[i] = h.helicsFederateRegisterSubscription(vfed, "FuelReq_" + m.GFG.FGENName + i.ToString(), "");
+                    m.AvailableFuelRate[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "FuelAvail_" + m.GFG.GDEMName + i.ToString(), "double", "");
+                    m.PressureRelativeToPmin[i] = h.helicsFederateRegisterGlobalTypePublication(vfed, "DeltaP_" + m.GFG.GDEMName + i.ToString(), "double", "");
 
                     m.LastVal.Add(i, new List<double>());
                 }
@@ -201,7 +201,7 @@ namespace HelicsDotNetReceiver
             h.helicsFederateEnterInitializingMode(vfed);
             Console.WriteLine("\nGas: Entering Initialization Mode");
             Console.WriteLine("======================================================\n");
-            MappingFactory.PublishAvailableFuelRate(0, Iter, MappingList);
+            MappingFactory.PublishAvailableFuelRate(1, Iter, MappingList);
 
             while (true)
             {
@@ -210,19 +210,19 @@ namespace HelicsDotNetReceiver
 
                 if (itr_status == HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                 {
-                    Console.WriteLine($"Gas: Time Step {0} Initialization Completed!");
+                    Console.WriteLine($"Gas: Horizon {1} Initialization Completed!");
                     break;
                 }
 
                 // subscribe to available thermal power from gas node
-                HasViolations = MappingFactory.SubscribeToRequiredFuelRate(0, Iter, MappingList, "Initialization");
+                HasViolations = MappingFactory.SubscribeToRequiredFuelRate(1, Iter, MappingList, "Initialization");
                 if (!HasViolations)
                 {
                     continue;
                 }
                 else
                 {
-                    MappingFactory.PublishAvailableFuelRate(0, Iter, MappingList);
+                    MappingFactory.PublishAvailableFuelRate(1, Iter, MappingList);
                     Iter += 1;
                 }
             }
@@ -241,7 +241,7 @@ namespace HelicsDotNetReceiver
                     {
                         HasViolations = true;
                         CountHorizons += 1;
-                        HorizonStartingTimeStep = (CountHorizons -1)*Horizon + 1;
+                        HorizonStartingTimeStep = e.TimeStep;
                         BeforeConsecutiveRun = false;
                         IsHorizonProcessed = false;
                         Iter = 0;
@@ -326,7 +326,6 @@ namespace HelicsDotNetReceiver
                         {
                             // get requested thermal power from connected gas plants, determine if there are violations
                             HasViolations = MappingFactory.SubscribeToRequiredFuelRate(HorizonStartingTimeStep, Iter, MappingList);
-
                             // Counting iterations
                             Iter += 1;
                             CurrentHorizon.IterationCount += 1;
