@@ -269,9 +269,9 @@ namespace SAIntHelicsLib
                 else
                 {
                     int Count = m.lastVal.Count;
-                    if (Count > 2)
+                    if (Count > 1)
                     {
-                        if ((Math.Abs(m.lastVal[Count - 2] - m.lastVal[Count - 1]) > eps) || (Math.Abs(m.lastVal[Count - 3] - m.lastVal[Count - 2]) > eps))
+                        if (Math.Abs(m.lastVal[Count - 2] - m.lastVal[Count - 1]) > eps)
                         { 
                             HasViolations = true;
                         }
@@ -348,9 +348,9 @@ namespace SAIntHelicsLib
                 else
                 {
                     int Count = m.lastVal.Count;
-                    if (Count > 2)
+                    if (Count > 1)
                     {
-                        if ((Math.Abs(m.lastVal[Count - 2] - m.lastVal[Count - 1]) > eps) || (Math.Abs(m.lastVal[Count - 3] - m.lastVal[Count - 2])>eps))
+                        if (Math.Abs(m.lastVal[Count - 2] - m.lastVal[Count - 1]) > eps)
                         {
                             HasViolations = true;
                         }
