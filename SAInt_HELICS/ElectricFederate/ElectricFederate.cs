@@ -23,52 +23,35 @@ namespace SAIntElectricFederate
         }
         static void Main(string[] args)
         {
-            //Console.WriteLine("\nMake sure that all the model files are in the same folder." +
-            //    "\nEnter the electric network folder path:");
-            //string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
+                "\nEnter the electric network folder path:");
+            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
-            //Console.WriteLine("\nEnter the electric network file name:");
-            //string NetFileName = Console.ReadLine(); // "ENET30.enet"
+            Console.WriteLine("\nEnter the electric network file name:");
+            string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
-            //Console.WriteLine("\nEnter the electric scenario file name:");
-            //string SceFileName = Console.ReadLine(); // "PCM001.esce"           
+            Console.WriteLine("\nEnter the electric scenario file name:");
+            string SceFileName = Console.ReadLine(); // "PCM001.esce"           
 
-            //Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            //string InitialStateExist = Console.ReadLine();
-            //string StateFileName = "Null";
-            //if (InitialStateExist == "Y" || InitialStateExist == "y")
-            //{
-            //    Console.WriteLine("\nEnter the electric state file name:");
-            //    StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
-            //}
-
-            //Console.WriteLine("\nEnter the hub file name:");
-            //string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            //Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            //string SolDescExist = Console.ReadLine();
-            //string SolDescFileName = "Null";
-            //if (SolDescExist == "Y" || SolDescExist == "y")
-            //{
-            //    Console.WriteLine("\nEnter the electric solution description file name:");
-            //    SolDescFileName = Console.ReadLine(); // "esolin.txt"
-            //}
-
-            string NetworkSourceFolder = @"C:\Getnet Files\HELICS_Final_Project\PSCO_HELICS\";
-            string NetFileName = "psco.enet";
-            string SceFileName = "cold_wave.esce";
-            string InitialStateExist = "Y";
+            Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            string InitialStateExist = Console.ReadLine();
             string StateFileName = "Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                StateFileName = "intialize.econ";
+                Console.WriteLine("\nEnter the electric state file name:");
+                StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
             }
-            string HubFileName = "PSCOHELICS112222.hubs";
-            string SolDescExist = "Y";
+
+            Console.WriteLine("\nEnter the hub file name:");
+            string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            string SolDescExist = Console.ReadLine();
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
-                SolDescFileName = "esolin.txt";
+                Console.WriteLine("\nEnter the electric solution description file name:");
+                SolDescFileName = Console.ReadLine(); // "esolin.txt"
             }
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
