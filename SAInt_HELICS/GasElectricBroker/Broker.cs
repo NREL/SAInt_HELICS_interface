@@ -1,11 +1,10 @@
 ﻿using System;
 using h = helics;
 using System.Threading;
-using System.Diagnostics;
 
 namespace GasElectricBroker
 {
-    class Program
+    class Broker
     {
         static void Main(string[] args)
         {

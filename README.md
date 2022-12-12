@@ -49,13 +49,13 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |<b>Figure 3</b>|
    
 #### Loading the visual studio project 
-  1. Double click the *SAInt_HELICS_interface* to open it. It should look like as shown in Figure 4. Make sure that the branch *DCUCOPF_DynGas* is selected. Then you will see the *HelicsDotNet.sln* in the solution section of *Team Explorer*.
+  1. Double click the *SAInt_HELICS_interface* to open it. It should look like as shown in Figure 4. Make sure that the branch *DCUCOPF_DynGas* is selected. Then you will see the *SAInt_HELICS.sln* in the solution section of *Team Explorer*.
 
    |![Figure4](ReadMeImages/Figure4.png)|
    |:--:|
    |<b>Figure 4</b>|
 
-  2. Double click *HelicsDotNet.sln* to open the project in the *Solution Explorer*. Your *Solution Explorer* will look like as shown in Figure 5.
+  2. Double click *SAInt_HELICS.sln* to open the project in the *Solution Explorer*. Your *Solution Explorer* will look like as shown in Figure 5.
   
    |![Figure5](ReadMeImages/Figure5.png)|
    |:--:|

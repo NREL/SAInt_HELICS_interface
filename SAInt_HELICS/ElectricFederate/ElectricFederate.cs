@@ -7,11 +7,10 @@ using System.IO;
 using SAIntHelicsLib;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
-using System.Linq;
 
-namespace HelicsDotNetSender
+namespace SAIntElectricFederate
 {
-    class Program
+    class ElectricFederate
     {
 
         public static ElectricNet ENET { get; set; }
@@ -24,35 +23,52 @@ namespace HelicsDotNetSender
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
-                "\nEnter the electric network folder path:");
-            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            //Console.WriteLine("\nMake sure that all the model files are in the same folder." +
+            //    "\nEnter the electric network folder path:");
+            //string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
-            Console.WriteLine("\nEnter the electric network file name:");
-            string NetFileName = Console.ReadLine(); // "ENET30.enet"
+            //Console.WriteLine("\nEnter the electric network file name:");
+            //string NetFileName = Console.ReadLine(); // "ENET30.enet"
 
-            Console.WriteLine("\nEnter the electric scenario file name:");
-            string SceFileName = Console.ReadLine(); // "PCM001.esce"           
+            //Console.WriteLine("\nEnter the electric scenario file name:");
+            //string SceFileName = Console.ReadLine(); // "PCM001.esce"           
 
-            Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = Console.ReadLine();
+            //Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            //string InitialStateExist = Console.ReadLine();
+            //string StateFileName = "Null";
+            //if (InitialStateExist == "Y" || InitialStateExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the electric state file name:");
+            //    StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+            //}
+
+            //Console.WriteLine("\nEnter the hub file name:");
+            //string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            //Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            //string SolDescExist = Console.ReadLine();
+            //string SolDescFileName = "Null";
+            //if (SolDescExist == "Y" || SolDescExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the electric solution description file name:");
+            //    SolDescFileName = Console.ReadLine(); // "esolin.txt"
+            //}
+
+            string NetworkSourceFolder = @"C:\Getnet Files\HELICS_Final_Project\PSCO_HELICS\";
+            string NetFileName = "psco.enet";
+            string SceFileName = "cold_wave.esce";
+            string InitialStateExist = "Y";
             string StateFileName = "Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                Console.WriteLine("\nEnter the electric state file name:");
-                StateFileName = Console.ReadLine(); // "CMBSTEOPF.econ"
+                StateFileName = "intialize.econ";
             }
-
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            string SolDescExist = Console.ReadLine();
+            string HubFileName = "PSCOHELICS112222.hubs";
+            string SolDescExist = "Y";
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
-                Console.WriteLine("\nEnter the electric solution description file name:");
-                SolDescFileName = Console.ReadLine(); // "esolin.txt"
+                SolDescFileName = "esolin.txt";
             }
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
@@ -109,16 +125,16 @@ namespace HelicsDotNetSender
 
             // check to make sure setting the time property worked
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
-            Console.WriteLine($"Time period: {period_set}");
+            Console.WriteLine($"Electric: Time period: {period_set}");
 
             // set number of HELICS time steps based on scenario
             double total_time = ENET.SCE.NN;
-            Console.WriteLine($"Number of time steps in scenario: {total_time}");
+            Console.WriteLine($"Electric: Number of time steps in scenario: {total_time}");
 
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {iter_max}");
+            Console.WriteLine($"Electric: Max iterations per time step: {iter_max}");
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
@@ -290,11 +306,11 @@ namespace HelicsDotNetSender
                     }
 
                     // Iterative HELICS time request
-                    Console.WriteLine($"\nElectric Requested Horizon: {CountHorizons}, iteration: {Iter}");
+                    Console.WriteLine($"\nElectric: Requested Horizon: {CountHorizons}, iteration: {Iter}");
 
                     granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
                     
-                    Console.WriteLine($"Electric Granted Co-simulation Horizon: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
+                    Console.WriteLine($"Electric: Granted Co-simulation Horizon: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
@@ -326,7 +342,7 @@ namespace HelicsDotNetSender
             int requested_time = (int)total_time / Horizon + 1; ;            
             //Console.WriteLine($"Requested time: {requested_time}");
             DateTime DateTimeRequested = ENET.SCE.EndTime.AddSeconds(ENET.SCE.dt); 
-            Console.WriteLine($"\nElectric Requested Horizon: {requested_time} at Time: {DateTimeRequested}");
+            Console.WriteLine($"\nElectric: Requested Horizon: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
 #if !DEBUG

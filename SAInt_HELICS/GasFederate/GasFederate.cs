@@ -2,18 +2,15 @@ using System;
 using h = helics;
 using SAInt_API;
 using System.IO;
-using System.Threading;
 using System.Collections.Generic;
 using SAIntHelicsLib;
 using SAInt_API.Library;
-using SAInt_API.Model.Network;
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
-using System.Linq;
 
-namespace HelicsDotNetReceiver
+namespace SAIntGasFederate
 {
-    class Program
+    class GasFederate
     {
         public static GasNet GNET { get; set; }
         public static HubSystem HUB { get; set; }
@@ -26,35 +23,53 @@ namespace HelicsDotNetReceiver
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\nMake sure that all the model files are in the same folder." +
-                "\nEnter the gas network folder path:");
-            string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
+            //Console.WriteLine("\nMake sure that all the model files are in the same folder." +
+            //    "\nEnter the gas network folder path:");
+            //string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
 
-            Console.WriteLine("\nEnter the gas network file name:");
-            string NetFileName = Console.ReadLine(); // "GNET25.gnet"
+            //Console.WriteLine("\nEnter the gas network file name:");
+            //string NetFileName = Console.ReadLine(); // "GNET25.gnet"
 
-            Console.WriteLine("\nEnter the gas scenario file name:");
-            string SceFileName = Console.ReadLine(); // "CASE1.gsce"
+            //Console.WriteLine("\nEnter the gas scenario file name:");
+            //string SceFileName = Console.ReadLine(); // "CASE1.gsce"
 
-            Console.WriteLine("\nIf there is an initial state file, enter Y:");
-            string InitialStateExist = Console.ReadLine();
+            //Console.WriteLine("\nIf there is an initial state file, enter Y:");
+            //string InitialStateExist = Console.ReadLine();
+            //string StateFileName = "Null";
+            //if (InitialStateExist == "Y" || InitialStateExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the gas state file name:");
+            //    StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
+            //}
+
+            //Console.WriteLine("\nEnter the hub file name:");
+            //string HubFileName = Console.ReadLine(); // "Demo.hubs"
+
+            //Console.WriteLine("\nIf there is a solution description file, enter Y:");
+            //string SolDescExist = Console.ReadLine();
+            //string SolDescFileName = "Null";
+            //if (SolDescExist == "Y" || SolDescExist == "y")
+            //{
+            //    Console.WriteLine("\nEnter the gas solution description file name:");
+            //    SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+            //}
+
+            string NetworkSourceFolder = @"C:\Getnet Files\HELICS_Final_Project\PSCO_HELICS\";
+            string NetFileName = "HighPlainsModel.gnet";
+            string SceFileName = "DYN_Feb_20_26.gsce";
+            string InitialStateExist = "Y";
             string StateFileName = "Null";
             if (InitialStateExist == "Y" || InitialStateExist == "y")
             {
-                Console.WriteLine("\nEnter the gas state file name:");
-                StateFileName = Console.ReadLine(); // "CMBSTEOPF.gcon"
+                StateFileName = "GCON_20_02_2022_V3.gcon";
             }
 
-            Console.WriteLine("\nEnter the hub file name:");
-            string HubFileName = Console.ReadLine(); // "Demo.hubs"
-
-            Console.WriteLine("\nIf there is a solution description file, enter Y:");
-            string SolDescExist = Console.ReadLine();
+            string HubFileName = "PSCOHELICS112222.hubs";
+            string SolDescExist = "Y";
             string SolDescFileName = "Null";
             if (SolDescExist == "Y" || SolDescExist == "y")
             {
-                Console.WriteLine("\nEnter the gas solution description file name:");
-                SolDescFileName = Console.ReadLine(); // "gsolin.txt"
+                SolDescFileName = "gsolin.txt";
             }
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\DCUCOPF_DynGas\" + SceFileName + @"\";
@@ -108,16 +123,16 @@ namespace HelicsDotNetReceiver
 
             // check to make sure setting the time property worked
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
-            Console.WriteLine($"Time period: {period_set}");
+            Console.WriteLine($"Gas: Time period: {period_set}");
 
             // set number of HELICS time steps based on scenario
             double total_time = GNET.SCE.NN;
-            Console.WriteLine($"Number of time steps in scenario: {total_time}");
+            Console.WriteLine($"Gas: Number of time steps in scenario: {total_time}");
 
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {iter_max}");
+            Console.WriteLine($"Gas: Max iterations per time step: {iter_max}");
 
             var iter_flag = HelicsIterationRequest.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED;
 
@@ -307,7 +322,7 @@ namespace HelicsDotNetReceiver
                         }
                         
                         //Iterative HELICS time request
-                        Console.WriteLine($"\nGas Requested Horizon: {CountHorizons}, iteration: {Iter}");
+                        Console.WriteLine($"\nGas: Requested Horizon: {CountHorizons}, iteration: {Iter}");
 
                         granted_time = h.helicsFederateRequestTimeIterative(vfed, CountHorizons, iter_flag, out helics_iter_status);
 
@@ -346,7 +361,7 @@ namespace HelicsDotNetReceiver
             int requested_time = (int)total_time/Horizon + 1;
             //Console.WriteLine($"Requested time: {requested_time}");
             DateTime DateTimeRequested = GNET.SCE.EndTime.AddSeconds (GNET.SCE.dt);
-            Console.WriteLine($"\nGas Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
+            Console.WriteLine($"\nGas: Requested Time Step: {requested_time} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, requested_time);
 
 #if !DEBUG

@@ -1,0 +1,18 @@
+
+            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\";
+            string NetFileName = "GNET25.gnet"; 
+            string SceFileName = "CASE1.gsce"; 
+            string InitialStateExist = "Y";
+            string StateFileName = "Null";
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                StateFileName = "CMBSTEOPF.gcon"; 
+            } 
+
+            string HubFileName = "Demo.hubs";
+            string SolDescExist = "Y";
+            string SolDescFileName = "Null";
+            if (SolDescExist == "Y" || SolDescExist == "y")
+            {
+                SolDescFileName = "gsolin.txt";
+            }
