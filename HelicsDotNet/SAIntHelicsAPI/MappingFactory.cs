@@ -143,7 +143,7 @@ namespace SAIntHelicsLib
         public static double eps = 0.001;
 
         // Iteration to start to curtail FGEN
-        static int CurtailmentIterStart = 2;
+        static int CurtailmentIterStart = 1;
         static int CurtailmentIter;
 
         public static void PublishRequiredThermalPower(int kstep, int Iter, List<ElectricGasMapping> MappingList)

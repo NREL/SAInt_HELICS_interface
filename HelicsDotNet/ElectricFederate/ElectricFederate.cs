@@ -8,9 +8,9 @@ using SAIntHelicsLib;
 using SAInt_API.Model.Network.Electric;
 using SAInt_API.Model.Network.Hub;
 
-namespace HelicsDotNetSender
+namespace SAIntElectricFederate
 {
-    class Program
+    class ElectricFederate
     {
         public static ElectricNet ENET { get; set; }
         public static HubSystem HUB { get; set; }
@@ -127,16 +127,16 @@ namespace HelicsDotNetSender
 
             // check to make sure setting the time property worked
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
-            Console.WriteLine($"Time period: {period_set}");
+            Console.WriteLine($"Electric: Time period: {period_set}");
 
             // set number of HELICS time steps based on scenario
             double total_time = ENET.SCE.NN;
-            Console.WriteLine($"Number of time steps in scenario: {total_time}");
+            Console.WriteLine($"Electric: Number of time steps in scenario: {total_time}");
 
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {iter_max}");
+            Console.WriteLine($"Electric: Max iterations per time step: {iter_max}");
 
             // Switch to release mode to enable console output to file 
 #if !DEBUG
@@ -256,11 +256,11 @@ namespace HelicsDotNetSender
                     }
 
                     // Iterative HELICS time request
-                    Console.WriteLine($"\nElectric Requested Time: {ENET.SCE.dTime[e.TimeStep]}, iteration: {Iter}");
+                    Console.WriteLine($"\nElectric: Requested Time: {ENET.SCE.dTime[e.TimeStep]}, iteration: {Iter}");
 
                     granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
                     
-                    Console.WriteLine($"Electric Granted Co-simulation Time Step: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
+                    Console.WriteLine($"Electric: Granted Co-simulation Time Step: {granted_time}, Iteration Status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
@@ -291,7 +291,7 @@ namespace HelicsDotNetSender
             // request time for end of time + 1: serves as a blocking call until all federates are complete
           
             DateTime DateTimeRequested = ENET.SCE.EndTime.AddSeconds(ENET.SCE.dt);
-            Console.WriteLine($"\nElectric Requested Time Step: {total_time + 1} at Time: {DateTimeRequested}");
+            Console.WriteLine($"\nElectric: Requested Time Step: {total_time + 1} at Time: {DateTimeRequested}");
             h.helicsFederateRequestTime(vfed, total_time + 1);
 
 

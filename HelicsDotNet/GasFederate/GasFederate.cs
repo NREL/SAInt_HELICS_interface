@@ -8,9 +8,9 @@ using SAInt_API.Library;
 using SAInt_API.Model.Network.Fluid.Gas;
 using SAInt_API.Model.Network.Hub;
 
-namespace HelicsDotNetReceiver
+namespace SAIntGasFederate
 {
-    class Program
+    class GasFederate
     {
         public static GasNet GNET { get; set; }
         public static HubSystem HUB { get; set; }
@@ -116,21 +116,21 @@ namespace HelicsDotNetReceiver
             }
             // Set one second message interval
             double period = 1;
-            Console.WriteLine("Electric: Setting Federate Timing");
+            Console.WriteLine("Gas: Setting Federate Timing");
             h.helicsFederateSetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD, period);
 
             // check to make sure setting the time property worked
             double period_set = h.helicsFederateGetTimeProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_TIME_PERIOD);
-            Console.WriteLine($"Time period: {period_set}");
+            Console.WriteLine($"Gas: Time period: {period_set}");
 
             // set number of HELICS time steps based on scenario
             double total_time = GNET.SCE.NN;
-            Console.WriteLine($"Number of time steps in scenario: {total_time}");
+            Console.WriteLine($"Gas: Number of time steps in scenario: {total_time}");
 
             // set max iteration at 20
             h.helicsFederateSetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS, 20);
             int Iter_max = h.helicsFederateGetIntegerProperty(vfed, (int)HelicsProperties.HELICS_PROPERTY_INT_MAX_ITERATIONS);
-            Console.WriteLine($"Max iterations per time step: {Iter_max}");
+            Console.WriteLine($"Gas: Max iterations per time step: {Iter_max}");
 
             // Switch to release mode to enable console output to file
 #if !DEBUG
@@ -241,11 +241,11 @@ namespace HelicsDotNetReceiver
                     }
 
                     //Iterative HELICS time request
-                    Console.WriteLine($"\nGas Requested Time: {GNET.SCE.dTime[e.TimeStep]}, iteration: {Iter}");
+                    Console.WriteLine($"\nGas: Requested Time: {GNET.SCE.dTime[e.TimeStep]}, iteration: {Iter}");
 
                     granted_time = h.helicsFederateRequestTimeIterative(vfed, e.TimeStep, iter_flag, out helics_iter_status);
 
-                    Console.WriteLine($"Gas Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
+                    Console.WriteLine($"Gas: Granted Co-simulation Time Step: {granted_time},  Iteration status: {helics_iter_status}, SolverState: {e.SolverState}");
 
                     if (helics_iter_status == (int)HelicsIterationResult.HELICS_ITERATION_RESULT_NEXT_STEP)
                     {
@@ -341,7 +341,7 @@ namespace HelicsDotNetReceiver
                 Console.WriteLine("Gas: the solution diverged at the following time steps:");
                 foreach (TimeStepInfo x in AllDiverged)
                 { 
-                    Console.WriteLine($"Time \t {x.time} time-step {x.timestep}"); 
+                    Console.WriteLine($"Gas:  Time \t {x.time} time-step {x.timestep}"); 
                 }
                 Console.WriteLine($"Gas: The total number of diverging time steps = { AllDiverged.Count }");
             }

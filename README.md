@@ -49,21 +49,22 @@ This user guide describes the steps for setting up and running the *SAInt_HELICS
    |<b>Figure 3</b>|
    
 #### Loading the visual studio project 
-  1. Double click the *SAInt_HELICS_interface* to open it. It should look like as shown in Figure 4. Make sure that the branch *SAInt_v3.2* is selected. Then you will see the *HelicsDotNet.sln* in the solution section of *Team Explorer*.
+  1. Double click the *SAInt_HELICS_interface* to open it. It should look like as shown in Figure 4. Make sure that the branch *SAInt_v3.2* is selected. Then you will see the *SAInt_HELICS.sln* in the solution section of *Team Explorer*.
 
    |![Figure4](ReadMeImages/Figure4.png)|
    |:--:|
    |<b>Figure 4</b>|
 
-  2. Double click *HelicsDotNet.sln* to open the project in the *Solution Explorer*. Your *Solution Explorer* will look like as shown in Figure 5.
+  2. Double click *SAInt_HELICS.sln* to open the project in the *Solution Explorer*. Your *Solution Explorer* will look like as shown in Figure 5.
   
    |![Figure5](ReadMeImages/Figure5.png)|
    |:--:|
    |<b>Figure 5</b>|
 
-  3. There are five projects embedded in the *HelicsDotNet* project.
+  3. There are five projects embedded in the *SAInt_HELICS* project.
      - *ElectricFederate* loads the electric network, imports the corresponding scenario definitions and run the simulation. Make sure that this project has a reference to *SAInt_Core.dll* which is found in the SAInt installation folder. The default path is: *C:\Program Files\encoord\SAInt-v3-Alpha\SAInt-Core.dll*.
      - *GasFederate* loads the gas network, imports the corresponding scenario definitions and run the simulation. Make sure that this project has a reference to *SAInt_Core.dll* which is found in the SAInt installation folder. The default path is: *C:\Program Files\encoord\SAInt-v3-Alpha\SAInt-Core.dll*.
+     - *GasElectricBroker* creates a brokered environment through which the two federates communicate.
      - *HelicsDotNetAPI* provides the API functionality required for the co-simulation *HELICS* environment.
      - *SAIntHelicsLib* provides the mapping factory for the coupling technologies. It has functions that are used to initialize events, generate publication and subscription ids, receive, process and publish data that is communicated between electric and gas federates. Make sure that this project has a reference to *SAInt_Core.dll* which is found in the SAInt installation folder. The default path is: *C:\Program Files\encoord\SAInt-v3-Alpha\SAInt-Core.dll*.
 

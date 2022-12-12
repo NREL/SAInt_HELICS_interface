@@ -12,7 +12,7 @@ bin/
 obj/
 
 #Outputs
-/Outputs/
+Outputs/
 
 # Network folders
 /HelicsDotNet/Networks/

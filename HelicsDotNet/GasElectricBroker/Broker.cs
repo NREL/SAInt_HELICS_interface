@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace GasElectricBroker
 {
-    class Program
+    class Broker
     {
         static void Main(string[] args)
         {
