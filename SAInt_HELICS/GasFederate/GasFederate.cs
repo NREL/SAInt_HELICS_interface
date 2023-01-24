@@ -12,14 +12,14 @@ namespace SAIntGasFederate
 {
     class GasFederate
     {
-        public static GasNet GNET { get; set; }
-        public static HubSystem HUB { get; set; }
+        public static GasNet GNET => API.GNET;
+        public static HubSystem HUB => API.HUBS;
 
-         static object GetObject(string funcName)
-        { 
-            var func= typeof(API).GetMethod(funcName,System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            return func.Invoke(null, new object[] {});
-        }
+        // static object GetObject(string funcName)
+        //{ 
+        //    var func= typeof(API).GetMethod(funcName,System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        //    return func.Invoke(null, new object[] {});
+        //}
 
         static void Main(string[] args)
         {
@@ -68,8 +68,8 @@ namespace SAIntGasFederate
             MappingFactory.SendAcknowledge();
             MappingFactory.WaitForAcknowledge();
 
-            GNET = (GasNet)GetObject("get_GNET");
-            HUB = (HubSystem)GetObject("get_HUBS");
+            //GNET = (GasNet)GetObject("get_GNET");
+            //HUB = (HubSystem)GetObject("get_HUBS");
 #if !DEBUG
             API.showSIMLOG(true);
 #else

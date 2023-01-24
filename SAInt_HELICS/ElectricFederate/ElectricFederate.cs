@@ -13,14 +13,14 @@ namespace SAIntElectricFederate
     class ElectricFederate
     {
 
-        public static ElectricNet ENET { get; set; }
-        public static HubSystem HUB { get; set; }
+        public static ElectricNet ENET => API.ENET;
+        public static HubSystem HUB => API.HUBS;
 
-        static object GetObject(string funcName)
-        {
-            var func = typeof(API).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            return func.Invoke(null, new object[] { });
-        }
+        //static object GetObject(string funcName)
+        //{
+        //    var func = typeof(API).GetMethod(funcName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        //    return func.Invoke(null, new object[] { });
+        //}
         static void Main(string[] args)
         {
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
@@ -69,8 +69,8 @@ namespace SAIntElectricFederate
             }
             MappingFactory.SendAcknowledge();
 
-            ENET = (ElectricNet)GetObject("get_ENET");
-            HUB = (HubSystem)GetObject("get_HUBS");
+            //ENET = (ElectricNet)GetObject("get_ENET");
+            //HUB = (HubSystem)GetObject("get_HUBS");
 
             //ENET.SCE.SolverType = SolverType.Gurobi;
             //ENET.SCE.SolverModel = SolverModel.MIP;
