@@ -23,6 +23,8 @@ namespace SAIntGasFederate
 
         static void Main(string[] args)
         {
+
+            #region File inputs (can be replaced with a script)
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the gas network folder path:");
             string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
@@ -53,6 +55,7 @@ namespace SAIntGasFederate
                 Console.WriteLine("\nEnter the gas solution description file name:");
                 SolDescFileName = Console.ReadLine(); // "gsolin.txt"
             }
+            #endregion
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\ACOPF_DynGas\" + SceFileName + @"\";
             Directory.CreateDirectory(OutputFolder);

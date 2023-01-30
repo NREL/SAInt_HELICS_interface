@@ -22,6 +22,8 @@ namespace SAIntElectricFederate
         //}
         static void Main(string[] args)
         {
+
+            #region File inputs (can also be replaced with a script)
             Console.WriteLine("\nMake sure that all the model files are in the same folder." +
                 "\nEnter the electric network folder path:");
             string NetworkSourceFolder = Console.ReadLine() + @"\"; // @"..\..\..\..\Networks\Demo"
@@ -52,6 +54,7 @@ namespace SAIntElectricFederate
                 Console.WriteLine("\nEnter the electric solution description file name:");
                 SolDescFileName = Console.ReadLine(); // "esolin.txt"
             }
+            #endregion
 
             string OutputFolder = NetworkSourceFolder + @"\Outputs\ACOPF_DynGas\" + SceFileName +@"\";
             Directory.CreateDirectory(OutputFolder);

@@ -1,0 +1,17 @@
+
+            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\SAInt_HELICS\Networks\Demo"; 
+            string NetFileName = "ENET30.enet"; 
+            string SceFileName = "CASE1.esce"; 
+            string InitialStateExist = "Y"; 
+            string StateFileName ="Null";
+            if (InitialStateExist == "Y" || InitialStateExist == "y")
+            {
+                StateFileName = "CMBSTEOPF.econ"; 
+            }
+            string HubFileName = "Demo.hubs";
+            string SolDescExist = "Y";
+            string SolDescFileName = "Null";
+            if (SolDescExist == "Y" || SolDescExist == "y")
+			{
+                SolDescFileName = "esolin.txt"; 
+            }
