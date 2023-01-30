@@ -1,5 +1,5 @@
 
-            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\HelicsDotNet\Networks\Demo\"; 
+            string NetworkSourceFolder = @"C:\Users\GetnetAyele\source\repos\SAInt_HELICS_interface\SAInt_HELICS\Networks\Demo"; 
             string NetFileName = "ENET30.enet"; 
             string SceFileName = "PCM001.esce"; 
             string InitialStateExist = "Y"; 
